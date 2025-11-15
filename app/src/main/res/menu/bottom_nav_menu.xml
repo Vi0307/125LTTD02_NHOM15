@@ -1,0 +1,22 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_home"
+        android:icon="@drawable/ic_home"
+        android:title="Trang chủ" />
+    <item
+        android:id="@+id/menu_mycar"
+        android:icon="@drawable/ic_car"
+        android:title="Xe của tôi" />
+    <item
+        android:id="@+id/menu_voucher"
+        android:icon="@drawable/ic_voucher"
+        android:title="Voucher" />
+    <item
+        android:id="@+id/menu_parts"
+        android:icon="@drawable/ic_parts"
+        android:title="Phụ tùng" />
+    <item
+        android:id="@+id/menu_dealer"
+        android:icon="@drawable/ic_dealer"
+        android:title="Đại lý" />
+</menu>
