@@ -6,16 +6,41 @@
     android:layout_height="match_parent"
     android:background="#FFFFFF">
 
-    <!-- Toolbar -->
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+    <LinearLayout
+        android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:background="#FFFFFF"
-        app:navigationIcon="@drawable/ic_back"
-        app:title="Đại lý"
-        app:titleTextAppearance="@style/TextAppearance.AppCompat.Large"
-        app:titleTextColor="#000" />
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp">
+
+        <ImageView
+            android:id="@+id/btnBack"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/ic_arrow_back_black"
+            android:contentDescription="back"
+            android:scaleType="centerInside" />
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:text="Đại lý"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:textColor="#000000" />
+
+        <!-- placeholder to keep title centered -->
+        <ImageView
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:visibility="invisible" />
+    </LinearLayout>
 
     <!-- Tên đại lý -->
     <TextView
@@ -62,7 +87,7 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 tools:ignore="TouchTargetSizeCheck"
-                android:layout_margin="20"
+                android:layout_margin="20dp"
                 />
 
             <!-- Địa điểm -->
@@ -172,12 +197,13 @@
 
     <!-- Bottom Navigation -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottomNav"
+        android:id="@+id/bottomNavigation"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="60dp"
         android:layout_alignParentBottom="true"
+        android:background="#FFFFFF"
         app:menu="@menu/bottom_nav_menu"
-        app:labelVisibilityMode="labeled" />
+        />
 
     <!-- Floating Chat Button -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -188,9 +214,9 @@
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="80dp"
-        android:backgroundTint="#F44336"
+        android:backgroundTint="#FFFFFF"
         android:src="@drawable/ic_chat"
-        app:tint="@android:color/white"
+        app:tint="@android:color/holo_red_light"
         tools:ignore="SpeakableTextPresentCheck" />
 
 </RelativeLayout>
