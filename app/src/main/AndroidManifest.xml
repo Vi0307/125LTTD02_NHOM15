@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.QuanLyOTo">
         <activity
+            android:name=".Select_Billing_Address"
+            android:exported="false" />
+        <activity
             android:name=".Detail_Payment"
             android:exported="false" />
         <activity
