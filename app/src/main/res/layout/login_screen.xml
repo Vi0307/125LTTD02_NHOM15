@@ -35,7 +35,7 @@
                 android:id="@+id/imgCar"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
-                android:src="@drawable/ic_car"
+                android:src="@drawable/ic_car_getstarted"
                 android:layout_marginTop="60dp"
                 android:layout_marginBottom="24dp"
                 android:contentDescription="Car Icon"/>
