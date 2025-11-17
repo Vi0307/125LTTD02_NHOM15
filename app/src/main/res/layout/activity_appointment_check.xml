@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
     android:fillViewport="true">
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -513,110 +509,3 @@
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
-    <FrameLayout
-        android:id="@+id/success_popup_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#80000000"
-        android:clickable="true"
-        android:focusable="true"
-        android:visibility="gone">  <!-- Ẩn ban đầu -->
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginHorizontal="32dp"
-            app:cardCornerRadius="24dp"
-            app:cardElevation="16dp"
-            app:cardBackgroundColor="#FFFFFF">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="center"
-                android:paddingTop="40dp"
-                android:paddingBottom="32dp"
-                android:paddingHorizontal="32dp">
-
-                <!-- Icon + chấm tròn -->
-                <RelativeLayout
-                    android:layout_width="80dp"
-                    android:layout_height="80dp">
-
-                    <View
-                        android:layout_width="12dp"
-                        android:layout_height="12dp"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginTop="16dp"
-                        android:background="@drawable/circle_dot" />
-
-                    <View
-                        android:layout_width="12dp"
-                        android:layout_height="12dp"
-                        android:layout_alignParentTop="true"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginEnd="4dp"
-                        android:background="@drawable/circle_dot" />
-
-                    <View
-                        android:layout_width="12dp"
-                        android:layout_height="12dp"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginEnd="12dp"
-                        android:background="@drawable/circle_dot" />
-
-                    <View
-                        android:layout_width="12dp"
-                        android:layout_height="12dp"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginBottom="20dp"
-                        android:background="@drawable/circle_dot" />
-
-                    <ImageView
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:layout_centerInParent="true"
-                        android:src="@drawable/ic_build"
-                        android:background="@drawable/circle_black"
-                        android:padding="18dp"
-                        android:scaleType="fitCenter" />
-                </RelativeLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:text="Đặt lịch thành công"
-                    android:textColor="#000000"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="Bạn đã đặt lịch thành công"
-                    android:textColor="#666666"
-                    android:textSize="15sp"
-                    android:gravity="center" />
-
-                <Button
-                    android:id="@+id/btnGoHome"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:layout_marginTop="32dp"
-                    android:background="@drawable/rouder_bg_appointment"
-                    android:text="Trang chủ"
-                    android:textColor="#FFFFFF"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:stateListAnimator="@null" />
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-    </FrameLayout>
-</FrameLayout>
