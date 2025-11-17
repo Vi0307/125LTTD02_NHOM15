@@ -144,7 +144,7 @@
                         android:textColor="#5A5A5A"
                         android:textSize="13sp"
                         android:layout_marginTop="4dp" android:layout_height="20dp"
-                         android:layout_width="200dp"/>
+                        android:layout_width="200dp"/>
 
                     <TextView
                         android:text="7.000.000 VND"
@@ -165,31 +165,52 @@
                 android:textStyle="bold"
                 android:textSize="16sp"
                 android:layout_height="20dp"
-                 android:layout_width="200dp"/>
+                android:layout_width="200dp"/>
 
             <LinearLayout
-                android:layout_marginTop="10dp"
-                android:background="#F7F7F7"
-                android:padding="16dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical">
+                android:layout_margin="0dp"
+                android:layout_marginTop="32dp"
+                android:background="#F7F7F7"
+                android:backgroundTint="#F5F5F5"
+                android:elevation="1dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="16dp"
+                app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+                tools:layout_editor_absoluteX="10dp">
 
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/ic_car"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_fast_delivery_car"
                     android:tint="#000000"
                     tools:ignore="UseAppTint" />
 
-                <TextView
+                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
                     android:layout_weight="1"
-                    android:layout_marginLeft="10dp"
-                    android:text="Chọn phương thức vận chuyển"
-                    android:textColor="#5A5A5A"
-                    android:textSize="14sp"/>
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Giao hàng nhanh"
+                        android:textColor="#000000"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Est. Arrival, Dec 20-23"
+                        android:textColor="#4C4C4C"
+                        android:textSize="13sp" />
+                </LinearLayout>
 
                 <ImageView
                     android:layout_width="20dp"
@@ -279,7 +300,7 @@
                         android:layout_width="100dp"/>
 
                     <TextView
-                        android:text="-"
+                        android:text="450.000 VND"
                         android:gravity="end"
                         android:textStyle="bold"
                         android:textSize="15sp"
@@ -301,7 +322,7 @@
                         android:layout_width="100dp"/>
 
                     <TextView
-                        android:text="-"
+                        android:text="-450.000 VND"
                         android:gravity="end"
                         android:textStyle="bold"
                         android:textSize="15sp"
@@ -338,7 +359,7 @@
 
                         tools:ignore="HardcodedText"
                         android:layout_height="match_parent"
-                         android:layout_width="wrap_content"/>
+                        android:layout_width="wrap_content"/>
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
