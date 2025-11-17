@@ -162,8 +162,8 @@
                         android:padding="16dp">
 
                         <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="100dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
                             android:src="@drawable/img_bmwi5_mycar"
                             android:contentDescription="Xe" />
 
