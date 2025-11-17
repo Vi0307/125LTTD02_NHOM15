@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="6dp"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="3dp">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:padding="12dp"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- Icon cờ lê -->
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/build_icon"
+            android:tint="@color/red"
+            android:contentDescription="icon"
+            tools:ignore="UseAppTint" />
+
+        <!-- Thông tin đại lý và ngày -->
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingStart="10dp">
+
+            <TextView
+                android:id="@+id/tvDealer"
+                android:text="Đại lý: TƯỜNG PHÁT 1"
+                android:textStyle="bold"
+                android:textColor="#000000"
+                android:textSize="15sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp">
+
+                <ImageView
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:src="@drawable/today_24dp_icon"
+                    android:tint="@color/red"
+                    tools:ignore="UseAppTint" />
+
+                <TextView
+                    android:id="@+id/tvDate"
+                    android:text="02/09/2025"
+                    android:textColor="#555555"
+                    android:textSize="13sp"
+                    android:layout_marginStart="4dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:text="   ⇄  Số KM:"
+                    android:textColor="#555555"
+                    android:textSize="13sp"
+                    android:layout_marginStart="8dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:id="@+id/tvKm"
+                    android:text="6,256"
+                    android:textColor="#000000"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Mũi tên sang phải -->
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/arrow_forward_icon"
+            android:tint="@color/red"
+            android:contentDescription="next"
+            tools:ignore="UseAppTint" />
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
