@@ -154,6 +154,7 @@
                 android:layout_height="55dp"
                 android:backgroundTint="@color/black"
                 android:text="Thêm địa chỉ"
+                android:backgroundTint="@color/black"
                 >
             </Button>
 
