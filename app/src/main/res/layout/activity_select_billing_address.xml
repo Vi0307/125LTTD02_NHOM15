@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -17,6 +18,7 @@
         android:paddingEnd="16dp">
 
         <ImageView
+            android:id="@+id/iv_back"
             android:layout_width="22dp"
             android:layout_height="22dp"
             android:src="@drawable/ic_arrow_back_black"
@@ -62,7 +64,7 @@
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@drawable/ic_location"
+                    android:src="@drawable/ic_location22"
                     android:tint="#000000"
                     tools:ignore="UseAppTint" />
 
@@ -112,7 +114,7 @@
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@drawable/ic_location"
+                    android:src="@drawable/ic_location22"
                     android:tint="#000000"
                     tools:ignore="UseAppTint" />
 
@@ -150,6 +152,7 @@
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
+                android:backgroundTint="@color/black"
                 android:text="Thêm địa chỉ"
                 >
             </Button>
@@ -159,10 +162,11 @@
 
     <!-- ===== BUTTON THANH TOÁN ===== -->
     <Button
+        android:id="@+id/btn_apply_address"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_margin="16dp"
-        android:background="@drawable/bg_button_black"
+        android:backgroundTint="@drawable/bg_button_black"
         android:text="Áp dụng"
         android:textColor="#FFFFFF"
         android:textSize="16sp"/>
