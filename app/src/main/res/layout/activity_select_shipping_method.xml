@@ -106,7 +106,8 @@
         android:orientation="horizontal"
         android:padding="16dp"
         tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="186dp">
+        tools:layout_editor_absoluteY="186dp"
+        tools:ignore="MissingConstraints">
 
         <ImageView
             android:layout_width="24dp"
@@ -154,11 +155,11 @@
     <Button
         android:id="@+id/button"
         android:layout_width="336dp"
-        android:layout_height="41dp"
+        android:layout_height="48dp"
         android:layout_marginBottom="36dp"
+        android:background="@drawable/bg_button_black"
         android:text="Áp dụng"
         android:textColor="@color/white"
-        android:background="@drawable/bg_button_black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.493"
