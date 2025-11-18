@@ -12,6 +12,24 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.QuanLyOTo">
         <activity
+            android:name=".fragment.DealerFragment"
+            android:exported="false" />
+        <activity
+            android:name=".fragment.ShopFragment"
+            android:exported="false" />
+        <activity
+            android:name=".fragment.VoucherFragment"
+            android:exported="false" />
+        <activity
+            android:name=".fragment.CarFragment"
+            android:exported="false" />
+        <activity
+            android:name=".fragment.HomeFragment"
+            android:exported="false" />
+        <activity
+            android:name=".HomeActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
