@@ -64,7 +64,7 @@
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@drawable/ic_location"
+                    android:src="@drawable/ic_location22"
                     android:tint="#000000"
                     tools:ignore="UseAppTint" />
 
@@ -114,7 +114,7 @@
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@drawable/ic_location"
+                    android:src="@drawable/ic_location22"
                     android:tint="#000000"
                     tools:ignore="UseAppTint" />
 
