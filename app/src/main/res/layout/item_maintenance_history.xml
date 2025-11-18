@@ -84,6 +84,7 @@
 
         <!-- Mũi tên sang phải -->
         <ImageView
+            android:id="@+id/manitenace_history_detail"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:src="@drawable/arrow_forward_icon"
