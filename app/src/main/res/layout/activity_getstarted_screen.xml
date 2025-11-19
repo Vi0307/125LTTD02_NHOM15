@@ -14,7 +14,7 @@
         android:clickable="true"
         android:focusable="true"
         android:padding="12dp"
-        android:src="@drawable/ic_back"
+        android:src="@drawable/ic_back_arrow"
         tools:ignore="SpeakableTextPresentCheck" />
 
     <!-- Content Container -->
