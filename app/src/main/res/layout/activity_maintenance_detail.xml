@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -369,18 +369,146 @@
 
         </LinearLayout>
     </ScrollView>
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_navigation"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="-5dp"
+        android:layout_height="70dp"
+        android:orientation="horizontal"
         android:background="#FFFFFF"
-        app:itemActiveIndicatorStyle="@style/NoActiveIndicator"
-        app:itemIconTint="@drawable/bottom_nav_icon_selector"
-        app:itemRippleColor="@android:color/transparent"
-        app:itemTextColor="@drawable/bottom_nav_text_selector"
-        app:labelVisibilityMode="labeled"
-        app:menu="@menu/bottom_nav_menu" />
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:elevation="8dp">
+
+        <!-- ====== TRANG CHỦ ====== -->
+        <LinearLayout
+            android:id="@+id/navHome"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:src="@drawable/ic_home"
+                android:tint="#A0A0A0"
+                tools:ignore="UseAppTint"
+                />
+
+            <TextView
+                android:layout_marginTop="4dp"
+                android:text="Trang chủ"
+                android:textSize="12sp"
+                android:textColor="#A0A0A0"
+                android:layout_height="20dp"
+                android:layout_width="60dp"
+                android:textAlignment="center"/>
+        </LinearLayout>
+
+        <!-- ====== XE CỦA TÔI (ĐANG CHỌN) ====== -->
+        <LinearLayout
+            android:id="@+id/navCar"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:src="@drawable/ic_car" />
+
+            <TextView
+                android:layout_marginTop="4dp"
+                android:text="Xe của tôi"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:textColor="#000000"
+                android:layout_height="20dp"
+                android:layout_width="60dp"
+                android:textAlignment="center"/>
+        </LinearLayout>
+
+        <!-- ====== VOUCHER ====== -->
+        <LinearLayout
+            android:id="@+id/navVoucher"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:src="@drawable/ic_voucher"
+                android:tint="#A0A0A0"
+                tools:ignore="UseAppTint"/>
+
+            <TextView
+                android:layout_marginTop="4dp"
+                android:text="Voucher"
+                android:textSize="12sp"
+                android:textColor="#A0A0A0"
+                android:layout_height="20dp"
+                android:layout_width="40dp"
+                android:textAlignment="center"/>
+        </LinearLayout>
+
+        <!-- ====== PHỤ TÙNG ====== -->
+        <LinearLayout
+            android:id="@+id/navParts"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:src="@drawable/ic_parts"
+                android:tint="#A0A0A0"
+                tools:ignore="UseAppTint"/>
+
+            <TextView
+                android:layout_marginTop="4dp"
+                android:text="Phụ tùng"
+                android:textSize="12sp"
+                android:textColor="#A0A0A0"
+                android:layout_height="20dp"
+                android:layout_width="50dp"
+                android:textAlignment="center"     />
+        </LinearLayout>
+
+        <!-- ====== ĐẠI LÝ ====== -->
+        <LinearLayout
+            android:id="@+id/navAgency"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:src="@drawable/ic_dealer"
+                android:tint="#A0A0A0"
+                tools:ignore="UseAppTint"/>
+
+            <TextView
+                android:layout_marginTop="4dp"
+                android:text="Đại lý"
+                android:textSize="12sp"
+                android:textColor="#A0A0A0"
+                android:layout_height="20dp"
+                android:layout_width="40dp"
+                android:textAlignment="center"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
 
 </LinearLayout>
