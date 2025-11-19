@@ -399,7 +399,8 @@
                             <ImageView
                                 android:layout_width="16dp"
                                 android:layout_height="16dp"
-                                android:src="@drawable/ic_phone" />
+                                android:src="@drawable/ic_phone"
+                                app:tint="#DC2626" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -517,7 +518,7 @@
                 android:textSize="12sp"
                 android:textColor="#A0A0A0"
                 android:layout_height="20dp"
-                android:layout_width="40dp"
+                android:layout_width="50dp"
                 android:textAlignment="center"/>
         </LinearLayout>
 
