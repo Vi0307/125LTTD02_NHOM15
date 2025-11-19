@@ -145,6 +145,7 @@
                         </LinearLayout>
 
                         <ImageView
+                            android:id="@+id/arrowIcon"
                             android:layout_width="28dp"
                             android:layout_height="28dp"
                             android:src="@drawable/arrow_forward_icon"
@@ -152,6 +153,7 @@
                     </LinearLayout>
 
                     <Button
+                        android:id="@+id/btnXemChiTiet"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:text="Xem chi tiết"
@@ -211,6 +213,7 @@
                     </LinearLayout>
 
                     <Button
+                        android:id="@+id/btnMuaSamNgay"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:text="Mua sắm ngay"
@@ -280,6 +283,7 @@
                         android:layout_marginBottom="16dp" />
 
                     <Button
+                        android:id="@+id/btnXemVoucher"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:text="Xem tất cả các khuyến mãi"
@@ -406,6 +410,7 @@
                         </LinearLayout>
 
                         <Button
+                            android:id="@+id/btnChitietvaDat"
                             android:layout_width="match_parent"
                             android:layout_height="48dp"
                             android:text="Chi tiết và Đặt hẹn dịch vụ"
@@ -576,6 +581,7 @@
         android:layout_gravity="bottom|end"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="80dp"
+        android:id="@+id/btnChat"
         android:src="@drawable/ic_chat_box"
         app:backgroundTint="#FFFFFF"
         app:tint="#C50E0E"
