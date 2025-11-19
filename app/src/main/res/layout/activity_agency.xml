@@ -60,18 +60,149 @@
         app:layout_constraintTop_toBottomOf="@id/tvNearest"
         app:layout_constraintVertical_bias="1.0" />
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_navigation"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_height="70dp"
         android:background="#FFFFFF"
-        app:itemActiveIndicatorStyle="@style/NoActiveIndicator"
-        app:itemIconTint="@drawable/bottom_nav_icon_selector"
-        app:itemRippleColor="@android:color/transparent"
-        app:itemTextColor="@drawable/bottom_nav_text_selector"
-        app:labelVisibilityMode="labeled"
+        android:elevation="8dp"
+        android:orientation="horizontal"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:menu="@menu/bottom_nav_menu"
-        tools:ignore="MissingConstraints" />
+        tools:layout_editor_absoluteX="16dp">
+
+        <!-- ====== TRANG CHỦ ====== -->
+        <LinearLayout
+            android:id="@+id/navHome"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:src="@drawable/ic_home"
+                android:tint="#A0A0A0"
+                tools:ignore="UseAppTint" />
+
+            <TextView
+                android:layout_width="60dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="4dp"
+                android:text="Trang chủ"
+                android:textAlignment="center"
+                android:textColor="#A0A0A0"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <!-- ====== XE CỦA TÔI (ĐANG CHỌN) ====== -->
+        <LinearLayout
+            android:id="@+id/navCar"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:src="@drawable/ic_car"
+                android:tint="#A0A0A0"
+                tools:ignore="UseAppTint" />
+
+            <TextView
+                android:layout_width="60dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="4dp"
+                android:text="Xe của tôi"
+                android:textAlignment="center"
+                android:textColor="#A0A0A0"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <!-- ====== VOUCHER ====== -->
+        <LinearLayout
+            android:id="@+id/navVoucher"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:src="@drawable/ic_voucher"
+                android:tint="#A0A0A0"
+                tools:ignore="UseAppTint" />
+
+            <TextView
+                android:layout_width="40dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="4dp"
+                android:text="Voucher"
+                android:textAlignment="center"
+                android:textColor="#A0A0A0"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <!-- ====== PHỤ TÙNG ====== -->
+        <LinearLayout
+            android:id="@+id/navParts"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:src="@drawable/ic_parts"
+                android:tint="#A0A0A0"
+                tools:ignore="UseAppTint" />
+
+            <TextView
+                android:layout_width="50dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="4dp"
+                android:text="Phụ tùng"
+                android:textAlignment="center"
+                android:textColor="#A0A0A0"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <!-- ====== ĐẠI LÝ ====== -->
+        <LinearLayout
+            android:id="@+id/navAgency"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:src="@drawable/ic_dealer"
+                android:tint="#000000"
+                tools:ignore="UseAppTint"
+                />
+
+            <TextView
+                android:layout_width="40dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="4dp"
+                android:text="Đại lý"
+                android:textAlignment="center"
+                android:textColor="#000000"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                />
+        </LinearLayout>
+
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
