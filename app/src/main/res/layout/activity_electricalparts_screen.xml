@@ -261,6 +261,21 @@
 
         </LinearLayout>
     </ScrollView>
+    <!-- FAB Chatbox -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabChatbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="86dp"
+        android:src="@drawable/ic_chat_box"
+        android:contentDescription="Mở chat hỗ trợ"
+        app:backgroundTint="#FFFFFF"
+        app:tint="#C50E0E"
+        app:elevation="8dp"
+        app:borderWidth="0dp"/>
 
     <!-- Bottom Navigation - Fixed -->
     <LinearLayout
