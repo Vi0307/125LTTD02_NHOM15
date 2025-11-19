@@ -16,7 +16,7 @@
         <androidx.appcompat.widget.Toolbar
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:background="#FFFFFF"
+            android:background="#F5F8FF"
             android:elevation="4dp">
 
             <ImageButton
@@ -237,7 +237,7 @@
                     android:textSize="12sp"
                     android:textColor="#A0A0A0"
                     android:layout_height="20dp"
-                    android:layout_width="40dp"
+                    android:layout_width="50dp"
                     android:textAlignment="center"/>
             </LinearLayout>
 
