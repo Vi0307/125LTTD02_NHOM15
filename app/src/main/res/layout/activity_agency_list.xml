@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFFFF">
+
+    <!-- Header -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="#FFFFFF"
+        android:elevation="4dp"
+        app:title="Đại lý"
+        app:titleTextColor="@android:color/black"
+        app:navigationIcon="@drawable/ic_arrow_back_black"/>
+
+    <!-- Nội dung chính -->
+    <LinearLayout
+        android:id="@+id/containerContent"
+        android:orientation="vertical"
+        android:layout_below="@id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp">
+
+        <!-- Tiêu đề phụ -->
+        <TextView
+            android:id="@+id/tvNearest"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="5 đại lý gần nhất"
+            android:textColor="#999999"
+            android:textSize="14sp"
+            android:layout_marginBottom="12dp"/>
+
+        <!-- Danh sách đại lý -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerAgency"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:clipToPadding="false"/>
+    </LinearLayout>
+
+    <!-- Bottom Navigation -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="821dp"
+        android:background="#FFFFFF"
+        android:elevation="8dp"
+        android:orientation="horizontal"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_editor_absoluteX="16dp">
+
+        <!-- ====== TRANG CHỦ ====== -->
+        <LinearLayout
+            android:id="@+id/navHome"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:src="@drawable/ic_home"
+                android:tint="#A0A0A0"
+                tools:ignore="UseAppTint" />
+
+            <TextView
+                android:layout_width="60dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="4dp"
+                android:text="Trang chủ"
+                android:textAlignment="center"
+                android:textColor="#A0A0A0"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <!-- ====== XE CỦA TÔI (ĐANG CHỌN) ====== -->
+        <LinearLayout
+            android:id="@+id/navCar"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:src="@drawable/ic_car"
+                android:tint="#A0A0A0"
+                tools:ignore="UseAppTint" />
+
+            <TextView
+                android:layout_width="60dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="4dp"
+                android:text="Xe của tôi"
+                android:textAlignment="center"
+                android:textColor="#A0A0A0"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <!-- ====== VOUCHER ====== -->
+        <LinearLayout
+            android:id="@+id/navVoucher"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:src="@drawable/ic_voucher"
+                android:tint="#A0A0A0"
+                tools:ignore="UseAppTint" />
+
+            <TextView
+                android:layout_width="40dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="4dp"
+                android:text="Voucher"
+                android:textAlignment="center"
+                android:textColor="#A0A0A0"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <!-- ====== PHỤ TÙNG ====== -->
+        <LinearLayout
+            android:id="@+id/navParts"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:src="@drawable/ic_parts"
+                android:tint="#A0A0A0"
+                tools:ignore="UseAppTint" />
+
+            <TextView
+                android:layout_width="50dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="4dp"
+                android:text="Phụ tùng"
+                android:textAlignment="center"
+                android:textColor="#A0A0A0"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <!-- ====== ĐẠI LÝ ====== -->
+        <LinearLayout
+            android:id="@+id/navAgency"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:src="@drawable/ic_dealer"
+                android:tint="#000000"
+                tools:ignore="UseAppTint" />
+
+            <TextView
+                android:layout_width="40dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="4dp"
+                android:text="Đại lý"
+                android:textAlignment="center"
+                android:textColor="#000000"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- Nút chat nổi -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btnChat"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="80dp"
+        android:backgroundTint="#FFFFFF"
+        android:src="@drawable/ic_chat"
+        app:tint="@android:color/holo_red_light"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+</RelativeLayout>

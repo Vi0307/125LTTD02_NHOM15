@@ -1,11 +1,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/menu_home"
-        android:icon="@drawable/ic_car"
+        android:icon="@drawable/ic_home"
         android:title="Trang chủ" />
     <item
         android:id="@+id/menu_mycar"
-        android:icon="@drawable/ic_home"
+        android:icon="@drawable/ic_car"
         android:title="Xe của tôi" />
     <item
         android:id="@+id/menu_voucher"
