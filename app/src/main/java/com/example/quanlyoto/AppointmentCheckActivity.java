@@ -1,18 +1,20 @@
 package com.example.quanlyoto;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
+import android.os.Bundle;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.widget.Button;
-
-public class AppointmentPeriodActivity extends AppCompatActivity {
+public class AppointmentCheckActivity extends  AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_appointment_period); // layout màn 3
+        setContentView(R.layout.activity_appointment_check); // layout màn 3
         // Lấy reference nút back
         ImageView btnBack = findViewById(R.id.btn_back);
 
@@ -23,12 +25,6 @@ public class AppointmentPeriodActivity extends AppCompatActivity {
                 // Kết thúc Activity hiện tại, quay về Activity trước đó
                 finish();
             }
-        });
-        // Nút Tiếp chuyển sang màn 3: AppointmentPeriodActivity
-        Button btnNext = findViewById(R.id.button);
-        btnNext.setOnClickListener(v -> {
-            Intent intent = new Intent(AppointmentPeriodActivity.this, AppointmentCheckActivity.class);
-            startActivity(intent);
         });
     }
 }
