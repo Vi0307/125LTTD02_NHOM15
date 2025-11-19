@@ -6,8 +6,7 @@
     <item
         android:id="@+id/menu_mycar"
         android:icon="@drawable/ic_car"
-        android:title="Xe của tôi"
-        android:checked="true"/>
+        android:title="Xe của tôi" />
     <item
         android:id="@+id/menu_voucher"
         android:icon="@drawable/ic_voucher"
