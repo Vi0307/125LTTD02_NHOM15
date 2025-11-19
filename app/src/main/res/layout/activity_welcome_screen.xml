@@ -55,7 +55,7 @@
             android:gravity="center"
             android:text="The best car marketplace app of the century for\nyour transportation needs!"
             android:textColor="@color/white"
-            android:textSize="16sp" />
+            android:textSize="17dp" />
 
     </LinearLayout>
 
