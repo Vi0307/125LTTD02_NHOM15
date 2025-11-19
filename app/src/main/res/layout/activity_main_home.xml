@@ -3,460 +3,583 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="#E5E7EB">
 
-    <LinearLayout
+    <!-- ==================== NỘI DUNG CUỘN ==================== -->
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_marginBottom="80dp">
 
-        <!-- SCROLL CONTENT -->
-        <ScrollView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
 
+            <!-- ==================== HEADER ==================== -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="16dp">
+                android:layout_marginBottom="16dp">
 
-                <!-- HEADER -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Xin chào ✌️"
+                    android:textSize="16sp"
+                    android:textColor="#666666" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Andrew Ainsley"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="#000000"
+                    android:layout_marginTop="4dp" />
+
+                <!-- Search Bar -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:gravity="center_vertical"
+                    android:paddingStart="16dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/search_bar_bg"
+                    android:elevation="2dp">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_search" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Search"
+                        android:textColor="#999999"
+                        android:textSize="14sp"
+                        android:layout_marginStart="8dp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- ==================== OTOTECH CARD ==================== -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="8dp"
+                app:cardBackgroundColor="#FFFFFF">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:layout_marginBottom="16dp">
+                    android:padding="20dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Xin chào ✌️"
-                        android:textSize="16sp"
-                        android:textColor="#666666" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Andrew Ainsley"
-                        android:textSize="20sp"
-                        android:textStyle="bold"
+                        android:text="OTOTech"
                         android:textColor="#000000"
+                        android:textSize="40sp"
+                        android:textStyle="bold"
+                        android:layout_gravity="center_horizontal" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Protect your car"
+                        android:textColor="#888888"
+                        android:textSize="13sp"
+                        android:layout_gravity="center_horizontal"
                         android:layout_marginTop="4dp" />
 
-                    <!-- SEARCH BAR -->
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#000000"
+                        android:layout_marginTop="10dp"/>
+
+                    <!-- Info -->
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="48dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="16dp"
                         android:gravity="center_vertical"
-                        android:paddingStart="16dp"
-                        android:layout_marginTop="12dp"
-                        android:background="@drawable/search_bar_bg"
-                        android:elevation="2dp">
-
-                        <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:src="@drawable/ic_search" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Search"
-                            android:textColor="#999999"
-                            android:textSize="14sp"
-                            android:layout_marginStart="8dp" />
-                    </LinearLayout>
-                </LinearLayout>
-
-                <!-- OTOTECH CARD -->
-                <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    app:cardCornerRadius="16dp"
-                    app:cardElevation="8dp"
-                    app:cardBackgroundColor="#FFFFFF">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="20dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="OTOTech"
-                            android:textColor="#000000"
-                            android:textSize="40sp"
-                            android:textStyle="bold"
-                            android:layout_gravity="center_horizontal" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Protect your car"
-                            android:textColor="#888888"
-                            android:textSize="13sp"
-                            android:layout_gravity="center_horizontal"
-                            android:layout_marginTop="4dp" />
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:background="#000000"
-                            android:layout_marginTop="10dp"/>
-
-                        <!-- THÔNG TIN XE -->
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:padding="16dp"
-                            android:gravity="center_vertical"
-                            android:layout_marginTop="16dp">
-
-                            <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="BMW i5"
-                                    android:textStyle="bold"
-                                    android:textSize="18sp"
-                                    android:textColor="#000000" />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="74-B1 12345 /BMW"
-                                    android:textSize="13sp"
-                                    android:textColor="#666666" />
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:text="Chạm để xem thông tin bảo hành"
-                                    android:textColor="#888888"
-                                    android:textSize="13sp"
-                                    android:layout_marginTop="8dp" />
-                            </LinearLayout>
-
-                            <ImageView
-                                android:layout_width="28dp"
-                                android:layout_height="28dp"
-                                android:src="@drawable/arrow_forward_icon"
-                                app:tint="@color/black" />
-                        </LinearLayout>
-
-                        <Button
-                            android:layout_width="match_parent"
-                            android:layout_height="50dp"
-                            android:text="Xem chi tiết"
-                            android:backgroundTint="#000000"
-                            android:textColor="#FFFFFF"
-                            android:textSize="15sp"
-                            android:layout_marginTop="16dp" />
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-
-                <!-- MUA SẮM PHỤ TÙNG CARD -->
-                <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    app:cardCornerRadius="16dp"
-                    app:cardElevation="8dp"
-                    app:cardBackgroundColor="#FFFFFF">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="16dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Mua sắm phụ tùng"
-                            android:textStyle="bold"
-                            android:textSize="17sp"
-                            android:layout_marginBottom="8dp" />
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:background="#000000"
-                            android:layout_marginTop="10dp"/>
+                        android:layout_marginTop="16dp">
 
                         <LinearLayout
-                            android:layout_width="match_parent"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:gravity="center"
-                            android:layout_marginBottom="16dp">
-
-                            <ImageView
-                                android:layout_width="100dp"
-                                android:layout_height="100dp"
-                                android:layout_marginEnd="20dp"
-                                android:src="@drawable/dongcobnba" />
-
-                            <ImageView
-                                android:layout_width="140dp"
-                                android:layout_height="80dp"
-                                android:src="@drawable/dongcobomnuocdft" />
-                        </LinearLayout>
-
-                        <Button
-                            android:layout_width="match_parent"
-                            android:layout_height="50dp"
-                            android:text="Mua sắm ngay"
-                            android:backgroundTint="#000000"
-                            android:textColor="#FFFFFF" />
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-
-                <!-- KHUYẾN MÃI & VOUCHER CARD -->
-                <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    app:cardCornerRadius="16dp"
-                    app:cardElevation="8dp"
-                    app:cardBackgroundColor="#FFFFFF">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="16dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Khuyến mãi &amp; Mã voucher"
-                            android:textStyle="bold"
-                            android:textSize="17sp"
-                            android:layout_marginBottom="8dp" />
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:background="#000000"
-                            android:layout_marginTop="10dp"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="E-Vouchers"
-                            android:textStyle="bold"
-                            android:textSize="14sp" />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Chưa có khuyến mãi để hiển thị"
-                            android:textColor="#888888"
-                            android:textSize="13sp"
-                            android:layout_marginBottom="12dp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Khuyến mãi"
-                            android:textStyle="bold"
-                            android:textSize="14sp" />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Chưa có khuyến mãi để hiển thị"
-                            android:textColor="#888888"
-                            android:textSize="13sp"
-                            android:layout_marginBottom="16dp" />
-
-                        <Button
-                            android:layout_width="match_parent"
-                            android:layout_height="50dp"
-                            android:text="Xem tất cả các khuyến mãi"
-                            android:backgroundTint="#000000"
-                            android:textColor="#FFFFFF" />
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-
-                <!-- ĐẠI LÝ GẦN ĐÂY CARD -->
-                <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:cardCornerRadius="16dp"
-                    app:cardElevation="8dp"
-                    app:cardBackgroundColor="#FFFFFF">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="16dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Đại lý gần đây"
-                            android:textStyle="bold"
-                            android:textSize="17sp"
-                            android:layout_marginBottom="8dp" />
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:background="#000000"
-                            android:layout_marginTop="10dp"/>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:background="#FFFFFF"
-                            android:padding="16dp"
-                            android:elevation="2dp">
-
-                            <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:src="@drawable/ic_car_getstarted" />
+                            android:layout_weight="1"
+                            android:orientation="vertical">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="TƯỜNG PHÁT 1"
+                                android:text="BMW i5"
                                 android:textStyle="bold"
-                                android:textSize="16sp" />
+                                android:textSize="18sp"
+                                android:textColor="#000000" />
 
-                            <!-- Địa chỉ -->
-                            <LinearLayout
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="74-B1 12345 /BMW"
+                                android:textSize="13sp"
+                                android:textColor="#666666" />
+
+                            <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:gravity="center_vertical"
-                                android:minHeight="36dp"
-                                android:layout_marginTop="8dp">
-
-                                <ImageView
-                                    android:layout_width="16dp"
-                                    android:layout_height="16dp"
-                                    android:src="@drawable/ic_location_here"
-                                    app:tint="@color/red" />
-
-                                <TextView
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:layout_marginStart="8dp"
-                                    android:text="18-20 HOÀNG HOA THÁM, P. CHỢ THANH, TP. ĐÀ NẴNG, VIỆT NAM"
-                                    android:textSize="13sp"
-                                    android:textColor="#666666"
-                                    android:maxLines="2"
-                                    android:ellipsize="end" />
-                            </LinearLayout>
-
-                            <!-- Giờ mở cửa -->
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:gravity="center_vertical"
-                                android:minHeight="36dp"
-                                android:layout_marginTop="4dp">
-
-                                <ImageView
-                                    android:layout_width="16dp"
-                                    android:layout_height="16dp"
-                                    android:src="@drawable/ic_time" />
-
-                                <TextView
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:layout_marginStart="8dp"
-                                    android:text="07:30 - 18:00"
-                                    android:textSize="13sp"
-                                    android:textColor="#666666" />
-                            </LinearLayout>
-
-                            <!-- Số điện thoại -->
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:gravity="center_vertical"
-                                android:minHeight="36dp"
-                                android:layout_marginTop="4dp">
-
-                                <ImageView
-                                    android:layout_width="16dp"
-                                    android:layout_height="16dp"
-                                    android:src="@drawable/ic_phone" />
-
-                                <TextView
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:layout_marginStart="8dp"
-                                    android:text="0123456789"
-                                    android:textSize="13sp"
-                                    android:textColor="#666666" />
-                            </LinearLayout>
-
-                            <Button
-                                android:layout_width="match_parent"
-                                android:layout_height="48dp"
-                                android:text="Chi tiết và Đặt hẹn dịch vụ"
-                                android:backgroundTint="#000000"
-                                android:textColor="#FFFFFF"
-                                android:layout_marginTop="16dp" />
+                                android:text="Chạm để xem thông tin bảo hành"
+                                android:textColor="#888888"
+                                android:textSize="13sp"
+                                android:layout_marginTop="8dp" />
                         </LinearLayout>
+
+                        <ImageView
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
+                            android:src="@drawable/arrow_forward_icon"
+                            app:tint="@color/black" />
                     </LinearLayout>
-                </androidx.cardview.widget.CardView>
 
-                <!-- Khoảng trống để FAB không bị che nội dung -->
-                <View
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:text="Xem chi tiết"
+                        android:backgroundTint="#000000"
+                        android:textColor="#FFFFFF"
+                        android:textSize="15sp"
+                        android:layout_marginTop="16dp" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- ==================== MUA SẮM PHỤ TÙNG ==================== -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="8dp"
+                app:cardBackgroundColor="#FFFFFF">
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="80dp" />
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
-            </LinearLayout>
-        </ScrollView>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Mua sắm phụ tùng"
+                        android:textStyle="bold"
+                        android:textSize="17sp"
+                        android:layout_marginBottom="8dp" />
 
-        <!-- BOTTOM NAVIGATION -->
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottom_navigation"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#FFFFFF"
-            app:menu="@menu/bottom_nav_menu"
-            app:itemIconTint="@drawable/bottom_nav_icon_selector"
-            app:itemTextColor="@drawable/bottom_nav_text_selector"
-            app:labelVisibilityMode="labeled"
-            app:itemRippleColor="@android:color/transparent"
-            app:itemActiveIndicatorStyle="@style/NoActiveIndicator" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#000000"
+                        android:layout_marginTop="10dp"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center"
+                        android:layout_marginBottom="16dp">
+
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:layout_marginEnd="20dp"
+                            android:src="@drawable/dongcobnba" />
+
+                        <ImageView
+                            android:layout_width="140dp"
+                            android:layout_height="80dp"
+                            android:src="@drawable/dongcobomnuocdft" />
+                    </LinearLayout>
+
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:text="Mua sắm ngay"
+                        android:backgroundTint="#000000"
+                        android:textColor="#FFFFFF" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- ==================== VOUCHER CARD ==================== -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="8dp"
+                app:cardBackgroundColor="#FFFFFF">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Khuyến mãi &amp; Mã voucher"
+                        android:textStyle="bold"
+                        android:textSize="17sp"
+                        android:layout_marginBottom="8dp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#000000"
+                        android:layout_marginTop="10dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="E-Vouchers"
+                        android:textStyle="bold"
+                        android:textSize="14sp"
+                        android:layout_marginTop="10dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Chưa có khuyến mãi để hiển thị"
+                        android:textColor="#888888"
+                        android:textSize="13sp"
+                        android:layout_marginBottom="12dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Khuyến mãi"
+                        android:textStyle="bold"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Chưa có khuyến mãi để hiển thị"
+                        android:textColor="#888888"
+                        android:textSize="13sp"
+                        android:layout_marginBottom="16dp" />
+
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:text="Xem tất cả các khuyến mãi"
+                        android:backgroundTint="#000000"
+                        android:textColor="#FFFFFF" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- ==================== ĐẠI LÝ GẦN ĐÂY ==================== -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="8dp"
+                app:cardBackgroundColor="#FFFFFF">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Đại lý gần đây"
+                        android:textStyle="bold"
+                        android:textSize="17sp"
+                        android:layout_marginBottom="8dp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#000000"
+                        android:layout_marginTop="10dp"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp"
+                        android:background="#FFFFFF">
+
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:src="@drawable/ic_car_getstarted" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="TƯỜNG PHÁT 1"
+                            android:textStyle="bold"
+                            android:textSize="16sp" />
+
+                        <!-- Địa chỉ -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:layout_marginTop="8dp">
+
+                            <ImageView
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:src="@drawable/ic_location_here"
+                                app:tint="@color/red" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_marginStart="8dp"
+                                android:text="18-20 HOÀNG HOA THÁM, ĐÀ NẴNG"
+                                android:textSize="13sp"
+                                android:textColor="#666666"
+                                android:maxLines="2"
+                                android:ellipsize="end" />
+                        </LinearLayout>
+
+                        <!-- Giờ -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:layout_marginTop="4dp">
+
+                            <ImageView
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:src="@drawable/ic_time" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="8dp"
+                                android:text="07:30 - 18:00"
+                                android:textSize="13sp"
+                                android:textColor="#666666" />
+                        </LinearLayout>
+
+                        <!-- Phone -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:layout_marginTop="4dp">
+
+                            <ImageView
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:src="@drawable/ic_phone" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="8dp"
+                                android:text="0123456789"
+                                android:textSize="13sp"
+                                android:textColor="#666666" />
+                        </LinearLayout>
+
+                        <Button
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:text="Chi tiết và Đặt hẹn dịch vụ"
+                            android:backgroundTint="#000000"
+                            android:textColor="#FFFFFF"
+                            android:layout_marginTop="16dp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Để tránh che nội dung bởi bottom bar -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="50dp" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- ==================== THANH ĐIỀU HƯỚNG 5 NÚT ==================== -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_gravity="bottom"
+        android:orientation="horizontal"
+        android:background="#FFFFFF"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:elevation="8dp">
+
+        <LinearLayout
+            android:id="@+id/navHome"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:src="@drawable/ic_home"
+                android:tint="#000000"
+                tools:ignore="UseAppTint"
+                />
+
+            <TextView
+                android:layout_marginTop="4dp"
+                android:text="Trang chủ"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:textColor="#000000"
+                android:layout_height="20dp"
+                android:layout_width="60dp"
+                android:textAlignment="center"/>
+        </LinearLayout>
+
+        <!-- ====== XE CỦA TÔI ====== -->
+        <LinearLayout
+            android:id="@+id/navCar"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:src="@drawable/ic_car"
+                android:tint="#A0A0A0"
+                tools:ignore="UseAppTint"/>
+
+            <TextView
+                android:layout_marginTop="4dp"
+                android:text="Xe của tôi"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:textColor="#A0A0A0"
+                android:layout_height="20dp"
+                android:layout_width="60dp"
+                android:textAlignment="center"/>
+        </LinearLayout>
+
+        <!-- ====== VOUCHER ====== -->
+        <LinearLayout
+            android:id="@+id/navVoucher"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:src="@drawable/ic_voucher"
+                android:tint="#A0A0A0"
+                tools:ignore="UseAppTint"/>
+
+            <TextView
+                android:layout_marginTop="4dp"
+                android:text="Voucher"
+                android:textSize="12sp"
+                android:textColor="#A0A0A0"
+                android:layout_height="20dp"
+                android:layout_width="40dp"
+                android:textAlignment="center"/>
+        </LinearLayout>
+
+        <!-- ====== PHỤ TÙNG ====== -->
+        <LinearLayout
+            android:id="@+id/navParts"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:src="@drawable/ic_parts"
+                android:tint="#A0A0A0"
+                tools:ignore="UseAppTint"/>
+
+            <TextView
+                android:layout_marginTop="4dp"
+                android:text="Phụ tùng"
+                android:textSize="12sp"
+                android:textColor="#A0A0A0"
+                android:layout_height="20dp"
+                android:layout_width="50dp"
+                android:textAlignment="center"     />
+        </LinearLayout>
+
+        <!-- ====== ĐẠI LÝ ====== -->
+        <LinearLayout
+            android:id="@+id/navAgency"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:src="@drawable/ic_dealer"
+                android:tint="#A0A0A0"
+                tools:ignore="UseAppTint"/>
+
+            <TextView
+                android:layout_marginTop="4dp"
+                android:text="Đại lý"
+                android:textSize="12sp"
+                android:textColor="#A0A0A0"
+                android:layout_height="20dp"
+                android:layout_width="40dp"
+                android:textAlignment="center"/>
+        </LinearLayout>
 
     </LinearLayout>
 
-    <!-- FAB CHATBOX ĐỎ -->
+    <!-- ==================== FAB CHATBOX ==================== -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:layout_width="56dp"
         android:layout_height="56dp"
         android:layout_gravity="bottom|end"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="80dp"
-        app:fabSize="normal"
         android:src="@drawable/ic_chat_box"
-        android:contentDescription="Nút thêm mới"
         app:backgroundTint="#FFFFFF"
         app:tint="#C50E0E"
-        app:elevation="8dp" />
+        app:elevation="8dp"
+        android:contentDescription="Mở chat hỗ trợ"/>
+
 </FrameLayout>
