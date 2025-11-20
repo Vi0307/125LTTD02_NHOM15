@@ -45,7 +45,6 @@ public class MyCarDetailFragment extends Fragment {
 
         // =================== BOTTOM NAV ===================
         setupBottomNav(view);
-
         return view;
     }
 
@@ -70,6 +69,14 @@ public class MyCarDetailFragment extends Fragment {
         // Trang chủ
         view.findViewById(R.id.navHome).setOnClickListener(v ->
                 navigate(new HomeFragment())
+        );
+        //Xe của tôi
+        view.findViewById(R.id.navCar).setOnClickListener(v ->
+                navigate(new MyCarFragment())
+        );
+        //Phụ tùng
+        view.findViewById(R.id.navParts).setOnClickListener(v ->
+                navigate(new Homeparts())
         );
 
     }
