@@ -55,6 +55,17 @@ public class Homeparts extends Fragment {
                     .commit();
         });
 
+        // ⭐ Nút "Phụ tùng điện"
+        Button btnElectricalParts = view.findViewById(R.id.btnLightingParts);
+
+        btnElectricalParts.setOnClickListener(v -> {
+            requireActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, new Electricalparts())
+                    .addToBackStack(null)     // quay lại Homeparts
+                    .commit();
+        });
+
         return view;
     }
 }
