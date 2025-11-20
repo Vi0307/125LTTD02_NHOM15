@@ -4,6 +4,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.quanlyoto.fragment.AppointmentFixActivity;
+import com.example.quanlyoto.fragment.Orderconfirm;
 import com.example.quanlyoto.fragment.PersonalActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -16,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
         // Load fragment đầu tiên nếu chưa có fragment
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, new PersonalActivity())
+                    .replace(R.id.fragment_container, new Orderconfirm())
                     .commit();
         }
     }
