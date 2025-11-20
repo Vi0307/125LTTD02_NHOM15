@@ -1,32 +1,31 @@
 package com.example.quanlyoto;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
+import android.view.ViewGroup;
 import android.widget.ImageView;
-import androidx.appcompat.app.AppCompatActivity;
 
-public class Getstarted extends AppCompatActivity {
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
+public class Getstarted extends Fragment {
+
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_getstarted_screen);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
 
-        // Nút back quay về Welcome
-        ImageView btnBack = findViewById(R.id.btnBack);
+        View view = inflater.inflate(R.layout.activity_getstarted_screen, container, false);
+
+        ImageView btnBack = view.findViewById(R.id.btnBack);
+
+        // Nhấn icon_back_arrow -> quay về Welcome
         btnBack.setOnClickListener(v -> {
-            Intent intent = new Intent(Getstarted.this, Welcome.class);
-            startActivity(intent);
-            finish();
+            requireActivity().getSupportFragmentManager().popBackStack();
         });
 
-        // Nút đăng nhập → chuyển sang Login
-        Button btnLogin = findViewById(R.id.btnGetStarted); // ID của nút trong XML
-        btnLogin.setOnClickListener(v -> {
-            Intent intent = new Intent(Getstarted.this, Login.class);
-            startActivity(intent);
-        });
+        return view;
     }
 }
