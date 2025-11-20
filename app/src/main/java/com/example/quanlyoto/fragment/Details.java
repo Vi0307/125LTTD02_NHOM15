@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.quanlyoto.R;
 
-public class Bodyparts extends Fragment {
+public class Details extends Fragment {
 
     @Nullable
     @Override
@@ -20,17 +20,13 @@ public class Bodyparts extends Fragment {
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.activity_bodyparts_screen, container, false);
+        View view = inflater.inflate(R.layout.activity_details_screen, container, false);
 
-        ImageView imgOngGio = view.findViewById(R.id.imgOngGioNapHoi);
+        ImageView btnBack = view.findViewById(R.id.btnBack);
 
-        imgOngGio.setOnClickListener(v -> {
-            requireActivity().getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.fragment_container, new Details())
-                    .addToBackStack(null)
-                    .commit();
-        });
+        btnBack.setOnClickListener(v ->
+                requireActivity().getSupportFragmentManager().popBackStack()
+        );
 
         return view;
     }
