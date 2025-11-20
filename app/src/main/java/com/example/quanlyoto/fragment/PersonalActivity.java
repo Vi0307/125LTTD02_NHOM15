@@ -117,7 +117,10 @@ public class PersonalActivity extends Fragment {
         fabChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(), "Mở chat", Toast.LENGTH_SHORT).show();
+                getParentFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, new ChatBox())
+                        .addToBackStack(null)
+                        .commit();
             }
         });
 
