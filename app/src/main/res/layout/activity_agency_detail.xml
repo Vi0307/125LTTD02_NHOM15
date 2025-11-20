@@ -16,7 +16,7 @@
         android:paddingEnd="12dp">
 
         <ImageView
-            android:id="@+id/btnBack"
+            android:id="@+id/ic_back_agency"
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:layout_marginEnd="8dp"
