@@ -62,6 +62,7 @@
                     app:cardBackgroundColor="#FFFFFF">
 
                     <LinearLayout
+                        android:id="@+id/btnChat"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
@@ -122,6 +123,7 @@
 
                         <!-- Nút Đặt dịch vụ -->
                         <Button
+                            android:id="@+id/btnDatDichVu"
                             android:layout_width="match_parent"
                             android:layout_height="52dp"
                             android:text="Đặt dịch vụ"
@@ -133,6 +135,7 @@
 
                         <!-- Nút Xem chi tiết -->
                         <Button
+                            android:id="@+id/btnXemChiTiet"
                             android:layout_width="match_parent"
                             android:layout_height="52dp"
                             android:text="Xem chi tiết"
