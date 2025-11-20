@@ -38,12 +38,14 @@ public class AppointmentCheckActivity extends Fragment {
 
         btnComplete.setOnClickListener(v -> dialogOverlay.setVisibility(View.VISIBLE));
         btnGoHome.setOnClickListener(v -> {
-            // Ví dụ: về MainActivity (container chính)
-            Intent intent = new Intent(getActivity(), MainActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-            getActivity().finish();
+            if (getActivity() != null) {
+                getActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, new HomeFragment())
+                        .commit(); // không cần thêm addToBackStack nếu muốn không quay lại fragment cũ
+            }
         });
+
 
         TextView btnCancel = view.findViewById(R.id.btnCancel);
         btnCancel.setOnClickListener(v -> dialogOverlay.setVisibility(View.GONE));
