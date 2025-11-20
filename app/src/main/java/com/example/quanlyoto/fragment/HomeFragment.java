@@ -31,6 +31,29 @@ public class HomeFragment extends Fragment {
                     .addToBackStack(null)
                     .commit();
         });
+        // Click vào button "Xem chi tiết"
+        View btnXem = view.findViewById(R.id.btnXemChiTiet);
+        if (btnXem != null) {
+            btnXem.setOnClickListener(v -> {
+                requireActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, new MyCarDetailFragment())
+                        .addToBackStack(null)
+                        .commit();
+            });
+        }
+
+        // Click vào arrow icon ở card (arrowIcon)
+        View arrow = view.findViewById(R.id.arrowIcon);
+        if (arrow != null) {
+            arrow.setOnClickListener(v -> {
+                requireActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, new MyCarDetailFragment())
+                        .addToBackStack(null)
+                        .commit();
+            });
+        }
 
         return view;
     }
