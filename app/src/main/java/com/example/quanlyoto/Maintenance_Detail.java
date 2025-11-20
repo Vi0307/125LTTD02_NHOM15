@@ -33,7 +33,7 @@ public class Maintenance_Detail extends AppCompatActivity {
             navAgency.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(Maintenance_Detail.this, AgencyActivity.class);
+                    Intent intent = new Intent(Maintenance_Detail.this, Agency_Activity.class);
                     startActivity(intent);
                 }
             });

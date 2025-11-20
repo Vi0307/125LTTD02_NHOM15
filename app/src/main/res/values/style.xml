@@ -4,4 +4,8 @@
         <item name="android:color">@android:color/transparent</item>
         <item name="android:alpha">0</item>
     </style>
+    <style name="Widget.Theme.QuanLyOTo.ActionBar.Fullscreen" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:background">?attr/fullscreenBackgroundColor</item>
+        <item name="android:textColor">?attr/fullscreenTextColor</item>
+    </style>
 </resources>
