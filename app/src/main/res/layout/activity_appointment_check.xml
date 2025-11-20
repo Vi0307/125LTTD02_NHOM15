@@ -163,7 +163,7 @@
                         <ImageView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:src="@drawable/img_bmwi5_mycar"
+                            android:src="@drawable/img_bmwi5"
                             android:contentDescription="Xe" />
 
                         <TextView
@@ -582,7 +582,7 @@
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:layout_centerInParent="true"
-                        android:src="@drawable/ic_wrench"
+                        android:src="@drawable/ic_build"
                         app:tint="#FFFFFF" />
                 </RelativeLayout>
 
