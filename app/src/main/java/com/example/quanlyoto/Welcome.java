@@ -1,25 +1,34 @@
 package com.example.quanlyoto;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
-import androidx.appcompat.app.AppCompatActivity;
+import android.view.ViewGroup;
 
-public class Welcome extends AppCompatActivity {
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
+public class Welcome extends Fragment {
+
+    public Welcome() {}
+
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_welcome_screen);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
 
-        // Bắt sự kiện click toàn màn hình để chuyển sang GetStarted
-        View rootView = findViewById(android.R.id.content);
-        rootView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Welcome.this, Getstarted.class);
-                startActivity(intent);
-            }
+        View view = inflater.inflate(R.layout.activity_welcome_screen, container, false);
+
+        // Ấn vào bất kỳ đâu -> sang GetStarted
+        view.setOnClickListener(v -> {
+            requireActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, new Getstarted())
+                    .addToBackStack(null)
+                    .commit();
         });
+
+        return view;
     }
 }
