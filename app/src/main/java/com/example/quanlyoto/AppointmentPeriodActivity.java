@@ -1,34 +1,37 @@
 package com.example.quanlyoto;
 
 import android.os.Bundle;
-import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
-import androidx.appcompat.app.AppCompatActivity;
-import android.content.Intent;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 
-public class AppointmentPeriodActivity extends AppCompatActivity {
+import androidx.fragment.app.Fragment;
+
+public class AppointmentPeriodActivity extends Fragment {
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_appointment_period); // layout màn 3
-        // Lấy reference nút back
-        ImageView btnBack = findViewById(R.id.btn_back);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.activity_appointment_period, container, false);
 
-        // Set sự kiện click
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Kết thúc Activity hiện tại, quay về Activity trước đó
-                finish();
-            }
+        // Nút back
+        ImageView btnBack = view.findViewById(R.id.btn_back);
+        btnBack.setOnClickListener(v -> {
+            // Quay về fragment trước
+            getParentFragmentManager().popBackStack();
         });
-        // Nút Tiếp chuyển sang màn 3: AppointmentPeriodActivity
-        Button btnNext = findViewById(R.id.button);
+
+        // Nút tiếp → chuyển sang fragment check
+        Button btnNext = view.findViewById(R.id.button);
         btnNext.setOnClickListener(v -> {
-            Intent intent = new Intent(AppointmentPeriodActivity.this, AppointmentCheckActivity.class);
-            startActivity(intent);
+            getParentFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, new AppointmentCheckActivity())
+                    .addToBackStack(null) // để back được
+                    .commit();
         });
+
+        return view;
     }
 }
