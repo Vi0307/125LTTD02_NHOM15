@@ -24,7 +24,7 @@ public class MyCarFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_mycar, container, false);
 
         // ==========================
-        // NÚT BACK VỀ TRANG HOME
+        // NÚT BACK → HOME
         // ==========================
         view.findViewById(R.id.btn_back).setOnClickListener(v -> {
             requireActivity().getSupportFragmentManager()
@@ -32,8 +32,6 @@ public class MyCarFragment extends Fragment {
                     .replace(R.id.fragment_container, new HomeFragment())
                     .commit();
         });
-
-
 
         // ==========================
         // BOTTOM NAV — HOME
@@ -46,10 +44,20 @@ public class MyCarFragment extends Fragment {
         });
 
         // ==========================
-        // BOTTOM NAV — CAR (đang ở đây, không chuyển)
+        // BOTTOM NAV — CAR (đang ở đây)
         // ==========================
         view.findViewById(R.id.navCar).setOnClickListener(v -> {
-            // Không làm gì
+        });
+
+        // ==========================
+        // BUTTON — XEM CHI TIẾT
+        // ==========================
+        view.findViewById(R.id.btnXemChiTiet).setOnClickListener(v -> {
+            requireActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, new MyCarDetailFragment())
+                    .addToBackStack(null)   // cho phép back lại
+                    .commit();
         });
 
         return view;
