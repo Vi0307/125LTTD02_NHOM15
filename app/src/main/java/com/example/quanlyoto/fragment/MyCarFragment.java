@@ -44,6 +44,16 @@ public class MyCarFragment extends Fragment {
         });
 
         // ==========================
+        // BOTTOM NAV — PARTS
+        // ==========================
+        view.findViewById(R.id.navParts).setOnClickListener(v -> {
+            requireActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, new Homeparts())
+                    .commit();
+        });
+
+        // ==========================
         // BOTTOM NAV — CAR (đang ở đây)
         // ==========================
         view.findViewById(R.id.navCar).setOnClickListener(v -> {
