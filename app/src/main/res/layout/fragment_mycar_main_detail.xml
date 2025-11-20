@@ -473,7 +473,9 @@
                             android:layout_width="32dp"
                             android:layout_height="32dp"
                             android:background="?attr/selectableItemBackgroundBorderless"
+                            android:src="@drawable/ic_expand"
                             android:src="@android:drawable/ic_expand"
+
                             app:tint="#D30000"
                             tools:ignore="TouchTargetSizeCheck"
                             android:contentDescription="Mở thông tin lịch sử bảo dưỡng"/>
