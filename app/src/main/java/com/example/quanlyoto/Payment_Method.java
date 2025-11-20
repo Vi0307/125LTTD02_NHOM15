@@ -1,6 +1,9 @@
 package com.example.quanlyoto;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,6 +23,22 @@ public class Payment_Method extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        setupBackButton();
+
+    }
+
+    private void setupBackButton() {
+        ImageView ic_back_complete_payment = findViewById(R.id.ic_back_complete_payment);
+        if (ic_back_complete_payment != null) {
+            ic_back_complete_payment.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(Payment_Method.this, Complete_Detail_Payment.class);
+                    startActivity(intent);
+                    finish();
+                }
+            });
+        }
     }
 }
 

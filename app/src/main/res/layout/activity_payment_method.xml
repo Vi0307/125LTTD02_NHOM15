@@ -21,6 +21,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
+            android:id="@+id/ic_back_complete_payment"
             android:layout_width="22dp"
             android:layout_height="22dp"
             android:src="@drawable/ic_arrow_back_black"
