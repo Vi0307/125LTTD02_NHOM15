@@ -76,6 +76,24 @@ public class Maintenance_History_Fragment extends Fragment {
             holder.tvDealer.setText("Đại lý: " + record.getDealer());
             holder.tvDate.setText(record.getDate());
             holder.tvKm.setText(record.getKm());
+
+            // Xử lý chuyển qua fragment chi tiết
+            holder.arrow.setOnClickListener(v -> {
+
+                Maintenance_Detail_Fragment detailFragment = new Maintenance_Detail_Fragment();
+
+                Bundle bundle = new Bundle();
+                bundle.putString("dealer", record.getDealer());
+                bundle.putString("date", record.getDate());
+                bundle.putString("km", record.getKm());
+                detailFragment.setArguments(bundle);
+
+                fragment.getParentFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, detailFragment)
+                        .addToBackStack(null)
+                        .commit();
+            });
         }
 
         @Override
