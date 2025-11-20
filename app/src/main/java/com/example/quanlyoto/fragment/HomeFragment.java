@@ -75,6 +75,20 @@ public class HomeFragment extends Fragment {
                         .commit();
             });
         }
+        // ================================
+        // 5. Bấm "Mua sắm ngay" -> sang HomeParts
+        // ================================
+        View btnMuaSam = view.findViewById(R.id.btnMuaSamNgay);
+        if (btnMuaSam != null) {
+            btnMuaSam.setOnClickListener(v -> {
+                requireActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, new Homeparts()) // Fragment phụ tùng
+                        .addToBackStack(null)
+                        .commit();
+            });
+        }
+
 
         return view;
     }
