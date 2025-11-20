@@ -1,78 +1,63 @@
 package com.example.quanlyoto;
 
-import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
-import androidx.appcompat.app.AppCompatActivity;
-import android.content.Intent;
-import androidx.activity.OnBackPressedCallback;
 
-public class AppointmentCheckActivity extends AppCompatActivity {
+import androidx.activity.OnBackPressedCallback;
+import androidx.fragment.app.Fragment;
+
+public class AppointmentCheckActivity extends Fragment {
 
     private Button btnComplete;
     private FrameLayout dialogOverlay;
     private Button btnGoHome;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_appointment_check);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.activity_appointment_check, container, false);
 
-        // Lấy reference nút back
-        ImageView btnBack = findViewById(R.id.btn_back);
+        // Nút back
+        ImageView btnBack = view.findViewById(R.id.btn_back);
+        btnBack.setOnClickListener(v -> getParentFragmentManager().popBackStack());
 
-        // Khởi tạo các view cho dialog
-        btnComplete = findViewById(R.id.button);
-        dialogOverlay = findViewById(R.id.dialogOverlay);
-        btnGoHome = findViewById(R.id.btnGoHome);
+        // Dialog
+        btnComplete = view.findViewById(R.id.button);
+        dialogOverlay = view.findViewById(R.id.dialogOverlay);
+        btnGoHome = view.findViewById(R.id.btnGoHome);
 
-        // Set sự kiện click cho nút back
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Kết thúc Activity hiện tại, quay về Activity trước đó
-                finish();
-            }
+        btnComplete.setOnClickListener(v -> dialogOverlay.setVisibility(View.VISIBLE));
+        btnGoHome.setOnClickListener(v -> {
+            // Ví dụ: về MainActivity (container chính)
+            Intent intent = new Intent(getActivity(), MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            getActivity().finish();
         });
 
-        // Xử lý nút Hoàn thành - Hiện dialog
-        btnComplete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialogOverlay.setVisibility(View.VISIBLE);
-            }
-        });
-
-        // Xử lý nút Trang chủ trong dialog
-        btnGoHome.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                 Intent intent = new Intent(AppointmentCheckActivity.this, AppointmentPeriodActivity.class);
-                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                 startActivity(intent);
-                 finish();
-            }
-        });
-
-        // Xử lý nút Huỷ (nếu cần)
-        TextView btnCancel = findViewById(R.id.btnCancel);
+        TextView btnCancel = view.findViewById(R.id.btnCancel);
         btnCancel.setOnClickListener(v -> dialogOverlay.setVisibility(View.GONE));
-        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
-            @Override
-            public void handleOnBackPressed() {
-                if (dialogOverlay != null && dialogOverlay.getVisibility() == View.VISIBLE) {
-                    dialogOverlay.setVisibility(View.GONE);
-                } else {
-                    // Không dùng super.onBackPressed(), dùng finish()
-                    finish();
-                }
-            }
-        });
 
+        // Back button xử lý khi dialog mở
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(),
+                new OnBackPressedCallback(true) {
+                    @Override
+                    public void handleOnBackPressed() {
+                        if (dialogOverlay != null && dialogOverlay.getVisibility() == View.VISIBLE) {
+                            dialogOverlay.setVisibility(View.GONE);
+                        } else {
+                            getParentFragmentManager().popBackStack();
+                        }
+                    }
+                });
+
+        return view;
     }
-
 }
