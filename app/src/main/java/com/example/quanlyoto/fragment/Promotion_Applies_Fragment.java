@@ -26,7 +26,6 @@ public class Promotion_Applies_Fragment extends Fragment {
             @Nullable ViewGroup container,
             @Nullable Bundle savedInstanceState) {
 
-        // Inflate layout fragment (KHÔNG dùng layout của Activity)
         View view = inflater.inflate(R.layout.activity_promotion_applies, container, false);
 
         ImageView icBack = view.findViewById(R.id.ic_back);
@@ -38,6 +37,16 @@ public class Promotion_Applies_Fragment extends Fragment {
                     .getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.fragment_container, new Select_Shipping_Method_Fragment())
+                    .addToBackStack(null)
+                    .commit();
+        });
+
+        // Đi đến Complete_Detail_Payment_Fragment
+        btnComplete.setOnClickListener(v -> {
+            requireActivity()
+                    .getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, new Complete_Detail_Payment_Fragment())
                     .addToBackStack(null)
                     .commit();
         });
