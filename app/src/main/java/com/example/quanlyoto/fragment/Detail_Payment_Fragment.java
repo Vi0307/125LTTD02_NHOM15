@@ -11,7 +11,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.quanlyoto.R;
-import com.example.quanlyoto.Select_Billing_Address;
 
 public class Detail_Payment_Fragment extends Fragment {
 
@@ -25,20 +24,25 @@ public class Detail_Payment_Fragment extends Fragment {
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.activity_detail_payment, container, false);
+        return inflater.inflate(R.layout.activity_detail_payment, container, false);
+    }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        //==================== NÚT CHỈNH SỬA ĐỊA CHỈ ====================//
         ImageView icPen = view.findViewById(R.id.ic_pen);
-
-        icPen.setOnClickListener(v -> {
-            // Chuyển sang Fragment Select_Billing_Address
-            requireActivity()
-                    .getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.fragment_container, new Select_Billing_Address_Fragment())
-                    .addToBackStack(null)
-                    .commit();
-        });
-
-        return view;
+        if (icPen != null) {
+            icPen.setOnClickListener(v -> {
+                // Chuyển sang Fragment Select_Billing_Address
+                requireActivity()
+                        .getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, new Select_Billing_Address_Fragment())
+                        .addToBackStack(null)
+                        .commit();
+            });
+        }
     }
 }

@@ -25,20 +25,24 @@ public class Payment_Method_Fragment extends Fragment {
             @Nullable ViewGroup container,
             @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.activity_payment_method, container, false);
+        return inflater.inflate(R.layout.activity_payment_method, container, false);
+    }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        //==================== NÚT BACK ====================//
         ImageView icBackCompletePayment = view.findViewById(R.id.ic_back_complete_payment);
-
-        // Quay lại Complete_Detail_Payment_Fragment
-        icBackCompletePayment.setOnClickListener(v -> {
-            requireActivity()
-                    .getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.fragment_container, new Complete_Detail_Payment_Fragment())
-                    .addToBackStack(null)
-                    .commit();
-        });
-
-        return view;
+        if (icBackCompletePayment != null) {
+            icBackCompletePayment.setOnClickListener(v -> {
+                requireActivity()
+                        .getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, new Complete_Detail_Payment_Fragment())
+                        .addToBackStack(null)
+                        .commit();
+            });
+        }
     }
 }
