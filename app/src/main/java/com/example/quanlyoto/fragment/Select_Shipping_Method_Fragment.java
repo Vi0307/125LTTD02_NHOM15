@@ -41,6 +41,16 @@ public class Select_Shipping_Method_Fragment extends Fragment {
                     .commit();
         });
 
+        // Chuyển sang fragment Promotion_Applies
+        btnPromotion.setOnClickListener(v -> {
+            requireActivity()
+                    .getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, new Promotion_Applies_Fragment())
+                    .addToBackStack(null)
+                    .commit();
+        });
+
         return view;
     }
 }
