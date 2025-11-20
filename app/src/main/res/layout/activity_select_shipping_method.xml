@@ -18,6 +18,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
+            android:id="@+id/iv_back"
             android:layout_width="22dp"
             android:layout_height="22dp"
             android:src="@drawable/ic_arrow_back_black"
@@ -89,7 +90,7 @@
         <ImageView
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:src="@drawable/ic_radio_button"
+            android:src="@drawable/ic_radio_button_unchecked"
             android:tint="#000000"
             tools:ignore="UseAppTint" />
     </LinearLayout>
@@ -106,7 +107,8 @@
         android:orientation="horizontal"
         android:padding="16dp"
         tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="186dp">
+        tools:layout_editor_absoluteY="186dp"
+        tools:ignore="MissingConstraints">
 
         <ImageView
             android:layout_width="24dp"
@@ -146,19 +148,19 @@
         <ImageView
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:src="@drawable/ic_radio_button_unchecked"
+            android:src="@drawable/ic_radio_button"
             android:tint="#000000"
             tools:ignore="UseAppTint" />
     </LinearLayout>
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/iv_Promotion_applies"
         android:layout_width="336dp"
-        android:layout_height="41dp"
+        android:layout_height="48dp"
         android:layout_marginBottom="36dp"
+        android:backgroundTint="@drawable/bg_button_black"
         android:text="Áp dụng"
         android:textColor="@color/white"
-        android:background="@drawable/bg_button_black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.493"

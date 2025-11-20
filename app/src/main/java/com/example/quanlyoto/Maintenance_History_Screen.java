@@ -30,7 +30,7 @@ public class Maintenance_History_Screen extends AppCompatActivity {
         recordList.add(new Maintenance_Record("THẢO ÁI", "30/09/2023", "307"));
 
         // Gắn adapter vào RecyclerView
-        adapter = new Maintenance_History_Adapter(recordList);
+        adapter = new Maintenance_History_Adapter(recordList, this);
         recyclerView.setAdapter(adapter);
     }
 }

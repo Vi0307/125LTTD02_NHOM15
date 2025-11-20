@@ -121,31 +121,33 @@
                     android:textSize="15sp"
                     android:textStyle="bold" />
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:layout_marginTop="8dp"
-                    android:background="@drawable/bg_text_field"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingStart="16dp"
-                    android:paddingEnd="16dp">
+                    android:background="@drawable/bg_text_field">
 
                     <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="12/7/1995"
+                        android:id="@+id/txt_birthday"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:paddingStart="16dp"
+                        android:text="15/08/2000"
                         android:textColor="#000000"
                         android:textSize="15sp" />
 
                     <ImageView
+                        android:id="@+id/icon_calendar"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="16dp"
                         android:src="@drawable/today_24dp_icon"
-                        app:tint="#000000" />
-                </LinearLayout>
+                        app:tint="#666666" />
 
+                </RelativeLayout>
                 <!-- Email -->
                 <TextView
                     android:layout_width="wrap_content"
@@ -293,17 +295,7 @@
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
-    <ImageButton
-        android:id="@+id/btn_message"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="24dp"
-        android:background="@drawable/bg_fab_white_shadow"
-        android:contentDescription="Tin nhắn"
-        android:scaleType="centerInside"
-        android:src="@drawable/ic_mess"
-        app:tint="#E53935" />
+    <!-- Logout Dialog Overlay -->
     <FrameLayout
         android:id="@+id/logout_overlay"
         android:layout_width="match_parent"
@@ -344,48 +336,80 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="12dp"
+                    android:layout_marginBottom="24dp"
                     android:text="Bạn có chắc chắn muốn đăng xuất ?"
                     android:textColor="#000000"
                     android:textSize="15sp"
                     android:gravity="center" />
 
-                <!-- Nút -->
+                <!-- Buttons Container -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
                     android:orientation="horizontal"
-                    android:gravity="center">
+                    android:gravity="center"
+                    android:weightSum="2">
 
-                    <!-- Nút Đồng ý (xám) -->
-                    <Button
+                    <!-- Nút Đóng (Cancel) -->
+                    <androidx.cardview.widget.CardView
                         android:id="@+id/btn_cancel"
                         android:layout_width="0dp"
-                        android:layout_height="48dp"
+                        android:layout_height="56dp"
                         android:layout_weight="1"
                         android:layout_marginEnd="8dp"
-                        android:background="@drawable/btn_gray_rounded"
-                        android:text="Đồng ý"
-                        android:textColor="#666666"
-                        android:textSize="15sp"
-                        android:textStyle="bold"
-                        android:stateListAnimator="@null" />
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?attr/selectableItemBackground"
+                        app:cardCornerRadius="28dp"
+                        app:cardElevation="0dp"
+                        app:cardBackgroundColor="#E0E0E0">
 
-                    <!-- Nút Có, chắc chắn (đen) -->
-                    <Button
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="Đóng"
+                            android:textColor="#666666"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+                    </androidx.cardview.widget.CardView>
+
+                    <!-- Nút Có, chắc chắn (Confirm) -->
+                    <androidx.cardview.widget.CardView
                         android:id="@+id/btn_confirm_logout"
                         android:layout_width="0dp"
-                        android:layout_height="48dp"
+                        android:layout_height="56dp"
                         android:layout_weight="1"
                         android:layout_marginStart="8dp"
-                        android:background="@drawable/btn_black_rounded"
-                        android:text="Có, chắc chắn"
-                        android:textColor="#FFFFFF"
-                        android:textSize="15sp"
-                        android:textStyle="bold"
-                        android:stateListAnimator="@null" />
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?attr/selectableItemBackground"
+                        app:cardCornerRadius="28dp"
+                        app:cardElevation="0dp"
+                        app:cardBackgroundColor="#000000">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="Có, chắc chắn"
+                            android:textColor="#FFFFFF"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+                    </androidx.cardview.widget.CardView>
                 </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
     </FrameLayout>
+    <!-- FAB nổi lên -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btn_logout_confirm"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="40dp"
+        app:fabSize="normal"
+        app:backgroundTint="#FFFFFF"
+        app:tint="#C50E0E"
+        android:src="@drawable/ic_chat_box"/>
 </FrameLayout>

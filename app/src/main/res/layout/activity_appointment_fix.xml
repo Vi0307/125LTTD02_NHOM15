@@ -243,7 +243,8 @@
 
     <Button
         android:id="@+id/button"
-        android:layout_width="match_parent"
+        android:layout_gravity="center"
+        android:layout_width="360dp"
         android:layout_height="wrap_content"
         android:paddingVertical="20dp"
         android:textSize="20sp"
