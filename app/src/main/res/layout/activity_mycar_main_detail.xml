@@ -501,7 +501,7 @@
                             <ImageView
                                 android:layout_width="28dp"
                                 android:layout_height="28dp"
-                                android:src="@drawable/ic_wrench"
+                                android:src="@drawable/ic_build"
                                 app:tint="#000000" />
 
                             <LinearLayout
@@ -540,7 +540,7 @@
                             <ImageView
                                 android:layout_width="28dp"
                                 android:layout_height="28dp"
-                                android:src="@drawable/ic_wrench"
+                                android:src="@drawable/ic_build"
                                 app:tint="#000000" />
 
                             <LinearLayout
