@@ -41,6 +41,16 @@ public class Complete_Detail_Payment_Fragment extends Fragment {
                     .commit();
         });
 
+        // Chuyển sang Payment_Method_Fragment
+        btnPaymentMethod.setOnClickListener(v -> {
+            requireActivity()
+                    .getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, new Payment_Method_Fragment())
+                    .addToBackStack(null)
+                    .commit();
+        });
+
         return view;
     }
 }
