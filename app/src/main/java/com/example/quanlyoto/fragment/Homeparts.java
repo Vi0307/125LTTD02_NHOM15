@@ -29,7 +29,7 @@ public class Homeparts extends Fragment {
             requireActivity().getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.fragment_container, new Bodyparts())
-                    .addToBackStack(null)     // quay lại Homeparts
+                    .addToBackStack(null)
                     .commit();
         });
 
@@ -40,7 +40,18 @@ public class Homeparts extends Fragment {
             requireActivity().getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.fragment_container, new Engineparts())
-                    .addToBackStack(null)     // quay lại Homeparts
+                    .addToBackStack(null)
+                    .commit();
+        });
+
+        // ⭐ Nút "Hệ truyền động" — DrivetrainParts
+        Button btnDrivetrainParts = view.findViewById(R.id.btnTransmissionParts);
+
+        btnDrivetrainParts.setOnClickListener(v -> {
+            requireActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, new Drivetrainparts())
+                    .addToBackStack(null)
                     .commit();
         });
 
