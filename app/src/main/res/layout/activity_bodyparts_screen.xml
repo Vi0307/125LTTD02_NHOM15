@@ -94,10 +94,12 @@
                     android:padding="12dp">
 
                     <ImageView
+                        android:id="@+id/imgOngGioNapHoi"
                         android:layout_width="match_parent"
                         android:layout_height="120dp"
                         android:scaleType="centerInside"
                         android:src="@drawable/onggionaphoi" />
+
 
                     <TextView
                         android:layout_width="wrap_content"
