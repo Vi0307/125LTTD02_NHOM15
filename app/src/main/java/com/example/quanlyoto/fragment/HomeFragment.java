@@ -23,7 +23,9 @@ public class HomeFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_main_home, container, false);
 
-        // Click vào bottom nav "Xe của tôi" (nếu bạn muốn replace không push backstack)
+        // ================================
+        // 1. Bấm nav "Xe của tôi"
+        // ================================
         view.findViewById(R.id.navCar).setOnClickListener(v -> {
             requireActivity().getSupportFragmentManager()
                     .beginTransaction()
@@ -31,7 +33,24 @@ public class HomeFragment extends Fragment {
                     .addToBackStack(null)
                     .commit();
         });
-        // Click vào button "Xem chi tiết"
+
+        // ================================
+        // 2. Bấm nav "Phụ tùng"
+        // ================================
+        View navParts = view.findViewById(R.id.navParts);
+        if (navParts != null) {
+            navParts.setOnClickListener(v -> {
+                requireActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, new Homeparts()) // <-- Fragment phụ tùng
+                        .addToBackStack(null)
+                        .commit();
+            });
+        }
+
+        // ================================
+        // 3. Bấm "Xem chi tiết"
+        // ================================
         View btnXem = view.findViewById(R.id.btnXemChiTiet);
         if (btnXem != null) {
             btnXem.setOnClickListener(v -> {
@@ -43,7 +62,9 @@ public class HomeFragment extends Fragment {
             });
         }
 
-        // Click vào arrow icon ở card (arrowIcon)
+        // ================================
+        // 4. Bấm arrowIcon cũng sang chi tiết
+        // ================================
         View arrow = view.findViewById(R.id.arrowIcon);
         if (arrow != null) {
             arrow.setOnClickListener(v -> {
