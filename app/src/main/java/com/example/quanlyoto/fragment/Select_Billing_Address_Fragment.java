@@ -26,6 +26,40 @@ public class Select_Billing_Address_Fragment extends Fragment {
         return inflater.inflate(R.layout.activity_select_billing_address, container, false);
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        //======================== NÚT BACK ========================//
+        ImageView ivBack = view.findViewById(R.id.iv_back);
+        if (ivBack != null) {
+            ivBack.setOnClickListener(v -> {
+
+                Fragment backFragment = new Detail_Payment_Fragment();
+
+                requireActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, backFragment)
+                        .addToBackStack(null)
+                        .commit();
+            });
+        }
+
+        //======================== NÚT ÁP DỤNG ========================//
+        Button btnApply = view.findViewById(R.id.btn_apply_address);
+        if (btnApply != null) {
+            btnApply.setOnClickListener(v -> {
+
+                Fragment shippingMethodFragment = new Select_Shipping_Method_Fragment();
+
+                requireActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, shippingMethodFragment)
+                        .addToBackStack(null)
+                        .commit();
+            });
+        }
+    }
 
 }
 
