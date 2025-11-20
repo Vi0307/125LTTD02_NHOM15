@@ -10,6 +10,12 @@
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
         android:src="@drawable/bg_play" />
+    <ImageView
+        android:id="@+id/btn_back"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_arrow_back_black"
+        app:tint="#000000" />
 
     <!-- Nút SẴN SÀNG - căn giữa ngang + cách đáy 100dp -->
     <com.google.android.material.button.MaterialButton

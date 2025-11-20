@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.activity.OnBackPressedCallback;
@@ -34,15 +35,12 @@ public class VoucherExpired extends Fragment {
         // Optional: tabUsed đang ở fragment này, không cần click
         tabUsed.setOnClickListener(v -> { /* Không làm gì */ });
 
-        // Back press
-        requireActivity().getOnBackPressedDispatcher().addCallback(
-                getViewLifecycleOwner(),
-                new OnBackPressedCallback(true) {
-                    @Override
-                    public void handleOnBackPressed() {
-                        getParentFragmentManager().popBackStack();
-                    }
-                });
+        ImageView btnBack = view.findViewById(R.id.btn_back);
+
+        // Quay lại Welcome
+        btnBack.setOnClickListener(v -> {
+            requireActivity().getSupportFragmentManager().popBackStack();
+        });
 
         return view;
     }

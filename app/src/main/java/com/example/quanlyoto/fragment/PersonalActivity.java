@@ -71,7 +71,10 @@ public class PersonalActivity extends Fragment {
         itemOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(), "Mở đơn hàng của tôi", Toast.LENGTH_SHORT).show();
+                getParentFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, new MyOrderDelivering())
+                        .addToBackStack(null)
+                        .commit();
             }
         });
 
