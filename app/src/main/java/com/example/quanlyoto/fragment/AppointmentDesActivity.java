@@ -8,7 +8,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import androidx.fragment.app.Fragment;
 
-import com.example.quanlyoto.AppointmentPeriodActivity;
 import com.example.quanlyoto.R;
 
 public class AppointmentDesActivity extends Fragment {

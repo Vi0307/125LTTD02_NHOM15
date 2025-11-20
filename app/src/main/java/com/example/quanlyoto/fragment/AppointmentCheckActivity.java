@@ -1,4 +1,4 @@
-package com.example.quanlyoto;
+package com.example.quanlyoto.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +12,9 @@ import android.widget.TextView;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.fragment.app.Fragment;
+
+import com.example.quanlyoto.MainActivity;
+import com.example.quanlyoto.R;
 
 public class AppointmentCheckActivity extends Fragment {
 
