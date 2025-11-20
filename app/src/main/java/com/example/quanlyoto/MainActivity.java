@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
         // Load fragment đầu tiên nếu chưa có fragment
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, new Orderconfirm())
+                    .replace(R.id.fragment_container, new PersonalActivity())
                     .commit();
         }
     }
