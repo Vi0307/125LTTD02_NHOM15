@@ -26,32 +26,38 @@ public class Select_Shipping_Method_Fragment extends Fragment {
             @Nullable ViewGroup container,
             @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.activity_select_shipping_method, container, false);
+        return inflater.inflate(R.layout.activity_select_shipping_method, container, false);
+    }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        //==================== NÚT BACK ====================//
         ImageView ivBack = view.findViewById(R.id.iv_back);
+        if (ivBack != null) {
+            ivBack.setOnClickListener(v -> {
+                requireActivity()
+                        .getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, new Select_Billing_Address_Fragment())
+                        .addToBackStack(null)
+                        .commit();
+            });
+        }
+
+        //==================== NÚT ÁP DỤNG ====================//
         Button btnPromotion = view.findViewById(R.id.iv_Promotion_applies);
-
-        // Chuyển sang fragment Select_Billing_Address
-        ivBack.setOnClickListener(v -> {
-            requireActivity()
-                    .getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.fragment_container, new Select_Billing_Address_Fragment())
-                    .addToBackStack(null)
-                    .commit();
-        });
-
-        // Chuyển sang fragment Promotion_Applies
-        btnPromotion.setOnClickListener(v -> {
-            requireActivity()
-                    .getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.fragment_container, new Promotion_Applies_Fragment())
-                    .addToBackStack(null)
-                    .commit();
-        });
-
-        return view;
+        if (btnPromotion != null) {
+            btnPromotion.setOnClickListener(v -> {
+                requireActivity()
+                        .getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, new Promotion_Applies_Fragment())
+                        .addToBackStack(null)
+                        .commit();
+            });
+        }
     }
 }
 
