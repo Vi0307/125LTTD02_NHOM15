@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,7 +17,6 @@ import com.example.quanlyoto.R;
 public class Booking_Fragment extends Fragment {
 
     public Booking_Fragment() {
-        // Bắt buộc phải có constructor rỗng
     }
 
     @Nullable
@@ -25,7 +25,6 @@ public class Booking_Fragment extends Fragment {
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        // Gắn layout thay cho setContentView()
         return inflater.inflate(R.layout.activity_booking, container, false);
     }
 
@@ -35,19 +34,19 @@ public class Booking_Fragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         ImageView btnBack = view.findViewById(R.id.btnBack_agency_detail);
+        TextView txtCancel = view.findViewById(R.id.txtCancel);
 
-        if (btnBack != null) {
-            btnBack.setOnClickListener(v -> {
-                // Chuyển fragment thay vì startActivity
-                Fragment agencyFragment = new Agency_Fragment();
-
+        View.OnClickListener goBackListener = v ->
                 requireActivity()
                         .getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.fragment_container, agencyFragment) // container trong Activity
-                        .addToBackStack(null)
-                        .commit();
-            });
+                        .popBackStack();
+
+        if (btnBack != null) {
+            btnBack.setOnClickListener(goBackListener);
+        }
+
+        if (txtCancel != null) {
+            txtCancel.setOnClickListener(goBackListener);
         }
     }
 }

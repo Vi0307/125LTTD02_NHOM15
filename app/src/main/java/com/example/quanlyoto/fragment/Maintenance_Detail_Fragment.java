@@ -44,6 +44,34 @@ public class Maintenance_Detail_Fragment extends Fragment {
             });
         }
 
+        //==================== agency detail ====================//
+        View imgArrow = view.findViewById(R.id.imgArrow);
+        if (imgArrow != null) {
+            imgArrow.setOnClickListener(v -> {
+                Fragment agencyDetailFragment = new Agency_Detail_Fragment(); // fragment của bạn
+
+                requireActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, agencyDetailFragment)
+                        .addToBackStack(null)
+                        .commit();
+            });
+        }
+
+        //==================== NAV Agency ====================//
+        View navAgency = view.findViewById(R.id.navAgency);
+        if (navAgency != null) {
+            navAgency.setOnClickListener(v -> {
+                Fragment agencyFragment = new Agency_Fragment(); // fragment của bạn
+
+                requireActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, agencyFragment)
+                        .addToBackStack(null)
+                        .commit();
+            });
+        }
+
         //==================== NHẬN DỮ LIỆU TỪ FRAGMENT TRƯỚC ====================//
         if (getArguments() != null) {
             String dealer = getArguments().getString("dealer");
