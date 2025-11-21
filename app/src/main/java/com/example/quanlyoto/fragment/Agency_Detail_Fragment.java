@@ -77,7 +77,7 @@ public class Agency_Detail_Fragment extends Fragment {
         }
 
         // CHATBOX → ChatFragment
-        View chatBtn = view.findViewById(R.id.btnChat);
+        View chatBtn = view.findViewById(R.id.fabChatbox);
         if (chatBtn != null) {
             chatBtn.setOnClickListener(v -> {
                 requireActivity().getSupportFragmentManager()
@@ -86,13 +86,19 @@ public class Agency_Detail_Fragment extends Fragment {
                         .addToBackStack(null)
                         .commit();
             });
+        }
     }
-
     private void setupButtonDatDichVu(View view) {
         View btnDatDichVu = view.findViewById(R.id.btnDatDichVu);
 
         if (btnDatDichVu != null) {
-            btnDatDichVu.setOnClickListener(v -> navigate(new Booking_Fragment()));
+            btnDatDichVu.setOnClickListener(v -> {
+                requireActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, new Booking_Fragment())
+                        .addToBackStack(null)
+                        .commit();
+            });
         }
     }
 }
