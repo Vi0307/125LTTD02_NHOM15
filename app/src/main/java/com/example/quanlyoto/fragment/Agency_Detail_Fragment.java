@@ -23,5 +23,60 @@ public class Agency_Detail_Fragment extends Fragment {
 
         return inflater.inflate(R.layout.activity_agency, container, false);
     }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        setupBackButton(view);
+        setupBottomNav(view);
+        setupButtonDatDichVu(view);
+    }
+
+    private void setupBackButton(View view) {
+        ImageView icBack = view.findViewById(R.id.ic_back_agency);
+
+        icBack.setOnClickListener(v -> {
+            // Quay lại Fragment trước
+            requireActivity().getSupportFragmentManager().popBackStack();
+        });
+    }
+
+    private void setupButtonDatDichVu(View view) {
+        View btnDatDichVu = view.findViewById(R.id.btnDatDichVu);
+
+        btnDatDichVu.setOnClickListener(v -> {
+            // Chuyển sang Fragment Booking
+            requireActivity()
+                    .getSupportFragmentManager()
+                    .beginTransaction()
+                    .addToBackStack(null)
+                    .commit();
+        });
+    }
+
+    private void setupBottomNav(View view) {
+
+        LinearLayout navHome = view.findViewById(R.id.navHome);
+        LinearLayout navCar = view.findViewById(R.id.navCar);
+        LinearLayout navVoucher = view.findViewById(R.id.navVoucher);
+        LinearLayout navParts = view.findViewById(R.id.navParts);
+        LinearLayout navAgency = view.findViewById(R.id.navAgency);
+
+        navHome.setOnClickListener(v -> navigate(new HomeFragment()));
+        navCar.setOnClickListener(v -> navigate(new MyCarFragment()));
+//        navVoucher.setOnClickListener(v -> navigate(new VoucherFragment()));
+//        navParts.setOnClickListener(v -> navigate(new PartsFragment()));
+        navAgency.setOnClickListener(v -> {}); // Đang ở trang này nên không làm gì
+    }
+
+    private void navigate(Fragment fragment) {
+        requireActivity()
+                .getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .addToBackStack(null)
+                .commit();
+    }
 }
 
