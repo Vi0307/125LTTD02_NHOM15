@@ -365,6 +365,7 @@
 
             <!-- CARD 3: NHẮC NHỞ PHỤ TÙNG -->
             <androidx.cardview.widget.CardView
+                android:id="@+id/layoutNhacNhoPhuTung"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
