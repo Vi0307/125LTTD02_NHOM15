@@ -10,6 +10,17 @@
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
         android:src="@drawable/bg_play" />
+
+    <!-- Nút BACK -->
+    <ImageView
+        android:id="@+id/btn_back"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_gravity="start|top"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/ic_arrow_back_black"
+        app:tint="#000000" />
     <!-- Hộp hướng dẫn cách chơi -->
     <!-- Hộp hướng dẫn cách chơi -->
     <androidx.cardview.widget.CardView

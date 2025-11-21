@@ -17,6 +17,7 @@
         android:paddingEnd="16dp">
 
         <ImageView
+            android:id="@+id/btnBack"
             android:layout_width="22dp"
             android:layout_height="22dp"
             android:src="@drawable/ic_arrow_back_black"

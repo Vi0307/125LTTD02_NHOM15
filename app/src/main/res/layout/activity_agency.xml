@@ -41,7 +41,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_marginStart="40dp"
-        android:text="5 đại lý gần nhất"
         android:textColor="#444444"
         android:textSize="15sp"
         app:layout_constraintStart_toStartOf="parent"

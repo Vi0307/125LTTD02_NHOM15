@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,11 +24,21 @@ public class Cart extends Fragment {
         View view = inflater.inflate(R.layout.activity_cart_screen, container, false);
 
         ImageView btnBack = view.findViewById(R.id.btnBack);
+        Button btnCheckout = view.findViewById(R.id.btnCheckout); // ⭐ ĐÃ CÓ ID NÀY
 
-        // Quay lại Bodyparts
+        // 🔙 Quay lại Bodyparts
         btnBack.setOnClickListener(v ->
                 requireActivity().getSupportFragmentManager().popBackStack()
         );
+
+        // ⭐ BẤM "TIẾN HÀNH THANH TOÁN" → sang Detail_Payment_Fragment
+        btnCheckout.setOnClickListener(v -> {
+            requireActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, new Detail_Payment_Fragment())
+                    .addToBackStack(null)
+                    .commit();
+        });
 
         return view;
     }

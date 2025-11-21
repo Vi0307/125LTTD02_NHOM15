@@ -4,7 +4,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.ImageView;   // ⭐ THÊM
+import android.widget.Button;     // ⭐ THÊM
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,9 +15,7 @@ import com.example.quanlyoto.R;
 
 public class Payment_Method_Fragment extends Fragment {
 
-    public Payment_Method_Fragment() {
-        // Public constructor
-    }
+    public Payment_Method_Fragment() {}
 
     @Nullable
     @Override
@@ -32,17 +31,25 @@ public class Payment_Method_Fragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        //==================== NÚT BACK ====================//
         ImageView icBackCompletePayment = view.findViewById(R.id.ic_back_complete_payment);
-        if (icBackCompletePayment != null) {
-            icBackCompletePayment.setOnClickListener(v -> {
-                requireActivity()
-                        .getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.fragment_container, new Complete_Detail_Payment_Fragment())
-                        .addToBackStack(null)
-                        .commit();
-            });
-        }
+        Button btnApply = view.findViewById(R.id.btn_apply); // ⭐ NÚT TIẾP TỤC
+
+        // 🔙 Back → quay lại trang Complete_Detail_Payment
+        icBackCompletePayment.setOnClickListener(v -> {
+            requireActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, new Complete_Detail_Payment_Fragment())
+                    .addToBackStack(null)
+                    .commit();
+        });
+
+        // ➜ Continue → sang Orderconfirm
+        btnApply.setOnClickListener(v -> {
+            requireActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, new Orderconfirm())
+                    .addToBackStack(null)
+                    .commit();
+        });
     }
 }
