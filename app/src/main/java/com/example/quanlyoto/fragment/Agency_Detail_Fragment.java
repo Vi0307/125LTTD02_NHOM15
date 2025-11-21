@@ -86,21 +86,19 @@ public class Agency_Detail_Fragment extends Fragment {
                         .addToBackStack(null)
                         .commit();
             });
+        }
     }
     private void setupButtonDatDichVu(View view) {
         View btnDatDichVu = view.findViewById(R.id.btnDatDichVu);
 
         if (btnDatDichVu != null) {
-<<<<<<< HEAD
-            btnDatDichVu.setOnClickListener(v -> requireActivity()
-                    .getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.fragment_container, new Booking_Fragment())
-                    .addToBackStack(null)
-                    .commit());
-=======
-            btnDatDichVu.setOnClickListener(v -> navigate(new Booking_Fragment()));
->>>>>>> f8af81d4f2048c166f2280a379068cd86a9724e0
+            btnDatDichVu.setOnClickListener(v -> {
+                requireActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, new Booking_Fragment())
+                        .addToBackStack(null)
+                        .commit();
+            });
         }
     }
 }
