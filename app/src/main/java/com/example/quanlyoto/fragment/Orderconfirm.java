@@ -4,7 +4,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.Button;      // ⭐ THÊM
+import android.widget.ImageView;  // ⭐ THÊM
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,8 +24,14 @@ public class Orderconfirm extends Fragment {
         View view = inflater.inflate(R.layout.orderconfirm_screen, container, false);
 
         Button btnComplete = view.findViewById(R.id.btnComplete);
+        ImageView btnBack = view.findViewById(R.id.btnBack);
 
-        // 🔥 Bấm → sang OrderSuccess
+        // ⭐ BACK → quay lại Payment_Method_Fragment
+        btnBack.setOnClickListener(v ->
+                requireActivity().getSupportFragmentManager().popBackStack()
+        );
+
+        // ⭐ COMPLETE → sang Ordersuccess
         btnComplete.setOnClickListener(v -> {
             requireActivity().getSupportFragmentManager()
                     .beginTransaction()
