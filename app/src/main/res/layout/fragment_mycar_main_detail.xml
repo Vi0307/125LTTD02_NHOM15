@@ -439,6 +439,7 @@
             </androidx.cardview.widget.CardView>
 
             <!-- CARD 4: LỊCH SỬ BẢO DƯỠNG -->
+            <!-- CARD 4: LỊCH SỬ BẢO DƯỠNG -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -452,7 +453,7 @@
                     android:orientation="vertical"
                     android:padding="20dp">
 
-                    <!-- HEADER: title + button -->
+                    <!-- HEADER: title + button expand -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -471,12 +472,11 @@
 
                         <ImageButton
                             android:id="@+id/btn_expand_history"
-                            android:layout_width="32dp"
-                            android:layout_height="32dp"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
                             android:background="?attr/selectableItemBackgroundBorderless"
                             android:src="@drawable/ic_expand"
                             app:tint="#D30000"
-                            tools:ignore="TouchTargetSizeCheck"
                             android:contentDescription="Mở thông tin lịch sử bảo dưỡng"/>
                     </LinearLayout>
 
@@ -493,84 +493,117 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
+                            android:orientation="vertical"
                             android:padding="12dp"
-                            android:gravity="center_vertical"
                             android:background="#F8F8F8"
                             android:layout_marginBottom="10dp">
 
-                            <ImageView
-                                android:layout_width="28dp"
-                                android:layout_height="28dp"
-                                android:src="@drawable/ic_build"
-                                app:tint="#000000" />
-
                             <LinearLayout
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:orientation="vertical"
-                                android:layout_marginStart="12dp">
+                                android:orientation="horizontal"
+                                android:gravity="center_vertical">
 
-                                <TextView
+                                <ImageView
+                                    android:layout_width="28dp"
+                                    android:layout_height="28dp"
+                                    android:src="@drawable/ic_build"
+                                    app:tint="#000000" />
+
+                                <LinearLayout
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="Đại lý Trường Phát 1"
-                                    android:textColor="#000000"
-                                    android:textSize="16sp"
-                                    android:textStyle="bold"/>
+                                    android:orientation="vertical"
+                                    android:layout_marginStart="12dp">
 
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Ngày bảo dưỡng: 12/08/2024"
-                                    android:textColor="#6B7280"
-                                    android:textSize="14sp"/>
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Đại lý Trường Phát 1"
+                                        android:textColor="#000000"
+                                        android:textSize="16sp"
+                                        android:textStyle="bold"/>
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Ngày bảo dưỡng: 12/08/2024"
+                                        android:textColor="#6B7280"
+                                        android:textSize="14sp"/>
+                                </LinearLayout>
                             </LinearLayout>
+
+                            <!-- Nút Xem chi tiết -->
+                            <Button
+                                android:id="@+id/btnXemChiTiet1"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+                                android:layout_marginTop="8dp"
+                                android:text="Xem chi tiết"
+                                android:textSize="14sp"
+                                android:background="@drawable/bg_button_border"
+                                android:textColor="#000000"/>
                         </LinearLayout>
 
                         <!-- ITEM 2 -->
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
+                            android:orientation="vertical"
                             android:padding="12dp"
-                            android:gravity="center_vertical"
                             android:background="#F8F8F8"
                             android:layout_marginBottom="10dp">
 
-                            <ImageView
-                                android:layout_width="28dp"
-                                android:layout_height="28dp"
-                                android:src="@drawable/ic_build"
-                                app:tint="#000000" />
-
                             <LinearLayout
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:orientation="vertical"
-                                android:layout_marginStart="12dp">
+                                android:orientation="horizontal"
+                                android:gravity="center_vertical">
 
-                                <TextView
+                                <ImageView
+                                    android:layout_width="28dp"
+                                    android:layout_height="28dp"
+                                    android:src="@drawable/ic_build"
+                                    app:tint="#000000" />
+
+                                <LinearLayout
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="Đại lý Trường Phát 2"
-                                    android:textColor="#000000"
-                                    android:textSize="16sp"
-                                    android:textStyle="bold"/>
+                                    android:orientation="vertical"
+                                    android:layout_marginStart="12dp">
 
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Ngày bảo dưỡng: 10/03/2024"
-                                    android:textColor="#6B7280"
-                                    android:textSize="14sp"/>
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Đại lý Trường Phát 2"
+                                        android:textColor="#000000"
+                                        android:textSize="16sp"
+                                        android:textStyle="bold"/>
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Ngày bảo dưỡng: 10/03/2024"
+                                        android:textColor="#6B7280"
+                                        android:textSize="14sp"/>
+                                </LinearLayout>
                             </LinearLayout>
+
+                            <!-- Nút Xem chi tiết -->
+                            <Button
+                                android:id="@+id/btnXemChiTiet2"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+                                android:layout_marginTop="8dp"
+                                android:text="Xem chi tiết"
+                                android:textSize="14sp"
+                                android:background="@drawable/bg_button_border"
+                                android:textColor="#000000"/>
                         </LinearLayout>
 
                     </LinearLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
-
 
             <!-- Spacer để scroll tới cuối không bị che -->
             <View
