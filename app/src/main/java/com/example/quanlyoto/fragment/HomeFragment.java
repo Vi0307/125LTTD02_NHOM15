@@ -13,7 +13,7 @@ import com.example.quanlyoto.R;
 
 public class HomeFragment extends Fragment {
 
-    public HomeFragment() { /* required empty constructor */ }
+    public HomeFragment() { }
 
     @Nullable
     @Override
@@ -23,10 +23,11 @@ public class HomeFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_main_home, container, false);
 
-        //Thanh nav bottom
-        // ================================
-        // 2. Bấm nav "Xe của tôi"
-        // ================================
+        // ======================================================
+        // BOTTOM NAV
+        // ======================================================
+
+        // 1. Xe của tôi
         view.findViewById(R.id.navCar).setOnClickListener(v -> {
             requireActivity().getSupportFragmentManager()
                     .beginTransaction()
@@ -35,39 +36,35 @@ public class HomeFragment extends Fragment {
                     .commit();
         });
 
-        // ================================
-        // 4. Bấm nav "Phụ tùng"
-        // ================================
+        // 2. Phụ tùng
         View navParts = view.findViewById(R.id.navParts);
         if (navParts != null) {
             navParts.setOnClickListener(v -> {
                 requireActivity().getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.fragment_container, new Homeparts()) // <-- Fragment phụ tùng
+                        .replace(R.id.fragment_container, new Homeparts())
                         .addToBackStack(null)
                         .commit();
             });
         }
-        // ================================
-        // 3. Bấm nav "Voucher"
-        // ================================
+
+        // 3. Voucher
         View navVoucher = view.findViewById(R.id.navVoucher);
-        if (navParts != null) {
-            navParts.setOnClickListener(v -> {
+        if (navVoucher != null) {
+            navVoucher.setOnClickListener(v -> {
                 requireActivity().getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.fragment_container, new VoucherStillValid()) // <-- Fragment voucher
+                        .replace(R.id.fragment_container, new VoucherStillValid())
                         .addToBackStack(null)
                         .commit();
             });
         }
 
+        // ======================================================
+        // CÁC NÚT TRONG TRANG HOME
+        // ======================================================
 
-
-        //CÁC NÚT TRONG TRANG
-        // ================================
-        // Bấm "Xem chi tiết"
-        // ================================
+        // Xem chi tiết
         View btnXem = view.findViewById(R.id.btnXemChiTiet);
         if (btnXem != null) {
             btnXem.setOnClickListener(v -> {
@@ -79,9 +76,7 @@ public class HomeFragment extends Fragment {
             });
         }
 
-        // ================================
-        // Bấm arrowIcon cũng sang chi tiết
-        // ================================
+        // Arrow icon → sang chi tiết
         View arrow = view.findViewById(R.id.arrowIcon);
         if (arrow != null) {
             arrow.setOnClickListener(v -> {
@@ -92,28 +87,40 @@ public class HomeFragment extends Fragment {
                         .commit();
             });
         }
-        // ================================
-        // Bấm "Mua sắm ngay" -> sang HomeParts
-        // ================================
+
+        // Mua sắm ngay → sang Homeparts
         View btnMuaSam = view.findViewById(R.id.btnMuaSamNgay);
         if (btnMuaSam != null) {
             btnMuaSam.setOnClickListener(v -> {
                 requireActivity().getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.fragment_container, new Homeparts()) // Fragment phụ tùng
+                        .replace(R.id.fragment_container, new Homeparts())
                         .addToBackStack(null)
                         .commit();
             });
         }
-        // ================================
-        // Bấm "Xem thêm các khuyến mãi" -> sang VoucherStillValid
-        // ================================
+
+        // Xem thêm voucher
         View btnXemVC = view.findViewById(R.id.btnXemVoucher);
         if (btnXemVC != null) {
             btnXemVC.setOnClickListener(v -> {
                 requireActivity().getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.fragment_container, new VoucherStillValid())
+                        .addToBackStack(null)
+                        .commit();
+            });
+        }
+
+        // ======================================================
+        // FAB CHAT — MỞ TRANG CHAT
+        // ======================================================
+        View btnChat = view.findViewById(R.id.btnChat);
+        if (btnChat != null) {
+            btnChat.setOnClickListener(v -> {
+                requireActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, new ChatBox())  // tạo ChatFragment
                         .addToBackStack(null)
                         .commit();
             });
