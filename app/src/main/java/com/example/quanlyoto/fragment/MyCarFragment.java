@@ -63,6 +63,17 @@ public class MyCarFragment extends Fragment {
                     .commit();
         });
 
+        // ======================================================
+        // BOTTOM NAV — AGENCY
+        // ======================================================
+        view.findViewById(R.id.navAgency).setOnClickListener(v -> {
+            requireActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, new Agency_Fragment())
+                    .addToBackStack(null)
+                    .commit();
+        });
+
         // ==========================
         // CHATBOX → ChatFragment
         // ==========================
@@ -76,6 +87,17 @@ public class MyCarFragment extends Fragment {
                         .commit();
             });
         }
+
+        // ======================================================
+        // BUTTON — ĐẶT DỊCH VỤ → ĐẠI LÝ
+        // ======================================================
+        view.findViewById(R.id.btnDatDichVu).setOnClickListener(v -> {
+            requireActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, new Agency_Fragment())
+                    .addToBackStack(null)
+                    .commit();
+        });
 
         // ==========================
         // BUTTON — XEM CHI TIẾT
