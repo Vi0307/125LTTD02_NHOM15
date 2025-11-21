@@ -53,11 +53,21 @@ public class MyCarFragment extends Fragment {
                     .commit();
         });
 
+
+
         // ==========================
-        // BOTTOM NAV — CAR (đang ở đây)
+        // CHATBOX → ChatFragment
         // ==========================
-        view.findViewById(R.id.navCar).setOnClickListener(v -> {
-        });
+        View chatBtn = view.findViewById(R.id.btnChat);
+        if (chatBtn != null) {
+            chatBtn.setOnClickListener(v -> {
+                requireActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, new ChatBox())
+                        .addToBackStack(null)
+                        .commit();
+            });
+        }
 
         // ==========================
         // BUTTON — XEM CHI TIẾT
@@ -66,7 +76,7 @@ public class MyCarFragment extends Fragment {
             requireActivity().getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.fragment_container, new MyCarDetailFragment())
-                    .addToBackStack(null)   // cho phép back lại
+                    .addToBackStack(null)
                     .commit();
         });
 
