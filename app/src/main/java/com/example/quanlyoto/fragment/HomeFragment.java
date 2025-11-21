@@ -64,9 +64,9 @@ public class HomeFragment extends Fragment {
 
 
 
-        //Các nút trong trang
+        //CÁC NÚT TRONG TRANG
         // ================================
-        // 3. Bấm "Xem chi tiết"
+        // Bấm "Xem chi tiết"
         // ================================
         View btnXem = view.findViewById(R.id.btnXemChiTiet);
         if (btnXem != null) {
@@ -80,7 +80,7 @@ public class HomeFragment extends Fragment {
         }
 
         // ================================
-        // 4. Bấm arrowIcon cũng sang chi tiết
+        // Bấm arrowIcon cũng sang chi tiết
         // ================================
         View arrow = view.findViewById(R.id.arrowIcon);
         if (arrow != null) {
@@ -93,7 +93,7 @@ public class HomeFragment extends Fragment {
             });
         }
         // ================================
-        // 5. Bấm "Mua sắm ngay" -> sang HomeParts
+        // Bấm "Mua sắm ngay" -> sang HomeParts
         // ================================
         View btnMuaSam = view.findViewById(R.id.btnMuaSamNgay);
         if (btnMuaSam != null) {
@@ -105,7 +105,19 @@ public class HomeFragment extends Fragment {
                         .commit();
             });
         }
-
+        // ================================
+        // Bấm "Xem thêm các khuyến mãi" -> sang VoucherStillValid
+        // ================================
+        View btnXemVC = view.findViewById(R.id.btnXemVoucher);
+        if (btnXemVC != null) {
+            btnXemVC.setOnClickListener(v -> {
+                requireActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, new VoucherStillValid())
+                        .addToBackStack(null)
+                        .commit();
+            });
+        }
 
         return view;
     }
