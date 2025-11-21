@@ -279,3 +279,155 @@ body {
     color: #999;
     font-size: 13px;
 }
+/* ====================== FIX HOÀN HẢO – SCROLL MƯỢT + CARD HIỆN ĐẦY ĐỦ ====================== */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+html, body {
+    height: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #f8f9ff 0%, #e8ecff 100%);
+    overflow: hidden; /* Chặn scroll body */
+}
+
+/* ====================== SCROLLABLE CONTENT ====================== */
+.page-wrapper {
+    height: 100vh;
+    overflow-y: auto;                 /* Scroll chỉ ở đây */
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch; /* Mượt trên iPhone */
+    padding-bottom: 100px;            /* space cho bottom-brand */
+}
+
+/* ====================== FIXED ELEMENTS ====================== */
+.top-user, .sidebar, .bottom-brand {
+    position: fixed;
+    z-index: 1000;
+    background: white;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+}
+
+.top-user {
+    top: 20px;
+    left: 20px;
+    padding: 8px 16px;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.avatar { width:44px; height:44px; border-radius:50%; border:3px solid white; }
+.username { font-weight:600; color:#333; }
+
+.sidebar {
+    top: 90px;
+    left: 20px;
+    width: 240px;
+    padding: 24px;
+    border-radius: 20px;
+}
+.menu-item {
+    padding: 14px 18px;
+    margin: 8px 0;
+    border-radius: 12px;
+    color: #666;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    transition: all .3s;
+}
+.menu-item:hover { background:#f0f4ff; }
+.menu-item.active {
+    background: linear-gradient(90deg,#4e9fff,#6bb6ff);
+    color: white;
+    font-weight: 600;
+}
+
+.bottom-brand {
+    bottom: 30px;
+    left: 30px;
+    padding: 16px 34px;
+    border-radius: 50px;
+    text-align: center;
+}
+.brand-name { font-weight:700; font-size:18px; }
+.version { color:#999; font-size:13px; }
+
+/* ====================== PRODUCTS GRID ====================== */
+.products-content {
+    margin-left: 290px;  /* Cách sidebar */
+    margin-right: 40px;
+    padding-top: 100px;  /* space cho top-user */
+    min-height: calc(100vh - 100px);
+}
+
+.products-grid {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    padding: 20px 0;
+}
+
+.product-card {
+    background: white;
+    border-radius: 28px;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.09);
+    display: flex;
+    align-items: center;
+    padding: 40px;
+    gap: 50px;
+    height: 300px;
+    transition: all .4s ease;
+}
+.product-card:hover {
+    transform: translateY(-15px);
+    box-shadow: 0 30px 80px rgba(0,0,0,0.2);
+}
+.product-card img {
+    width: 340px;
+    height: 100%;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+.card-info h3 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #000;
+    margin-bottom: 10px;
+}
+.card-info .desc {
+    font-size: 15px;
+    color: #777;
+    line-height: 1.5;
+    margin-bottom: 12px;
+}
+.card-info .available {
+    font-size: 15px;
+    color: #444;
+    margin-bottom: 24px;
+}
+.view-btn {
+    background: #000;
+    color: white;
+    border: none;
+    padding: 13px 38px;
+    border-radius: 50px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all .3s;
+}
+.view-btn:hover {
+    background: #333;
+    transform: translateY(-3px);
+}
+
+/* ====================== RESPONSIVE ====================== */
+@media screen and (max-width: 1024px) {
+    .sidebar { width: 200px; }
+    .products-content { margin-left: 240px; padding: 20px; }
+    .product-card { flex-direction: column; height: auto; gap: 20px; }
+    .product-card img { width: 100%; height: 200px; }
+}
