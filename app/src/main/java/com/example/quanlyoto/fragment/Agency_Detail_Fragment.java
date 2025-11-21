@@ -29,7 +29,6 @@ public class Agency_Detail_Fragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         setupBackButton(view);
-        setupBottomNav(view);
         setupButtonDatDichVu(view);
     }
 
@@ -40,6 +39,54 @@ public class Agency_Detail_Fragment extends Fragment {
             // Quay lại Fragment trước
             requireActivity().getSupportFragmentManager().popBackStack();
         });
+
+        // BOTTOM NAV — HOME
+        view.findViewById(R.id.navHome).setOnClickListener(v -> {
+            requireActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, new HomeFragment())
+                    .commit();
+        });
+
+        // BOTTOM NAV — PARTS
+        view.findViewById(R.id.navParts).setOnClickListener(v -> {
+            requireActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, new Homeparts())
+                    .commit();
+        });
+
+        // BOTTOM NAV — MYCAR
+        view.findViewById(R.id.navCar).setOnClickListener(v -> {
+            requireActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, new MyCarFragment())
+                    .commit();
+        });
+
+        // BOTTOM NAV — VOUCHER
+        View navVoucher = view.findViewById(R.id.navVoucher);
+        if (navVoucher != null) {
+            navVoucher.setOnClickListener(v -> {
+                requireActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, new VoucherStillValid())
+                        .addToBackStack(null)
+                        .commit();
+            });
+        }
+
+        // CHATBOX → ChatFragment
+        View chatBtn = view.findViewById(R.id.btnChat);
+        if (chatBtn != null) {
+            chatBtn.setOnClickListener(v -> {
+                requireActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, new ChatBox())
+                        .addToBackStack(null)
+                        .commit();
+            });
+        }
     }
 
     private void setupButtonDatDichVu(View view) {
@@ -53,30 +100,6 @@ public class Agency_Detail_Fragment extends Fragment {
                     .addToBackStack(null)
                     .commit();
         });
-    }
-
-    private void setupBottomNav(View view) {
-
-        LinearLayout navHome = view.findViewById(R.id.navHome);
-        LinearLayout navCar = view.findViewById(R.id.navCar);
-        LinearLayout navVoucher = view.findViewById(R.id.navVoucher);
-        LinearLayout navParts = view.findViewById(R.id.navParts);
-        LinearLayout navAgency = view.findViewById(R.id.navAgency);
-
-        navHome.setOnClickListener(v -> navigate(new HomeFragment()));
-        navCar.setOnClickListener(v -> navigate(new MyCarFragment()));
-//        navVoucher.setOnClickListener(v -> navigate(new VoucherFragment()));
-//        navParts.setOnClickListener(v -> navigate(new PartsFragment()));
-        navAgency.setOnClickListener(v -> {}); // Đang ở trang này nên không làm gì
-    }
-
-    private void navigate(Fragment fragment) {
-        requireActivity()
-                .getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.fragment_container, fragment)
-                .addToBackStack(null)
-                .commit();
     }
 }
 
