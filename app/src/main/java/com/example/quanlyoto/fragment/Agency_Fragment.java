@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.quanlyoto.Agency_Detail_Activity;
 import com.example.quanlyoto.R;
 
 import java.util.ArrayList;
@@ -105,6 +106,23 @@ public class Agency_Fragment extends Fragment {
             holder.tvRating.setText(agency.rating);
             holder.tvReviews.setText(agency.reviews);
             holder.tvAddress.setText(agency.address);
+
+            holder.iconNext.setOnClickListener(v -> {
+                Agency_Detail_Fragment detailFragment = new Agency_Detail_Fragment();
+
+                // Gửi dữ liệu qua fragment
+                Bundle bundle = new Bundle();
+                bundle.putString("agency_name", agency.name);
+                bundle.putString("agency_address", agency.address);
+                detailFragment.setArguments(bundle);
+
+                requireActivity()
+                        .getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, detailFragment)
+                        .addToBackStack(null)
+                        .commit();
+            });
         }
 
         @Override
