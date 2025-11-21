@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,6 +20,8 @@ public class MyCarDetailFragment extends Fragment {
     private LinearLayout layoutHistoryDetail;
     private ImageButton btnExpandHistory;
     private Button btnViewHistoryDetail;
+    private Button btnThayPhuTung;
+    private ScrollView scrollView;
 
     @Nullable
     @Override
@@ -28,9 +31,25 @@ public class MyCarDetailFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_mycar_main_detail, container, false);
 
+        // ScrollView
+        scrollView = view.findViewById(R.id.scrollView);
+
+        // Layout các phần
         layoutHistoryDetail = view.findViewById(R.id.layoutHistoryDetail);
+        LinearLayout layoutNhacNhoPhuTung = view.findViewById(R.id.layoutNhacNhoPhuTung);
+
+        // Nút expand lịch sử
         btnExpandHistory = view.findViewById(R.id.btn_expand_history);
-        btnViewHistoryDetail = view.findViewById(R.id.btnViewHistoryDetail); // id của nút xem chi tiết
+
+        // Nút xem chi tiết lịch sử (dưới cùng sau khi expand)
+        btnViewHistoryDetail = view.findViewById(R.id.btnViewHistoryDetail); // nhớ đặt id trong XML
+
+        // Nút thay thế phụ tùng
+        btnThayPhuTung = view.findViewById(R.id.btnThayPhuTung);
+
+        // Nút đặt dịch vụ
+        View btnDatDichVu1 = view.findViewById(R.id.btnDatDichVu1);
+        View btnDatDichVu2 = view.findViewById(R.id.btnDatDichVu);
 
         // NÚT BACK
         view.findViewById(R.id.btn_back).setOnClickListener(v ->
@@ -54,10 +73,16 @@ public class MyCarDetailFragment extends Fragment {
             );
         }
 
-        // NÚT ĐẶT DỊCH VỤ
-        View btnDatDichVu1 = view.findViewById(R.id.btnDatDichVu1);
-        View btnDatDichVu2 = view.findViewById(R.id.btnDatDichVu);
+        // NÚT THAY THẾ PHỤ TÙNG → scroll xuống layoutNhacNhoPhuTung
+        if (btnThayPhuTung != null && layoutNhacNhoPhuTung != null && scrollView != null) {
+            btnThayPhuTung.setOnClickListener(v ->
+                    scrollView.post(() ->
+                            scrollView.smoothScrollTo(0, layoutNhacNhoPhuTung.getTop())
+                    )
+            );
+        }
 
+        // NÚT ĐẶT DỊCH VỤ
         View.OnClickListener goToAgency = v -> requireActivity().getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragment_container, new Agency_Fragment())
