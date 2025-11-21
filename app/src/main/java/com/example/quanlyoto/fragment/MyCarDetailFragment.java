@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -29,6 +30,8 @@ public class MyCarDetailFragment extends Fragment {
         // =================== ÁNH XẠ ===================
         layoutHistoryDetail = view.findViewById(R.id.layoutHistoryDetail);
         btnExpandHistory = view.findViewById(R.id.btn_expand_history);
+        ScrollView scrollView = view.findViewById(R.id.scrollView);
+        LinearLayout layoutNhacNhoPhuTung = view.findViewById(R.id.layoutNhacNhoPhuTung);
 
         // =================== NÚT BACK ===================
         view.findViewById(R.id.btn_back).setOnClickListener(v ->
@@ -65,6 +68,15 @@ public class MyCarDetailFragment extends Fragment {
                         .replace(R.id.fragment_container, new ChatBox())
                         .addToBackStack(null)
                         .commit();
+            });
+        }
+
+        // =================== BUTTON THAY THẾ PHỤ TÙNG ===================
+        View btnThayPhuTung = view.findViewById(R.id.btnThayPhuTung);
+        if (btnThayPhuTung != null && scrollView != null && layoutNhacNhoPhuTung != null) {
+            btnThayPhuTung.setOnClickListener(v -> {
+                // Scroll smooth xuống layout Nhắc nhở phụ tùng
+                scrollView.post(() -> scrollView.smoothScrollTo(0, layoutNhacNhoPhuTung.getTop()));
             });
         }
 
