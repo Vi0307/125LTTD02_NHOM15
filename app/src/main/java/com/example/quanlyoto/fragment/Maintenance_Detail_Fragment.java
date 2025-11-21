@@ -44,6 +44,38 @@ public class Maintenance_Detail_Fragment extends Fragment {
             });
         }
 
+        // BOTTOM NAV — HOME
+        view.findViewById(R.id.navHome).setOnClickListener(v -> {
+            requireActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, new HomeFragment())
+                    .commit();
+        });
+
+        // BOTTOM NAV — PARTS
+        view.findViewById(R.id.navParts).setOnClickListener(v -> {
+            requireActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, new Homeparts())
+                    .commit();
+        });
+
+        // BOTTOM NAV — VOUCHER
+        view.findViewById(R.id.navVoucher).setOnClickListener(v -> {
+            requireActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, new VoucherStillValid())
+                    .commit();
+        });
+
+        // BOTTOM NAV — AGENCY
+        view.findViewById(R.id.navAgency).setOnClickListener(v -> {
+            requireActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, new Agency_Fragment())
+                    .addToBackStack(null)
+                    .commit();
+        });
         //==================== agency detail ====================//
         View imgArrow = view.findViewById(R.id.imgArrow);
         if (imgArrow != null) {
@@ -53,20 +85,6 @@ public class Maintenance_Detail_Fragment extends Fragment {
                 requireActivity().getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.fragment_container, agencyDetailFragment)
-                        .addToBackStack(null)
-                        .commit();
-            });
-        }
-
-        //==================== NAV Agency ====================//
-        View navAgency = view.findViewById(R.id.navAgency);
-        if (navAgency != null) {
-            navAgency.setOnClickListener(v -> {
-                Fragment agencyFragment = new Agency_Fragment(); // fragment của bạn
-
-                requireActivity().getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.fragment_container, agencyFragment)
                         .addToBackStack(null)
                         .commit();
             });
