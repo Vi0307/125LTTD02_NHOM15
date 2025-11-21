@@ -28,11 +28,10 @@ public class MyCarDetailFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_mycar_main_detail, container, false);
 
-        // =================== ÁNH XẠ ===================
         layoutHistoryDetail = view.findViewById(R.id.layoutHistoryDetail);
         btnExpandHistory = view.findViewById(R.id.btn_expand_history);
 
-        // =================== NÚT BACK ===================
+        // NÚT BACK
         view.findViewById(R.id.btn_back).setOnClickListener(v ->
                 requireActivity().getSupportFragmentManager()
                         .beginTransaction()
@@ -40,17 +39,27 @@ public class MyCarDetailFragment extends Fragment {
                         .commit()
         );
 
-        // =================== EXPAND LỊCH SỬ ===================
+        // EXPAND LỊCH SỬ
         btnExpandHistory.setOnClickListener(v -> toggleHistory());
 
-        // =================== BOTTOM NAV ===================
-        setupBottomNav(view);
+        // =================== NÚT ĐẶT DỊCH VỤ ===================
+        View btnDatDichVu1 = view.findViewById(R.id.btnDatDichVu1);
+        View btnDatDichVu2 = view.findViewById(R.id.btnDatDichVu);
+
+        View.OnClickListener goToAngency = v -> {
+            requireActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, new Agency_Fragment())
+                    .addToBackStack(null)
+                    .commit();
+        };
+
+        if (btnDatDichVu1 != null) btnDatDichVu1.setOnClickListener(goToAngency);
+        if (btnDatDichVu2 != null) btnDatDichVu2.setOnClickListener(goToAngency);
+
         return view;
     }
 
-    // ======================================================
-    //  HÀM XỬ LÝ MỞ / ĐÓNG LỊCH SỬ BẢO DƯỠNG
-    // ======================================================
     private void toggleHistory() {
         if (layoutHistoryDetail.getVisibility() == View.GONE) {
             layoutHistoryDetail.setVisibility(View.VISIBLE);
@@ -59,36 +68,5 @@ public class MyCarDetailFragment extends Fragment {
             layoutHistoryDetail.setVisibility(View.GONE);
             btnExpandHistory.setImageResource(R.drawable.ic_expand);
         }
-    }
-
-    // ======================================================
-    //  BOTTOM NAV (HOME – CAR – VOUCHER – PARTS – AGENCY)
-    // ======================================================
-    private void setupBottomNav(View view) {
-
-        // Trang chủ
-        view.findViewById(R.id.navHome).setOnClickListener(v ->
-                navigate(new HomeFragment())
-        );
-        //Xe của tôi
-        view.findViewById(R.id.navCar).setOnClickListener(v ->
-                navigate(new MyCarFragment())
-        );
-        //Phụ tùng
-        view.findViewById(R.id.navParts).setOnClickListener(v ->
-                navigate(new Homeparts())
-        );
-
-    }
-
-    // ======================================================
-    //  CHUYỂN FRAGMENT
-    // ======================================================
-    private void navigate(Fragment fragment) {
-        requireActivity().getSupportFragmentManager()
-                .beginTransaction()
-                .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
-                .replace(R.id.fragment_container, fragment)
-                .commit();
     }
 }
