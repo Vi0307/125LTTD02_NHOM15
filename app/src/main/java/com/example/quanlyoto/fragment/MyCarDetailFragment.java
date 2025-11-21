@@ -5,14 +5,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.quanlyoto.MainActivity;
 import com.example.quanlyoto.R;
 
 public class MyCarDetailFragment extends Fragment {
@@ -28,10 +26,11 @@ public class MyCarDetailFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_mycar_main_detail, container, false);
 
+        // =================== ÁNH XẠ ===================
         layoutHistoryDetail = view.findViewById(R.id.layoutHistoryDetail);
         btnExpandHistory = view.findViewById(R.id.btn_expand_history);
 
-        // NÚT BACK
+        // =================== NÚT BACK ===================
         view.findViewById(R.id.btn_back).setOnClickListener(v ->
                 requireActivity().getSupportFragmentManager()
                         .beginTransaction()
@@ -39,14 +38,14 @@ public class MyCarDetailFragment extends Fragment {
                         .commit()
         );
 
-        // EXPAND LỊCH SỬ
+        // =================== EXPAND LỊCH SỬ ===================
         btnExpandHistory.setOnClickListener(v -> toggleHistory());
 
         // =================== NÚT ĐẶT DỊCH VỤ ===================
         View btnDatDichVu1 = view.findViewById(R.id.btnDatDichVu1);
         View btnDatDichVu2 = view.findViewById(R.id.btnDatDichVu);
 
-        View.OnClickListener goToAngency = v -> {
+        View.OnClickListener goToAgency = v -> {
             requireActivity().getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.fragment_container, new Agency_Fragment())
@@ -54,12 +53,27 @@ public class MyCarDetailFragment extends Fragment {
                     .commit();
         };
 
-        if (btnDatDichVu1 != null) btnDatDichVu1.setOnClickListener(goToAngency);
-        if (btnDatDichVu2 != null) btnDatDichVu2.setOnClickListener(goToAngency);
+        if (btnDatDichVu1 != null) btnDatDichVu1.setOnClickListener(goToAgency);
+        if (btnDatDichVu2 != null) btnDatDichVu2.setOnClickListener(goToAgency);
+
+        // =================== CHATBOX FLOATING BUTTON ===================
+        View fabChat = view.findViewById(R.id.btnChat);
+        if (fabChat != null) {
+            fabChat.setOnClickListener(v -> {
+                requireActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, new ChatBox())
+                        .addToBackStack(null)
+                        .commit();
+            });
+        }
 
         return view;
     }
 
+    // ======================================================
+    //  HÀM XỬ LÝ MỞ / ĐÓNG LỊCH SỬ BẢO DƯỠNG
+    // ======================================================
     private void toggleHistory() {
         if (layoutHistoryDetail.getVisibility() == View.GONE) {
             layoutHistoryDetail.setVisibility(View.VISIBLE);
