@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- 1. Ảnh nền chính -->
+    <!-- Nền -->
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        android:src="@drawable/bg_play" />   <!-- ảnh nền bạn đã có -->
+        android:src="@drawable/bg_play" />
 
-    <!-- 3. Chữ chúc mừng vàng ở trên cùng (font Irish Grover) -->
+    <!-- TEXT CHÚC MỪNG -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -19,16 +20,16 @@
         android:text="CHÚC MỪNG BẠN ĐÃ NHẬN ĐƯỢC\nVOUCHER MIỄN PHÍ VẬN CHUYỂN"
         android:textColor="#D4AF37"
         android:textSize="22sp"
-        android:gravity="center"
         android:textStyle="bold"
+        android:gravity="center"
         android:letterSpacing="0.08"
         android:lineSpacingExtra="8dp"
-        android:shadowColor="#000000"
+        android:shadowColor="#000"
         android:shadowDx="0"
         android:shadowDy="6"
         android:shadowRadius="12" />
 
-    <!-- 4. Ảnh huy hiệu FREE SHIPPING (có nền trong suốt) -->
+    <!-- HUY HIỆU FREE SHIP -->
     <ImageView
         android:id="@+id/imgFreeShipping"
         android:layout_width="280dp"
@@ -37,5 +38,20 @@
         android:layout_marginTop="100dp"
         android:src="@drawable/ic_play_freeship"
         android:elevation="20dp" />
+
+    <!-- NÚT SẴN SÀNG -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnReady"
+        android:layout_width="150dp"
+        android:layout_height="48dp"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="100dp"
+        android:text="QUAY VỀ"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        app:cornerRadius="34dp"
+        app:backgroundTint="#D9D9D9"
+        android:elevation="12dp" />
 
 </FrameLayout>

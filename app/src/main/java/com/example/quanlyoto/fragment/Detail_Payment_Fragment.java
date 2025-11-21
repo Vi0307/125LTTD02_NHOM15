@@ -31,11 +31,20 @@ public class Detail_Payment_Fragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        //==================== NÚT CHỈNH SỬA ĐỊA CHỈ ====================//
+        // ==================== NÚT BACK ==================== //
+        ImageView btnBack = view.findViewById(R.id.btnBack);
+        if (btnBack != null) {
+            btnBack.setOnClickListener(v ->
+                    requireActivity()
+                            .getSupportFragmentManager()
+                            .popBackStack()   // 🔙 QUAY LẠI DETAILS
+            );
+        }
+
+        // ==================== NÚT CHỈNH SỬA ĐỊA CHỈ ==================== //
         ImageView icPen = view.findViewById(R.id.ic_pen);
         if (icPen != null) {
             icPen.setOnClickListener(v -> {
-                // Chuyển sang Fragment Select_Billing_Address
                 requireActivity()
                         .getSupportFragmentManager()
                         .beginTransaction()

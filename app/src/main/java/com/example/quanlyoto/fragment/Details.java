@@ -25,19 +25,34 @@ public class Details extends Fragment {
 
         ImageView btnBack = view.findViewById(R.id.btnBack);
         Button btnAddToCart = view.findViewById(R.id.btnAddToCart);
+        Button btnOrder = view.findViewById(R.id.btnOrder);   // ⭐ NÚT ĐẶT HÀNG
 
-        // 🔙 Nút back → quay về Bodyparts
+        // 🔙 Back → quay về trang trước (Bodyparts)
         btnBack.setOnClickListener(v ->
                 requireActivity().getSupportFragmentManager().popBackStack()
         );
 
-        // 🛒 Nút "THÊM GIỎ HÀNG" → sang Cart
+        // 🛒 Nút "THÊM GIỎ HÀNG"
         btnAddToCart.setOnClickListener(v ->
                 requireActivity().getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.fragment_container, new Cart())
                         .addToBackStack(null)
                         .commit()
+        );
+
+        // ⭐ Nút "ĐẶT HÀNG" → sang trang Payment
+        btnOrder.setOnClickListener(v ->
+                requireActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, new Detail_Payment_Fragment())
+                        .addToBackStack(null)
+                        .commit()
+        );
+
+        // 🔙 Back → trở lại Details
+        btnBack.setOnClickListener(v ->
+                requireActivity().getSupportFragmentManager().popBackStack()
         );
 
         return view;
