@@ -8,12 +8,18 @@ import android.widget.Button;
 import androidx.fragment.app.Fragment;
 
 import com.example.quanlyoto.R;
+import android.widget.ImageView;
+
 
 public class AppointmentFixActivity extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_appointment_fix, container, false);
+        ImageView btnBack = view.findViewById(R.id.btn_back);
+        btnBack.setOnClickListener(v -> {
+            getParentFragmentManager().popBackStack();   // Quay lại fragment trước
+        });
 
         Button btnNext = view.findViewById(R.id.button);
         btnNext.setOnClickListener(v -> {
