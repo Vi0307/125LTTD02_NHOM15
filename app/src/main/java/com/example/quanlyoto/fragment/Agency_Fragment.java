@@ -84,14 +84,17 @@ public class Agency_Fragment extends Fragment {
                     .commit();
         });
 
-        // BOTTOM NAV — AGENCY
-        view.findViewById(R.id.navAgency).setOnClickListener(v -> {
-            requireActivity().getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.fragment_container, new Agency_Fragment())
-                    .addToBackStack(null)
-                    .commit();
-        });
+        // BOTTOM NAV — VOUCHER
+        View navVoucher = view.findViewById(R.id.navVoucher);
+        if (navVoucher != null) {
+            navVoucher.setOnClickListener(v -> {
+                requireActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, new VoucherStillValid())
+                        .addToBackStack(null)
+                        .commit();
+            });
+        }
 
         // CHATBOX → ChatFragment
         View chatBtn = view.findViewById(R.id.btnChat);
