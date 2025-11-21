@@ -23,8 +23,9 @@ public class HomeFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_main_home, container, false);
 
+        //Thanh nav bottom
         // ================================
-        // 1. Bấm nav "Xe của tôi"
+        // 2. Bấm nav "Xe của tôi"
         // ================================
         view.findViewById(R.id.navCar).setOnClickListener(v -> {
             requireActivity().getSupportFragmentManager()
@@ -35,7 +36,7 @@ public class HomeFragment extends Fragment {
         });
 
         // ================================
-        // 2. Bấm nav "Phụ tùng"
+        // 4. Bấm nav "Phụ tùng"
         // ================================
         View navParts = view.findViewById(R.id.navParts);
         if (navParts != null) {
@@ -47,7 +48,23 @@ public class HomeFragment extends Fragment {
                         .commit();
             });
         }
+        // ================================
+        // 3. Bấm nav "Voucher"
+        // ================================
+        View navVoucher = view.findViewById(R.id.navVoucher);
+        if (navParts != null) {
+            navParts.setOnClickListener(v -> {
+                requireActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, new VoucherStillValid()) // <-- Fragment voucher
+                        .addToBackStack(null)
+                        .commit();
+            });
+        }
 
+
+
+        //Các nút trong trang
         // ================================
         // 3. Bấm "Xem chi tiết"
         // ================================
