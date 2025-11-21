@@ -76,6 +76,19 @@ public class Maintenance_Detail_Fragment extends Fragment {
                     .addToBackStack(null)
                     .commit();
         });
+        //==================== agency detail ====================//
+        View imgArrow = view.findViewById(R.id.imgArrow);
+        if (imgArrow != null) {
+            imgArrow.setOnClickListener(v -> {
+                Fragment agencyDetailFragment = new Agency_Detail_Fragment(); // fragment của bạn
+
+                requireActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, agencyDetailFragment)
+                        .addToBackStack(null)
+                        .commit();
+            });
+        }
 
         //==================== NHẬN DỮ LIỆU TỪ FRAGMENT TRƯỚC ====================//
         if (getArguments() != null) {
