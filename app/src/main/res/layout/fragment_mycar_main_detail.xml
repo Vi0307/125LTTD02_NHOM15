@@ -532,17 +532,6 @@
                                         android:textSize="14sp"/>
                                 </LinearLayout>
                             </LinearLayout>
-
-                            <!-- Nút Xem chi tiết -->
-                            <Button
-                                android:id="@+id/btnXemChiTiet1"
-                                android:layout_width="match_parent"
-                                android:layout_height="40dp"
-                                android:layout_marginTop="8dp"
-                                android:text="Xem chi tiết"
-                                android:textSize="14sp"
-                                android:background="@drawable/bg_button_border"
-                                android:textColor="#000000"/>
                         </LinearLayout>
 
                         <!-- ITEM 2 -->
@@ -588,19 +577,18 @@
                                         android:textSize="14sp"/>
                                 </LinearLayout>
                             </LinearLayout>
-
-                            <!-- Nút Xem chi tiết -->
-                            <Button
-                                android:id="@+id/btnXemChiTiet2"
-                                android:layout_width="match_parent"
-                                android:layout_height="40dp"
-                                android:layout_marginTop="8dp"
-                                android:text="Xem chi tiết"
-                                android:textSize="14sp"
-                                android:background="@drawable/bg_button_border"
-                                android:textColor="#000000"/>
                         </LinearLayout>
 
+                        <!-- NÚT XEM CHI TIẾT CUỐI DANH SÁCH ITEM -->
+                        <Button
+                            android:id="@+id/btnViewHistoryDetail"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:text="Xem chi tiết"
+                            android:textSize="16sp"
+                            android:textColor="#FFFFFF"
+                            android:layout_marginTop="8dp"
+                            android:backgroundTint="#000000"/>
                     </LinearLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
