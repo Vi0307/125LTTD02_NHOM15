@@ -93,6 +93,19 @@ public class MyCarDetailFragment extends Fragment {
         if (btnDatDichVu1 != null) btnDatDichVu1.setOnClickListener(goToAgency);
         if (btnDatDichVu2 != null) btnDatDichVu2.setOnClickListener(goToAgency);
 
+        // ==========================
+        // CHATBOX → ChatFragment
+        // ==========================
+        View chatBtn = view.findViewById(R.id.btnChat);
+        if (chatBtn != null) {
+            chatBtn.setOnClickListener(v -> {
+                requireActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, new ChatBox())
+                        .addToBackStack(null)
+                        .commit();
+            });
+        }
         return view;
     }
     private void toggleHistory() {
