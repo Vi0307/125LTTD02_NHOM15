@@ -21,7 +21,7 @@ public class Agency_Detail_Fragment extends Fragment {
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        return inflater.inflate(R.layout.activity_agency, container, false);
+        return inflater.inflate(R.layout.activity_agency_detail, container, false);
     }
 
     @Override
@@ -77,7 +77,7 @@ public class Agency_Detail_Fragment extends Fragment {
         }
 
         // CHATBOX → ChatFragment
-        View chatBtn = view.findViewById(R.id.btnChat);
+        View chatBtn = view.findViewById(R.id.fabChatbox);
         if (chatBtn != null) {
             chatBtn.setOnClickListener(v -> {
                 requireActivity().getSupportFragmentManager()
@@ -88,18 +88,17 @@ public class Agency_Detail_Fragment extends Fragment {
             });
         }
     }
-
     private void setupButtonDatDichVu(View view) {
         View btnDatDichVu = view.findViewById(R.id.btnDatDichVu);
 
-        btnDatDichVu.setOnClickListener(v -> {
-            // Chuyển sang Fragment Booking
-            requireActivity()
+        if (btnDatDichVu != null) {
+            btnDatDichVu.setOnClickListener(v -> requireActivity()
                     .getSupportFragmentManager()
                     .beginTransaction()
+                    .replace(R.id.fragment_container, new Booking_Fragment())
                     .addToBackStack(null)
-                    .commit();
-        });
+                    .commit());
+        }
     }
 }
 

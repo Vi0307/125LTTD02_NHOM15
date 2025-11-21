@@ -47,7 +47,7 @@
         android:id="@+id/txtAgencyName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="DATRACO 1"
+        android:text="TƯỜNG PHÁT"
         android:textStyle="bold"
         android:textSize="22sp"
         android:layout_marginTop="90dp"
@@ -73,7 +73,7 @@
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="290dp">
+            android:layout_height="340dp">
 
             <!-- Button Đặt dịch vụ -->
             <Button
@@ -94,7 +94,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:padding="10dp">
 
                 <ImageView
                     android:layout_width="20dp"
@@ -131,7 +132,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:padding="10dp">
 
                 <ImageView
                     android:layout_width="15dp"
@@ -167,12 +169,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                >
+                android:padding="10dp">
 
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:src="@drawable/ic_phone" />
+                    android:src="@drawable/ic_phone"
+                    app:tint="#E53935" />
 
                 <TextView
                     android:id="@+id/txtTitleSDT"
@@ -342,16 +345,18 @@
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btnChat"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
+        android:id="@+id/fabChatbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="80dp"
-        android:backgroundTint="#FFFFFF"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="86dp"
         android:src="@drawable/ic_chat_box"
-        app:tint="@android:color/holo_red_light"
-        tools:ignore="SpeakableTextPresentCheck" />
+        android:contentDescription="Mở chat hỗ trợ"
+        app:backgroundTint="#FFFFFF"
+        app:tint="#C50E0E"
+        app:elevation="8dp"
+        app:borderWidth="0dp"/>
 
 </RelativeLayout>
