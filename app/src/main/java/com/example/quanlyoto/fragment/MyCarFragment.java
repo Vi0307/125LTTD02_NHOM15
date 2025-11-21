@@ -53,7 +53,15 @@ public class MyCarFragment extends Fragment {
                     .commit();
         });
 
-
+        // ==========================
+        // BOTTOM NAV — VOUCHER
+        // ==========================
+        view.findViewById(R.id.navVoucher).setOnClickListener(v -> {
+            requireActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, new VoucherStillValid())
+                    .commit();
+        });
 
         // ==========================
         // CHATBOX → ChatFragment
