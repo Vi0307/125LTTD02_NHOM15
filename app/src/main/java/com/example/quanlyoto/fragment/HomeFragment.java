@@ -111,6 +111,20 @@ public class HomeFragment extends Fragment {
                         .commit();
             });
         }
+        // ================================
+        // BẤM VÀO TÊN USER -> TRANG INFO
+        // ================================
+        View userName = view.findViewById(R.id.UserName);
+        if (userName != null) {
+            userName.setOnClickListener(v -> {
+                requireActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, new PersonalActivity())
+                        .addToBackStack(null)
+                        .commit();
+            });
+        }
+
 
         // ======================================================
         // FAB CHAT — MỞ TRANG CHAT
