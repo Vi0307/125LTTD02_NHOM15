@@ -60,6 +60,19 @@ public class HomeFragment extends Fragment {
             });
         }
 
+        // 4. ĐẠI LÝ
+        View navAgency = view.findViewById(R.id.navAgency);
+        if (navAgency != null) {
+            navAgency.setOnClickListener(v -> {
+                requireActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, new Agency_Fragment())
+                        .addToBackStack(null)
+                        .commit();
+            });
+        }
+
+
         // ======================================================
         // CÁC NÚT TRONG TRANG HOME
         // ======================================================
@@ -111,6 +124,7 @@ public class HomeFragment extends Fragment {
                         .commit();
             });
         }
+
         // ================================
         // BẤM VÀO TÊN USER -> TRANG INFO
         // ================================
@@ -127,6 +141,20 @@ public class HomeFragment extends Fragment {
 
 
         // ======================================================
+        // CHI TIẾT & ĐẶT HẸN DỊCH VỤ
+        // ======================================================
+        View btnChitietvaDat = view.findViewById(R.id.btnChitietvaDat);
+        if (btnChitietvaDat != null) {
+            btnChitietvaDat.setOnClickListener(v -> {
+                requireActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, new Agency_Fragment())
+                        .addToBackStack(null)
+                        .commit();
+            });
+        }
+
+        // ======================================================
         // FAB CHAT — MỞ TRANG CHAT
         // ======================================================
         View btnChat = view.findViewById(R.id.btnChat);
@@ -134,7 +162,7 @@ public class HomeFragment extends Fragment {
             btnChat.setOnClickListener(v -> {
                 requireActivity().getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.fragment_container, new ChatBox())  // tạo ChatFragment
+                        .replace(R.id.fragment_container, new ChatBox())
                         .addToBackStack(null)
                         .commit();
             });
