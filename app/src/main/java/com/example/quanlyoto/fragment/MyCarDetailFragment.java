@@ -11,6 +11,7 @@ import android.widget.ScrollView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import com.example.quanlyoto.R;
@@ -36,13 +37,13 @@ public class MyCarDetailFragment extends Fragment {
 
         // Layout các phần
         layoutHistoryDetail = view.findViewById(R.id.layoutHistoryDetail);
-        LinearLayout layoutNhacNhoPhuTung = view.findViewById(R.id.layoutNhacNhoPhuTung);
+        CardView layoutNhacNhoPhuTung = view.findViewById(R.id.layoutNhacNhoPhuTung);
 
         // Nút expand lịch sử
         btnExpandHistory = view.findViewById(R.id.btn_expand_history);
 
         // Nút xem chi tiết lịch sử (dưới cùng sau khi expand)
-        btnViewHistoryDetail = view.findViewById(R.id.btnViewHistoryDetail); // nhớ đặt id trong XML
+        btnViewHistoryDetail = view.findViewById(R.id.btnViewHistoryDetail);
 
         // Nút thay thế phụ tùng
         btnThayPhuTung = view.findViewById(R.id.btnThayPhuTung);
@@ -94,7 +95,6 @@ public class MyCarDetailFragment extends Fragment {
 
         return view;
     }
-
     private void toggleHistory() {
         if (layoutHistoryDetail.getVisibility() == View.GONE) {
             layoutHistoryDetail.setVisibility(View.VISIBLE);
@@ -104,4 +104,5 @@ public class MyCarDetailFragment extends Fragment {
             btnExpandHistory.setImageResource(R.drawable.ic_expand);
         }
     }
+
 }
