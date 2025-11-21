@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTOTECH - Intelligent Service</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+    <div class="login-container">
+        <!-- Logo -->
+        <div class="logo">
+            <h1>OTOTECH</h1>
+            <p>Intelligent Service</p>
+        </div>
+
+        <!-- Icon xe hơi -->
+        <div class="car-icon">
+            <img src="ic_car_getstarted.png" alt="Car Icon">
+        </div>
+
+        <!-- Chào mừng -->
+        <h2 class="welcome-text">Chào mừng quay trở lại !</h2>
+
+        <!-- Form đăng nhập -->
+        <form>
+            <div class="form-group">
+                <label>Mật khẩu</label>
+                <div class="mail-wrapper">
+                    <input type="email" placeholder="example@gmail.com" id="email">
+                    <i class="fas fa-envelope mail-icon"></i>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Mật khẩu</label>
+                <div class="password-wrapper">
+                    <input type="password" placeholder="Password" id="password">
+                    <i class="fas fa-eye-slash eye-icon" id="togglePassword"></i>
+                </div>
+            </div>
+
+            <button type="submit" class="login-btn">ĐĂNG NHẬP</button>
+        </form>
+    </div>
+
+    <script>
+        // Hiển thị / ẩn mật khẩu
+        const togglePassword = document.getElementById('togglePassword');
+        const passwordInput = document.getElementById('password');
+
+        togglePassword.addEventListener('click', function () {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            this.classList.toggle('fa-eye');
+            this.classList.toggle('fa-eye-slash');
+        });
+    </script>
+</body>
+</html>
