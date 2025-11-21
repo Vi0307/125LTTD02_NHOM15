@@ -28,37 +28,28 @@ public class PlayHome extends Fragment {
         View view = inflater.inflate(R.layout.activity_play_home, container, false);
 
         // Ánh xạ view
-        btnBack = view.findViewById(R.id.btn_back);
-        btnHelp = view.findViewById(R.id.btnHelp);
+        btnBack  = view.findViewById(R.id.btn_back);
+        btnHelp  = view.findViewById(R.id.btnHelp);
         btnReady = view.findViewById(R.id.btnReady);
 
-        // Nút BACK
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getParentFragmentManager().popBackStack();
-            }
+        // Nút Back
+        btnBack.setOnClickListener(v -> {
+            getParentFragmentManager().popBackStack();
         });
 
-        // Nút ? (help)
-        btnHelp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getParentFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_container, new PlayRole())
-                        .addToBackStack(null)
-                        .commit();
-            }
+        // Nút trợ giúp (?)
+        btnHelp.setOnClickListener(v -> {
+            getParentFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, new PlayRole())
+                    .addToBackStack(null)
+                    .commit();
         });
 
-        // Nút SẴN SÀNG
-        btnReady.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (getActivity() != null) {
-                    Intent intent = new Intent(getActivity(), QuizActivity.class);
-                    startActivity(intent);
-                }
+        // Nút Sẵn Sàng
+        btnReady.setOnClickListener(v -> {
+            if (getActivity() != null) {
+                Intent intent = new Intent(getActivity(), QuizActivity.class);
+                startActivity(intent);
             }
         });
 
