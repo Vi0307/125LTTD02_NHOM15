@@ -1,11 +1,13 @@
 package com.example.quanlyoto.fragment;
 
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,7 +15,10 @@ import androidx.fragment.app.Fragment;
 
 import com.example.quanlyoto.R;
 
-public class Agency_Detail_Fragment extends Fragment {
+public class Booking_Fragment extends Fragment {
+
+    public Booking_Fragment() {
+    }
 
     @Nullable
     @Override
@@ -21,31 +26,12 @@ public class Agency_Detail_Fragment extends Fragment {
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        return inflater.inflate(R.layout.activity_agency_detail, container, false);
+        return inflater.inflate(R.layout.activity_booking, container, false);
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        setupBackButton(view);
-        setupButtonDatDichVu(view);
-    }
-
-    private void setupBackButton(View view) {
-        ImageView icBack = view.findViewById(R.id.ic_back_agency);
-        if (icBack != null) {
-            icBack.setOnClickListener(v -> {
-                // Quay lại Fragment trước
-                requireActivity().getSupportFragmentManager().popBackStack();
-            });
-        }
-      
-        icBack.setOnClickListener(v -> {
-            // Quay lại Fragment trước
-            requireActivity().getSupportFragmentManager().popBackStack();
-        });
-
+    public void onViewCreated(@NonNull View view,
+                              @Nullable Bundle savedInstanceState) {
         // BOTTOM NAV — HOME
         view.findViewById(R.id.navHome).setOnClickListener(v -> {
             requireActivity().getSupportFragmentManager()
@@ -59,6 +45,13 @@ public class Agency_Detail_Fragment extends Fragment {
             requireActivity().getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.fragment_container, new Homeparts())
+                    .commit();
+        });
+        view.findViewById(R.id.btnNext).setOnClickListener(v -> {
+            requireActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, new AppointmentFixActivity())
+                    .addToBackStack(null)
                     .commit();
         });
 
@@ -83,7 +76,7 @@ public class Agency_Detail_Fragment extends Fragment {
         }
 
         // CHATBOX → ChatFragment
-        View chatBtn = view.findViewById(R.id.fabChatbox);
+        View chatBtn = view.findViewById(R.id.btnChat);
         if (chatBtn != null) {
             chatBtn.setOnClickListener(v -> {
                 requireActivity().getSupportFragmentManager()
@@ -93,19 +86,26 @@ public class Agency_Detail_Fragment extends Fragment {
                         .commit();
             });
         }
-    }
-    private void setupButtonDatDichVu(View view) {
-        View btnDatDichVu = view.findViewById(R.id.btnDatDichVu);
+        super.onViewCreated(view, savedInstanceState);
 
-        if (btnDatDichVu != null) {
-            btnDatDichVu.setOnClickListener(v -> {
-                requireActivity().getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.fragment_container, new Booking_Fragment())
-                        .addToBackStack(null)
-                        .commit();
-            });
+        setupBackButton(view);
+    }
+
+    private void setupBackButton(View view) {
+        ImageView btnBack = view.findViewById(R.id.btnBack_agency_detail);
+        TextView txtCancel = view.findViewById(R.id.txtCancel);
+
+        View.OnClickListener goBackListener = v ->
+                requireActivity()
+                        .getSupportFragmentManager()
+                        .popBackStack();
+
+        if (btnBack != null) {
+            btnBack.setOnClickListener(goBackListener);
+        }
+
+        if (txtCancel != null) {
+            txtCancel.setOnClickListener(goBackListener);
         }
     }
 }
-
