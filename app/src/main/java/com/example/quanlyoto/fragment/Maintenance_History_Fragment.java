@@ -47,6 +47,47 @@ public class Maintenance_History_Fragment extends Fragment {
         MaintenanceHistoryAdapter adapter = new MaintenanceHistoryAdapter(recordList, this);
         recyclerView.setAdapter(adapter);
 
+        // BOTTOM NAV — HOME
+        view.findViewById(R.id.navHome).setOnClickListener(v -> {
+            requireActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, new HomeFragment())
+                    .commit();
+        });
+
+        // BOTTOM NAV — PARTS
+        view.findViewById(R.id.navParts).setOnClickListener(v -> {
+            requireActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, new Homeparts())
+                    .commit();
+        });
+
+        // BOTTOM NAV — VOUCHER
+        view.findViewById(R.id.navVoucher).setOnClickListener(v -> {
+            requireActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, new VoucherStillValid())
+                    .commit();
+        });
+
+        // BOTTOM NAV — AGENCY
+        view.findViewById(R.id.navAgency).setOnClickListener(v -> {
+            requireActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, new Agency_Fragment())
+                    .addToBackStack(null)
+                    .commit();
+        });
+
+        //==================== XỬ LÝ NÚT BACK ====================//
+        ImageView btnBack = view.findViewById(R.id.btnBack);
+        if (btnBack != null) {
+            btnBack.setOnClickListener(v -> {
+                requireActivity().getSupportFragmentManager().popBackStack();
+            });
+        }
+
         return view;
     }
 

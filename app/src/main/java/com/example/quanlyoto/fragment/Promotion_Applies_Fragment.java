@@ -26,31 +26,37 @@ public class Promotion_Applies_Fragment extends Fragment {
             @Nullable ViewGroup container,
             @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.activity_promotion_applies, container, false);
+        return inflater.inflate(R.layout.activity_promotion_applies, container, false);
+    }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        //==================== NÚT BACK ====================//
         ImageView icBack = view.findViewById(R.id.ic_back);
+        if (icBack != null) {
+            icBack.setOnClickListener(v -> {
+                requireActivity()
+                        .getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, new Select_Shipping_Method_Fragment())
+                        .addToBackStack(null)
+                        .commit();
+            });
+        }
+
+        //==================== NÚT ÁP DỤNG ====================//
         Button btnComplete = view.findViewById(R.id.btn_complete_payment_detail);
-
-        // Quay lại Select_Shipping_Method_Fragment
-        icBack.setOnClickListener(v -> {
-            requireActivity()
-                    .getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.fragment_container, new Select_Shipping_Method_Fragment())
-                    .addToBackStack(null)
-                    .commit();
-        });
-
-        // Đi đến Complete_Detail_Payment_Fragment
-        btnComplete.setOnClickListener(v -> {
-            requireActivity()
-                    .getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.fragment_container, new Complete_Detail_Payment_Fragment())
-                    .addToBackStack(null)
-                    .commit();
-        });
-
-        return view;
+        if (btnComplete != null) {
+            btnComplete.setOnClickListener(v -> {
+                requireActivity()
+                        .getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, new Complete_Detail_Payment_Fragment())
+                        .addToBackStack(null)
+                        .commit();
+            });
+        }
     }
 }

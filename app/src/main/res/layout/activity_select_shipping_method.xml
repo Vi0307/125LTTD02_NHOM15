@@ -7,23 +7,28 @@
     android:layout_height="match_parent"
     tools:context=".Select_Shipping_Method">
 
+    <!-- HEADER -->
     <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="match_parent"
+        android:id="@+id/linearLayoutHeader"
+        android:layout_width="0dp"
         android:layout_height="56dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
         <ImageView
             android:id="@+id/iv_back"
             android:layout_width="22dp"
             android:layout_height="22dp"
+            android:clickable="true"
+            android:focusable="true"
             android:src="@drawable/ic_arrow_back_black"
-            android:tint="#000000"
-            tools:ignore="UseAppTint" />
+            app:tint="#000000"
+            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -31,31 +36,31 @@
             android:layout_marginStart="12dp"
             android:text="Phương thức vận chuyển"
             android:textColor="#000000"
-            android:textSize="25sp"
+            android:textSize="22sp"
             android:textStyle="bold" />
     </LinearLayout>
 
+    <!-- OPTION FAST DELIVERY -->
     <LinearLayout
-        android:layout_width="match_parent"
+        android:id="@+id/linearLayout"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:layout_marginTop="32dp"
-        android:background="#F7F7F7"
-        android:backgroundTint="#F5F5F5"
-        android:elevation="1dp"
+        android:layout_margin="12dp"
+        android:background="#FFFFFF"
+        android:elevation="3dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:padding="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-        tools:layout_editor_absoluteX="10dp">
+        android:backgroundTint="#F0F0F0"
+        app:layout_constraintTop_toBottomOf="@id/linearLayoutHeader"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
         <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
             android:src="@drawable/ic_fast_delivery_car"
-            android:tint="#000000"
-            tools:ignore="UseAppTint" />
+            app:tint="#000000" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -69,53 +74,53 @@
                 android:layout_height="wrap_content"
                 android:text="Giao hàng nhanh"
                 android:textColor="#000000"
-                android:textSize="15sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textSize="16sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Est. Arrival, Dec 20-23"
+                android:text="Est. Arrival: Dec 20-23"
                 android:textColor="#4C4C4C"
                 android:textSize="13sp" />
         </LinearLayout>
 
         <TextView
             android:layout_width="90dp"
-            android:layout_height="20dp"
-            android:text="560.000 VND">
-
-        </TextView>
+            android:gravity="end"
+            android:layout_height="wrap_content"
+            android:text="560.000 VND"
+            android:textColor="#000000" />
 
         <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:id="@+id/radio_fast"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
             android:src="@drawable/ic_radio_button_unchecked"
-            android:tint="#000000"
-            tools:ignore="UseAppTint" />
+            app:tint="#000000" />
     </LinearLayout>
 
+    <!-- OPTION SAVE DELIVERY -->
     <LinearLayout
         android:id="@+id/linearLayout2"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:background="#F7F7F7"
-        android:backgroundTint="#F5F5F5"
-        android:elevation="1dp"
+        android:layout_margin="12dp"
+        android:background="#FFFFFF"
+        android:elevation="3dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:padding="16dp"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="186dp"
-        tools:ignore="MissingConstraints">
+        android:backgroundTint="#F0F0F0"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
         <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
             android:src="@drawable/ic_economical_delivery_vehicle"
-            android:tint="#000000"
-            tools:ignore="UseAppTint" />
+            app:tint="#000000" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -129,41 +134,44 @@
                 android:layout_height="wrap_content"
                 android:text="Giao hàng tiết kiệm"
                 android:textColor="#000000"
-                android:textSize="15sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textSize="16sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Est. Arrival, Dec 20-22"
-                android:textColor="#4C4C4C"
-                android:textSize="13sp" />
+                android:text="Est. Arrival: Dec 20-22"
+                android:textSize="13sp"
+                android:textColor="#4C4C4C" />
         </LinearLayout>
 
         <TextView
             android:layout_width="90dp"
-            android:layout_height="20dp"
-            android:text="450.000 VND"/>
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:text="450.000 VND"
+            android:textColor="#000000" />
 
         <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:src="@drawable/ic_radio_button"
-            android:tint="#000000"
-            tools:ignore="UseAppTint" />
+            android:id="@+id/radio_save"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:src="@drawable/ic_radio_button_unchecked"
+            app:tint="#000000" />
     </LinearLayout>
 
+    <!-- BOTTOM BUTTON -->
     <Button
         android:id="@+id/iv_Promotion_applies"
-        android:layout_width="336dp"
+        android:layout_width="0dp"
         android:layout_height="48dp"
-        android:layout_marginBottom="36dp"
-        android:backgroundTint="@drawable/bg_button_black"
+        android:layout_margin="20dp"
+        android:backgroundTint="#000000"
         android:text="Áp dụng"
-        android:textColor="@color/white"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.493"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

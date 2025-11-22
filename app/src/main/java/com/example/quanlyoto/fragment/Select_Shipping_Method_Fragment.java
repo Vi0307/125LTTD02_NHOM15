@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,6 +16,11 @@ import androidx.fragment.app.Fragment;
 import com.example.quanlyoto.R;
 
 public class Select_Shipping_Method_Fragment extends Fragment {
+
+    LinearLayout optionFast, optionSave;
+    ImageView radioFast, radioSave;
+
+    int selected = 0;
 
     public Select_Shipping_Method_Fragment() {
         // Required empty public constructor
@@ -31,7 +38,21 @@ public class Select_Shipping_Method_Fragment extends Fragment {
         ImageView ivBack = view.findViewById(R.id.iv_back);
         Button btnPromotion = view.findViewById(R.id.iv_Promotion_applies);
 
-        // Chuyển sang fragment Select_Billing_Address
+        optionFast = view.findViewById(R.id.linearLayout);
+        optionSave = view.findViewById(R.id.linearLayout2);
+
+        radioFast = view.findViewById(R.id.radio_fast);
+        radioSave = view.findViewById(R.id.radio_save);
+
+        // Chọn giao nhanh
+        optionFast.setOnClickListener(v -> selectFast());
+        radioFast.setOnClickListener(v -> selectFast());
+
+        // Chọn giao tiết kiệm
+        optionSave.setOnClickListener(v -> selectSave());
+        radioSave.setOnClickListener(v -> selectSave());
+
+        // Quay lại trang trước
         ivBack.setOnClickListener(v -> {
             requireActivity()
                     .getSupportFragmentManager()
@@ -41,8 +62,13 @@ public class Select_Shipping_Method_Fragment extends Fragment {
                     .commit();
         });
 
-        // Chuyển sang fragment Promotion_Applies
+        // Chuyển sang màn Promotion Applies
         btnPromotion.setOnClickListener(v -> {
+            if (selected == 0) {
+                Toast.makeText(getContext(), "Vui lòng chọn phương thức vận chuyển", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             requireActivity()
                     .getSupportFragmentManager()
                     .beginTransaction()
@@ -53,5 +79,16 @@ public class Select_Shipping_Method_Fragment extends Fragment {
 
         return view;
     }
-}
 
+    private void selectFast() {
+        selected = 1;
+        radioFast.setImageResource(R.drawable.ic_radio_button);
+        radioSave.setImageResource(R.drawable.ic_radio_button_unchecked);
+    }
+
+    private void selectSave() {
+        selected = 2;
+        radioFast.setImageResource(R.drawable.ic_radio_button_unchecked);
+        radioSave.setImageResource(R.drawable.ic_radio_button);
+    }
+}
