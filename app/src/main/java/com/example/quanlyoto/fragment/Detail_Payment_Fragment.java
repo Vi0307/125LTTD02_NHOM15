@@ -81,17 +81,5 @@ public class Detail_Payment_Fragment extends Fragment {
                     .replace(R.id.fragment_container, new Select_Billing_Address_Fragment())
                     .commit();
         });
-
-        return view;
-        if (icPen != null) {
-            icPen.setOnClickListener(v -> {
-                requireActivity()
-                        .getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.fragment_container, new Select_Billing_Address_Fragment())
-                        .addToBackStack(null)
-                        .commit();
-            });
-        }
     }
 }
