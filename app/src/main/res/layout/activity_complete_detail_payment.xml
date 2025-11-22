@@ -72,7 +72,7 @@
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@drawable/ic_location"
+                    android:src="@drawable/ic_location22"
                     android:tint="#000000"
                     tools:ignore="UseAppTint" />
 
@@ -102,7 +102,7 @@
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:src="@drawable/ic_radio_button"
+                    android:src="@drawable/ic_pen"
                     android:tint="#000000"
                     tools:ignore="UseAppTint" />
             </LinearLayout>
@@ -214,6 +214,7 @@
                 </LinearLayout>
 
                 <ImageView
+                    android:id="@+id/ic_shipping_method"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:src="@drawable/ic_arrow_right"
@@ -250,11 +251,13 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Chọn mã khuyến mãi"
+                    android:paddingLeft="5dp"
+                    android:text="Miễn phí vận chuyển"
                     android:textColor="#5A5A5A"
                     android:textSize="14sp"/>
 
                 <ImageView
+                    android:id="@+id/ic_payment_method"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:src="@drawable/ic_arrow_right"
