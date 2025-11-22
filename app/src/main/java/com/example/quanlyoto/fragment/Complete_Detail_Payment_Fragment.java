@@ -1,5 +1,6 @@
 package com.example.quanlyoto.fragment;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,7 @@ public class Complete_Detail_Payment_Fragment extends Fragment {
         // Public constructor
     }
 
+    @SuppressLint("MissingInflatedId")
     @Nullable
     @Override
     public View onCreateView(
@@ -38,6 +40,22 @@ public class Complete_Detail_Payment_Fragment extends Fragment {
                     .beginTransaction()
                     .replace(R.id.fragment_container, new Promotion_Applies_Fragment())
                     .addToBackStack(null)
+                    .commit();
+        });
+
+        // Chuyẻn sang phương thức vận chuyển
+        view.findViewById(R.id.ic_shipping_method).setOnClickListener(v -> {
+            requireActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, new Select_Shipping_Method_Fragment())
+                    .commit();
+        });
+
+        // Chuyẻn sang áp dụng khuyến mãi
+        view.findViewById(R.id.ic_payment_method).setOnClickListener(v -> {
+            requireActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, new Promotion_Applies_Fragment())
                     .commit();
         });
 
