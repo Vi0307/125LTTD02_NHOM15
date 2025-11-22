@@ -52,7 +52,7 @@
                 android:drawablePadding="12dp"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
-                android:background="#D3D0D0"
+                android:background="#F2EEEE"
                 android:layout_marginBottom="16dp"/>
 
             <ImageView
@@ -60,7 +60,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="220dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/carphutung"
+                android:src="@drawable/img_bmwi5"
                 android:layout_marginBottom="8dp" />
 
             <!-- Dots Indicator -->
