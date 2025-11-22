@@ -154,6 +154,7 @@
 
             <!-- Bảo dưỡng định kỳ -->
             <androidx.cardview.widget.CardView
+                android:id="@+id/cardBaoDuong"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -202,6 +203,7 @@
 
             <!-- Sửa chữa -->
             <androidx.cardview.widget.CardView
+                android:id="@+id/cardSuaChua"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

@@ -94,10 +94,12 @@
                     android:padding="12dp">
 
                     <ImageView
+                        android:id="@+id/imgOngGioNapHoi"
                         android:layout_width="match_parent"
                         android:layout_height="120dp"
                         android:scaleType="centerInside"
                         android:src="@drawable/onggionaphoi" />
+
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -116,6 +118,7 @@
                         android:textSize="13sp"/>
 
                     <Button
+                        android:id="@+id/btnAddToCart"
                         android:layout_width="match_parent"
                         android:layout_height="45dp"
                         android:layout_marginTop="8dp"
@@ -124,6 +127,7 @@
                         android:textColor="#FFFFFF"
                         android:textSize="13dp"
                         tools:ignore="TextSizeCheck,TouchTargetSizeCheck" />
+
                 </LinearLayout>
 
                 <!-- ITEM 2 -->

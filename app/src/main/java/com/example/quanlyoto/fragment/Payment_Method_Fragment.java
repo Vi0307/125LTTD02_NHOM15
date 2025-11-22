@@ -1,0 +1,55 @@
+package com.example.quanlyoto.fragment;
+
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;   // ⭐ THÊM
+import android.widget.Button;     // ⭐ THÊM
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
+import com.example.quanlyoto.R;
+
+public class Payment_Method_Fragment extends Fragment {
+
+    public Payment_Method_Fragment() {}
+
+    @Nullable
+    @Override
+    public View onCreateView(
+            @NonNull LayoutInflater inflater,
+            @Nullable ViewGroup container,
+            @Nullable Bundle savedInstanceState) {
+
+        return inflater.inflate(R.layout.activity_payment_method, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        ImageView icBackCompletePayment = view.findViewById(R.id.ic_back_complete_payment);
+        Button btnApply = view.findViewById(R.id.btn_apply); // ⭐ NÚT TIẾP TỤC
+
+        // 🔙 Back → quay lại trang Complete_Detail_Payment
+        icBackCompletePayment.setOnClickListener(v -> {
+            requireActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, new Complete_Detail_Payment_Fragment())
+                    .addToBackStack(null)
+                    .commit();
+        });
+
+        // ➜ Continue → sang Orderconfirm
+        btnApply.setOnClickListener(v -> {
+            requireActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, new Orderconfirm())
+                    .addToBackStack(null)
+                    .commit();
+        });
+    }
+}
