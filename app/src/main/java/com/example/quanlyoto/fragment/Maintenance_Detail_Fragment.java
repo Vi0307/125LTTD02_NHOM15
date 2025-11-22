@@ -33,16 +33,10 @@ public class Maintenance_Detail_Fragment extends Fragment {
         ImageView btnBack = view.findViewById(R.id.btnBack);
         if (btnBack != null) {
             btnBack.setOnClickListener(v -> {
-                // Quay về fragment Maintenance History
-                Fragment backFragment = new Maintenance_History_Fragment();
-
-                requireActivity().getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.fragment_container, backFragment)
-                        .addToBackStack(null)
-                        .commit();
+                requireActivity().getSupportFragmentManager().popBackStack();
             });
         }
+
 
         // BOTTOM NAV — HOME
         view.findViewById(R.id.navHome).setOnClickListener(v -> {
