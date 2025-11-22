@@ -1,6 +1,5 @@
 package com.example.quanlyoto.fragment;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,18 +17,15 @@ import com.example.quanlyoto.R;
 
 public class Select_Shipping_Method_Fragment extends Fragment {
 
-    // Khai báo option
     LinearLayout optionFast, optionSave;
     ImageView radioFast, radioSave;
 
-    // 1 = giao nhanh | 2 = giao tiết kiệm
     int selected = 0;
 
     public Select_Shipping_Method_Fragment() {
         // Required empty public constructor
     }
 
-    @SuppressLint("MissingInflatedId")
     @Nullable
     @Override
     public View onCreateView(
@@ -39,25 +35,24 @@ public class Select_Shipping_Method_Fragment extends Fragment {
 
         View view = inflater.inflate(R.layout.activity_select_shipping_method, container, false);
 
-        // Ánh xạ View
         ImageView ivBack = view.findViewById(R.id.iv_back);
         Button btnPromotion = view.findViewById(R.id.iv_Promotion_applies);
 
-        optionFast = view.findViewById(R.id.linearLayout);        // option 1
-        optionSave = view.findViewById(R.id.linearLayout2);       // option 2
+        optionFast = view.findViewById(R.id.linearLayout);
+        optionSave = view.findViewById(R.id.linearLayout2);
 
         radioFast = view.findViewById(R.id.radio_fast);
         radioSave = view.findViewById(R.id.radio_save);
 
-        // Sự kiện chọn từng option
+        // Chọn giao nhanh
         optionFast.setOnClickListener(v -> selectFast());
-        optionSave.setOnClickListener(v -> selectSave());
-
-        // click icon cũng được
         radioFast.setOnClickListener(v -> selectFast());
+
+        // Chọn giao tiết kiệm
+        optionSave.setOnClickListener(v -> selectSave());
         radioSave.setOnClickListener(v -> selectSave());
 
-        // Nút back → chuyển fragment
+        // Quay lại trang trước
         ivBack.setOnClickListener(v -> {
             requireActivity()
                     .getSupportFragmentManager()
@@ -67,7 +62,7 @@ public class Select_Shipping_Method_Fragment extends Fragment {
                     .commit();
         });
 
-        // Nút Áp dụng
+        // Chuyển sang màn Promotion Applies
         btnPromotion.setOnClickListener(v -> {
             if (selected == 0) {
                 Toast.makeText(getContext(), "Vui lòng chọn phương thức vận chuyển", Toast.LENGTH_SHORT).show();
@@ -87,14 +82,12 @@ public class Select_Shipping_Method_Fragment extends Fragment {
 
     private void selectFast() {
         selected = 1;
-
         radioFast.setImageResource(R.drawable.ic_radio_button);
         radioSave.setImageResource(R.drawable.ic_radio_button_unchecked);
     }
 
     private void selectSave() {
         selected = 2;
-
         radioFast.setImageResource(R.drawable.ic_radio_button_unchecked);
         radioSave.setImageResource(R.drawable.ic_radio_button);
     }
