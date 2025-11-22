@@ -50,14 +50,16 @@ public class Agency_Fragment extends Fragment {
         ImageView btnBack = view.findViewById(R.id.btnBack);
         if (btnBack != null) {
             btnBack.setOnClickListener(v -> {
-                Fragment maintenanceDetail = new Maintenance_Detail_Fragment();
-
-                requireActivity()
-                        .getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.fragment_container, maintenanceDetail)
-                        .addToBackStack(null)
-                        .commit();
+                // Quay lại fragment trước đó
+                if (getParentFragmentManager().getBackStackEntryCount() > 0) {
+                    getParentFragmentManager().popBackStack();
+                } else {
+                    // Nếu không có gì trong back stack, về Home
+                    requireActivity().getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.fragment_container, new HomeFragment())
+                            .commit();
+                }
             });
         }
         // BOTTOM NAV — HOME
