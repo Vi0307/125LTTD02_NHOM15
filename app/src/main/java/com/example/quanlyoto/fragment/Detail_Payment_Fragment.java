@@ -1,5 +1,6 @@
 package com.example.quanlyoto.fragment;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.quanlyoto.Payment_Method;
 import com.example.quanlyoto.R;
 
 public class Detail_Payment_Fragment extends Fragment {
@@ -18,6 +20,7 @@ public class Detail_Payment_Fragment extends Fragment {
         // Required empty public constructor
     }
 
+    @SuppressLint("MissingInflatedId")
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -37,12 +40,48 @@ public class Detail_Payment_Fragment extends Fragment {
             btnBack.setOnClickListener(v ->
                     requireActivity()
                             .getSupportFragmentManager()
-                            .popBackStack()   // 🔙 QUAY LẠI DETAILS
+                            .popBackStack() 
             );
         }
 
         // ==================== NÚT CHỈNH SỬA ĐỊA CHỈ ==================== //
         ImageView icPen = view.findViewById(R.id.ic_pen);
+
+        icPen.setOnClickListener(v -> {
+            // Chuyển sang Fragment Select_Billing_Address
+            requireActivity()
+                    .getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, new Select_Billing_Address_Fragment())
+                    .addToBackStack(null)
+                    .commit();
+        });
+
+        // Chuyẻn sang phương thức vận chuyển
+        view.findViewById(R.id.ic_shipping_method).setOnClickListener(v -> {
+            requireActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, new Select_Shipping_Method_Fragment())
+                    .commit();
+        });
+
+        // Chuyẻn sang áp dụng khuyến mãi
+        view.findViewById(R.id.ic_payment_method).setOnClickListener(v -> {
+            requireActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, new Payment_Method_Fragment())
+                    .commit();
+        });
+
+        // Chuyẻn sang trang tiếp theo
+        view.findViewById(R.id.btn_billing_address).setOnClickListener(v -> {
+            requireActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, new Select_Billing_Address_Fragment())
+                    .commit();
+        });
+
+        return view;
         if (icPen != null) {
             icPen.setOnClickListener(v -> {
                 requireActivity()
