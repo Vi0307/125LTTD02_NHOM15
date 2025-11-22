@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.quanlyoto.Payment_Method;
+import com.example.quanlyoto.Promotion_Applies;
 import com.example.quanlyoto.R;
 
 public class Detail_Payment_Fragment extends Fragment {
@@ -69,7 +70,7 @@ public class Detail_Payment_Fragment extends Fragment {
         view.findViewById(R.id.ic_payment_method).setOnClickListener(v -> {
             requireActivity().getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.fragment_container, new Payment_Method_Fragment())
+                    .replace(R.id.fragment_container, new Promotion_Applies_Fragment())
                     .commit();
         });
 
@@ -80,17 +81,5 @@ public class Detail_Payment_Fragment extends Fragment {
                     .replace(R.id.fragment_container, new Select_Billing_Address_Fragment())
                     .commit();
         });
-
-        return view;
-        if (icPen != null) {
-            icPen.setOnClickListener(v -> {
-                requireActivity()
-                        .getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.fragment_container, new Select_Billing_Address_Fragment())
-                        .addToBackStack(null)
-                        .commit();
-            });
-        }
     }
 }
