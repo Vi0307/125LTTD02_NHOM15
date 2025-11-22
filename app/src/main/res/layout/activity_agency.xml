@@ -1,67 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.AgencyActivity"
     android:background="#F5F5F5">
 
-    <!-- Nút Back -->
-    <ImageView
-        android:id="@+id/btnBack"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:padding="4dp"
-        android:src="@drawable/ic_back_arrow"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+    <!-- Header -->
+    <LinearLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:background="#FFFFFF">
 
-    <!-- Tiêu đề -->
-    <TextView
-        android:id="@+id/tvTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Đại lý"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:textColor="#000000"
-        android:layout_marginStart="16dp"
-        app:layout_constraintStart_toEndOf="@id/btnBack"
-        app:layout_constraintTop_toTopOf="@id/btnBack"
-        app:layout_constraintBottom_toBottomOf="@id/btnBack" />
+        <ImageView
+            android:id="@+id/btnBack"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/ic_arrow_back_black"
+            android:contentDescription="back"
+            android:scaleType="centerInside"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackgroundBorderless"/>
 
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:text="Đại lý"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="#000000" />
 
-    <!-- RecyclerView danh sách đại lý -->
+        <!-- placeholder to keep title centered -->
+        <ImageView
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:visibility="invisible" />
+    </LinearLayout>
+
+    <!-- TextView Nearest -->
     <TextView
         android:id="@+id/tvNearest"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginStart="40dp"
+        android:layout_below="@id/header"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:text="Gần bạn nhất"
         android:textColor="#444444"
-        android:textSize="15sp"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="33dp"
-        tools:ignore="MissingConstraints" />
+        android:textSize="15sp"/>
 
+    <!-- RecyclerView danh sách đại lý -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcvAgencies"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:padding="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvNearest"
-        app:layout_constraintVertical_bias="0.0" />
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/tvNearest"
+        android:layout_above="@id/bottomNav"
+        android:layout_marginTop="8dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:clipToPadding="false"/>
 
+    <!-- Floating Chat Button -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabChatbox"
         android:layout_width="wrap_content"
@@ -69,27 +79,25 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="12dp"
-        android:contentDescription="Mở chat hỗ trợ"
+        android:layout_marginBottom="86dp"
         android:src="@drawable/ic_chat_box"
+        android:contentDescription="Mở chat hỗ trợ"
         app:backgroundTint="#FFFFFF"
-        app:borderWidth="0dp"
+        app:tint="#C50E0E"
         app:elevation="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:tint="#C50E0E" />
+        app:borderWidth="0dp"/>
 
+    <!-- Bottom Navigation -->
     <LinearLayout
-        android:id="@+id/linearLayout3"
+        android:id="@+id/bottomNav"
         android:layout_width="match_parent"
         android:layout_height="70dp"
+        android:layout_alignParentBottom="true"
         android:background="#FFFFFF"
         android:elevation="8dp"
         android:orientation="horizontal"
         android:paddingTop="8dp"
-        android:paddingBottom="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_editor_absoluteX="16dp">
+        android:paddingBottom="8dp">
 
         <!-- ====== TRANG CHỦ ====== -->
         <LinearLayout
@@ -104,8 +112,7 @@
                 android:layout_width="26dp"
                 android:layout_height="26dp"
                 android:src="@drawable/ic_home"
-                android:tint="#A0A0A0"
-                tools:ignore="UseAppTint" />
+                app:tint="#A0A0A0"/>
 
             <TextView
                 android:layout_width="60dp"
@@ -117,7 +124,7 @@
                 android:textSize="12sp" />
         </LinearLayout>
 
-        <!-- ====== XE CỦA TÔI (ĐANG CHỌN) ====== -->
+        <!-- ====== XE CỦA TÔI ====== -->
         <LinearLayout
             android:id="@+id/navCar"
             android:layout_width="0dp"
@@ -130,8 +137,7 @@
                 android:layout_width="26dp"
                 android:layout_height="26dp"
                 android:src="@drawable/ic_car"
-                android:tint="#A0A0A0"
-                tools:ignore="UseAppTint" />
+                app:tint="#A0A0A0"/>
 
             <TextView
                 android:layout_width="60dp"
@@ -156,8 +162,7 @@
                 android:layout_width="26dp"
                 android:layout_height="26dp"
                 android:src="@drawable/ic_voucher"
-                android:tint="#A0A0A0"
-                tools:ignore="UseAppTint" />
+                app:tint="#A0A0A0"/>
 
             <TextView
                 android:layout_width="40dp"
@@ -182,8 +187,7 @@
                 android:layout_width="26dp"
                 android:layout_height="26dp"
                 android:src="@drawable/ic_parts"
-                android:tint="#A0A0A0"
-                tools:ignore="UseAppTint" />
+                app:tint="#A0A0A0"/>
 
             <TextView
                 android:layout_width="50dp"
@@ -208,8 +212,7 @@
                 android:layout_width="26dp"
                 android:layout_height="26dp"
                 android:src="@drawable/ic_dealer"
-                android:tint="#000000"
-                tools:ignore="UseAppTint" />
+                app:tint="#000000"/>
 
             <TextView
                 android:layout_width="40dp"
@@ -223,4 +226,5 @@
         </LinearLayout>
 
     </LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+</RelativeLayout>
