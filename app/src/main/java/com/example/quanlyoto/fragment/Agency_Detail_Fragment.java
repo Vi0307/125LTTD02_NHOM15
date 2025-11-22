@@ -34,7 +34,13 @@ public class Agency_Detail_Fragment extends Fragment {
 
     private void setupBackButton(View view) {
         ImageView icBack = view.findViewById(R.id.ic_back_agency);
-
+        if (icBack != null) {
+            icBack.setOnClickListener(v -> {
+                // Quay lại Fragment trước
+                requireActivity().getSupportFragmentManager().popBackStack();
+            });
+        }
+      
         icBack.setOnClickListener(v -> {
             // Quay lại Fragment trước
             requireActivity().getSupportFragmentManager().popBackStack();

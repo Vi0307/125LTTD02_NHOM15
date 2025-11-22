@@ -80,6 +80,14 @@ public class Maintenance_History_Fragment extends Fragment {
                     .commit();
         });
 
+        //==================== XỬ LÝ NÚT BACK ====================//
+        ImageView btnBack = view.findViewById(R.id.btnBack);
+        if (btnBack != null) {
+            btnBack.setOnClickListener(v -> {
+                requireActivity().getSupportFragmentManager().popBackStack();
+            });
+        }
+
         return view;
     }
 

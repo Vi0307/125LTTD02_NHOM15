@@ -22,9 +22,11 @@
             android:id="@+id/btnBack_agency_detail"
             android:layout_width="22dp"
             android:layout_height="22dp"
+            android:clickable="true"
+            android:focusable="true"
             android:src="@drawable/ic_arrow_back_black"
             android:tint="#000000"
-            tools:ignore="UseAppTint" />
+            tools:ignore="UseAppTint,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
         <TextView
             android:id="@+id/txtTitle"
