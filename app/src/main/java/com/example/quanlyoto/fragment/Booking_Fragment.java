@@ -47,6 +47,13 @@ public class Booking_Fragment extends Fragment {
                     .replace(R.id.fragment_container, new Homeparts())
                     .commit();
         });
+        view.findViewById(R.id.btnNext).setOnClickListener(v -> {
+            requireActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, new AppointmentFixActivity())
+                    .addToBackStack(null)
+                    .commit();
+        });
 
         // BOTTOM NAV — MYCAR
         view.findViewById(R.id.navCar).setOnClickListener(v -> {
