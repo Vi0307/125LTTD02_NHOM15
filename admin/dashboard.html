@@ -18,11 +18,21 @@
     <!-- Sidebar -->
     <aside class="sidebar">
         <ul class="menu">
-            <li class="menu-item active"><i class="fas fa-th-large"></i> Sản phẩm</li>
-            <li class="menu-item"><i class="fas fa-users"></i> Người dùng</li>
-            <li class="menu-item"><i class="fas fa-shopping-cart"></i> Đơn hàng</li>
-            <li class="menu-item"><i class="fas fa-calendar-check"></i> Đặt lịch</li>
-            <li class="menu-item"><i class="fas fa-bell"></i> Thông báo</li>
+            <li class="menu-item active" onclick="goTo('dashboard.html')">
+                <i class="fas fa-th-large"></i> Sản phẩm
+            </li>
+            <li class="menu-item" onclick="goTo('users.html')">
+                <i class="fas fa-users"></i> Người dùng
+            </li>
+            <li class="menu-item" onclick="goTo('orders.html')">
+                <i class="fas fa-shopping-cart"></i> Đơn hàng
+            </li>
+            <li class="menu-item" onclick="goTo('booking.html')">
+                <i class="fas fa-calendar-check"></i> Đặt lịch
+            </li>
+            <li class="menu-item" onclick="goTo('notifications.html')">
+                <i class="fas fa-bell"></i> Thông báo
+            </li>
         </ul>
     </aside>
 
@@ -39,7 +49,7 @@
 
                 <!-- Card 1 -->
                 <div class="product-card">
-                    <img src="https://i.imgur.com/9zR8i0K.png" alt="Phụ tùng thân vỏ">
+                    <img src="asset/img_body_parts.jpg" alt="Phụ tùng thân vỏ">
                     <div class="card-info">
                         <h3>Phụ tùng thân vỏ</h3>
                         <p class="desc">Parts related to the engine system</p>
@@ -50,7 +60,7 @@
 
                 <!-- Card 2 -->
                 <div class="product-card">
-                    <img src="https://i.imgur.com/2Kj9vLp.png" alt="Phụ tùng động cơ">
+                    <img src="asset/img_engine_parts.png" alt="Phụ tùng động cơ">
                     <div class="card-info">
                         <h3>Phụ tùng động cơ</h3>
                         <p class="desc">Parts related to the braking system</p>
@@ -61,7 +71,7 @@
 
                 <!-- Card 3 -->
                 <div class="product-card">
-                    <img src="https://i.imgur.com/2fG5r8s.png" alt="Phụ tùng truyền động">
+                    <img src="asset/img_transmission_parts.webp" alt="Phụ tùng truyền động">
                     <div class="card-info">
                         <h3>Phụ tùng truyền động</h3>
                         <p class="desc">Parts related to the suspension system</p>
@@ -72,7 +82,7 @@
 
                 <!-- Card 4 -->
                 <div class="product-card">
-                    <img src="https://i.imgur.com/8eX6vP2.png" alt="Phụ tùng điện">
+                    <img src="asset/img_lighting_parts.jpg" alt="Phụ tùng điện">
                     <div class="card-info">
                         <h3>Phụ tùng điện</h3>
                         <p class="desc">Parts related to the electrical system</p>
