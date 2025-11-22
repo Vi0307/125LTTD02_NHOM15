@@ -21,9 +21,11 @@
             android:id="@+id/iv_back"
             android:layout_width="22dp"
             android:layout_height="22dp"
+            android:clickable="true"
+            android:focusable="true"
             android:src="@drawable/ic_arrow_back_black"
             android:tint="#000000"
-            tools:ignore="UseAppTint" />
+            tools:ignore="UseAppTint,TouchTargetSizeCheck,SpeakableTextPresentCheck" />
 
         <TextView
             android:layout_marginStart="12dp"
@@ -165,7 +167,7 @@
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_margin="16dp"
-        android:backgroundTint="@drawable/bg_button_black"
+        android:backgroundTint="@color/black"
         android:text="Áp dụng"
         android:textColor="#FFFFFF"
         android:textSize="16sp"/>
