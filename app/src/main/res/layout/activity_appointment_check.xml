@@ -395,6 +395,8 @@
                     android:layout_marginTop="12dp"
                     app:cardCornerRadius="12dp"
                     app:cardElevation="8dp"
+                    android:clickable="true"
+                    android:focusable="true"
                     app:cardBackgroundColor="#FFFFFF"
                     app:cardUseCompatPadding="true">
 
@@ -409,6 +411,7 @@
 
                 <!-- Thời gian đã chọn -->
                 <RelativeLayout
+                    android:id="@+id/cardServiceTime"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp">

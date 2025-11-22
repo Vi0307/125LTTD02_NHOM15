@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.quanlyoto.MainActivity;
 import com.example.quanlyoto.R;
+import androidx.cardview.widget.CardView;
 
 public class AppointmentCheckActivity extends Fragment {
 
@@ -45,6 +46,26 @@ public class AppointmentCheckActivity extends Fragment {
                         .commit(); // không cần thêm addToBackStack nếu muốn không quay lại fragment cũ
             }
         });
+        ImageView btnEditService = view.findViewById(R.id.btnEditService);
+
+        btnEditService.setOnClickListener(v -> {
+            getParentFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, new AppointmentFixActivity())
+                    .addToBackStack(null)
+                    .commit();
+        });
+
+        // 👉 CLICK VÀO "SỬA CHỮA" NHẢY ĐẾN AppointmentFixFragment
+        View cardServiceTime = view.findViewById(R.id.cardServiceTime);
+        cardServiceTime.setOnClickListener(v -> {
+            getParentFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, new Booking_Fragment())
+                    .addToBackStack(null)
+                    .commit();
+        });
+
 
 
         TextView btnCancel = view.findViewById(R.id.btnCancel);

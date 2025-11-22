@@ -44,9 +44,59 @@ public class MyCarFragment extends Fragment {
         });
 
         // ==========================
-        // BOTTOM NAV — CAR (đang ở đây)
+        // BOTTOM NAV — PARTS
         // ==========================
-        view.findViewById(R.id.navCar).setOnClickListener(v -> {
+        view.findViewById(R.id.navParts).setOnClickListener(v -> {
+            requireActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, new Homeparts())
+                    .commit();
+        });
+
+        // ==========================
+        // BOTTOM NAV — VOUCHER
+        // ==========================
+        view.findViewById(R.id.navVoucher).setOnClickListener(v -> {
+            requireActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, new VoucherStillValid())
+                    .commit();
+        });
+
+        // ======================================================
+        // BOTTOM NAV — AGENCY
+        // ======================================================
+        view.findViewById(R.id.navAgency).setOnClickListener(v -> {
+            requireActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, new Agency_Fragment())
+                    .addToBackStack(null)
+                    .commit();
+        });
+
+        // ==========================
+        // CHATBOX → ChatFragment
+        // ==========================
+        View chatBtn = view.findViewById(R.id.btnChat);
+        if (chatBtn != null) {
+            chatBtn.setOnClickListener(v -> {
+                requireActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, new ChatBox())
+                        .addToBackStack(null)
+                        .commit();
+            });
+        }
+
+        // ======================================================
+        // BUTTON — ĐẶT DỊCH VỤ → ĐẠI LÝ
+        // ======================================================
+        view.findViewById(R.id.btnDatDichVu).setOnClickListener(v -> {
+            requireActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, new Agency_Fragment())
+                    .addToBackStack(null)
+                    .commit();
         });
 
         // ==========================
@@ -56,7 +106,7 @@ public class MyCarFragment extends Fragment {
             requireActivity().getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.fragment_container, new MyCarDetailFragment())
-                    .addToBackStack(null)   // cho phép back lại
+                    .addToBackStack(null)
                     .commit();
         });
 

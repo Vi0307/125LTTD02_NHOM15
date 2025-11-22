@@ -62,7 +62,6 @@
                     app:cardBackgroundColor="#FFFFFF">
 
                     <LinearLayout
-                        android:id="@+id/btnChat"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
@@ -302,6 +301,7 @@
 
     <!-- FAB CHATBOX -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btnChat"
         android:layout_width="56dp"
         android:layout_height="56dp"
         android:layout_gravity="bottom|end"

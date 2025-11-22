@@ -14,7 +14,6 @@ import androidx.fragment.app.Fragment;
 import com.example.quanlyoto.Payment_Method;
 import com.example.quanlyoto.Promotion_Applies;
 import com.example.quanlyoto.R;
-import com.example.quanlyoto.Select_Billing_Address;
 
 public class Detail_Payment_Fragment extends Fragment {
 
@@ -29,8 +28,24 @@ public class Detail_Payment_Fragment extends Fragment {
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.activity_detail_payment, container, false);
+        return inflater.inflate(R.layout.activity_detail_payment, container, false);
+    }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        // ==================== NÚT BACK ==================== //
+        ImageView btnBack = view.findViewById(R.id.btnBack);
+        if (btnBack != null) {
+            btnBack.setOnClickListener(v ->
+                    requireActivity()
+                            .getSupportFragmentManager()
+                            .popBackStack() 
+            );
+        }
+
+        // ==================== NÚT CHỈNH SỬA ĐỊA CHỈ ==================== //
         ImageView icPen = view.findViewById(R.id.ic_pen);
 
         icPen.setOnClickListener(v -> {
@@ -59,7 +74,7 @@ public class Detail_Payment_Fragment extends Fragment {
                     .commit();
         });
 
-        // Chuyẻn sang trang tieép theo
+        // Chuyẻn sang trang tiếp theo
         view.findViewById(R.id.btn_billing_address).setOnClickListener(v -> {
             requireActivity().getSupportFragmentManager()
                     .beginTransaction()
@@ -68,5 +83,15 @@ public class Detail_Payment_Fragment extends Fragment {
         });
 
         return view;
+        if (icPen != null) {
+            icPen.setOnClickListener(v -> {
+                requireActivity()
+                        .getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, new Select_Billing_Address_Fragment())
+                        .addToBackStack(null)
+                        .commit();
+            });
+        }
     }
 }
