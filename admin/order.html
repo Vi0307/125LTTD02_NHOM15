@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTOTECH - Đơn hàng</title>
+    <link rel="stylesheet" href="asset/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
+        html, body {
+            height: 100%; margin: 0; padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f8f9ff 0%, #e8ecff 100%);
+            overflow: hidden;
+        }
+        .page-wrapper {
+            height: 100vh;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding: 20px 20px 140px;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* Nội dung chính căn giữa, không bị lệch */
+        .main-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding-top: 100px;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        /* Bảng đơn hàng */
+        .table-card {
+            background: white;
+            border-radius: 24px;
+            padding: 32px;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.09);
+            margin-bottom: 20px; /* Khoảng cách nhỏ để form hiện ngay dưới */
+        }
+        .table-title {
+            font-size: 28px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 24px;
+            color: #222;
+        }
+        .table-container {
+            overflow-x: auto;
+            border-radius: 16px;
+        }
+        .order-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 16px;
+            min-width: 700px;
+        }
+        .order-table th {
+            background: #f1f3f5;
+            padding: 18px 16px;
+            text-align: left;
+            font-weight: 600;
+            color: #444;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        .order-table td {
+            padding: 20px 16px;
+            border-bottom: 1px solid #eee;
+            vertical-align: middle;
+        }
+        .order-table tr:hover {
+            background: #f8fbff;
+            cursor: pointer;
+        }
+        .status {
+            padding: 8px 18px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        .status.completed { background:#d4edda; color:#155724; }
+        .status.pending   { background:#fff3cd; color:#856404; }
+
+        /* FORM CHI TIẾT – HIỆN NGAY DƯỚI BẢNG, CĂN GIỮA */
+        #orderDetailCard {
+            background: white;
+            border-radius: 24px;
+            padding: 36px;
+            box-shadow: 0 14px 50px rgba(0,0,0,0.1);
+            margin: 10px auto 40px;
+            max-width: 1400px;
+            display: none;
+        }
+        .detail-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #222;
+            margin-bottom: 32px;
+            text-align: center;
+        }
+        .form-grid-order {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+        .form-group label {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+            display: block;
+        }
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            font-size: 15px;
+            background: #fdfdff;
+        }
+        .form-group input[readonly] {
+            background: #f5f5f5;
+            color: #666;
+        }
+
+        /* Nút Cập nhật siêu đẹp */
+        .action-buttons {
+            display: flex;
+            justify-content: flex-end;
+        }
+        .btn-update {
+            background: linear-gradient(135deg, #4e9fff, #007bff);
+            color: white;
+            border: none;
+            padding: 16px 52px;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 8px 30px rgba(0,123,255,0.35);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .btn-update:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,123,255,0.5);
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .main-content { padding-top: 120px; }
+            .form-grid-order { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 600px) {
+            .form-grid-order { grid-template-columns: 1fr; }
+            .btn-update { width: 100%; justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="page-wrapper">
+
+    <!-- Top User -->
+    <div class="top-user">
+        <img src="https://via.placeholder.com/40/333/fff?text=A" alt="Admin" class="avatar">
+        <span class="username">Administrator</span>
+    </div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <ul class="menu">
+            <li class="menu-item"><i class="fas fa-th-large"></i> Sản phẩm</li>
+            <li class="menu-item"><i class="fas fa-users"></i> Người dùng</li>
+            <li class="menu-item active"><i class="fas fa-shopping-cart"></i> Đơn hàng</li>
+            <li class="menu-item"><i class="fas fa-calendar-check"></i> Đặt lịch</li>
+            <li class="menu-item"><i class="fas fa-bell"></i> Thông báo</li>
+        </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+
+        <!-- BẢNG ĐƠN HÀNG -->
+        <div class="table-card">
+            <h2 class="table-title">Đơn Hàng</h2>
+            <div class="table-container">
+                <table class="order-table">
+                    <thead>
+                        <tr>
+                            <th>Mã đơn hàng</th>
+                            <th>Mã khách hàng</th>
+                            <th>Mã phụ tùng</th>
+                            <th>Trạng thái</th>
+                        </tr>
+                    </thead>
+                    <tbody id="orderTableBody">
+                        <tr onclick="fillOrderForm(this)">
+                            <td>DH001</td>
+                            <td>KH001</td>
+                            <td>X001</td>
+                            <td><span class="status completed">Đã hoàn thành</span></td>
+                        </tr>
+                        <tr onclick="fillOrderForm(this)">
+                            <td>DH002</td>
+                            <td>KH002</td>
+                            <td>X002</td>
+                            <td><span class="status pending">Chưa hoàn thành</span></td>
+                        </tr>
+                        <tr onclick="fillOrderForm(this)">
+                            <td>DH003</td>
+                            <td>KH003</td>
+                            <td>X005</td>
+                            <td><span class="status pending">Chưa hoàn thành</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- FORM CHI TIẾT – HIỆN NGAY DƯỚI BẢNG -->
+        <div id="orderDetailCard">
+            <h2 class="detail-title">Đơn hàng</h2>
+            <div class="form-grid-order">
+                <div class="form-group"><label>Mã đơn hàng</label><input type="text" id="maDonHang" readonly></div>
+                <div class="form-group"><label>Mã phụ tùng</label><input type="text" id="maPhuTung" readonly></div>
+                <div class="form-group"><label>Tổng tiền</label><input type="text" id="tongTien"></div>
+                <div class="form-group"><label>Mã khách hàng</label><input type="text" id="maKhachHang" readonly></div>
+                <div class="form-group"><label>Tên phụ tùng</label><input type="text" id="tenPhuTung"></div>
+                <div class="form-group"><label>Phương thức thanh toán</label></div>
+                <div class="form-group"><label>Tên khách hàng</label><input type="text" id="tenKhachHang"></div>
+                <div class="form-group"><label>Địa chỉ</label><input type="text" id="diaChi"></div>
+                <div class="form-group"><label>Vận chuyển</label><input type="text" id="vanChuyen" value="Giao hàng tiết kiệm"></div>
+                <div class="form-group"><label>Số lượng</label><input type="number" id="soLuong" min="1" value="1"></div>
+                <div class="form-group"><label>Voucher</label><input type="text" id="voucher"></div>
+                <div class="form-group">
+                    <label>Trạng thái</label>
+                    <select id="trangThai">
+                        <option value="pending">Chưa hoàn thành</option>
+                        <option value="completed">Đã hoàn thành</option>
+                    </select>
+                </div>
+            </div>
+            <div class="action-buttons">
+                <button class="btn-update" onclick="updateOrderStatus()">Cập nhật</button>
+            </div>
+        </div>
+
+    </main>
+
+    <div class="bottom-brand">
+        <div class="brand-name">OTOTECH</div>
+        <div class="version">Version: 1.0.0.11</div>
+    </div>
+</div>
+
+<script>
+// Dùng var hoặc kiểm tra tồn tại để tránh lỗi redeclare
+var currentOrderRow = null;
+
+function fillOrderForm(row) {
+    currentOrderRow = row;
+    const c = row.cells;
+
+    const detailCard = document.getElementById('orderDetailCard');
+    detailCard.style.display = 'block';
+
+    // Điền dữ liệu cơ bản
+    $('#maDonHang').value     = c[0].textContent.trim();
+    $('#maKhachHang').value   = c[1].textContent.trim();
+    $('#maPhuTung').value     = c[2].textContent.trim();
+
+    // Dữ liệu mẫu (có thể thay bằng fetch API sau)
+    const sampleData = {
+        'X001': { ten: 'Ống gió nạp hơi',      tien: '7.000.000VND', tenKH: 'Nguyễn Văn A' },
+        'X002': { ten: 'Bộ đèn pha',          tien: '7.500.000VND', tenKH: 'Trần Thị B' },
+        'X005': { ten: 'Lọc gió động cơ',     tien: '1.200.000VND', tenKH: 'Lê Văn C' }
+    };
+    const info = sampleData[c[2].textContent.trim()] || { ten: '', tien: '', tenKH: '' };
+
+    $('#tenPhuTung').value    = info.ten;
+    $('#tongTien').value      = info.tien;
+    $('#tenKhachHang').value  = info.tenKH;
+    $('#diaChi').value        = '123 Đường Láng, Hà Nội';
+    $('#soLuong').value       = 1;
+    $('#voucher').value       = '';
+    $('#vanChuyen').value     = 'Giao hàng tiết kiệm';
+    $('#phuongThucTT').value  = 'Chuyển khoản';
+
+    // Trạng thái
+    const isCompleted = c[3].querySelector('span').textContent.includes('Đã');
+    $('#trangThai').value = isCompleted ? 'completed' : 'pending';
+
+    // Cuộn mượt đến form
+    detailCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function updateOrderStatus() {
+    if (!currentOrderRow) {
+        alert('Vui lòng chọn đơn hàng trước!');
+        return;
+    }
+
+    const statusValue = $('#trangThai').value;
+    const statusText  = statusValue === 'completed' ? 'Đã hoàn thành' : 'Chưa hoàn thành';
+    const span = currentOrderRow.cells[3].querySelector('span');
+
+    span.textContent = statusText;
+    span.className = 'status ' + statusValue;
+
+    alert('Cập nhật trạng thái thành công!');
+}
+
+// Helper ngắn gọn
+function $(selector) {
+    return document.querySelector(selector);
+}
+</script>
+</body>
+</html>
