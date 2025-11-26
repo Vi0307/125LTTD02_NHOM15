@@ -300,8 +300,6 @@ html, body {
 .page-wrapper {
     min-height: 100vh;
     height: auto;
-    overflow-y: auto;
-    overflow-x: hidden;
     overflow-x: hidden;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
@@ -542,7 +540,6 @@ html, body {
 .page-wrapper {
     min-height: 100vh;
     height: auto;
-    overflow-y: auto;
     overflow-x: hidden;
     overflow-y: auto;
     padding: 20px 20px 140px;
@@ -585,6 +582,7 @@ html, body {
 .admin-main {
     margin-left: 300px;
     margin-right: 40px;
+    width: calc(100% - 340px);
     padding-top: 140px;
     display: flex;
     flex-direction: column;
@@ -596,10 +594,13 @@ html, body {
     flex-direction: column;
     gap: 32px;
     align-items: stretch;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
 }
 
-.detail-card.show-on-load {
-.admin-main .detail-card {
+.detail-card.show-on-load,
+.admin-main .detail-card.show-on-load {
     display: block;
 }
 
@@ -607,6 +608,7 @@ html, body {
     .admin-main {
         margin-left: 260px;
         margin-right: 20px;
+        width: calc(100% - 280px);
     }
     .panel-grid {
         flex-direction: column;
@@ -619,6 +621,7 @@ html, body {
     }
     .admin-main {
         margin: 0;
+        width: 100%;
         padding-top: 120px;
     }
 }
