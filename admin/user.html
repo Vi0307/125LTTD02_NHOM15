@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="asset/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
-<body>
+<body class="dashboard-body admin-body">
 
 <div class="page-wrapper">
 
@@ -27,96 +27,98 @@
         </ul>
     </aside>
 
-    <main class="main-content">
+    <main class="admin-main">
+        <section class="panel-grid">
 
-        <!-- BẢNG KHÁCH HÀNG -->
-        <div class="table-card">
-            <h2 class="table-title">Khách hàng</h2>
-            <div class="table-container">
-                <table class="user-table">
-                    <thead>
-                        <tr>
-                            <th>Mã khách hàng</th>
-                            <th>Tên khách hàng</th>
-                            <th>SĐT</th>
-                            <th>Thao tác</th>
-                        </tr>
-                    </thead>
-                    <tbody id="userTableBody">
-                        <tr onclick="fillUserForm(this)">
-                            <td>KH001</td>
-                            <td>Hải Phan</td>
-                            <td>0999999999</td>
-                            <td class="action-icons">
-                                <i class="fas lock-icon" title="Khóa/Mở tài khoản" onclick="lockUser(this)"></i>
-                                <i class="fas fa-trash delete-icon" title="Xóa" onclick="event.stopPropagation(); deleteUser(this)"></i>
-                            </td>
-                        </tr>
-                        <tr onclick="fillUserForm(this)">
-                            <td>KH002</td>
-                            <td>Vũ Trần</td>
-                            <td>0911111111</td>
-                            <td class="action-icons">
-                                <i class="fas lock-icon locked" title="Khóa/Mở tài khoản" onclick="lockUser(this)"></i>
-                                <i class="fas fa-trash delete-icon" title="Xóa" onclick="event.stopPropagation(); deleteUser(this)"></i>
-                            </td>
-                        </tr>
-                        <tr onclick="fillUserForm(this)">
-                            <td>KH003</td>
-                            <td>Minh Anh</td>
-                            <td>0901234567</td>
-                            <td class="action-icons">
-                                <i class="fas lock-icon" title="Khóa/Mở tài khoản" onclick="lockUser(this)"></i>
-                                <i class="fas fa-trash delete-icon" title="Xóa" onclick="event.stopPropagation(); deleteUser(this)"></i>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+            <!-- BẢNG KHÁCH HÀNG -->
+            <div class="table-card">
+                <h2 class="table-title">Khách hàng</h2>
+                <div class="table-container">
+                    <table class="user-table">
+                        <thead>
+                            <tr>
+                                <th>Mã khách hàng</th>
+                                <th>Tên khách hàng</th>
+                                <th>SĐT</th>
+                                <th>Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody id="userTableBody">
+                            <tr onclick="fillUserForm(this)">
+                                <td>KH001</td>
+                                <td>Hải Phan</td>
+                                <td>0999999999</td>
+                                <td class="action-icons">
+                                    <i class="fas lock-icon" title="Khóa/Mở tài khoản" onclick="lockUser(this)"></i>
+                                    <i class="fas fa-trash delete-icon" title="Xóa" onclick="event.stopPropagation(); deleteUser(this)"></i>
+                                </td>
+                            </tr>
+                            <tr onclick="fillUserForm(this)">
+                                <td>KH002</td>
+                                <td>Vũ Trần</td>
+                                <td>0911111111</td>
+                                <td class="action-icons">
+                                    <i class="fas lock-icon locked" title="Khóa/Mở tài khoản" onclick="lockUser(this)"></i>
+                                    <i class="fas fa-trash delete-icon" title="Xóa" onclick="event.stopPropagation(); deleteUser(this)"></i>
+                                </td>
+                            </tr>
+                            <tr onclick="fillUserForm(this)">
+                                <td>KH003</td>
+                                <td>Minh Anh</td>
+                                <td>0901234567</td>
+                                <td class="action-icons">
+                                    <i class="fas lock-icon" title="Khóa/Mở tài khoản" onclick="lockUser(this)"></i>
+                                    <i class="fas fa-trash delete-icon" title="Xóa" onclick="event.stopPropagation(); deleteUser(this)"></i>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
 
-        <!-- FORM CHI TIẾT -->
-        <div id="userDetailCard" class="detail-card">
-            <h2 class="detail-title">Chi tiết khách hàng</h2>
-            <div class="form-grid-user">
+            <!-- FORM CHI TIẾT -->
+            <div id="userDetailCard" class="detail-card">
+                <h2 class="detail-title">Chi tiết khách hàng</h2>
+                <div class="form-grid-user">
 
-                <div class="form-group"><label>Mã khách hàng</label><input type="text" id="maKH" readonly></div>
-                <div class="form-group"><label>Loại xe</label><input type="text" id="loaiXe"></div>
-                <div class="form-group"><label>SĐT</label><input type="text" id="sdt"></div>
+                    <div class="form-group"><label>Mã khách hàng</label><input type="text" id="maKH" readonly></div>
+                    <div class="form-group"><label>Loại xe</label><input type="text" id="loaiXe"></div>
+                    <div class="form-group"><label>SĐT</label><input type="text" id="sdt"></div>
 
-                <div class="form-group"><label>Mã xe</label><input type="text" id="maXe"></div>
+                    <div class="form-group"><label>Mã xe</label><input type="text" id="maXe"></div>
 
-                <!-- MẬT KHẨU LUÔN HIỆN ******** -->
-                <div class="form-group">
-                    <label>Mật khẩu</label>
-                    <input type="text" id="matKhau" value="********" readonly style="color:#666; font-weight:600; letter-spacing:2px;">
+                    <!-- MẬT KHẨU LUÔN HIỆN ******** -->
+                    <div class="form-group">
+                        <label>Mật khẩu</label>
+                        <input type="text" id="matKhau" value="********" readonly style="color:#666; font-weight:600; letter-spacing:2px;">
+                    </div>
+
+                    <!-- SỐ LẦN BẢO DƯỠNG: CHỈ TỪ 0 ĐẾN 6 -->
+                    <div class="form-group">
+                        <label>Số lần bảo dưỡng</label>
+                        <select id="soLanBaoDuong">
+                            <option value="0">0 lần</option>
+                            <option value="1">1 lần</option>
+                            <option value="2">2 lần</option>
+                            <option value="3">3 lần</option>
+                            <option value="4">4 lần</option>
+                            <option value="5">5 lần</option>
+                            <option value="6" selected>6 lần</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group"><label>Tên khách hàng</label><input type="text" id="tenKH"></div>
+                    <div class="form-group"><label>Email</label><input type="email" id="email"></div>
                 </div>
 
-                <!-- SỐ LẦN BẢO DƯỠNG: CHỈ TỪ 0 ĐẾN 6 -->
-                <div class="form-group">
-                    <label>Số lần bảo dưỡng</label>
-                    <select id="soLanBaoDuong">
-                        <option value="0">0 lần</option>
-                        <option value="1">1 lần</option>
-                        <option value="2">2 lần</option>
-                        <option value="3">3 lần</option>
-                        <option value="4">4 lần</option>
-                        <option value="5">5 lần</option>
-                        <option value="6" selected>6 lần</option>
-                    </select>
+                <div class="action-buttons">
+                    <button class="btn-update" onclick="updateUser()">
+                        Cập nhật
+                    </button>
                 </div>
-
-                <div class="form-group"><label>Tên khách hàng</label><input type="text" id="tenKH"></div>
-                <div class="form-group"><label>Email</label><input type="email" id="email"></div>
             </div>
 
-            <div class="action-buttons">
-                <button class="btn-update" onclick="updateUser()">
-                    Cập nhật
-                </button>
-            </div>
-        </div>
-
+        </section>
     </main>
 
     <div class="bottom-brand">
