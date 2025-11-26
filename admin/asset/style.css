@@ -588,9 +588,7 @@ table tr:hover {
     gap: 16px;
     font-size: 18px;
 }
-.lock-icon   { color: #ffc107; cursor: pointer; }
 .delete-icon { color: #dc3545; cursor: pointer; }
-.lock-icon:hover   { color: #e0a800; }
 .delete-icon:hover { color: #c82333; }
 
 /* Trạng thái đơn hàng */
@@ -714,4 +712,30 @@ table tr:hover {
 }
 .lock-icon:hover::after {
     opacity: 1;
+}
+
+
+/* ==================== NÚT CẬP NHẬT TRÒN ĐẸP (TRANG ĐẶT LỊCH) ==================== */
+.btn-update-circle {
+    background: linear-gradient(135deg, #4e9fff, #007bff);
+    color: white;
+    border: none;
+    padding: 14px 40px;
+    border-radius: 50px;
+    font-size: 17px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 8px 25px rgba(0,123,255,0.3);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 auto;
+}
+.btn-update-circle:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 35px rgba(0,123,255,0.45);
+}
+.btn-update-circle i {
+    font-size: 18px;
 }
