@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTOTECH - Đặt lịch</title>
+    <link rel="stylesheet" href="asset/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+<div class="page-wrapper">
+
+    <!-- Top User -->
+    <div class="top-user">
+        <span class="username">Administrator</span>
+    </div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <ul class="menu">
+            <li class="menu-item"><i class="fas fa-th-large"></i> Sản phẩm</li>
+            <li class="menu-item"><i class="fas fa-users"></i> Người dùng</li>
+            <li class="menu-item"><i class="fas fa-shopping-cart"></i> Đơn hàng</li>
+            <li class="menu-item active"><i class="fas fa-calendar-check"></i> Đặt lịch</li>
+            <li class="menu-item"><i class="fas fa-bell"></i> Thông báo</li>
+        </ul>
+    </aside>
+
+    <main class="main-content">
+
+        <!-- BẢNG ĐẶT LỊCH BẢO DƯỠNG -->
+        <div class="table-card">
+            <h2 class="table-title">Đặt lịch bảo dưỡng định kỳ</h2>
+            <div class="table-container">
+                <table class="schedule-table">
+                    <thead>
+                        <tr>
+                            <th>Mã đơn bảo dưỡng</th>
+                            <th>Mã khách hàng</th>
+                            <th>Loại xe</th>
+                            <th>Trạng thái</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr onclick="fillScheduleForm(this)">
+                            <td>BD001</td>
+                            <td>KH001</td>
+                            <td>BMW i5</td>
+                            <td><span class="status pending">Chưa hoàn thành</span></td>
+                        </tr>
+                        <tr onclick="fillScheduleForm(this)">
+                            <td>BD002</td>
+                            <td>KH002</td>
+                            <td>BMW i8</td>
+                            <td><span class="status completed">Đã hoàn thành</span></td>
+                        </tr>
+                        <tr onclick="fillScheduleForm(this)">
+                            <td>BD003</td>
+                            <td>KH003</td>
+                            <td>BMW i5</td>
+                            <td><span class="status pending">Chưa hoàn thành</span></td>
+                        </tr>
+                        <tr onclick="fillScheduleForm(this)">
+                            <td>BD004</td>
+                            <td>KH004</td>
+                            <td>BMW i8</td>
+                            <td><span class="status completed">Đã hoàn thành</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- FORM CHI TIẾT – NGÀY NHẬN XE KHÔNG CHO SỬA -->
+        <div id="scheduleDetailCard" class="detail-card">
+            <h2 class="detail-title">Chi tiết</h2>
+            <div class="form-grid-schedule">
+
+                <div class="form-group">
+                    <label>Mã bảo dưỡng</label>
+                    <input type="text" id="maBaoDuong" readonly>
+                </div>
+
+                <!-- NGÀY NHẬN XE CHỈ XEM, KHÔNG SỬA -->
+                <div class="form-group">
+                    <label>Ngày nhận xe</label>
+                    <input type="text" id="ngayNhanXe" readonly 
+                           style="background:#f8f9fa; color:#212529; font-weight:600; cursor:not-allowed; letter-spacing:0.5px;">
+                </div>
+
+                <div class="form-group">
+                    <label>Mã khách hàng</label>
+                    <input type="text" id="maKH" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label>Loại xe</label>
+                    <input type="text" id="loaiXe" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label>Tên khách hàng</label>
+                    <input type="text" id="tenKH" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label>Trạng thái</label>
+                    <select id="trangThai">
+                        <option value="pending">Chưa hoàn thành</option>
+                        <option value="completed">Đã hoàn thành</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <div class="action-buttons">
+                <button class="btn-update btn-update-circle" onclick="updateSchedule()">
+                    <i class="fas fa-pen"></i> Cập nhật
+                </button>
+            </div>
+        </div>
+
+    </main>
+
+    <div class="bottom-brand">
+        <div class="brand-name">OTOTECH</div>
+        <div class="version">Version: 1.0.0.11</div>
+    </div>
+</div>
+
+<script>
+var currentScheduleRow = null;
+
+function fillScheduleForm(row) {
+    currentScheduleRow = row;
+    const c = row.cells;
+    const card = document.getElementById('scheduleDetailCard');
+    card.style.display = 'block';
+
+    $('#maBaoDuong').value = c[0].textContent.trim();
+    $('#maKH').value       = c[1].textContent.trim();
+    $('#loaiXe').value     = c[2].textContent.trim();
+
+    // Dữ liệu mẫu
+    const data = {
+        'BD001': { tenKH: 'Hải Phan',       ngayNhan: '2025-12-05', status: 'pending' },
+        'BD002': { tenKH: 'Vũ Trần',        ngayNhan: '2025-11-20', status: 'completed' },
+        'BD003': { tenKH: 'Minh Anh',       ngayNhan: '2025-12-10', status: 'pending' },
+        'BD004': { tenKH: 'Tuấn Kiệt',      ngayNhan: '2025-11-28', status: 'completed' }
+    };
+    const info = data[c[0].textContent.trim()] || {};
+
+    // Hiển thị tên khách hàng
+    $('#tenKH').value = info.tenKH || 'Chưa có thông tin';
+
+    // Định dạng ngày đẹp kiểu Việt Nam
+    if (info.ngayNhan) {
+        const date = new Date(info.ngayNhan);
+        $('#ngayNhanXe').value = date.toLocaleDateString('vi-VN'); // Ví dụ: 05/12/2025
+    } else {
+        $('#ngayNhanXe').value = 'Chưa xác định';
+    }
+
+    // Trạng thái
+    $('#trangThai').value = info.status || 'pending';
+
+    // Cuộn mượt đến form
+    card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function updateSchedule() {
+    if (!currentScheduleRow) return alert('Vui lòng chọn lịch bảo dưỡng!');
+
+    const statusText = $('#trangThai').value === 'completed' ? 'Đã hoàn thành' : 'Chưa hoàn thành';
+    const span = currentScheduleRow.cells[3].querySelector('span');
+    span.textContent = statusText;
+    span.className = 'status ' + $('#trangThai').value;
+
+    alert('Cập nhật trạng thái bảo dưỡng thành công!');
+}
+
+function $(s) { return document.querySelector(s); }
+</script>
+
+</body>
+</html>
