@@ -31,9 +31,8 @@ public class PlayRole extends Fragment {
         btnHelp = view.findViewById(R.id.btnHelp2);
         btnReady = view.findViewById(R.id.btnReady);
 
-        // --- NÚT BACK ---
         btnBack.setOnClickListener(v -> {
-            requireActivity().getOnBackPressedDispatcher().onBackPressed();
+            getParentFragmentManager().popBackStack();   // Quay lại fragment trước
         });
 
         // --- NÚT SẴN SÀNG ---

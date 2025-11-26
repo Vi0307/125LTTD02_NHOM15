@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#FFFFFF"
+    android:padding="16dp">
+
+    <!-- ======= TOP BAR ======= -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_arrow_back_black"
+            app:tint="#000000" />
+
+        <TextView
+            android:layout_marginStart="12dp"
+            android:text="Thêm địa chỉ"
+            android:textColor="#000000"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <!-- ====== INPUT FIELD =====-->
+    <EditText
+        android:id="@+id/et_address"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@android:color/transparent"
+        android:hint="Nhập số nhà, tên đường..."
+        android:textSize="15sp"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:textColor="#000000"
+        android:textColorHint="#999999" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#DADADA"
+        android:layout_marginBottom="20dp" />
+
+    <!-- ======= RADIO OPTION 1 ======= -->
+    <LinearLayout
+        android:id="@+id/option_home"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/radio_home"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:src="@drawable/ic_radio_button_unchecked"
+            app:tint="#000000" />
+
+        <TextView
+            android:layout_marginStart="12dp"
+            android:text="Nhà riêng"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <!-- ======= RADIO OPTION 2 ======== -->
+    <LinearLayout
+        android:id="@+id/option_office"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/radio_office"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:src="@drawable/ic_radio_button_unchecked"
+            app:tint="#000000" />
+
+        <TextView
+            android:layout_marginStart="12dp"
+            android:text="Văn phòng"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <!-- ======= BUTTON ADD ADDRESS ======= -->
+    <Button
+        android:id="@+id/btn_add_address"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:backgroundTint="#000000"
+        android:text="Thêm địa chỉ"
+        android:textSize="15sp"
+        android:textColor="#FFFFFF"/>
+
+    <!-- ======= BUTTON APPLY ======= -->
+    <Button
+        android:id="@+id/btn_apply"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="40dp"
+        android:backgroundTint="#000000"
+        android:text="Áp dụng"
+        android:textColor="#FFFFFF"
+        android:textSize="17sp" />
+</LinearLayout>

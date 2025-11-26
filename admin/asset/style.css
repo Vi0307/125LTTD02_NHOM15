@@ -1,9 +1,11 @@
+/* Reset */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+/* Body */
 body {
     height: 100vh;
     background: #ffffff;
@@ -13,6 +15,7 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+/* Container */
 .login-container {
     width: 380px;
     padding: 40px 30px;
@@ -33,17 +36,18 @@ body {
     font-weight: 500;
 }
 
-/* Icon xe hơi đen */
+/* Icon xe hơi */
 .car-icon {
     width: 120px;
     height: 60px;
     margin: 60px auto 70px;
-    background-color: #000;
-    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 512'%3E%3Cpath d='M171.3 496H12c-6.6 0-12-5.4-12-12V444c0-6.6 5.4-12 12-12H98.1c8.9-28.8 31.7-52.8 60.2-65.1l97.5-45.1c24.6-11.4 51.7-11.4 76.3 0l97.5 45.1c28.5 12.3 51.3 36.3 60.2 65.1H628c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12H468.7c-19.2 0-37.9-5.4-53.8-15.6L327.4 448H312.6l-87.5 32H171.3zM96 400c-26.5 0-48-21.5-48-48s21.5-48 48-48 48 21.5 48 48-21.5 48-48 48zm448 0c-26.5 0-48-21.5-48-48s21.5-48 48-48 48 21.5 48 48-21.5 48-48 48zM32 192H192c17.7 0 32 14.3 32 32v96c0 17.7-14.3 32-32 32H64c-17.7 0-32-14.3-32-32V224c0-17.7 14.3-32 32-32zm96 64c-8.8 0-16-7.2-16-16s7.2-16 16-16 16 7.2 16 16-7.2 16-16 16zm288-64H608c17.7 0 32 14.3 32 32v96c0 17.7-14.3 32-32 32H480c-17.7 0-32-14.3-32-32V224c0-17.7 14.3-32 32-32zm96 64c-8.8 0-16-7.2-16-16s7.2-16 16-16 16 7.2 16 16-7.2 16-16 16z'/%3E%3C/svg%3E") no-repeat center / contain;
-    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 512'%3E%3Cpath d='M171.3 496H12c-6.6 0-12-5.4-12-12V444c0-6.6 5.4-12 12-12H98.1c8.9-28.8 31.7-52.8 60.2-65.1l97.5-45.1c24.6-11.4 51.7-11.4 76.3 0l97.5 45.1c28.5 12.3 51.3 36.3 60.2 65.1H628c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12H468.7c-19.2 0-37.9-5.4-53.8-15.6L327.4 448H312.6l-87.5 32H171.3zM96 400c-26.5 0-48-21.5-48-48s21.5-48 48-48 48 21.5 48 48-21.5 48-48 48zm448 0c-26.5 0-48-21.5-48-48s21.5-48 48-48 48 21.5 48 48-21.5 48-48 48zM32 192H192c17.7 0 32 14.3 32 32v96c0 17.7-14.3 32-32 32H64c-17.7 0-32-14.3-32-32V224c0-17.7 14.3-32 32-32zm96 64c-8.8 0-16-7.2-16-16s7.2-16 16-16 16 7.2 16 16-7.2 16-16 16zm288-64H608c17.7 0 32 14.3 32 32v96c0 17.7-14.3 32-32 32H480c-17.7 0-32-14.3-32-32V224c0-17.7 14.3-32 32-32zm96 64c-8.8 0-16-7.2-16-16s7.2-16 16-16 16 7.2 16 16-7.2 16-16 16z'/%3E%3C/svg%3E") no-repeat center / contain;
 }
 
-/* Tiêu đề chào mừng */
+.car-icon img {
+    width: 100%;
+}
+
+/* Chào mừng */
 .welcome-text {
     font-size: 24px;
     font-weight: 600;
@@ -51,7 +55,7 @@ body {
     margin-bottom: 40px;
 }
 
-/* Nhóm input */
+/* Input group */
 .form-group {
     margin-bottom: 20px;
     text-align: left;
@@ -65,9 +69,14 @@ body {
     font-weight: 500;
 }
 
-.form-group input {
+/* Input wrapper (icon + input + eye) */
+.input-wrapper {
+    position: relative;
+}
+
+.input-wrapper input {
     width: 100%;
-    padding: 14px 16px;
+    padding: 14px 16px 14px 40px;
     border: none;
     border-radius: 8px;
     background-color: #f5f5f5;
@@ -75,20 +84,21 @@ body {
     color: #333;
 }
 
-.form-group input::placeholder {
+.input-wrapper input::placeholder {
     color: #999;
 }
 
-.form-group input:focus {
-    outline: none;
-    background-color: #ebebeb;
+/* Icon trong input */
+.input-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #777;
+    font-size: 16px;
 }
 
-/* Mật khẩu + icon mắt */
-.password-wrapper {
-    position: relative;
-}
-
+/* Icon mắt */
 .eye-icon {
     position: absolute;
     right: 14px;
@@ -99,11 +109,28 @@ body {
     cursor: pointer;
 }
 
+/* Checkbox ghi nhớ */
+.remember-wrapper {
+    display: flex;
+    align-items: center;
+    margin-top: 5px;
+    margin-bottom: 15px;
+}
+
+.remember-wrapper input {
+    margin-right: 8px;
+}
+
+.remember-wrapper label {
+    font-size: 14px;
+    color: #333;
+}
+
 /* Nút đăng nhập */
 .login-btn {
     width: 100%;
     padding: 14px;
-    margin-top: 30px;
+    margin-top: 15px;
     background-color: #000;
     color: white;
     border: none;
@@ -111,13 +138,11 @@ body {
     font-size: 16px;
     font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: 0.3s;
 }
 
 .login-btn:hover {
     background-color: #333;
-<<<<<<< Updated upstream
-=======
 }
 /* ================== DASHBOARD STYLES ================== */
 .dashboard-body {
@@ -258,6 +283,7 @@ body {
 .version {
     color: #999;
     font-size: 13px;
+
 }
 /* ====================== FIX HOÀN HẢO – SCROLL MƯỢT + CARD HIỆN ĐẦY ĐỦ ====================== */
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
@@ -268,16 +294,23 @@ html, body {
     background: linear-gradient(135deg, #f8f9ff 0%, #e8ecff 100%);
     overflow-x: hidden;
     overflow-y: auto;
+    overflow: hidden; /* Chặn scroll body */
 }
 
 /* ====================== SCROLLABLE CONTENT ====================== */
 .page-wrapper {
+
     min-height: 100vh;
     height: auto;
     overflow-x: hidden;
     overflow-y: visible;
     -webkit-overflow-scrolling: touch;
     padding-bottom: 120px;
+    height: 100vh;
+    overflow-y: auto;                 /* Scroll chỉ ở đây */
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch; /* Mượt trên iPhone */
+    padding-bottom: 100px;            /* space cho bottom-brand */
 }
 
 /* ====================== FIXED ELEMENTS ====================== */
@@ -350,6 +383,11 @@ html, body {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
     gap: 30px;
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
     padding: 20px 0;
 }
 
@@ -362,6 +400,7 @@ html, body {
     padding: 40px;
     gap: 50px;
     min-height: 260px;
+    height: 300px;
     transition: all .4s ease;
 }
 .product-card:hover {
@@ -372,6 +411,8 @@ html, body {
     width: 320px;
     max-width: 40%;
     height: auto;
+    width: 340px;
+    height: 100%;
     object-fit: contain;
     flex-shrink: 0;
 }
@@ -516,6 +557,12 @@ html, body {
     height: auto;
     overflow-x: hidden;
     overflow-y: visible;
+    overflow: hidden;
+}
+.page-wrapper {
+    height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
     padding: 20px 20px 140px;
     -webkit-overflow-scrolling: touch;
 }
@@ -775,5 +822,4 @@ table tr:hover {
 }
 .action-icons i:hover::after {
     opacity: 1;
->>>>>>> Stashed changes
 }

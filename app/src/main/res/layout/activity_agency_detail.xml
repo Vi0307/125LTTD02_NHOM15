@@ -20,9 +20,12 @@
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:layout_marginEnd="8dp"
-            android:src="@drawable/ic_arrow_back_black"
+            android:clickable="true"
             android:contentDescription="back"
-            android:scaleType="centerInside" />
+            android:focusable="true"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_arrow_back_black"
+            tools:ignore="TouchTargetSizeCheck" />
 
         <TextView
             android:id="@+id/tvTitle"
@@ -73,7 +76,7 @@
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="290dp">
+            android:layout_height="340dp">
 
             <!-- Button Đặt dịch vụ -->
             <Button
@@ -94,7 +97,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:padding="10dp">
 
                 <ImageView
                     android:layout_width="20dp"
@@ -131,7 +135,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:padding="10dp">
 
                 <ImageView
                     android:layout_width="15dp"
@@ -167,12 +172,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                >
+                android:padding="10dp">
 
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:src="@drawable/ic_phone" />
+                    android:src="@drawable/ic_phone"
+                    app:tint="#E53935" />
 
                 <TextView
                     android:id="@+id/txtTitleSDT"

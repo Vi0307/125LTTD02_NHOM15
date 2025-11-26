@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTOTECH - Quản lý sản phẩm</title>
+    <link rel="stylesheet" href="asset/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        /* FIX CỨNG: Đảm bảo toàn bộ trang scroll được và không bị che */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;                 /* Chặn scroll body */
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #f8f9ff 0%, #e8ecff 100%);
+        }
+        .page-wrapper {
+            height: 100vh;
+            overflow-y: auto;                 /* Chỉ scroll ở đây */
+            overflow-x: hidden;
+            padding: 20px 20px 120px 20px;    /* Đẩy nội dung xuống tránh bị top-user che */
+            -webkit-overflow-scrolling: touch;
+        }
+        .main-content {
+            margin-left: 280px;               /* Đẩy nội dung ra khỏi sidebar */
+            padding-top: 80px;                /* Đẩy xuống dưới top-user + sidebar */
+        }
+    </style>
+</head>
+<body>
+
+<div class="page-wrapper">
+
+    <!-- Top User (cố định) -->
+    <div class="top-user">
+        <img src="https://via.placeholder.com/40/333/fff?text=A" alt="Admin" class="avatar">
+        <span class="username">Administrator</span>
+    </div>
+
+    <!-- Sidebar (cố định) -->
+    <aside class="sidebar">
+        <ul class="menu">
+            <li class="menu-item active"><i class="fas fa-th-large"></i> Sản phẩm</li>
+            <li class="menu-item"><i class="fas fa-users"></i> Người dùng</li>
+            <li class="menu-item"><i class="fas fa-shopping-cart"></i> Đơn hàng</li>
+            <li class="menu-item"><i class="fas fa-calendar-check"></i> Đặt lịch</li>
+            <li class="menu-item"><i class="fas fa-bell"></i> Thông báo</li>
+        </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+
+        <!-- PHẦN CHI TIẾT -->
+        <div class="detail-card">
+            <div class="detail-header">
+                <h2>Chi tiết <i class="fas fa-edit"></i></h2>
+            </div>
+
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Mã phụ tùng</label>
+                    <input type="text" id="maPhuTung" placeholder="VD: X001">
+                </div>
+                <div class="form-group">
+                    <label>Giá</label>
+                    <input type="text" id="gia" placeholder="VD: 7.000.000VND">
+                </div>
+                <div class="form-group">
+                    <label>Image</label>
+                    <button class="upload-btn" onclick="document.getElementById('fileInput').click()">
+                        <i class="fas fa-cloud-upload-alt"></i> Upload Image
+                    </button>
+                    <input type="file" id="fileInput" accept="image/*" style="display:none" onchange="previewImage(event)">
+                </div>
+
+                <div class="form-group">
+                    <label>Tên phụ tùng</label>
+                    <input type="text" id="tenPhuTung" placeholder="VD: Ống gió nạp hơi">
+                </div>
+                <div class="form-group">
+                    <label>Mã danh mục</label>
+                    <input type="text" id="maDanhMuc" value="1" placeholder="VD: 1">
+                </div>
+                <div class="form-group image-preview">
+                    <img id="imgPreview" src="" alt="Preview" style="display:none; width:200px; height:140px; object-fit:cover; border:2px dashed #ccc; border-radius:12px;">
+                </div>
+
+                <div class="form-group full-width">
+                    <label>Loại xe</label>
+                    <select id="loaiXe">
+                        <option>BMW i5</option>
+                        <option>BMW i3</option>
+                        <option>Mercedes EQS</option>
+                        <option>Audi e-tron</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button class="btn-add"><i class="fas fa-plus"></i> Thêm</button>
+                <button class="btn-update"><i class="fas fa-edit"></i> Cập nhật</button>
+                <button class="btn-refresh" onclick="resetForm()"><i class="fas fa-sync-alt"></i> Refresh</button>
+            </div>
+        </div>
+
+        <!-- BẢNG SẢN PHẨM -->
+        <div class="table-card">
+            <h2 class="table-title">Sản phẩm</h2>
+            <div class="table-container">
+                <table class="product-table">
+                    <thead>
+                        <tr>
+                            <th>Mã phụ tùng</th>
+                            <th>Tên phụ tùng</th>
+                            <th>Loại xe</th>
+                            <th>Giá</th>
+                            <th>Mã danh mục</th>
+                            <th>Hình ảnh</th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody id="productTableBody">
+                        <tr onclick="fillForm(this)">
+                            <td>X001</td>
+                            <td>Ống gió nạp hơi</td>
+                            <td>BMW i5</td>
+                            <td>7.000.000VND</td>
+                            <td>1</td>
+                            <td><img src="asset/img_ong_gio_nap_hoi.png" style="width:70px; height:50px; object-fit:cover;"></td>
+                            <td class="actions">
+                                <i class="fas fa-edit edit-icon"></i>
+                                <i class="fas fa-trash trash-icon" onclick="event.stopPropagation(); deleteRow(this)"></i>
+                            </td>
+                        </tr>
+                        <tr onclick="fillForm(this)">
+                            <td>X002</td>
+                            <td>Bộ đèn pha</td>
+                            <td>BMW i3</td>
+                            <td>7.500.000VND</td>
+                            <td>1</td>
+                            <td><img src="asset/denpha.png" style="width:70px; height:50px; object-fit:cover;"></td>
+                            <td class="actions">
+                                <i class="fas fa-edit edit-icon"></i>
+                                <i class="fas fa-trash trash-icon" onclick="event.stopPropagation(); deleteRow(this)"></i>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Bottom Brand (cố định) -->
+    <div class="bottom-brand">
+        <div class="brand-name">OTOTECH</div>
+        <div class="version">Version: 1.0.0.11</div>
+    </div>
+</div>
+
+<script>
+let currentRow = null;
+
+// Điền dữ liệu lên form
+function fillForm(row) {
+    currentRow = row;
+    const c = row.cells;
+    $('#maPhuTung').value = c[0].textContent.trim();
+    $('#tenPhuTung').value = c[1].textContent.trim();
+    $('#loaiXe').value = c[2].textContent.trim();
+    $('#gia').value = c[3].textContent.trim();
+    $('#maDanhMuc').value = c[4].textContent.trim();
+    const img = c[5].querySelector('img');
+    const preview = $('#imgPreview');
+    if (img) {
+        preview.src = img.src;
+        preview.style.display = 'block';
+    }
+}
+
+// Xóa dòng
+function deleteRow(icon) {
+    if (confirm('Xóa sản phẩm này?')) {
+        icon.closest('tr').remove();
+        resetForm();
+    }
+}
+
+// Reset form
+function resetForm() {
+    $('#maPhuTung').value = '';
+    $('#tenPhuTung').value = '';
+    $('#loaiXe').selectedIndex = 0;
+    $('#gia').value = '';
+    $('#maDanhMuc').value = '1';
+    const preview = $('#imgPreview');
+    preview.src = '';
+    preview.style.display = 'none';
+    currentRow = null;
+}
+
+// Preview ảnh khi chọn file
+function previewImage(e) {
+    const file = e.target.files[0];
+    if (file) {
+        const preview = $('#imgPreview');
+        preview.src = URL.createObjectURL(file);
+        preview.style.display = 'block';
+    }
+}
+
+// Helper
+function $(s) { return document.querySelector(s); }
+
+// Nút Thêm
+$('.btn-add').onclick = function() {
+    if (!$('#maPhuTung').value || !$('#tenPhuTung').value) {
+        alert('Vui lòng nhập Mã và Tên phụ tùng!');
+        return;
+    }
+    const tbody = $('#productTableBody');
+    const r = tbody.insertRow();
+    r.onclick = () => fillForm(r);
+    const imgSrc = $('#imgPreview').style.display === 'block' ? $('#imgPreview').src : '';
+    r.innerHTML = `
+        <td>${$('#maPhuTung').value}</td>
+        <td>${$('#tenPhuTung').value}</td>
+        <td>${$('#loaiXe').value}</td>
+        <td>${$('#gia').value || 'Chưa có'}</td>
+        <td>${$('#maDanhMuc').value}</td>
+        <td><img src="${imgSrc}" style="width:70px; height:50px; object-fit:cover;"></td>
+        <td class="actions">
+            <i class="fas fa-edit edit-icon"></i>
+            <i class="fas fa-trash trash-icon" onclick="event.stopPropagation(); deleteRow(this)"></i>
+        </td>
+    `;
+    alert('Đã thêm sản phẩm mới!');
+    resetForm();
+};
+
+// Nút Cập nhật
+$('.btn-update').onclick = function() {
+    if (!currentRow) {
+        alert('Vui lòng chọn một sản phẩm để cập nhật!');
+        return;
+    }
+    const c = currentRow.cells;
+    c[0].textContent = $('#maPhuTung').value;
+    c[1].textContent = $('#tenPhuTung').value;
+    c[2].textContent = $('#loaiXe').value;
+    c[3].textContent = $('#gia').value;
+    c[4].textContent = $('#maDanhMuc').value;
+    c[5].innerHTML = `<img src="${$('#imgPreview').src}" style="width:70px; height:50px; object-fit:cover;">`;
+    alert('Cập nhật thành công!');
+};
+</script>
+
+</body>
+</html>

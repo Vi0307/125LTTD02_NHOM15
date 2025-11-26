@@ -1,5 +1,6 @@
 package com.example.quanlyoto.fragment;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,7 @@ public class Complete_Detail_Payment_Fragment extends Fragment {
         // Public constructor
     }
 
+    @SuppressLint("MissingInflatedId")
     @Nullable
     @Override
     public View onCreateView(
@@ -26,37 +28,47 @@ public class Complete_Detail_Payment_Fragment extends Fragment {
             @Nullable ViewGroup container,
             @Nullable Bundle savedInstanceState) {
 
-        return inflater.inflate(R.layout.activity_complete_detail_payment, container, false);
-    }
+        View view = inflater.inflate(R.layout.activity_complete_detail_payment, container, false);
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        //==================== NÚT BACK ====================//
         ImageView icBack = view.findViewById(R.id.ic_back_promotion_applies);
-        if (icBack != null) {
-            icBack.setOnClickListener(v -> {
-                requireActivity()
-                        .getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.fragment_container, new Promotion_Applies_Fragment())
-                        .addToBackStack(null)
-                        .commit();
-            });
-        }
-
-        //==================== NÚT THANH TOÁN ====================//
         Button btnPaymentMethod = view.findViewById(R.id.btn_payment_method);
-        if (btnPaymentMethod != null) {
-            btnPaymentMethod.setOnClickListener(v -> {
-                requireActivity()
-                        .getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.fragment_container, new Payment_Method_Fragment())
-                        .addToBackStack(null)
-                        .commit();
-            });
-        }
+
+        // Quay lại Promotion_Applies_Fragment
+        icBack.setOnClickListener(v -> {
+            requireActivity()
+                    .getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, new Promotion_Applies_Fragment())
+                    .addToBackStack(null)
+                    .commit();
+        });
+
+        // Chuyẻn sang phương thức vận chuyển
+        view.findViewById(R.id.ic_shipping_method).setOnClickListener(v -> {
+            requireActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, new Select_Shipping_Method_Fragment())
+                    .commit();
+        });
+
+        // Chuyẻn sang áp dụng khuyến mãi
+        view.findViewById(R.id.ic_payment_method).setOnClickListener(v -> {
+            requireActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, new Promotion_Applies_Fragment())
+                    .commit();
+        });
+
+        // Chuyển sang Payment_Method_Fragment
+        btnPaymentMethod.setOnClickListener(v -> {
+            requireActivity()
+                    .getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, new Payment_Method_Fragment())
+                    .addToBackStack(null)
+                    .commit();
+        });
+
+        return view;
     }
 }
