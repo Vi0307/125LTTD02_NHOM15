@@ -23,13 +23,13 @@
             <li class="menu-item active" onclick="goTo('dashboard.html')">
                 <i class="fas fa-th-large"></i> Sản phẩm
             </li>
-            <li class="menu-item" onclick="goTo('users.html')">
+            <li class="menu-item" onclick="goTo('user.html')">
                 <i class="fas fa-users"></i> Người dùng
             </li>
-            <li class="menu-item" onclick="goTo('orders.html')">
+            <li class="menu-item" onclick="goTo('order.html')">
                 <i class="fas fa-shopping-cart"></i> Đơn hàng
             </li>
-            <li class="menu-item" onclick="goTo('booking.html')">
+            <li class="menu-item" onclick="goTo('schedule.html')">
                 <i class="fas fa-calendar-check"></i> Đặt lịch
             </li>
             <li class="menu-item" onclick="goTo('notifications.html')">
@@ -56,7 +56,7 @@
                         <h3>Phụ tùng thân vỏ</h3>
                         <p class="desc">Các bộ phận liên quan đến hệ thống động cơ</p>
                         <p class="available">Các bộ phận hiện có: <strong>4</strong></p>
-                        <button class="view-btn">Chi tiết</button>
+                        <button class="view-btn" onclick="goTo('product1.html')">Chi tiết</button>
                         
                     </div>
                 </div>
@@ -100,6 +100,12 @@
             </div>
         </main>
     </div>
+    <!-- Script điều hướng -->
+    <script>
+        function goTo(page) {
+            window.location.href = page;
+        }
+    </script>
 
 </body>
 </html>
