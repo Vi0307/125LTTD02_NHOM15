@@ -6,36 +6,13 @@
     <title>OTOTECH - Quản lý sản phẩm</title>
     <link rel="stylesheet" href="asset/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <style>
-        /* FIX CỨNG: Đảm bảo toàn bộ trang scroll được và không bị che */
-        html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-            overflow: hidden;                 /* Chặn scroll body */
-            font-family: 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #f8f9ff 0%, #e8ecff 100%);
-        }
-        .page-wrapper {
-            height: 100vh;
-            overflow-y: auto;                 /* Chỉ scroll ở đây */
-            overflow-x: hidden;
-            padding: 20px 20px 120px 20px;    /* Đẩy nội dung xuống tránh bị top-user che */
-            -webkit-overflow-scrolling: touch;
-        }
-        .main-content {
-            margin-left: 280px;               /* Đẩy nội dung ra khỏi sidebar */
-            padding-top: 80px;                /* Đẩy xuống dưới top-user + sidebar */
-        }
-    </style>
 </head>
-<body>
+<body class="dashboard-body admin-body">
 
 <div class="page-wrapper">
 
     <!-- Top User (cố định) -->
     <div class="top-user">
-        <img src="https://via.placeholder.com/40/333/fff?text=A" alt="Admin" class="avatar">
         <span class="username">Administrator</span>
     </div>
 
@@ -51,7 +28,54 @@
     </aside>
 
     <!-- Main Content -->
-    <main class="main-content">
+    <main class="admin-main">
+
+        <section class="panel-grid">
+        <!-- BẢNG SẢN PHẨM -->
+        <div class="table-card">
+            <h2 class="table-title">Sản phẩm</h2>
+            <div class="table-container">
+                <table class="product-table">
+                    <thead>
+                        <tr>
+                            <th>Mã phụ tùng</th>
+                            <th>Tên phụ tùng</th>
+                            <th>Loại xe</th>
+                            <th>Giá</th>
+                            <th>Mã danh mục</th>
+                            <th>Hình ảnh</th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody id="productTableBody">
+                        <tr onclick="fillForm(this)">
+                            <td>X001</td>
+                            <td>Ống gió nạp hơi</td>
+                            <td>BMW i5</td>
+                            <td>7.000.000VND</td>
+                            <td>1</td>
+                            <td><img src="asset/img_ong_gio_nap_hoi.png" style="width:70px; height:50px; object-fit:cover;"></td>
+                            <td class="actions">
+                                <i class="fas fa-edit edit-icon"></i>
+                                <i class="fas fa-trash trash-icon" onclick="event.stopPropagation(); deleteRow(this)"></i>
+                            </td>
+                        </tr>
+                        <tr onclick="fillForm(this)">
+                            <td>X002</td>
+                            <td>Bộ đèn pha</td>
+                            <td>BMW i3</td>
+                            <td>7.500.000VND</td>
+                            <td>1</td>
+                            <td><img src="asset/denpha.png" style="width:70px; height:50px; object-fit:cover;"></td>
+                            <td class="actions">
+                                <i class="fas fa-edit edit-icon"></i>
+                                <i class="fas fa-trash trash-icon" onclick="event.stopPropagation(); deleteRow(this)"></i>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
         <!-- PHẦN CHI TIẾT -->
         <div class="detail-card">
@@ -105,52 +129,7 @@
                 <button class="btn-refresh" onclick="resetForm()"><i class="fas fa-sync-alt"></i> Refresh</button>
             </div>
         </div>
-
-        <!-- BẢNG SẢN PHẨM -->
-        <div class="table-card">
-            <h2 class="table-title">Sản phẩm</h2>
-            <div class="table-container">
-                <table class="product-table">
-                    <thead>
-                        <tr>
-                            <th>Mã phụ tùng</th>
-                            <th>Tên phụ tùng</th>
-                            <th>Loại xe</th>
-                            <th>Giá</th>
-                            <th>Mã danh mục</th>
-                            <th>Hình ảnh</th>
-                            <th>Hành động</th>
-                        </tr>
-                    </thead>
-                    <tbody id="productTableBody">
-                        <tr onclick="fillForm(this)">
-                            <td>X001</td>
-                            <td>Ống gió nạp hơi</td>
-                            <td>BMW i5</td>
-                            <td>7.000.000VND</td>
-                            <td>1</td>
-                            <td><img src="asset/img_ong_gio_nap_hoi.png" style="width:70px; height:50px; object-fit:cover;"></td>
-                            <td class="actions">
-                                <i class="fas fa-edit edit-icon"></i>
-                                <i class="fas fa-trash trash-icon" onclick="event.stopPropagation(); deleteRow(this)"></i>
-                            </td>
-                        </tr>
-                        <tr onclick="fillForm(this)">
-                            <td>X002</td>
-                            <td>Bộ đèn pha</td>
-                            <td>BMW i3</td>
-                            <td>7.500.000VND</td>
-                            <td>1</td>
-                            <td><img src="asset/denpha.png" style="width:70px; height:50px; object-fit:cover;"></td>
-                            <td class="actions">
-                                <i class="fas fa-edit edit-icon"></i>
-                                <i class="fas fa-trash trash-icon" onclick="event.stopPropagation(); deleteRow(this)"></i>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+        </section>
 
     </main>
 
