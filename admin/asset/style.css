@@ -146,11 +146,16 @@ body {
 }
 /* ================== DASHBOARD STYLES ================== */
 .dashboard-body {
-    height: 100vh;
+    display: block;
+    min-height: 100vh;
+    width: 100%;
     background: linear-gradient(135deg, #f8f9ff 0%, #e8ecff 100%);
     position: relative;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 0;
+    margin: 0;
 }
 
 /* Avatar + Tên người dùng góc trên trái */
@@ -278,6 +283,7 @@ body {
 .version {
     color: #999;
     font-size: 13px;
+
 }
 /* ====================== FIX HOÀN HẢO – SCROLL MƯỢT + CARD HIỆN ĐẦY ĐỦ ====================== */
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
@@ -286,11 +292,20 @@ html, body {
     height: 100%;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: linear-gradient(135deg, #f8f9ff 0%, #e8ecff 100%);
+    overflow-x: hidden;
+    overflow-y: auto;
     overflow: hidden; /* Chặn scroll body */
 }
 
 /* ====================== SCROLLABLE CONTENT ====================== */
 .page-wrapper {
+
+    min-height: 100vh;
+    height: auto;
+    overflow-x: hidden;
+    overflow-y: visible;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 120px;
     height: 100vh;
     overflow-y: auto;                 /* Scroll chỉ ở đây */
     overflow-x: hidden;
@@ -363,6 +378,11 @@ html, body {
 }
 
 .products-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+    gap: 30px;
     max-width: 1000px;
     margin: 0 auto;
     display: flex;
@@ -379,6 +399,7 @@ html, body {
     align-items: center;
     padding: 40px;
     gap: 50px;
+    min-height: 260px;
     height: 300px;
     transition: all .4s ease;
 }
@@ -387,6 +408,9 @@ html, body {
     box-shadow: 0 30px 80px rgba(0,0,0,0.2);
 }
 .product-card img {
+    width: 320px;
+    max-width: 40%;
+    height: auto;
     width: 340px;
     height: 100%;
     object-fit: contain;
@@ -525,6 +549,14 @@ html, body {
     height: 100%; margin: 0; padding: 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: linear-gradient(135deg, #f8f9ff 0%, #e8ecff 100%);
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+.page-wrapper {
+    min-height: 100vh;
+    height: auto;
+    overflow-x: hidden;
+    overflow-y: visible;
     overflow: hidden;
 }
 .page-wrapper {
