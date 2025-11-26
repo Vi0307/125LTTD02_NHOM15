@@ -739,3 +739,55 @@ table tr:hover {
 .btn-update-circle i {
     font-size: 18px;
 }
+
+
+
+/* ==================== TRANG THÔNG BÁO – 2 ICON CHUÔNG & XÓA ==================== */
+.bell-notify {
+    color: #ffc107;
+    font-size: 19px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.bell-notify:hover { 
+    color: #e0a800; 
+    transform: scale(1.15);
+}
+.fa-bell-slash { color: #28a745 !important; }
+
+.delete-notify {
+    color: #dc3545;
+    font-size: 18px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.delete-notify:hover { 
+    color: #c82333; 
+    transform: scale(1.15);
+}
+
+/* Tooltip đẹp khi hover */
+.action-icons i {
+    position: relative;
+}
+.action-icons i::after {
+    content: attr(title);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #333;
+    color: white;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+    z-index: 10;
+    margin-bottom: 8px;
+}
+.action-icons i:hover::after {
+    opacity: 1;
+}
