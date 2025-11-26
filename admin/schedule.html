@@ -20,11 +20,21 @@
     <!-- Sidebar -->
     <aside class="sidebar">
         <ul class="menu">
-            <li class="menu-item"><i class="fas fa-th-large"></i> Sản phẩm</li>
-            <li class="menu-item"><i class="fas fa-users"></i> Người dùng</li>
-            <li class="menu-item"><i class="fas fa-shopping-cart"></i> Đơn hàng</li>
-            <li class="menu-item active"><i class="fas fa-calendar-check"></i> Đặt lịch</li>
-            <li class="menu-item"><i class="fas fa-bell"></i> Thông báo</li>
+            <li class="menu-item " onclick="goTo('dashboard.html')">
+                <i class="fas fa-th-large"></i> Sản phẩm
+            </li>
+            <li class="menu-item" onclick="goTo('user.html')">
+                <i class="fas fa-users"></i> Người dùng
+            </li>
+            <li class="menu-item" onclick="goTo('order.html')">
+                <i class="fas fa-shopping-cart"></i> Đơn hàng
+            </li>
+            <li class="menu-item active" onclick="goTo('schedule.html')">
+                <i class="fas fa-calendar-check"></i> Đặt lịch
+            </li>
+            <li class="menu-item" onclick="goTo('notifications.html')">
+                <i class="fas fa-bell"></i> Thông báo
+            </li>
         </ul>
     </aside>
 
@@ -184,6 +194,10 @@ function updateSchedule() {
 }
 
 function $(s) { return document.querySelector(s); }
+
+function goTo(page) {
+            window.location.href = page;
+        }
 </script>
 
 </body>
