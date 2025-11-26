@@ -294,23 +294,16 @@ html, body {
     background: linear-gradient(135deg, #f8f9ff 0%, #e8ecff 100%);
     overflow-x: hidden;
     overflow-y: auto;
-    overflow: hidden; /* Chặn scroll body */
 }
 
 /* ====================== SCROLLABLE CONTENT ====================== */
 .page-wrapper {
-
     min-height: 100vh;
     height: auto;
     overflow-x: hidden;
-    overflow-y: visible;
+    overflow-y: auto;
     -webkit-overflow-scrolling: touch;
-    padding-bottom: 120px;
-    height: 100vh;
-    overflow-y: auto;                 /* Scroll chỉ ở đây */
-    overflow-x: hidden;
-    -webkit-overflow-scrolling: touch; /* Mượt trên iPhone */
-    padding-bottom: 100px;            /* space cho bottom-brand */
+    padding: 20px 20px 140px;
 }
 
 /* ====================== FIXED ELEMENTS ====================== */
@@ -383,11 +376,6 @@ html, body {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
     gap: 30px;
-    max-width: 1000px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: 40px;
     padding: 20px 0;
 }
 
@@ -400,7 +388,6 @@ html, body {
     padding: 40px;
     gap: 50px;
     min-height: 260px;
-    height: 300px;
     transition: all .4s ease;
 }
 .product-card:hover {
@@ -411,8 +398,6 @@ html, body {
     width: 320px;
     max-width: 40%;
     height: auto;
-    width: 340px;
-    height: 100%;
     object-fit: contain;
     flex-shrink: 0;
 }
@@ -556,13 +541,7 @@ html, body {
     min-height: 100vh;
     height: auto;
     overflow-x: hidden;
-    overflow-y: visible;
-    overflow: hidden;
-}
-.page-wrapper {
-    height: 100vh;
     overflow-y: auto;
-    overflow-x: hidden;
     padding: 20px 20px 140px;
     -webkit-overflow-scrolling: touch;
 }
@@ -586,6 +565,58 @@ html, body {
     text-align: center;
     margin-bottom: 24px;
     color: #222;
+}
+
+/* ==================== ADMIN PRODUCT / ORDER LAYOUT ==================== */
+.admin-body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #f8f9ff 0%, #e8ecff 100%);
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+.admin-body .page-wrapper {
+    padding: 40px 40px 160px;
+}
+
+.admin-main {
+    margin-left: 300px;
+    margin-right: 40px;
+    padding-top: 140px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.panel-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    align-items: stretch;
+}
+
+.admin-main .detail-card {
+    display: block;
+}
+
+@media (max-width: 1200px) {
+    .admin-main {
+        margin-left: 260px;
+        margin-right: 20px;
+    }
+    .panel-grid {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 768px) {
+    .admin-body .page-wrapper {
+        padding: 30px 20px 140px;
+    }
+    .admin-main {
+        margin: 0;
+        padding-top: 120px;
+    }
 }
 
 /* ==================== BẢNG CHUNG ==================== */
