@@ -283,8 +283,7 @@ body {
 .version {
     color: #999;
     font-size: 13px;
-<<<<<<< Updated upstream
-=======
+
 }
 /* ====================== FIX HOÀN HẢO – SCROLL MƯỢT + CARD HIỆN ĐẦY ĐỦ ====================== */
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
@@ -295,16 +294,23 @@ html, body {
     background: linear-gradient(135deg, #f8f9ff 0%, #e8ecff 100%);
     overflow-x: hidden;
     overflow-y: auto;
+    overflow: hidden; /* Chặn scroll body */
 }
 
 /* ====================== SCROLLABLE CONTENT ====================== */
 .page-wrapper {
+
     min-height: 100vh;
     height: auto;
     overflow-x: hidden;
     overflow-y: visible;
     -webkit-overflow-scrolling: touch;
     padding-bottom: 120px;
+    height: 100vh;
+    overflow-y: auto;                 /* Scroll chỉ ở đây */
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch; /* Mượt trên iPhone */
+    padding-bottom: 100px;            /* space cho bottom-brand */
 }
 
 /* ====================== FIXED ELEMENTS ====================== */
@@ -377,6 +383,11 @@ html, body {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
     gap: 30px;
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
     padding: 20px 0;
 }
 
@@ -389,6 +400,7 @@ html, body {
     padding: 40px;
     gap: 50px;
     min-height: 260px;
+    height: 300px;
     transition: all .4s ease;
 }
 .product-card:hover {
@@ -399,6 +411,8 @@ html, body {
     width: 320px;
     max-width: 40%;
     height: auto;
+    width: 340px;
+    height: 100%;
     object-fit: contain;
     flex-shrink: 0;
 }
@@ -543,6 +557,12 @@ html, body {
     height: auto;
     overflow-x: hidden;
     overflow-y: visible;
+    overflow: hidden;
+}
+.page-wrapper {
+    height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
     padding: 20px 20px 140px;
     -webkit-overflow-scrolling: touch;
 }
@@ -802,5 +822,4 @@ table tr:hover {
 }
 .action-icons i:hover::after {
     opacity: 1;
->>>>>>> Stashed changes
 }

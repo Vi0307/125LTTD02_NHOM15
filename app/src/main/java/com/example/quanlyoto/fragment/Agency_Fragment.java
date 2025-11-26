@@ -50,12 +50,61 @@ public class Agency_Fragment extends Fragment {
         ImageView btnBack = view.findViewById(R.id.btnBack);
         if (btnBack != null) {
             btnBack.setOnClickListener(v -> {
-                Fragment maintenanceDetail = new Maintenance_Detail_Fragment();
+                // Quay lại fragment trước đó
+                if (getParentFragmentManager().getBackStackEntryCount() > 0) {
+                    getParentFragmentManager().popBackStack();
+                } else {
+                    // Nếu không có gì trong back stack, về Home
+                    requireActivity().getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.fragment_container, new HomeFragment())
+                            .commit();
+                }
+            });
+        }
+        // BOTTOM NAV — HOME
+        view.findViewById(R.id.navHome).setOnClickListener(v -> {
+            requireActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, new HomeFragment())
+                    .commit();
+        });
 
-                requireActivity()
-                        .getSupportFragmentManager()
+        // BOTTOM NAV — PARTS
+        view.findViewById(R.id.navParts).setOnClickListener(v -> {
+            requireActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, new Homeparts())
+                    .commit();
+        });
+
+        // BOTTOM NAV — MYCAR
+        view.findViewById(R.id.navCar).setOnClickListener(v -> {
+            requireActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, new MyCarFragment())
+                    .commit();
+        });
+
+        // BOTTOM NAV — VOUCHER
+        View navVoucher = view.findViewById(R.id.navVoucher);
+        if (navVoucher != null) {
+            navVoucher.setOnClickListener(v -> {
+                requireActivity().getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.fragment_container, maintenanceDetail)
+                        .replace(R.id.fragment_container, new VoucherStillValid())
+                        .addToBackStack(null)
+                        .commit();
+            });
+        }
+
+        // CHATBOX → ChatFragment
+        View chatBtn = view.findViewById(R.id.btnChat);
+        if (chatBtn != null) {
+            chatBtn.setOnClickListener(v -> {
+                requireActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, new ChatBox())
                         .addToBackStack(null)
                         .commit();
             });
