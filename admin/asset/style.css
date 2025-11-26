@@ -517,3 +517,201 @@ html, body {
 .actions i { font-size:18px; margin:0 10px; cursor:pointer; }
 .edit-icon { color:#007bff; }
 .trash-icon { color:#dc3545; }
+
+
+/* ==================== COMMON LAYOUT (dùng chung cho tất cả trang) ==================== */
+*, *::before, *::after { box-sizing: border-box; }
+html, body {
+    height: 100%; margin: 0; padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #f8f9ff 0%, #e8ecff 100%);
+    overflow: hidden;
+}
+.page-wrapper {
+    height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 20px 20px 140px;
+    -webkit-overflow-scrolling: touch;
+}
+.main-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 100px 20px 40px;
+}
+
+/* Card chung */
+.table-card, .detail-card {
+    background: white;
+    border-radius: 24px;
+    padding: 32px;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.09);
+    margin-bottom: 20px;
+}
+.table-title, .detail-title {
+    font-size: 28px;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 24px;
+    color: #222;
+}
+
+/* ==================== BẢNG CHUNG ==================== */
+.table-container { overflow-x: auto; border-radius: 16px; }
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 16px;
+    min-width: 600px;
+}
+table th {
+    background: #f1f3f5;
+    padding: 18px 16px;
+    text-align: left;
+    font-weight: 600;
+    color: #444;
+    border-bottom: 2px solid #e0e0e0;
+}
+table td {
+    padding: 20px 16px;
+    border-bottom: 1px solid #eee;
+    vertical-align: middle;
+}
+table tr:hover {
+    background: #f8fbff;
+    cursor: pointer;
+}
+
+/* Icon hành động */
+.action-icons {
+    display: flex;
+    gap: 16px;
+    font-size: 18px;
+}
+.lock-icon   { color: #ffc107; cursor: pointer; }
+.delete-icon { color: #dc3545; cursor: pointer; }
+.lock-icon:hover   { color: #e0a800; }
+.delete-icon:hover { color: #c82333; }
+
+/* Trạng thái đơn hàng */
+.status {
+    padding: 8px 18px;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 14px;
+}
+.status.completed { background:#d4edda; color:#155724; }
+.status.pending   { background:#fff3cd; color:#856404; }
+
+/* ==================== FORM CHI TIẾT CHUNG ==================== */
+.detail-card {
+    padding: 36px;
+    box-shadow: 0 14px 50px rgba(0,0,0,0.1);
+    display: none;
+}
+.form-grid, .form-grid-order, .form-grid-user {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+    margin-bottom: 32px;
+}
+.form-group label {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 8px;
+    display: block;
+}
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 14px 16px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    font-size: 15px;
+    background: #fdfdff;
+}
+.form-group input[readonly] {
+    background: #f5f5f5;
+    color: #666;
+}
+
+/* Nút Cập nhật chung (siêu đẹp) */
+.action-buttons {
+    display: flex;
+    justify-content: flex-end;
+}
+.btn-update {
+    background: linear-gradient(135deg, #4e9fff, #007bff);
+    color: white;
+    border: none;
+    padding: 16px 56px;
+    border-radius: 50px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 8px 30px rgba(0,123,255,0.35);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.btn-update:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0,123,255,0.5);
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .main-content { padding-top: 120px; }
+    .form-grid, .form-grid-order, .form-grid-user { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 600px) {
+    .form-grid, .form-grid-order, .form-grid-user { grid-template-columns: 1fr; }
+    .btn-update { width: 100%; justify-content: center; }
+}
+
+/* ==================== ICON KHÓA / MỞ KHÓA SIÊU ĐẸP ==================== */
+.lock-icon {
+    cursor: pointer;
+    font-size: 19px;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+/* Mở khóa (mặc định) → icon mở khóa + màu xanh */
+.lock-icon::before {
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    content: "\f09c";     /* fa-lock-open */
+    color: #28a745;
+}
+.lock-icon:hover::before { color: #218838; }
+
+/* Đã khóa → icon khóa kín + màu đỏ */
+.lock-icon.locked::before {
+    content: "\f023";     /* fa-lock */
+    color: #dc3545;
+}
+.lock-icon.locked:hover::before { color: #c82333; }
+
+/* Tooltip khi hover */
+.lock-icon::after {
+    content: attr(title);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #333;
+    color: white;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+    z-index: 10;
+}
+.lock-icon:hover::after {
+    opacity: 1;
+}
