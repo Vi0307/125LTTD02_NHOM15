@@ -298,11 +298,20 @@ html, body {
 
 /* ====================== SCROLLABLE CONTENT ====================== */
 .page-wrapper {
+<<<<<<< HEAD
     height: 100vh;
     overflow-y: auto;                 /* Scroll chỉ ở đây */
     overflow-x: hidden;
     -webkit-overflow-scrolling: touch; /* Mượt trên iPhone */
     padding-bottom: 100px;            /* space cho bottom-brand */
+=======
+    min-height: 100vh;
+    height: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 20px 20px 140px;
+>>>>>>> ab00ecc54bab9683bdf02895644d78d9a1b05c25
 }
 
 /* ====================== FIXED ELEMENTS ====================== */
@@ -537,8 +546,13 @@ html, body {
     overflow-y: auto;
 }
 .page-wrapper {
+<<<<<<< HEAD
     height: 100vh;
     overflow-y: auto;
+=======
+    min-height: 100vh;
+    height: auto;
+>>>>>>> ab00ecc54bab9683bdf02895644d78d9a1b05c25
     overflow-x: hidden;
     overflow-y: auto;
     padding: 20px 20px 140px;
@@ -566,6 +580,68 @@ html, body {
     color: #222;
 }
 
+<<<<<<< HEAD
+=======
+/* ==================== ADMIN PRODUCT / ORDER LAYOUT ==================== */
+.admin-body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #f8f9ff 0%, #e8ecff 100%);
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+.admin-body .page-wrapper {
+    padding: 40px 40px 160px;
+}
+
+.admin-main {
+    margin-left: 300px;
+    margin-right: 40px;
+    width: calc(100% - 340px);
+    padding-top: 140px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.panel-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    align-items: stretch;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.detail-card.show-on-load,
+.admin-main .detail-card.show-on-load {
+    display: block;
+}
+
+@media (max-width: 1200px) {
+    .admin-main {
+        margin-left: 260px;
+        margin-right: 20px;
+        width: calc(100% - 280px);
+    }
+    .panel-grid {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 768px) {
+    .admin-body .page-wrapper {
+        padding: 30px 20px 140px;
+    }
+    .admin-main {
+        margin: 0;
+        width: 100%;
+        padding-top: 120px;
+    }
+}
+
+>>>>>>> ab00ecc54bab9683bdf02895644d78d9a1b05c25
 /* ==================== BẢNG CHUNG ==================== */
 .table-container { overflow-x: auto; border-radius: 16px; }
 table {
