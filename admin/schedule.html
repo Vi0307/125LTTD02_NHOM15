@@ -7,12 +7,13 @@
     <link rel="stylesheet" href="asset/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
-<body>
+<body class="dashboard-body admin-body">
 
 <div class="page-wrapper">
 
     <!-- Top User -->
     <div class="top-user">
+        <img src="https://via.placeholder.com/40/333/fff?text=A" alt="Admin" class="avatar">
         <span class="username">Administrator</span>
     </div>
 
@@ -27,10 +28,11 @@
         </ul>
     </aside>
 
-    <main class="main-content">
+    <main class="admin-main">
+        <section class="panel-grid">
 
-        <!-- BẢNG ĐẶT LỊCH BẢO DƯỠNG -->
-        <div class="table-card">
+            <!-- BẢNG ĐẶT LỊCH BẢO DƯỠNG -->
+            <div class="table-card">
             <h2 class="table-title">Đặt lịch bảo dưỡng định kỳ</h2>
             <div class="table-container">
                 <table class="schedule-table">
@@ -70,10 +72,10 @@
                     </tbody>
                 </table>
             </div>
-        </div>
+            </div>
 
-        <!-- FORM CHI TIẾT – NGÀY NHẬN XE KHÔNG CHO SỬA -->
-        <div id="scheduleDetailCard" class="detail-card">
+            <!-- FORM CHI TIẾT – NGÀY NHẬN XE KHÔNG CHO SỬA -->
+            <div id="scheduleDetailCard" class="detail-card">
             <h2 class="detail-title">Chi tiết</h2>
             <div class="form-grid-schedule">
 
@@ -119,8 +121,9 @@
                     <i class="fas fa-pen"></i> Cập nhật
                 </button>
             </div>
-        </div>
+            </div>
 
+        </section>
     </main>
 
     <div class="bottom-brand">
