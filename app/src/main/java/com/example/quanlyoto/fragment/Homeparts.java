@@ -22,6 +22,17 @@ public class Homeparts extends Fragment {
 
         View view = inflater.inflate(R.layout.activity_homeparts_screen, container, false);
 
+        // ⭐ Icon giỏ hàng — mở trang Cart
+        View imgCart = view.findViewById(R.id.imgCart);
+        if (imgCart != null) {
+            imgCart.setOnClickListener(v -> {
+                requireActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, new Cart())
+                        .addToBackStack(null)
+                        .commit();
+            });
+        }
         // ⭐ Nút "Phụ tùng thân vỏ"
         Button btnBodyParts = view.findViewById(R.id.btnBodyParts);
 
