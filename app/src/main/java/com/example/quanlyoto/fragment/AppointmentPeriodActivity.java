@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-
+import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 
 import com.example.quanlyoto.R;
@@ -31,6 +31,13 @@ public class AppointmentPeriodActivity extends Fragment {
             getParentFragmentManager().beginTransaction()
                     .replace(R.id.fragment_container, new AppointmentCheckActivity())
                     .addToBackStack(null) // để back được
+                    .commit();
+        });
+        TextView tvCancel = view.findViewById(R.id.tv_cancel);
+        tvCancel.setOnClickListener(v -> {
+            // Chuyển về HomeFragment
+            getParentFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, new Agency_Detail_Fragment())
                     .commit();
         });
 
