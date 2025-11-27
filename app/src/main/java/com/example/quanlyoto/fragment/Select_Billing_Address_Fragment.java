@@ -53,16 +53,16 @@ public class Select_Billing_Address_Fragment extends Fragment {
         Button btnApply = view.findViewById(R.id.btn_apply_address);
         if (btnApply != null) {
             btnApply.setOnClickListener(v -> {
-                Fragment shippingMethodFragment = new Select_Shipping_Method_Fragment();
+                Fragment DetailPaymentFragment = new Detail_Payment_Fragment();
                 requireActivity().getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.fragment_container, shippingMethodFragment)
+                        .replace(R.id.fragment_container, DetailPaymentFragment)
                         .addToBackStack(null)
                         .commit();
             });
         }
 
-        //======================== NÚT ÁP DỤNG ========================//
+        //======================== NÚT Thêm địa chỉ ========================//
         Button btnThemDiaChi = view.findViewById(R.id.btn_themDiaChi);
         if (btnThemDiaChi != null) {
             btnThemDiaChi.setOnClickListener(v -> {
