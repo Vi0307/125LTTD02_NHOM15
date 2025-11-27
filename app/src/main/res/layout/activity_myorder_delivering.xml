@@ -96,12 +96,15 @@
 
             <!-- Sản phẩm 1 -->
             <androidx.cardview.widget.CardView
+                android:id="@+id/card_product_onggio"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="4dp"
-                app:cardBackgroundColor="#FFFFFF">
+                app:cardBackgroundColor="#FFFFFF"
+                android:clickable="true"
+                android:foreground="?attr/selectableItemBackground">
 
                 <LinearLayout
                     android:layout_width="match_parent"
