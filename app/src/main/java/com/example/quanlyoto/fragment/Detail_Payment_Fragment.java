@@ -78,7 +78,7 @@ public class Detail_Payment_Fragment extends Fragment {
         view.findViewById(R.id.btn_billing_address).setOnClickListener(v -> {
             requireActivity().getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.fragment_container, new Select_Billing_Address_Fragment())
+                    .replace(R.id.fragment_container, new Complete_Detail_Payment_Fragment())
                     .commit();
         });
     }
