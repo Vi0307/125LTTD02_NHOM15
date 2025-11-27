@@ -59,6 +59,14 @@ public class Detail_Payment_Fragment extends Fragment {
                     .commit();
         });
 
+        // Chuyẻn sang trang tiếp theo
+        view.findViewById(R.id.details).setOnClickListener(v -> {
+            requireActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, new Details())
+                    .commit();
+        });
+
         // Chuyẻn sang phương thức vận chuyển
         view.findViewById(R.id.ic_shipping_method).setOnClickListener(v -> {
             requireActivity().getSupportFragmentManager()
