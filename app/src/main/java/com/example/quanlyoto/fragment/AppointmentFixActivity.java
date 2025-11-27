@@ -10,6 +10,9 @@ import android.widget.ImageView;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import android.widget.TextView;
+import com.example.quanlyoto.fragment.AppointmentPeriodActivity;
+import com.example.quanlyoto.fragment.AppointmentDesActivity;
+
 
 import com.example.quanlyoto.R;
 
@@ -58,12 +61,22 @@ public class AppointmentFixActivity extends Fragment {
         Button btnNext = view.findViewById(R.id.button);
         btnNext.setOnClickListener(v -> {
             if (!selectedService.isEmpty()) {
+
+                Fragment nextFragment;
+
+                if (selectedService.equals("baoDuong")) {
+                    nextFragment = new AppointmentPeriodActivity(); // → chuyển đến lịch theo kỳ
+                } else {
+                    nextFragment = new AppointmentDesActivity(); // → chuyển đến mô tả sửa chữa
+                }
+
                 getParentFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_container, new AppointmentDesActivity())
+                        .replace(R.id.fragment_container, nextFragment)
                         .addToBackStack(null)
                         .commit();
             }
         });
+
 
         return view;
     }

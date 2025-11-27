@@ -37,7 +37,7 @@ public class AppointmentDesActivity extends Fragment {
         btnNext.setOnClickListener(v -> {
             // Chuyển sang fragment kế tiếp
             getParentFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, new AppointmentPeriodActivity())
+                    .replace(R.id.fragment_container, new AppointmentCheckActivity())
                     .addToBackStack(null)
                     .commit();
         });
