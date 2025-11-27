@@ -7,6 +7,17 @@
     android:layout_height="match_parent"
     android:background="#FFFFFF">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/bottomNav"
+        android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
     <!-- TOP BAR -->
     <LinearLayout
         android:id="@+id/topBar"
@@ -257,7 +268,7 @@
 
     <!-- BUTTON NEXT -->
     <Button
-        android:id="@+id/btnNextTime"
+        android:id="@+id/btnNext"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_below="@id/gridTime"
@@ -269,6 +280,9 @@
         android:textColor="#FFFFFF"
         android:textSize="16sp"
         android:textStyle="bold"/>
+    </LinearLayout>
+    </ScrollView>
+
 
 
     <!-- BOTTOM NAVIGATION -->
