@@ -38,7 +38,7 @@ public class Complete_Detail_Payment_Fragment extends Fragment {
             requireActivity()
                     .getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.fragment_container, new Promotion_Applies_Fragment())
+                    .replace(R.id.fragment_container, new Detail_Payment_Fragment())
                     .addToBackStack(null)
                     .commit();
         });
