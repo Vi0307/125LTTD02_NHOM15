@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import android.widget.TextView;
 
 import com.example.quanlyoto.R;
 
@@ -25,11 +26,18 @@ public class AppointmentFixActivity extends Fragment {
         // Khởi tạo CardViews
         cardBaoDuong = view.findViewById(R.id.cardBaoDuong);
         cardSuaChua = view.findViewById(R.id.cardSuaChua);
+        TextView tvCancel = view.findViewById(R.id.tv_cancel);
 
         // Nút Back
         ImageView btnBack = view.findViewById(R.id.btn_back);
         btnBack.setOnClickListener(v -> {
             getParentFragmentManager().popBackStack();
+        });
+        tvCancel.setOnClickListener(v -> {
+            // Chuyển về HomeFragment
+            getParentFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, new Agency_Detail_Fragment())
+                    .commit();
         });
 
         // Click vào card Bảo dưỡng

@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import androidx.fragment.app.Fragment;
-
+import android.widget.TextView;
 import com.example.quanlyoto.R;
 
 public class AppointmentDesActivity extends Fragment {
@@ -16,6 +16,14 @@ public class AppointmentDesActivity extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_appointment_des, container, false);
+        // Nút Hủy
+        TextView tvCancel = view.findViewById(R.id.tv_cancel);
+        tvCancel.setOnClickListener(v -> {
+            // Chuyển về HomeFragment
+            getParentFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, new Agency_Detail_Fragment())
+                    .commit();
+        });
 
         // Nút Back
         ImageView btnBack = view.findViewById(R.id.btn_back);

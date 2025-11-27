@@ -69,7 +69,12 @@ public class AppointmentCheckActivity extends Fragment {
 
 
         TextView btnCancel = view.findViewById(R.id.btnCancel);
-        btnCancel.setOnClickListener(v -> dialogOverlay.setVisibility(View.GONE));
+        btnCancel.setOnClickListener(v -> {
+            // Chuyển về HomeFragment
+            getParentFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, new Agency_Detail_Fragment())
+                    .commit();
+        });
 
         // Back button xử lý khi dialog mở
         requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(),
