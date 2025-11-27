@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.LinearLayout;
+import androidx.cardview.widget.CardView;
+
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.fragment.app.Fragment;
@@ -33,6 +35,15 @@ public class MyOrderDelivering extends Fragment {
                     .addToBackStack(null) // có thể quay lại tab đang giao
                     .commit();
         });
+        CardView cardOngGio = view.findViewById(R.id.card_product_onggio);
+        cardOngGio.setOnClickListener(v -> {
+            // Chuyển sang fragment OrderDetailFragment
+            getParentFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, new Order_Detail_Fragment())
+                    .addToBackStack(null) // để quay lại fragment trước
+                    .commit();
+        });
+
 
 
 
