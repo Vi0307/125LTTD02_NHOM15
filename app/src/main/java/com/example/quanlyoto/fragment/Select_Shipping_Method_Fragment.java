@@ -57,7 +57,7 @@ public class Select_Shipping_Method_Fragment extends Fragment {
             requireActivity()
                     .getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.fragment_container, new Select_Billing_Address_Fragment())
+                    .replace(R.id.fragment_container, new Detail_Payment_Fragment())
                     .addToBackStack(null)
                     .commit();
         });
@@ -72,7 +72,7 @@ public class Select_Shipping_Method_Fragment extends Fragment {
             requireActivity()
                     .getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.fragment_container, new Select_Billing_Address_Fragment())
+                    .replace(R.id.fragment_container, new Detail_Payment_Fragment())
                     .addToBackStack(null)
                     .commit();
         });
