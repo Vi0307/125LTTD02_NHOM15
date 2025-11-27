@@ -37,13 +37,14 @@ public class Detail_Payment_Fragment extends Fragment {
 
         // ==================== NÚT BACK ==================== //
         ImageView btnBack = view.findViewById(R.id.btnBack);
-        if (btnBack != null) {
-            btnBack.setOnClickListener(v ->
-                    requireActivity()
-                            .getSupportFragmentManager()
-                            .popBackStack() 
-            );
-        }
+        btnBack.setOnClickListener(v -> {
+            requireActivity()
+                    .getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, new Cart())
+                    .addToBackStack(null)
+                    .commit();
+        });
 
         // ==================== NÚT CHỈNH SỬA ĐỊA CHỈ ==================== //
         ImageView icPen = view.findViewById(R.id.ic_pen);
