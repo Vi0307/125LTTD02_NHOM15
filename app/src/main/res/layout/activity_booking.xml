@@ -22,11 +22,8 @@
             android:id="@+id/btnBack_agency_detail"
             android:layout_width="22dp"
             android:layout_height="22dp"
-            android:clickable="true"
-            android:focusable="true"
             android:src="@drawable/ic_arrow_back_black"
-            android:tint="#000000"
-            tools:ignore="UseAppTint,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+            app:tint="#000000" />
 
         <TextView
             android:id="@+id/txtTitle"
@@ -34,10 +31,10 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:textStyle="bold"
             android:text="Đặt lịch hẹn"
             android:textColor="#000000"
-            android:textSize="18sp"/>
+            android:textSize="18sp"
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/txtCancel"
@@ -48,17 +45,14 @@
             android:textSize="16sp"/>
     </LinearLayout>
 
-
+    <!-- PROGRESS -->
     <LinearLayout
         android:id="@+id/progressBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/topBar"
         android:orientation="horizontal"
-        android:paddingTop="16dp"
-        android:paddingBottom="8dp"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp">
+        android:padding="16dp">
 
         <LinearLayout
             android:layout_width="0dp"
@@ -68,11 +62,11 @@
             android:orientation="vertical">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:text="Chọn thời gian"
                 android:textColor="#E53935"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:layout_height="20dp"
+                android:layout_width="100dp"/>
 
             <View
                 android:layout_width="match_parent"
@@ -80,6 +74,7 @@
                 android:layout_marginTop="8dp"
                 android:background="#E53935" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -88,12 +83,11 @@
             android:orientation="vertical">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:text="Chọn dịch vụ"
                 android:textColor="#CCCCCC"
                 android:textSize="14sp"
-                android:textStyle="bold" />
+                android:layout_height="20dp"
+                android:layout_width="100dp"/>
 
             <View
                 android:layout_width="match_parent"
@@ -101,6 +95,7 @@
                 android:layout_marginTop="8dp"
                 android:background="#EEEEEE" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -109,11 +104,11 @@
             android:orientation="vertical">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:text="Xem lại"
                 android:textColor="#CCCCCC"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:layout_height="20dp"
+                android:layout_width="100dp"/>
 
             <View
                 android:layout_width="match_parent"
@@ -121,127 +116,160 @@
                 android:layout_marginTop="8dp"
                 android:background="#EEEEEE" />
         </LinearLayout>
-
     </LinearLayout>
 
-    <!-- CONTENT -->
-    <ScrollView
-        android:id="@+id/scrollView"
+    <!-- CARD CALENDAR -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardCalendar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@id/progressBar"
-        android:layout_above="@id/bottomNav"
-        android:fillViewport="true">
+        android:layout_margin="16dp"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="8dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp"
-            android:paddingBottom="90dp"
-            android:layout_marginTop="20dp">
-
-            <TextView
-                android:id="@+id/txtSelectTime"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="Chọn thời gian làm dịch vụ"
-                android:textColor="#000000"
-                android:paddingBottom="20dp"
-                android:textSize="16sp"/>
-
-            <!-- CALENDAR CARD -->
-            <androidx.cardview.widget.CardView
-                android:id="@+id/calendarCard"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="4dp"
-                android:background="#FFFFFF">
+            android:padding="16dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
-                <!-- MONTH BAR -->
-                <LinearLayout
-                    android:layout_width="match_parent"
+
+                <TextView
+                    android:id="@+id/txtMonth"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingBottom="12dp">
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Chọn thời gian làm dịch vụ"
+                    android:textColor="#000"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/arrow_back_icon" />
-
-                    <TextView
-                        android:id="@+id/txtMonth"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="Tháng 10 2025"
-                        android:textColor="#000000"
-                        android:textSize="16sp" />
-
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/ic_arrow_right"/>
-                </LinearLayout>
-
-                <GridLayout
-                    android:id="@+id/calendarGrid"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:alignmentMode="alignMargins"
-                    android:columnCount="7"
-                    android:rowCount="7"
-                    android:useDefaultMargins="true"/>
             </LinearLayout>
-            </androidx.cardview.widget.CardView>
 
-            <!-- TIME GRID -->
-            <TextView
+            <CalendarView
+                android:id="@+id/calendarView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Chọn giờ"
-                android:textColor="#000000"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="12dp"/>
+                android:layout_marginTop="12dp" />
 
-            <GridLayout
-                android:id="@+id/timeGrid"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:columnCount="3"
-                android:rowCount="6"
-                android:useDefaultMargins="true"
-                android:alignmentMode="alignMargins"/>
-
-            <!-- BUTTON NEXT -->
-            <Button
-                android:id="@+id/btnNext"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="24dp"
-                android:layout_marginBottom="10dp"
-                android:backgroundTint="#000000"
-                android:text="Tiếp"
-                android:textColor="#FFFFFF"
-                android:textSize="16sp"
-                android:textStyle="bold" />
         </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
-    </ScrollView>
+    <!-- TEXT "CHỌN GIỜ" -->
+    <TextView
+        android:id="@+id/txtSelectTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/cardCalendar"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="Chọn giờ"
+        android:textColor="#000"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <!-- GRID TIME -->
+    <GridLayout
+        android:id="@+id/gridTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txtSelectTime"
+        android:layout_margin="16dp"
+        android:columnCount="3"
+        android:alignmentMode="alignMargins"
+        android:padding="8dp">
+
+
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_margin="6dp"
+            android:background="@drawable/bg_button_black"
+            android:text="07:30"
+            tools:ignore="TouchTargetSizeCheck" />
+
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_margin="6dp"
+            android:background="@drawable/bg_button_black"
+            android:text="08:00"
+            tools:ignore="TouchTargetSizeCheck" />
+
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="48dp"
+            android:layout_margin="6dp"
+            android:background="@drawable/bg_button_black"
+            android:text="08:30" />
+
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="48dp"
+            android:layout_margin="6dp"
+            android:background="@drawable/bg_button_black"
+            android:text="08:30" />
+
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="48dp"
+            android:layout_margin="6dp"
+            android:background="@drawable/bg_button_black"
+            android:text="08:30" />
+
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="48dp"
+            android:layout_margin="6dp"
+            android:background="@drawable/bg_button_black"
+            android:text="08:30" />
+
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="48dp"
+            android:layout_margin="6dp"
+            android:background="@drawable/bg_button_black"
+            android:text="08:30" />
+
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="48dp"
+            android:layout_margin="6dp"
+            android:background="@drawable/bg_button_black"
+            android:text="08:30" />
+
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="48dp"
+            android:layout_margin="6dp"
+            android:background="@drawable/bg_button_black"
+            android:text="08:30" />
+
+    </GridLayout>
+
+    <!-- BUTTON NEXT -->
+    <Button
+        android:id="@+id/btnNextTime"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@id/gridTime"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="#000000"
+        android:text="Tiếp"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:textStyle="bold"/>
+
 
     <!-- BOTTOM NAVIGATION -->
     <LinearLayout
@@ -389,22 +417,18 @@
         </LinearLayout>
 
     </LinearLayout>
-
-    <!-- FAB CHATBOX -->
+    <!-- FAB -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabChatbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_above="@id/bottomNav"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="86dp"
+        android:layout_marginBottom="16dp"
         android:src="@drawable/ic_chat_box"
-        android:contentDescription="Mở chat hỗ trợ"
-        app:backgroundTint="#FFFFFF"
+        app:backgroundTint="#FFF"
         app:tint="#C50E0E"
-        app:elevation="8dp"
-        app:borderWidth="0dp"/>
+        tools:ignore="SpeakableTextPresentCheck" />
 
 </RelativeLayout>
-
