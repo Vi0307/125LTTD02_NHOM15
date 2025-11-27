@@ -26,10 +26,15 @@ public class Cart extends Fragment {
         ImageView btnBack = view.findViewById(R.id.btnBack);
         Button btnCheckout = view.findViewById(R.id.btnCheckout); // ⭐ ĐÃ CÓ ID NÀY
 
-        // 🔙 Quay lại Bodyparts
-        btnBack.setOnClickListener(v ->
-                requireActivity().getSupportFragmentManager().popBackStack()
-        );
+        // Quay lại trang trước
+        btnBack.setOnClickListener(v -> {
+            requireActivity()
+                    .getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, new Homeparts())
+                    .addToBackStack(null)
+                    .commit();
+        });
 
         // ⭐ BẤM "TIẾN HÀNH THANH TOÁN" → sang Detail_Payment_Fragment
         btnCheckout.setOnClickListener(v -> {
