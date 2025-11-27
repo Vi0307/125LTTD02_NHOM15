@@ -99,7 +99,7 @@ public class Agency_Fragment extends Fragment {
         }
 
         // CHATBOX → ChatFragment
-        View chatBtn = view.findViewById(R.id.btnChat);
+        View chatBtn = view.findViewById(R.id.fabChatbox);
         if (chatBtn != null) {
             chatBtn.setOnClickListener(v -> {
                 requireActivity().getSupportFragmentManager()
@@ -126,9 +126,9 @@ public class Agency_Fragment extends Fragment {
         agencyList.clear();
         agencyList.add(new Agency("DATRACO 1", "4.9", "3.1k đánh giá", "18-20 Hoàng Hoa Thám, Thanh Khê, Đà Nẵng"));
         agencyList.add(new Agency("HEAD Hùng Phát", "4.8", "2.2k đánh giá", "52 Nguyễn Văn Linh, Hải Châu, Đà Nẵng"));
-        agencyList.add(new Agency("Honda Quốc Tiến", "4.7", "1.5k đánh giá", "145 Điện Biên Phủ, Thanh Khê, Đà Nẵng"));
+        agencyList.add(new Agency("BMW", "4.7", "1.5k đánh giá", "145 Điện Biên Phủ, Thanh Khê, Đà Nẵng"));
         agencyList.add(new Agency("HEAD Trung Nam", "4.9", "980 đánh giá", "305 CMT8, Cẩm Lệ, Đà Nẵng"));
-        agencyList.add(new Agency("Honda Tiến Thu", "4.6", "1.2k đánh giá", "09 Quang Trung, Hải Châu, Đà Nẵng"));
+        agencyList.add(new Agency("BWM Tiến Lành", "4.6", "1.2k đánh giá", "09 Quang Trung, Hải Châu, Đà Nẵng"));
     }
 
     private class AgencyAdapter extends RecyclerView.Adapter<AgencyAdapter.AgencyViewHolder> {
