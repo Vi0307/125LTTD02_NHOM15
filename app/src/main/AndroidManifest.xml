@@ -9,6 +9,7 @@
         android:icon="@mipmap/ic_launcher"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:label="OTOTech"
         android:theme="@style/Theme.QuanLyOTo">
         <activity
             android:name=".Select_Shipping_Method"
