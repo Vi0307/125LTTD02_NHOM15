@@ -33,13 +33,21 @@ public class Complete_Detail_Payment_Fragment extends Fragment {
         ImageView icBack = view.findViewById(R.id.ic_back_promotion_applies);
         Button btnPaymentMethod = view.findViewById(R.id.btn_payment_method);
 
-        // Quay lại Promotion_Applies_Fragment
+        // Quay lại Chi tiết thanh toán
         icBack.setOnClickListener(v -> {
             requireActivity()
                     .getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.fragment_container, new Detail_Payment_Fragment())
                     .addToBackStack(null)
+                    .commit();
+        });
+
+        // Chuyẻn sang Chọn địa chỉ thanh toán
+        view.findViewById(R.id.ic_select_address).setOnClickListener(v -> {
+            requireActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, new Select_Billing_Address_Fragment())
                     .commit();
         });
 
