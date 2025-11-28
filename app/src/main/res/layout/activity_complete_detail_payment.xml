@@ -100,6 +100,7 @@
                 </LinearLayout>
 
                 <ImageView
+                    android:id="@+id/ic_select_address"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:src="@drawable/ic_pen"
@@ -126,6 +127,7 @@
                 android:layout_height="wrap_content">
 
                 <ImageView
+                    android:layout_marginLeft="10dp"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:src="@drawable/img_ong_gio_nap_hoi"
@@ -170,7 +172,8 @@
                 android:textStyle="bold"
                 android:textSize="16sp"
                 android:layout_height="20dp"
-                android:layout_width="200dp"/>
+                android:layout_width="200dp"
+                android:layout_marginBottom="15dp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
