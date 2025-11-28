@@ -75,7 +75,7 @@ public class Add_New_Address_Fragment extends Fragment {
             // chuyển sang trang phương thức vận chuyển
             requireActivity().getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.fragment_container, new Select_Shipping_Method_Fragment())
+                    .replace(R.id.fragment_container, new Detail_Payment_Fragment())
                     .addToBackStack(null)
                     .commit();
         });
