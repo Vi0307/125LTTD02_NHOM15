@@ -4,8 +4,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;   // ⭐ THÊM
-import android.widget.Button;     // ⭐ THÊM
+import android.widget.ImageView;
+import android.widget.Button;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,6 +15,8 @@ import androidx.fragment.app.Fragment;
 import com.example.quanlyoto.R;
 
 public class Payment_Method_Fragment extends Fragment {
+
+    private ImageView radioCash, radioApple, radioBank;
 
     public Payment_Method_Fragment() {}
 
@@ -31,11 +34,27 @@ public class Payment_Method_Fragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        ImageView icBackCompletePayment = view.findViewById(R.id.ic_back_complete_payment);
-        Button btnApply = view.findViewById(R.id.btn_apply); // ⭐ NÚT TIẾP TỤC
+        // HEADER
+        ImageView icBack = view.findViewById(R.id.ic_back_complete_payment);
+        Button btnApply = view.findViewById(R.id.btn_apply);
 
-        // 🔙 Back → quay lại trang Complete_Detail_Payment
-        icBackCompletePayment.setOnClickListener(v -> {
+        // RADIO ICONS
+        radioCash = view.findViewById(R.id.radio_cash);
+        radioApple = view.findViewById(R.id.radio_apple);
+        radioBank = view.findViewById(R.id.radio_bank);
+
+        // LAYOUTS CLICKABLE
+        LinearLayout layoutCash = view.findViewById(R.id.layout_cash);
+        LinearLayout layoutApple = view.findViewById(R.id.layout_applepay);
+        LinearLayout layoutBank = view.findViewById(R.id.layout_bank);
+
+        // ------- HANDLE RADIO SELECT -------
+        layoutCash.setOnClickListener(v -> selectMethod("cash"));
+        layoutApple.setOnClickListener(v -> selectMethod("apple"));
+        layoutBank.setOnClickListener(v -> selectMethod("bank"));
+
+        // Back
+        icBack.setOnClickListener(v -> {
             requireActivity().getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.fragment_container, new Complete_Detail_Payment_Fragment())
@@ -43,7 +62,7 @@ public class Payment_Method_Fragment extends Fragment {
                     .commit();
         });
 
-        // ➜ Continue → sang Orderconfirm
+        // Apply → chuyển Orderconfirm
         btnApply.setOnClickListener(v -> {
             requireActivity().getSupportFragmentManager()
                     .beginTransaction()
@@ -51,5 +70,25 @@ public class Payment_Method_Fragment extends Fragment {
                     .addToBackStack(null)
                     .commit();
         });
+    }
+
+    // Chỉ chọn 1 radio
+    private void selectMethod(String type) {
+
+        radioCash.setImageResource(R.drawable.ic_radio_button_unchecked);
+        radioApple.setImageResource(R.drawable.ic_radio_button_unchecked);
+        radioBank.setImageResource(R.drawable.ic_radio_button_unchecked);
+
+        switch (type) {
+            case "cash":
+                radioCash.setImageResource(R.drawable.ic_radio_button);
+                break;
+            case "apple":
+                radioApple.setImageResource(R.drawable.ic_radio_button);
+                break;
+            case "bank":
+                radioBank.setImageResource(R.drawable.ic_radio_button);
+                break;
+        }
     }
 }
