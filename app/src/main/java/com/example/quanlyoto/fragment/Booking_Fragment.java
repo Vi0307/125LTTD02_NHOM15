@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CalendarView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -14,6 +15,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.quanlyoto.R;
+
+import java.util.Calendar;
 
 public class Booking_Fragment extends Fragment {
 
@@ -89,6 +92,7 @@ public class Booking_Fragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         setupBackButton(view);
+        setupCalendar(view);
     }
 
     private void setupBackButton(View view) {
@@ -107,5 +111,19 @@ public class Booking_Fragment extends Fragment {
         if (txtCancel != null) {
             txtCancel.setOnClickListener(goBackListener);
         }
+    }
+    private void setupCalendar(View view) {
+        CalendarView calendarView = view.findViewById(R.id.calendarView);
+        if (calendarView == null) return;
+
+        Calendar today = Calendar.getInstance();
+        today.set(Calendar.HOUR_OF_DAY, 0);
+        today.set(Calendar.MINUTE, 0);
+        today.set(Calendar.SECOND, 0);
+        today.set(Calendar.MILLISECOND, 0);
+
+        long todayMillis = today.getTimeInMillis();
+        calendarView.setMinDate(todayMillis);
+        calendarView.setDate(todayMillis, false, true);
     }
 }
