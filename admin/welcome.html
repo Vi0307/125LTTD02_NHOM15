@@ -53,18 +53,26 @@
                 <label for="remember">Ghi nhớ đăng nhập</label>
             </div>
 
-            <button type="button" class="login-btn" onclick="goTo('dashboard-layout.html')">
+            <!-- Thông báo lỗi -->
+            <div id="error-message" class="error-message" style="display: none;"></div>
+
+            <button type="button" class="login-btn" id="loginBtn" onclick="handleLogin()">
                 ĐĂNG NHẬP
             </button>
 
         </form>
     </div>
 
+    <!-- JS Toggle Mật khẩu & Xử lý đăng nhập -->
     <!-- API Service -->
     <script src="asset/api.js"></script>
     
     <!-- JS Toggle Mật khẩu & Login -->
     <script>
+        // Cấu hình API endpoint - thay đổi URL này theo backend Node.js của bạn
+        const API_BASE_URL = 'http://localhost:3000/api'; // Hoặc URL backend của bạn
+        const LOGIN_API = `${API_BASE_URL}/admin/login`; // Điều chỉnh endpoint theo backend
+
         const togglePassword = document.getElementById('togglePassword');
         const passwordInput = document.getElementById('password');
 
@@ -161,6 +169,140 @@
         function goTo(page) {
             window.location.href = page;
         }
+
+        // Hàm hiển thị thông báo lỗi
+        function showError(message) {
+            const errorDiv = document.getElementById('error-message');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+            
+            // Tự động ẩn sau 5 giây
+            setTimeout(() => {
+                errorDiv.style.display = 'none';
+            }, 5000);
+        }
+
+        // Hàm ẩn thông báo lỗi
+        function hideError() {
+            document.getElementById('error-message').style.display = 'none';
+        }
+
+        // Hàm xử lý đăng nhập
+        async function handleLogin() {
+            const adminInput = document.getElementById('admin');
+            const passwordInput = document.getElementById('password');
+            const loginBtn = document.getElementById('loginBtn');
+            const rememberCheckbox = document.getElementById('remember');
+
+            const username = adminInput.value.trim();
+            const password = passwordInput.value.trim();
+
+            // Kiểm tra input rỗng
+            if (!username || !password) {
+                showError('Vui lòng nhập đầy đủ tên đăng nhập và mật khẩu!');
+                return;
+            }
+
+            // Ẩn thông báo lỗi cũ
+            hideError();
+
+            // Disable button và hiển thị loading
+            loginBtn.disabled = true;
+            loginBtn.textContent = 'Đang xử lý...';
+
+            try {
+                // Gọi API đăng nhập
+                const response = await fetch(LOGIN_API, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        username: username,
+                        password: password
+                    })
+                });
+
+                // Kiểm tra nếu response không phải JSON
+                let data;
+                const contentType = response.headers.get('content-type');
+                if (contentType && contentType.includes('application/json')) {
+                    data = await response.json();
+                } else {
+                    // Nếu không phải JSON, tạo object lỗi
+                    const text = await response.text();
+                    data = {
+                        error: text || 'Lỗi từ server',
+                        message: response.status === 401 || response.status === 403 
+                            ? 'Tên đăng nhập hoặc mật khẩu không đúng!' 
+                            : 'Đã xảy ra lỗi khi đăng nhập!'
+                    };
+                }
+
+                // Kiểm tra response - hỗ trợ nhiều format API khác nhau
+                // Format 1: { success: true, token: "...", message: "..." }
+                // Format 2: { status: "success", data: {...} }
+                // Format 3: HTTP 200 = thành công, HTTP 401/400 = thất bại
+                const isSuccess = response.ok && (
+                    data.success === true || 
+                    data.status === 'success' || 
+                    (response.status === 200 && !data.error)
+                );
+
+                if (isSuccess) {
+                    // Đăng nhập thành công
+                    
+                    // Lưu thông tin đăng nhập nếu chọn "Ghi nhớ"
+                    const token = data.token || data.data?.token || 'authenticated';
+                    if (rememberCheckbox.checked) {
+                        localStorage.setItem('adminToken', token);
+                        localStorage.setItem('adminUsername', username);
+                    } else {
+                        sessionStorage.setItem('adminToken', token);
+                        sessionStorage.setItem('adminUsername', username);
+                    }
+
+                    // Chuyển đến trang dashboard
+                    window.location.href = 'dashboard-layout.html';
+                } else {
+                    // Đăng nhập thất bại
+                    const errorMsg = data.message || 
+                                   data.error || 
+                                   data.data?.message ||
+                                   'Tên đăng nhập hoặc mật khẩu không đúng!';
+                    showError(errorMsg);
+                    
+                    // Reset button
+                    loginBtn.disabled = false;
+                    loginBtn.textContent = 'ĐĂNG NHẬP';
+                    
+                    // Xóa mật khẩu
+                    passwordInput.value = '';
+                }
+            } catch (error) {
+                // Xử lý lỗi kết nối hoặc lỗi khác
+                console.error('Login error:', error);
+                showError('Không thể kết nối đến server. Vui lòng kiểm tra lại kết nối!');
+                
+                // Reset button
+                loginBtn.disabled = false;
+                loginBtn.textContent = 'ĐĂNG NHẬP';
+            }
+        }
+
+        // Cho phép đăng nhập bằng phím Enter
+        document.addEventListener('DOMContentLoaded', function() {
+            const passwordInput = document.getElementById('password');
+            const adminInput = document.getElementById('admin');
+
+            [adminInput, passwordInput].forEach(input => {
+                input.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        handleLogin();
+                    }
+                });
+            });
+        });
     </script>
 </body>
 </html>
