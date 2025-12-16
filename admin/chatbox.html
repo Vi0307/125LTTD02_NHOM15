@@ -86,18 +86,7 @@
 
             <!-- Tin nhắn -->
             <div class="chat-messages" id="chatMessages">
-                <div class="message customer">
-                    <div class="message-content">Chào anh, em muốn hỏi về phụ tùng BMW i5 ạ</div>
-                    <div class="message-time">10:32</div>
-                </div>
-                <div class="message admin">
-                    <div class="message-content">Chào em! BMW i5 em cần phụ tùng nào ạ? Anh tư vấn ngay</div>
-                    <div class="message-time">10:33</div>
-                </div>
-                <div class="message customer">
-                    <div class="message-content">Dạ em cần thay lọc gió động cơ ạ</div>
-                    <div class="message-time">10:34</div>
-                </div>
+                <!-- Tin nhắn sẽ được load từ API -->
             </div>
 
             <!-- Input chat -->
@@ -116,27 +105,80 @@
     </div>
 </div>
 
-<script>
-let currentChatUser = null;
+<!-- API Service -->
+<script src="asset/api.js"></script>
 
-function openChat(userElement, userName) {
+<script>
+// Kiểm tra authentication
+if (!AuthService.isAuthenticated()) {
+    window.location.href = 'welcome.html';
+}
+
+let currentChatUser = null;
+let currentChatUserId = null;
+
+// Load danh sách người dùng để chat
+async function loadChatUsers() {
+    try {
+        const result = await ChatboxAPI.getUsers();
+        if (result.success) {
+            renderChatUsers(result.data);
+        } else {
+            alert('Lỗi: ' + result.message);
+        }
+    } catch (error) {
+        console.error('Lỗi load người dùng chat:', error);
+    }
+}
+
+// Render danh sách người dùng
+function renderChatUsers(users) {
+    const usersList = document.querySelector('.users-list');
+    usersList.innerHTML = '';
+    
+    users.forEach((user, index) => {
+        const userItem = document.createElement('div');
+        userItem.className = `user-item ${index === 0 ? 'active' : ''}`;
+        userItem.onclick = () => openChat(userItem, user);
+        
+        const initials = user.TenKhachHang.split(' ').map(n => n[0]).join('').toUpperCase();
+        
+        userItem.innerHTML = `
+            <div class="user-avatar">${initials}</div>
+            <div class="user-info">
+                <div class="user-name">${user.TenKhachHang}</div>
+                <div class="user-last-msg">${user.TenLoaiXe || 'Chưa có thông tin'}</div>
+            </div>
+            <div class="user-online"></div>
+        `;
+        
+        usersList.appendChild(userItem);
+        
+        // Tự động mở chat với người đầu tiên
+        if (index === 0) {
+            openChat(userItem, user);
+        }
+    });
+}
+
+async function openChat(userElement, user) {
     // Đổi active user
     document.querySelectorAll('.user-item').forEach(u => u.classList.remove('active'));
     userElement.classList.add('active');
-    currentChatUser = userName;
+    currentChatUser = user.TenKhachHang;
+    currentChatUserId = user.MaND;
 
     // Cập nhật header chat
     const chatUserName = document.getElementById('chatUserName');
     const chatAvatar = document.getElementById('chatAvatar');
-    if (chatUserName) chatUserName.textContent = userName;
+    if (chatUserName) chatUserName.textContent = user.TenKhachHang;
     if (chatAvatar) {
-        // Lấy chữ cái đầu của từng từ
-        const initials = userName.split(' ').map(n => n[0]).join('').toUpperCase();
+        const initials = user.TenKhachHang.split(' ').map(n => n[0]).join('').toUpperCase();
         chatAvatar.textContent = initials;
     }
 
-    // Load tin nhắn mẫu (có thể fetch API)
-    loadSampleMessages();
+    // Load tin nhắn từ API
+    await loadMessages(user.MaND);
     
     // Scroll tin nhắn xuống cuối
     const messagesDiv = document.getElementById('chatMessages');
@@ -147,34 +189,42 @@ function openChat(userElement, userName) {
     }
 }
 
-function goTo(page) {
-    window.location.href = page;
-}
-
-function loadSampleMessages() {
-    const messagesDiv = document.getElementById('chatMessages');
-    messagesDiv.innerHTML = `
-        <div class="message customer">
-            <div class="message-content">Chào anh/chị, em muốn tư vấn về ${currentChatUser === 'Nguyễn Văn A' ? 'phụ tùng BMW i5' : 'bảo dưỡng xe'} ạ</div>
-            <div class="message-time">10:32</div>
+async function loadMessages(maND) {
+    try {
+        const result = await ChatboxAPI.getMessages(maND);
+        const messagesDiv = document.getElementById('chatMessages');
+        
+        if (result.success && result.data.length > 0) {
+            messagesDiv.innerHTML = result.data.map(msg => `
+                <div class="message ${msg.Loai}">
+                    <div class="message-content">${msg.NoiDung}</div>
+                    <div class="message-time">${new Date(msg.ThoiGian).toLocaleTimeString('vi-VN', {hour: '2-digit', minute:'2-digit'})}</div>
         </div>
-        <div class="message admin">
-            <div class="message-content">Chào em! ${currentChatUser === 'Nguyễn Văn A' ? 'BMW i5 em cần phụ tùng nào ạ?' : 'Xe em cần bảo dưỡng gì ạ?'} Anh tư vấn ngay đây!</div>
-            <div class="message-time">10:33</div>
-        </div>
-        <div class="message customer">
-            <div class="message-content">${currentChatUser === 'Nguyễn Văn A' ? 'Dạ em cần thay lọc gió động cơ ạ' : 'Dạ em muốn đặt lịch bảo dưỡng ạ'}</div>
-            <div class="message-time">10:34</div>
-        </div>
-    `;
+            `).join('');
+        } else {
+            messagesDiv.innerHTML = '<div style="text-align:center;color:#999;padding:20px;">Chưa có tin nhắn</div>';
+        }
+        
     messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    } catch (error) {
+        console.error('Lỗi load tin nhắn:', error);
+    }
 }
 
-function sendMessage() {
+async function sendMessage() {
+    if (!currentChatUserId) {
+        alert('Vui lòng chọn người dùng để chat!');
+        return;
+    }
+    
     const input = document.getElementById('chatInput');
     const message = input.value.trim();
     if (!message) return;
 
+    try {
+        const result = await ChatboxAPI.sendMessage(currentChatUserId, message);
+        if (result.success) {
+            // Thêm tin nhắn vào UI
     const messagesDiv = document.getElementById('chatMessages');
     const messageDiv = document.createElement('div');
     messageDiv.className = 'message admin';
@@ -185,6 +235,13 @@ function sendMessage() {
     messagesDiv.appendChild(messageDiv);
     messagesDiv.scrollTop = messagesDiv.scrollHeight;
     input.value = '';
+        } else {
+            alert('Lỗi: ' + result.message);
+        }
+    } catch (error) {
+        console.error('Lỗi gửi tin nhắn:', error);
+        alert('Lỗi gửi tin nhắn');
+    }
 }
 
 function handleKeyPress(event) {
@@ -192,6 +249,15 @@ function handleKeyPress(event) {
         sendMessage();
     }
 }
+
+function goTo(page) {
+    window.location.href = page;
+}
+
+// Load dữ liệu khi trang được tải
+document.addEventListener('DOMContentLoaded', function() {
+    loadChatUsers();
+});
 </script>
 
 </body>

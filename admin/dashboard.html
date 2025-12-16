@@ -102,8 +102,16 @@
             </div>
         </main>
     </div>
+    <!-- API Service -->
+    <script src="asset/api.js"></script>
+    
     <!-- Script điều hướng -->
     <script>
+        // Kiểm tra authentication
+        if (!AuthService.isAuthenticated()) {
+            window.location.href = 'welcome.html';
+        }
+        
         function goTo(page) {
             window.location.href = page;
         }

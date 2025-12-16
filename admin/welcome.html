@@ -60,7 +60,10 @@
         </form>
     </div>
 
-    <!-- JS Toggle Mật khẩu -->
+    <!-- API Service -->
+    <script src="asset/api.js"></script>
+    
+    <!-- JS Toggle Mật khẩu & Login -->
     <script>
         const togglePassword = document.getElementById('togglePassword');
         const passwordInput = document.getElementById('password');
@@ -72,6 +75,89 @@
             this.classList.toggle('fa-eye');
             this.classList.toggle('fa-eye-slash');
         });
+
+        // Kiểm tra nếu đã đăng nhập - NHƯNG KHÔNG TỰ ĐỘNG REDIRECT
+        // Để người dùng có thể đăng nhập lại nếu cần
+        // if (AuthService.isAuthenticated()) {
+        //     window.location.href = 'dashboard.html';
+        // }
+
+        // Xử lý đăng nhập
+        async function handleLogin() {
+            const tenDangNhap = document.getElementById('admin').value.trim();
+            const matKhau = document.getElementById('password').value;
+
+            if (!tenDangNhap || !matKhau) {
+                alert('Vui lòng nhập đầy đủ thông tin!');
+                return;
+            }
+
+            // XÓA TOKEN CŨ TRƯỚC KHI ĐĂNG NHẬP LẠI
+            AuthService.removeToken();
+
+            const loginBtn = document.querySelector('.login-btn');
+            const originalText = loginBtn.textContent;
+            loginBtn.textContent = 'Đang đăng nhập...';
+            loginBtn.disabled = true;
+
+            console.log('🔐 Bắt đầu đăng nhập với:', { tenDangNhap, hasPassword: !!matKhau });
+
+            const result = await AuthService.login(tenDangNhap, matKhau);
+
+            console.log('🔐 Kết quả đăng nhập:', result);
+            console.log('🔐 Kiểm tra điều kiện:', {
+                hasResult: !!result,
+                success: result?.success,
+                successType: typeof result?.success,
+                hasData: !!(result?.data),
+                hasToken: !!(result?.data?.token),
+                tokenType: typeof result?.data?.token
+            });
+
+            // CHỈ REDIRECT KHI THỰC SỰ CÓ SUCCESS = TRUE VÀ CÓ TOKEN
+            // Kiểm tra chặt chẽ từng điều kiện
+            const canRedirect = (
+                result && 
+                result.success === true && 
+                typeof result.success === 'boolean' &&
+                result.data && 
+                result.data.token &&
+                typeof result.data.token === 'string' &&
+                result.data.token.length > 0
+            );
+
+            if (canRedirect) {
+                console.log('✅ Đăng nhập thành công, redirect...');
+                alert('Đăng nhập thành công!');
+                window.location.href = 'dashboard.html';
+            } else {
+                console.error('❌ Đăng nhập thất bại - KHÔNG REDIRECT:', {
+                    result: result,
+                    canRedirect: canRedirect,
+                    reason: !result ? 'No result' :
+                            result.success !== true ? 'Success is not true' :
+                            typeof result.success !== 'boolean' ? 'Success is not boolean' :
+                            !result.data ? 'No data' :
+                            !result.data.token ? 'No token' :
+                            typeof result.data.token !== 'string' ? 'Token is not string' :
+                            result.data.token.length === 0 ? 'Token is empty' : 'Unknown'
+                });
+                alert(result?.message || 'Đăng nhập thất bại! Vui lòng kiểm tra lại thông tin.');
+                loginBtn.textContent = originalText;
+                loginBtn.disabled = false;
+            }
+        }
+
+        // Gắn sự kiện cho nút đăng nhập
+        document.querySelector('.login-btn').addEventListener('click', handleLogin);
+
+        // Enter để đăng nhập
+        document.getElementById('password').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                handleLogin();
+            }
+        });
+
         function goTo(page) {
             window.location.href = page;
         }
