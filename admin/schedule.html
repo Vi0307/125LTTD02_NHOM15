@@ -34,14 +34,16 @@
             <li class="menu-item" onclick="goTo('notifications.html')">
                 <i class="fas fa-bell"></i> Thông báo
             </li>
+            <li class="menu-item" onclick="goTo('chatbox.html')">
+                <i class="fas fa-comments"></i> Chatbox
         </ul>
     </aside>
 
     <main class="admin-main">
         <section class="panel-grid">
 
-            <!-- BẢNG ĐẶT LỊCH BẢO DƯỠNG -->
-            <div class="table-card">
+        <!-- BẢNG ĐẶT LỊCH BẢO DƯỠNG -->
+        <div class="table-card">
             <h2 class="table-title">Đặt lịch bảo dưỡng định kỳ</h2>
             <div class="table-container">
                 <table class="schedule-table">
@@ -53,38 +55,15 @@
                             <th>Trạng thái</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr onclick="fillScheduleForm(this)">
-                            <td>BD001</td>
-                            <td>KH001</td>
-                            <td>BMW i5</td>
-                            <td><span class="status pending">Chưa hoàn thành</span></td>
-                        </tr>
-                        <tr onclick="fillScheduleForm(this)">
-                            <td>BD002</td>
-                            <td>KH002</td>
-                            <td>BMW i8</td>
-                            <td><span class="status completed">Đã hoàn thành</span></td>
-                        </tr>
-                        <tr onclick="fillScheduleForm(this)">
-                            <td>BD003</td>
-                            <td>KH003</td>
-                            <td>BMW i5</td>
-                            <td><span class="status pending">Chưa hoàn thành</span></td>
-                        </tr>
-                        <tr onclick="fillScheduleForm(this)">
-                            <td>BD004</td>
-                            <td>KH004</td>
-                            <td>BMW i8</td>
-                            <td><span class="status completed">Đã hoàn thành</span></td>
-                        </tr>
+                    <tbody id="scheduleTableBody">
+                        <!-- Dữ liệu sẽ được load từ API -->
                     </tbody>
                 </table>
             </div>
-            </div>
+        </div>
 
-            <!-- FORM CHI TIẾT – NGÀY NHẬN XE KHÔNG CHO SỬA -->
-            <div id="scheduleDetailCard" class="detail-card">
+        <!-- FORM CHI TIẾT – NGÀY NHẬN XE KHÔNG CHO SỬA -->
+        <div id="scheduleDetailCard" class="detail-card">
             <h2 class="detail-title">Chi tiết</h2>
             <div class="form-grid-schedule">
 
@@ -130,7 +109,7 @@
                     <i class="fas fa-pen"></i> Cập nhật
                 </button>
             </div>
-            </div>
+        </div>
 
         </section>
     </main>
@@ -141,62 +120,111 @@
     </div>
 </div>
 
+<!-- API Service -->
+<script src="asset/api.js"></script>
+
 <script>
+// Kiểm tra authentication
+if (!AuthService.isAuthenticated()) {
+    window.location.href = 'welcome.html';
+}
+
 var currentScheduleRow = null;
-
-function fillScheduleForm(row) {
-    currentScheduleRow = row;
-    const c = row.cells;
-    const card = document.getElementById('scheduleDetailCard');
-    card.style.display = 'block';
-
-    $('#maBaoDuong').value = c[0].textContent.trim();
-    $('#maKH').value       = c[1].textContent.trim();
-    $('#loaiXe').value     = c[2].textContent.trim();
-
-    // Dữ liệu mẫu
-    const data = {
-        'BD001': { tenKH: 'Hải Phan',       ngayNhan: '2025-12-05', status: 'pending' },
-        'BD002': { tenKH: 'Vũ Trần',        ngayNhan: '2025-11-20', status: 'completed' },
-        'BD003': { tenKH: 'Minh Anh',       ngayNhan: '2025-12-10', status: 'pending' },
-        'BD004': { tenKH: 'Tuấn Kiệt',      ngayNhan: '2025-11-28', status: 'completed' }
-    };
-    const info = data[c[0].textContent.trim()] || {};
-
-    // Hiển thị tên khách hàng
-    $('#tenKH').value = info.tenKH || 'Chưa có thông tin';
-
-    // Định dạng ngày đẹp kiểu Việt Nam
-    if (info.ngayNhan) {
-        const date = new Date(info.ngayNhan);
-        $('#ngayNhanXe').value = date.toLocaleDateString('vi-VN'); // Ví dụ: 05/12/2025
-    } else {
-        $('#ngayNhanXe').value = 'Chưa xác định';
-    }
-
-    // Trạng thái
-    $('#trangThai').value = info.status || 'pending';
-
-    // Cuộn mượt đến form
-    card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-}
-
-function updateSchedule() {
-    if (!currentScheduleRow) return alert('Vui lòng chọn lịch bảo dưỡng!');
-
-    const statusText = $('#trangThai').value === 'completed' ? 'Đã hoàn thành' : 'Chưa hoàn thành';
-    const span = currentScheduleRow.cells[3].querySelector('span');
-    span.textContent = statusText;
-    span.className = 'status ' + $('#trangThai').value;
-
-    alert('Cập nhật trạng thái bảo dưỡng thành công!');
-}
+var currentScheduleId = null;
 
 function $(s) { return document.querySelector(s); }
 
-function goTo(page) {
-            window.location.href = page;
+// Load danh sách lịch bảo dưỡng
+async function loadSchedules() {
+    try {
+        Utils.showLoading($('#scheduleTableBody'));
+        const result = await ScheduleAPI.getAll({ limit: 100 });
+        
+        if (result.success) {
+            renderSchedules(result.data);
+        } else {
+            alert('Lỗi: ' + result.message);
         }
+    } catch (error) {
+        console.error('Lỗi load lịch bảo dưỡng:', error);
+        alert('Lỗi tải dữ liệu lịch bảo dưỡng');
+    }
+}
+
+// Render danh sách lịch bảo dưỡng
+function renderSchedules(schedules) {
+    const tbody = $('#scheduleTableBody');
+    tbody.innerHTML = '';
+    
+    schedules.forEach(schedule => {
+        const row = tbody.insertRow();
+        row.onclick = () => fillScheduleForm(row, schedule);
+        const statusClass = schedule.TrangThai === 'Đã hoàn thành' ? 'completed' : 'pending';
+        const statusText = schedule.TrangThai === 'Đã hoàn thành' ? 'Đã hoàn thành' : 'Chưa hoàn thành';
+        
+        row.innerHTML = `
+            <td>BD${schedule.MaDV.toString().padStart(3, '0')}</td>
+            <td>${schedule.MaND}</td>
+            <td>${schedule.TenLoaiXe || ''}</td>
+            <td><span class="status ${statusClass}">${statusText}</span></td>
+        `;
+    });
+}
+
+async function fillScheduleForm(row, schedule) {
+    currentScheduleRow = row;
+    currentScheduleId = schedule.MaDV;
+    
+    const card = document.getElementById('scheduleDetailCard');
+    card.style.display = 'block';
+
+    // Load chi tiết
+    try {
+        const detailResult = await ScheduleAPI.getById(schedule.MaDV);
+        if (detailResult.success) {
+            const detail = detailResult.data;
+            $('#maBaoDuong').value = `BD${detail.MaDV.toString().padStart(3, '0')}`;
+            $('#maKH').value = detail.MaND;
+            $('#loaiXe').value = detail.TenLoaiXe || '';
+            $('#tenKH').value = detail.TenKhachHang || '';
+            $('#ngayNhanXe').value = detail.NgayTao ? Utils.formatDate(detail.NgayTao) : '';
+            $('#trangThai').value = detail.TrangThai === 'Đã hoàn thành' ? 'completed' : 'pending';
+        }
+    } catch (error) {
+        console.error('Lỗi load chi tiết:', error);
+    }
+
+    card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+async function updateSchedule() {
+    if (!currentScheduleId) return alert('Vui lòng chọn lịch bảo dưỡng!');
+
+    const statusValue = $('#trangThai').value;
+    const statusText = statusValue === 'completed' ? 'Đã hoàn thành' : 'Chưa hoàn thành';
+
+    try {
+        const result = await ScheduleAPI.updateStatus(currentScheduleId, statusText);
+        if (result.success) {
+    alert('Cập nhật trạng thái bảo dưỡng thành công!');
+            loadSchedules();
+        } else {
+            alert('Lỗi: ' + result.message);
+        }
+    } catch (error) {
+        console.error('Lỗi cập nhật:', error);
+        alert('Lỗi cập nhật lịch bảo dưỡng');
+    }
+}
+
+function goTo(page) {
+    window.location.href = page;
+}
+
+// Load dữ liệu khi trang được tải
+document.addEventListener('DOMContentLoaded', function() {
+    loadSchedules();
+});
 </script>
 
 </body>

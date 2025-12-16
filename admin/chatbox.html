@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTOTECH - Chatbox</title>
+    <link rel="stylesheet" href="asset/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body class="dashboard-body admin-body">
+
+<div class="page-wrapper">
+
+    <!-- Top User -->
+    <div class="top-user">
+        <span class="username">Administrator</span>
+    </div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <ul class="menu">
+            <li class="menu-item" onclick="goTo('product1.html')"><i class="fas fa-th-large"></i> Sản phẩm</li>
+            <li class="menu-item" onclick="goTo('user.html')"><i class="fas fa-users"></i> Người dùng</li>
+            <li class="menu-item" onclick="goTo('order.html')"><i class="fas fa-shopping-cart"></i> Đơn hàng</li>
+            <li class="menu-item" onclick="goTo('schedule.html')"><i class="fas fa-calendar-check"></i> Đặt lịch</li>
+            <li class="menu-item" onclick="goTo('notifications.html')"><i class="fas fa-bell"></i> Thông báo</li>
+            <li class="menu-item active"><i class="fas fa-comments"></i> Chatbox</li>
+        </ul>
+    </aside>
+
+    <!-- Main Content: Chatbox -->
+    <main class="admin-main chatbox-main">
+        
+        <!-- Danh sách khách hàng (bên trái) -->
+        <div class="chat-users">
+            <div class="chat-header">
+                <h3>Trực tuyến</h3>
+            </div>
+            <div class="users-list">
+                <div class="user-item active" onclick="openChat(this, 'Nguyễn Văn A')">
+                    <div class="user-avatar">NVA</div>
+                    <div class="user-info">
+                        <div class="user-name">Nguyễn Văn A</div>
+                        <div class="user-last-msg">Tuần trước...</div>
+                    </div>
+                    <div class="user-online"></div>
+                </div>
+                <div class="user-item" onclick="openChat(this, 'Trần Thị B')">
+                    <div class="user-avatar">TTB</div>
+                    <div class="user-info">
+                        <div class="user-name">Trần Thị B</div>
+                        <div class="user-last-msg">Cần tư vấn phụ tùng</div>
+                    </div>
+                    <div class="user-online"></div>
+                </div>
+                <div class="user-item" onclick="openChat(this, 'Lê Minh C')">
+                    <div class="user-avatar">LMC</div>
+                    <div class="user-info">
+                        <div class="user-name">Lê Minh C</div>
+                        <div class="user-last-msg">Hỏi về bảo dưỡng</div>
+                    </div>
+                    <div class="user-online"></div>
+                </div>
+                <div class="user-item" onclick="openChat(this, 'Phạm Thị D')">
+                    <div class="user-avatar">PTD</div>
+                    <div class="user-info">
+                        <div class="user-name">Phạm Thị D</div>
+                        <div class="user-last-msg">Liên hệ đặt lịch</div>
+                    </div>
+                    <div class="user-online"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Khu vực chat (bên phải) -->
+        <div class="chat-area">
+            <div class="chat-header">
+                <div class="chat-user-info">
+                    <div class="chat-avatar" id="chatAvatar">NVA</div>
+                    <div>
+                        <div class="chat-user-name" id="chatUserName">Nguyễn Văn A</div>
+                        <div class="chat-status">Đang hoạt động</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tin nhắn -->
+            <div class="chat-messages" id="chatMessages">
+                <!-- Tin nhắn sẽ được load từ API -->
+            </div>
+
+            <!-- Input chat -->
+            <div class="chat-input">
+                <input type="text" id="chatInput" placeholder="Nhập tin nhắn..." onkeypress="handleKeyPress(event)">
+                <button onclick="sendMessage()">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <div class="bottom-brand">
+        <div class="brand-name">OTOTECH</div>
+        <div class="version">Version: 1.0.0.11</div>
+    </div>
+</div>
+
+<!-- API Service -->
+<script src="asset/api.js"></script>
+
+<script>
+// Kiểm tra authentication
+if (!AuthService.isAuthenticated()) {
+    window.location.href = 'welcome.html';
+}
+
+let currentChatUser = null;
+let currentChatUserId = null;
+
+// Load danh sách người dùng để chat
+async function loadChatUsers() {
+    try {
+        const result = await ChatboxAPI.getUsers();
+        if (result.success) {
+            renderChatUsers(result.data);
+        } else {
+            alert('Lỗi: ' + result.message);
+        }
+    } catch (error) {
+        console.error('Lỗi load người dùng chat:', error);
+    }
+}
+
+// Render danh sách người dùng
+function renderChatUsers(users) {
+    const usersList = document.querySelector('.users-list');
+    usersList.innerHTML = '';
+    
+    users.forEach((user, index) => {
+        const userItem = document.createElement('div');
+        userItem.className = `user-item ${index === 0 ? 'active' : ''}`;
+        userItem.onclick = () => openChat(userItem, user);
+        
+        const initials = user.TenKhachHang.split(' ').map(n => n[0]).join('').toUpperCase();
+        
+        userItem.innerHTML = `
+            <div class="user-avatar">${initials}</div>
+            <div class="user-info">
+                <div class="user-name">${user.TenKhachHang}</div>
+                <div class="user-last-msg">${user.TenLoaiXe || 'Chưa có thông tin'}</div>
+            </div>
+            <div class="user-online"></div>
+        `;
+        
+        usersList.appendChild(userItem);
+        
+        // Tự động mở chat với người đầu tiên
+        if (index === 0) {
+            openChat(userItem, user);
+        }
+    });
+}
+
+async function openChat(userElement, user) {
+    // Đổi active user
+    document.querySelectorAll('.user-item').forEach(u => u.classList.remove('active'));
+    userElement.classList.add('active');
+    currentChatUser = user.TenKhachHang;
+    currentChatUserId = user.MaND;
+
+    // Cập nhật header chat
+    const chatUserName = document.getElementById('chatUserName');
+    const chatAvatar = document.getElementById('chatAvatar');
+    if (chatUserName) chatUserName.textContent = user.TenKhachHang;
+    if (chatAvatar) {
+        const initials = user.TenKhachHang.split(' ').map(n => n[0]).join('').toUpperCase();
+        chatAvatar.textContent = initials;
+    }
+
+    // Load tin nhắn từ API
+    await loadMessages(user.MaND);
+    
+    // Scroll tin nhắn xuống cuối
+    const messagesDiv = document.getElementById('chatMessages');
+    if (messagesDiv) {
+        setTimeout(() => {
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }, 100);
+    }
+}
+
+async function loadMessages(maND) {
+    try {
+        const result = await ChatboxAPI.getMessages(maND);
+        const messagesDiv = document.getElementById('chatMessages');
+        
+        if (result.success && result.data.length > 0) {
+            messagesDiv.innerHTML = result.data.map(msg => `
+                <div class="message ${msg.Loai}">
+                    <div class="message-content">${msg.NoiDung}</div>
+                    <div class="message-time">${new Date(msg.ThoiGian).toLocaleTimeString('vi-VN', {hour: '2-digit', minute:'2-digit'})}</div>
+        </div>
+            `).join('');
+        } else {
+            messagesDiv.innerHTML = '<div style="text-align:center;color:#999;padding:20px;">Chưa có tin nhắn</div>';
+        }
+        
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    } catch (error) {
+        console.error('Lỗi load tin nhắn:', error);
+    }
+}
+
+async function sendMessage() {
+    if (!currentChatUserId) {
+        alert('Vui lòng chọn người dùng để chat!');
+        return;
+    }
+    
+    const input = document.getElementById('chatInput');
+    const message = input.value.trim();
+    if (!message) return;
+
+    try {
+        const result = await ChatboxAPI.sendMessage(currentChatUserId, message);
+        if (result.success) {
+            // Thêm tin nhắn vào UI
+    const messagesDiv = document.getElementById('chatMessages');
+    const messageDiv = document.createElement('div');
+    messageDiv.className = 'message admin';
+    messageDiv.innerHTML = `
+        <div class="message-content">${message}</div>
+        <div class="message-time">${new Date().toLocaleTimeString('vi-VN', {hour: '2-digit', minute:'2-digit'})}</div>
+    `;
+    messagesDiv.appendChild(messageDiv);
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    input.value = '';
+        } else {
+            alert('Lỗi: ' + result.message);
+        }
+    } catch (error) {
+        console.error('Lỗi gửi tin nhắn:', error);
+        alert('Lỗi gửi tin nhắn');
+    }
+}
+
+function handleKeyPress(event) {
+    if (event.key === 'Enter') {
+        sendMessage();
+    }
+}
+
+function goTo(page) {
+    window.location.href = page;
+}
+
+// Load dữ liệu khi trang được tải
+document.addEventListener('DOMContentLoaded', function() {
+    loadChatUsers();
+});
+</script>
+
+</body>
+</html>

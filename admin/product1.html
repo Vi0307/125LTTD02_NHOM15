@@ -34,6 +34,8 @@
             <li class="menu-item" onclick="goTo('notifications.html')">
                 <i class="fas fa-bell"></i> Thông báo
             </li>
+            <li class="menu-item" onclick="goTo('chatbox.html')">
+                <i class="fas fa-comments"></i> Chatbox
         </ul>
     </aside>
 
@@ -58,30 +60,7 @@
                         </tr>
                     </thead>
                     <tbody id="productTableBody">
-                        <tr onclick="fillForm(this)">
-                            <td>X001</td>
-                            <td>Ống gió nạp hơi</td>
-                            <td>BMW i5</td>
-                            <td>7.000.000VND</td>
-                            <td>1</td>
-                            <td><img src="asset/img_ong_gio_nap_hoi.png" style="width:70px; height:50px; object-fit:cover;"></td>
-                            <td class="actions">
-                                <i class="fas fa-edit edit-icon"></i>
-                                <i class="fas fa-trash trash-icon" onclick="event.stopPropagation(); deleteRow(this)"></i>
-                            </td>
-                        </tr>
-                        <tr onclick="fillForm(this)">
-                            <td>X002</td>
-                            <td>Bộ đèn pha</td>
-                            <td>BMW i3</td>
-                            <td>7.500.000VND</td>
-                            <td>1</td>
-                            <td><img src="asset/denpha.png" style="width:70px; height:50px; object-fit:cover;"></td>
-                            <td class="actions">
-                                <i class="fas fa-edit edit-icon"></i>
-                                <i class="fas fa-trash trash-icon" onclick="event.stopPropagation(); deleteRow(this)"></i>
-                            </td>
-                        </tr>
+                        <!-- Dữ liệu sẽ được load từ API -->
                     </tbody>
                 </table>
             </div>
@@ -150,31 +129,93 @@
     </div>
 </div>
 
+<!-- API Service -->
+<script src="asset/api.js"></script>
+
 <script>
+// Kiểm tra authentication
+if (!AuthService.isAuthenticated()) {
+    window.location.href = 'welcome.html';
+}
+
 let currentRow = null;
+let currentProductId = null;
+
+// Helper
+function $(s) { return document.querySelector(s); }
+
+// Load danh sách sản phẩm từ API
+async function loadProducts() {
+    try {
+        Utils.showLoading($('#productTableBody'));
+        const result = await ProductAPI.getAll({ limit: 100 });
+        
+        if (result.success) {
+            renderProducts(result.data);
+        } else {
+            alert('Lỗi: ' + result.message);
+        }
+    } catch (error) {
+        console.error('Lỗi load sản phẩm:', error);
+        alert('Lỗi tải dữ liệu sản phẩm');
+    }
+}
+
+// Render danh sách sản phẩm
+function renderProducts(products) {
+    const tbody = $('#productTableBody');
+    tbody.innerHTML = '';
+    
+    products.forEach(product => {
+        const row = tbody.insertRow();
+        row.onclick = () => fillForm(row, product);
+        row.innerHTML = `
+            <td>${product.MaPhuTung}</td>
+            <td>${product.TenPhuTung}</td>
+            <td>${product.TenLoaiXe || product.MaLoaiXe}</td>
+            <td>${Utils.formatCurrency(product.GiaBan)}</td>
+            <td>${product.MaDanhMuc}</td>
+            <td><img src="asset/${product.HinhAnh}" style="width:70px; height:50px; object-fit:cover;" onerror="this.src='asset/car-icon.png'"></td>
+            <td class="actions">
+                <i class="fas fa-edit edit-icon"></i>
+                <i class="fas fa-trash trash-icon" onclick="event.stopPropagation(); deleteRow('${product.MaPhuTung}')"></i>
+            </td>
+        `;
+    });
+}
 
 // Điền dữ liệu lên form
-function fillForm(row) {
+function fillForm(row, product) {
     currentRow = row;
-    const c = row.cells;
-    $('#maPhuTung').value = c[0].textContent.trim();
-    $('#tenPhuTung').value = c[1].textContent.trim();
-    $('#loaiXe').value = c[2].textContent.trim();
-    $('#gia').value = c[3].textContent.trim();
-    $('#maDanhMuc').value = c[4].textContent.trim();
-    const img = c[5].querySelector('img');
+    currentProductId = product.MaPhuTung;
+    $('#maPhuTung').value = product.MaPhuTung;
+    $('#tenPhuTung').value = product.TenPhuTung;
+    $('#loaiXe').value = product.TenLoaiXe || product.MaLoaiXe;
+    $('#gia').value = product.GiaBan;
+    $('#maDanhMuc').value = product.MaDanhMuc;
     const preview = $('#imgPreview');
-    if (img) {
-        preview.src = img.src;
+    if (product.HinhAnh) {
+        preview.src = `asset/${product.HinhAnh}`;
         preview.style.display = 'block';
     }
 }
 
-// Xóa dòng
-function deleteRow(icon) {
-    if (confirm('Xóa sản phẩm này?')) {
-        icon.closest('tr').remove();
+// Xóa sản phẩm
+async function deleteRow(maPhuTung) {
+    if (!confirm('Xóa sản phẩm này?')) return;
+    
+    try {
+        const result = await ProductAPI.delete(maPhuTung);
+        if (result.success) {
+            alert('Xóa thành công!');
+            loadProducts();
         resetForm();
+        } else {
+            alert('Lỗi: ' + result.message);
+        }
+    } catch (error) {
+        console.error('Lỗi xóa:', error);
+        alert('Lỗi xóa sản phẩm');
     }
 }
 
@@ -189,6 +230,7 @@ function resetForm() {
     preview.src = '';
     preview.style.display = 'none';
     currentRow = null;
+    currentProductId = null;
 }
 
 // Preview ảnh khi chọn file
@@ -201,54 +243,92 @@ function previewImage(e) {
     }
 }
 
-// Helper
-function $(s) { return document.querySelector(s); }
-
 // Nút Thêm
-$('.btn-add').onclick = function() {
-    if (!$('#maPhuTung').value || !$('#tenPhuTung').value) {
-        alert('Vui lòng nhập Mã và Tên phụ tùng!');
+$('.btn-add').onclick = async function() {
+    const maPhuTung = $('#maPhuTung').value.trim();
+    const tenPhuTung = $('#tenPhuTung').value.trim();
+    const gia = $('#gia').value.trim();
+    
+    if (!maPhuTung || !tenPhuTung || !gia) {
+        alert('Vui lòng nhập đầy đủ thông tin bắt buộc!');
         return;
     }
-    const tbody = $('#productTableBody');
-    const r = tbody.insertRow();
-    r.onclick = () => fillForm(r);
-    const imgSrc = $('#imgPreview').style.display === 'block' ? $('#imgPreview').src : '';
-    r.innerHTML = `
-        <td>${$('#maPhuTung').value}</td>
-        <td>${$('#tenPhuTung').value}</td>
-        <td>${$('#loaiXe').value}</td>
-        <td>${$('#gia').value || 'Chưa có'}</td>
-        <td>${$('#maDanhMuc').value}</td>
-        <td><img src="${imgSrc}" style="width:70px; height:50px; object-fit:cover;"></td>
-        <td class="actions">
-            <i class="fas fa-edit edit-icon"></i>
-            <i class="fas fa-trash trash-icon" onclick="event.stopPropagation(); deleteRow(this)"></i>
-        </td>
-    `;
-    alert('Đã thêm sản phẩm mới!');
+
+    try {
+        const productData = {
+            MaPhuTung: maPhuTung,
+            MaHangXe: 'BMW', // Mặc định
+            MaLoaiXe: $('#loaiXe').value,
+            TenPhuTung: tenPhuTung,
+            GiaBan: parseFloat(gia.replace(/[^\d]/g, '')),
+            SoLuong: 1,
+            MoTa: '',
+            HinhAnh: $('#imgPreview').src.includes('blob:') ? 'default.png' : $('#imgPreview').src.split('/').pop(),
+            MaDanhMuc: $('#maDanhMuc').value,
+            NhaCC: 'Royal Auto'
+        };
+
+        const result = await ProductAPI.create(productData);
+        if (result.success) {
+            alert('Thêm sản phẩm thành công!');
+            loadProducts();
     resetForm();
+        } else {
+            alert('Lỗi: ' + result.message);
+        }
+    } catch (error) {
+        console.error('Lỗi thêm:', error);
+        alert('Lỗi thêm sản phẩm');
+    }
 };
 
 // Nút Cập nhật
-$('.btn-update').onclick = function() {
-    if (!currentRow) {
+$('.btn-update').onclick = async function() {
+    if (!currentProductId) {
         alert('Vui lòng chọn một sản phẩm để cập nhật!');
         return;
     }
-    const c = currentRow.cells;
-    c[0].textContent = $('#maPhuTung').value;
-    c[1].textContent = $('#tenPhuTung').value;
-    c[2].textContent = $('#loaiXe').value;
-    c[3].textContent = $('#gia').value;
-    c[4].textContent = $('#maDanhMuc').value;
-    c[5].innerHTML = `<img src="${$('#imgPreview').src}" style="width:70px; height:50px; object-fit:cover;">`;
+
+    const tenPhuTung = $('#tenPhuTung').value.trim();
+    const gia = $('#gia').value.trim();
+    
+    if (!tenPhuTung || !gia) {
+        alert('Vui lòng nhập đầy đủ thông tin!');
+        return;
+    }
+
+    try {
+        const productData = {
+            TenPhuTung: tenPhuTung,
+            GiaBan: parseFloat(gia.replace(/[^\d]/g, '')),
+            SoLuong: 1,
+            MoTa: '',
+            HinhAnh: $('#imgPreview').src.includes('blob:') ? 'default.png' : $('#imgPreview').src.split('/').pop(),
+            NhaCC: 'Royal Auto'
+        };
+
+        const result = await ProductAPI.update(currentProductId, productData);
+        if (result.success) {
     alert('Cập nhật thành công!');
+            loadProducts();
+            resetForm();
+        } else {
+            alert('Lỗi: ' + result.message);
+        }
+    } catch (error) {
+        console.error('Lỗi cập nhật:', error);
+        alert('Lỗi cập nhật sản phẩm');
+    }
 };
 
 function goTo(page) {
-            window.location.href = page;
-        }
+    window.location.href = page;
+}
+
+// Load dữ liệu khi trang được tải
+document.addEventListener('DOMContentLoaded', function() {
+    loadProducts();
+});
 </script>
 
 </body>

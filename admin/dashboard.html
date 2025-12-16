@@ -35,6 +35,8 @@
             <li class="menu-item" onclick="goTo('notifications.html')">
                 <i class="fas fa-bell"></i> Thông báo
             </li>
+            <li class="menu-item" onclick="goTo('chatbox.html')">
+                <i class="fas fa-comments"></i> Chatbox
         </ul>
     </aside>
 
@@ -100,8 +102,16 @@
             </div>
         </main>
     </div>
+    <!-- API Service -->
+    <script src="asset/api.js"></script>
+    
     <!-- Script điều hướng -->
     <script>
+        // Kiểm tra authentication
+        if (!AuthService.isAuthenticated()) {
+            window.location.href = 'welcome.html';
+        }
+        
         function goTo(page) {
             window.location.href = page;
         }

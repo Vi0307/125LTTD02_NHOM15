@@ -33,6 +33,8 @@
             <li class="menu-item" onclick="goTo('notifications.html')">
                 <i class="fas fa-bell"></i> Thông báo
             </li>
+            <li class="menu-item" onclick="goTo('chatbox.html')">
+                <i class="fas fa-comments"></i> Chatbox
         </ul>
     </aside>
 
@@ -53,33 +55,7 @@
                             </tr>
                         </thead>
                         <tbody id="userTableBody">
-                            <tr onclick="fillUserForm(this)">
-                                <td>KH001</td>
-                                <td>Hải Phan</td>
-                                <td>0999999999</td>
-                                <td class="action-icons">
-                                    <i class="fas lock-icon" title="Khóa/Mở tài khoản" onclick="lockUser(this)"></i>
-                                    <i class="fas fa-trash delete-icon" title="Xóa" onclick="event.stopPropagation(); deleteUser(this)"></i>
-                                </td>
-                            </tr>
-                            <tr onclick="fillUserForm(this)">
-                                <td>KH002</td>
-                                <td>Vũ Trần</td>
-                                <td>0911111111</td>
-                                <td class="action-icons">
-                                    <i class="fas lock-icon locked" title="Khóa/Mở tài khoản" onclick="lockUser(this)"></i>
-                                    <i class="fas fa-trash delete-icon" title="Xóa" onclick="event.stopPropagation(); deleteUser(this)"></i>
-                                </td>
-                            </tr>
-                            <tr onclick="fillUserForm(this)">
-                                <td>KH003</td>
-                                <td>Minh Anh</td>
-                                <td>0901234567</td>
-                                <td class="action-icons">
-                                    <i class="fas lock-icon" title="Khóa/Mở tài khoản" onclick="lockUser(this)"></i>
-                                    <i class="fas fa-trash delete-icon" title="Xóa" onclick="event.stopPropagation(); deleteUser(this)"></i>
-                                </td>
-                            </tr>
+                            <!-- Dữ liệu sẽ được load từ API -->
                         </tbody>
                     </table>
                 </div>
@@ -136,73 +112,150 @@
     </div>
 </div>
 
-<script>
-var currentUserRow = null;
+<!-- API Service -->
+<script src="asset/api.js"></script>
 
-function fillUserForm(row) {
+<script>
+// Kiểm tra authentication
+if (!AuthService.isAuthenticated()) {
+    window.location.href = 'welcome.html';
+}
+
+var currentUserRow = null;
+var currentUserId = null;
+
+function $(s) { return document.querySelector(s); }
+
+// Load danh sách người dùng
+async function loadUsers() {
+    try {
+        Utils.showLoading($('#userTableBody'));
+        const result = await UserAPI.getAll({ limit: 100 });
+        
+        if (result.success) {
+            renderUsers(result.data);
+        } else {
+            alert('Lỗi: ' + result.message);
+        }
+    } catch (error) {
+        console.error('Lỗi load người dùng:', error);
+        alert('Lỗi tải dữ liệu người dùng');
+    }
+}
+
+// Render danh sách người dùng
+function renderUsers(users) {
+    const tbody = $('#userTableBody');
+    tbody.innerHTML = '';
+    
+    users.forEach(user => {
+        const row = tbody.insertRow();
+        row.onclick = () => fillUserForm(row, user);
+        row.innerHTML = `
+            <td>${user.MaND}</td>
+            <td>${user.HoTen}</td>
+            <td>${user.DienThoai || ''}</td>
+            <td>${user.Email || ''}</td>
+            <td>${user.SoLanBaoDuong || 0}</td>
+            <td>
+                <i class="fas fa-lock lock-icon ${user.IsLocked ? 'locked' : ''}" 
+                   title="${user.IsLocked ? 'Đã khóa' : 'Đang mở'}"
+                   onclick="event.stopPropagation(); lockUser(${user.MaND}, ${user.IsLocked})"></i>
+            </td>
+            <td class="action-icons">
+                <i class="fas fa-trash delete-icon" onclick="event.stopPropagation(); deleteUser(${user.MaND})"></i>
+            </td>
+        `;
+    });
+}
+
+async function fillUserForm(row, user) {
     currentUserRow = row;
-    const c = row.cells;
+    currentUserId = user.MaND;
 
     const card = document.getElementById('userDetailCard');
     card.style.display = 'block';
 
-    $('#maKH').value = c[0].textContent.trim();
-    $('#tenKH').value = c[1].textContent.trim();
-    $('#sdt').value = c[2].textContent.trim();
-
-    const data = {
-        'KH001': { loaiXe: 'BMW i5', maXe: '30E-12345', email: 'hai.pham@gmail.com', baoDuong: 3 },
-        'KH002': { loaiXe: 'Mercedes EQS', maXe: '51H-67890', email: 'vu.tran@gmail.com', baoDuong: 6 },
-        'KH003': { loaiXe: 'Audi e-tron', maXe: '29A-98765', email: 'minh.anh@gmail.com', baoDuong: 1 }
-    };
-    const info = data[c[0].textContent.trim()] || {};
-
-    $('#loaiXe').value = info.loaiXe || '';
-    $('#maXe').value = info.maXe || '';
-    $('#email').value = info.email || '';
-    $('#soLanBaoDuong').value = info.baoDuong ?? 0;
+    $('#maKH').value = user.MaND;
+    $('#tenKH').value = user.HoTen;
+    $('#sdt').value = user.DienThoai || '';
+    $('#email').value = user.Email || '';
+    $('#soLanBaoDuong').value = user.SoLanBaoDuong || 0;
+    $('#ngayBaoDuong').value = user.NgayBaoDuong ? Utils.formatDate(user.NgayBaoDuong) : '';
 
     card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
-function lockUser(icon) {
+async function lockUser(maND, isLocked) {
     event.stopPropagation();
-    const isLocked = icon.classList.contains('locked');
-    const maKH = icon.closest('tr').cells[0].textContent.trim();
+    const action = isLocked ? 'Mở khóa' : 'Khóa';
+    
+    if (!confirm(`${action} tài khoản ${maND}?`)) return;
 
-    if (isLocked) {
-        if (confirm(`Mở khóa tài khoản ${maKH}?`)) {
-            icon.classList.remove('locked');
-            alert(`Đã mở khóa ${maKH}`);
+    try {
+        const result = await UserAPI.toggleLock(maND, !isLocked);
+        if (result.success) {
+            alert(result.message);
+            loadUsers();
+        } else {
+            alert('Lỗi: ' + result.message);
         }
-    } else {
-        if (confirm(`Khóa tài khoản ${maKH}?\nKhách hàng sẽ không thể đăng nhập!`)) {
-            icon.classList.add('locked');
-            alert(`Đã khóa ${maKH}`);
-        }
+    } catch (error) {
+        console.error('Lỗi khóa/mở khóa:', error);
+        alert('Lỗi thực hiện thao tác');
     }
 }
 
-function deleteUser(icon) {
-    if (confirm('Xóa khách hàng này vĩnh viễn?')) {
-        icon.closest('tr').remove();
-        document.getElementById('userDetailCard').style.display = 'none';
+async function deleteUser(maND) {
+    if (!confirm('Xóa khách hàng này vĩnh viễn?')) return;
+
+    try {
+        const result = await UserAPI.delete(maND);
+        if (result.success) {
+            alert('Xóa thành công!');
+            loadUsers();
+            document.getElementById('userDetailCard').style.display = 'none';
+        } else {
+            alert('Lỗi: ' + result.message);
+        }
+    } catch (error) {
+        console.error('Lỗi xóa:', error);
+        alert('Lỗi xóa người dùng');
     }
 }
 
-function updateUser() {
-    if (!currentUserRow) return alert('Vui lòng chọn khách hàng!');
-    const c = currentUserRow.cells;
-    c[1].textContent = $('#tenKH').value;
-    c[2].textContent = $('#sdt').value;
-    alert('Cập nhật thành công!');
-}
+async function updateUser() {
+    if (!currentUserId) return alert('Vui lòng chọn khách hàng!');
 
-function $(s) { return document.querySelector(s); }
+    const userData = {
+        HoTen: $('#tenKH').value.trim(),
+        DienThoai: $('#sdt').value.trim(),
+        Email: $('#email').value.trim(),
+        SoLanBaoDuong: parseInt($('#soLanBaoDuong').value) || 0
+    };
+
+    try {
+        const result = await UserAPI.update(currentUserId, userData);
+        if (result.success) {
+            alert('Cập nhật thành công!');
+            loadUsers();
+        } else {
+            alert('Lỗi: ' + result.message);
+        }
+    } catch (error) {
+        console.error('Lỗi cập nhật:', error);
+        alert('Lỗi cập nhật người dùng');
+    }
+}
 
 function goTo(page) {
-            window.location.href = page;
-        }
+    window.location.href = page;
+}
+
+// Load dữ liệu khi trang được tải
+document.addEventListener('DOMContentLoaded', function() {
+    loadUsers();
+});
 </script>
 
 </body>
