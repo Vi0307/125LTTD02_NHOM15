@@ -51,16 +51,40 @@ const getAllProducts = async (req, res) => {
             params.maDanhMuc = { type: sql.VarChar, value: maDanhMuc };
         }
 
+        // Đếm tổng số (trước khi thêm OFFSET/FETCH)
+        let countQuery = `
+            SELECT COUNT(*) as total
+            FROM PHU_TUNG PT
+            INNER JOIN HANG_XE HX ON PT.MaHangXe = HX.MaHangXe
+            INNER JOIN LOAI_XE LX ON PT.MaLoaiXe = LX.MaLoaiXe
+            INNER JOIN DM_PHUTUNG DM ON PT.MaDanhMuc = DM.MaDanhMuc
+            WHERE 1=1
+        `;
+
+        if (search) {
+            countQuery += ` AND (PT.TenPhuTung LIKE @search OR PT.MaPhuTung LIKE @search)`;
+        }
+        if (maHangXe) {
+            countQuery += ` AND PT.MaHangXe = @maHangXe`;
+        }
+        if (maLoaiXe) {
+            countQuery += ` AND PT.MaLoaiXe = @maLoaiXe`;
+        }
+        if (maDanhMuc) {
+            countQuery += ` AND PT.MaDanhMuc = @maDanhMuc`;
+        }
+
+        const countParams = { ...params };
+        delete countParams.offset;
+        delete countParams.limit;
+        const countResult = await executeQuery(countQuery, countParams);
+        const total = countResult[0]?.total || 0;
+
+        // Thêm ORDER BY và OFFSET/FETCH cho query chính
         query += ` ORDER BY PT.MaPhuTung OFFSET @offset ROWS FETCH NEXT @limit ROWS ONLY`;
 
         params.offset = { type: sql.Int, value: offset };
         params.limit = { type: sql.Int, value: parseInt(limit) };
-
-        // Đếm tổng số
-        let countQuery = query.replace(/SELECT[\s\S]*?FROM/, 'SELECT COUNT(*) as total FROM');
-        countQuery = countQuery.replace(/ORDER BY[\s\S]*$/, '');
-        const countResult = await executeQuery(countQuery, params);
-        const total = countResult[0]?.total || 0;
 
         const products = await executeQuery(query, params);
 

@@ -9,27 +9,31 @@ const getAllUsers = async (req, res) => {
 
         let query = `
             SELECT 
-                MaND,
-                HoTen,
-                Email,
-                DienThoai,
-                NgaySinh,
-                VaiTro,
-                NgayBaoDuong,
-                SoLanBaoDuong,
-                IsLocked
-            FROM NGUOI_DUNG
+                ND.MaND,
+                ND.HoTen,
+                ND.Email,
+                ND.DienThoai,
+                ND.NgaySinh,
+                ND.VaiTro,
+                ND.NgayBaoDuong,
+                ND.SoLanBaoDuong,
+                ND.IsLocked,
+                X.MaXe,
+                LX.TenLoaiXe
+            FROM NGUOI_DUNG ND
+            LEFT JOIN XE X ON ND.MaND = X.MaND
+            LEFT JOIN LOAI_XE LX ON X.MaLoaiXe = LX.MaLoaiXe
             WHERE 1=1
         `;
 
         const params = {};
 
         if (search) {
-            query += ` AND (HoTen LIKE @search OR Email LIKE @search OR DienThoai LIKE @search)`;
+            query += ` AND (ND.HoTen LIKE @search OR ND.Email LIKE @search OR ND.DienThoai LIKE @search)`;
             params.search = { type: sql.NVarChar, value: `%${search}%` };
         }
 
-        query += ` ORDER BY MaND OFFSET @offset ROWS FETCH NEXT @limit ROWS ONLY`;
+        query += ` ORDER BY ND.MaND OFFSET @offset ROWS FETCH NEXT @limit ROWS ONLY`;
 
         params.offset = { type: sql.Int, value: offset };
         params.limit = { type: sql.Int, value: parseInt(limit) };
@@ -37,9 +41,9 @@ const getAllUsers = async (req, res) => {
         const users = await executeQuery(query, params);
 
         // Đếm tổng
-        let countQuery = `SELECT COUNT(*) as total FROM NGUOI_DUNG WHERE 1=1`;
+        let countQuery = `SELECT COUNT(DISTINCT ND.MaND) as total FROM NGUOI_DUNG ND LEFT JOIN XE X ON ND.MaND = X.MaND WHERE 1=1`;
         if (search) {
-            countQuery += ` AND (HoTen LIKE @search OR Email LIKE @search OR DienThoai LIKE @search)`;
+            countQuery += ` AND (ND.HoTen LIKE @search OR ND.Email LIKE @search OR ND.DienThoai LIKE @search)`;
         }
         const countResult = await executeQuery(countQuery, params);
         const total = countResult[0]?.total || 0;

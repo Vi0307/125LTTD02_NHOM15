@@ -9,7 +9,6 @@
 </head>
 
 <body class="dashboard-body">
-<body>
 
     <!-- ================= FIXED ELEMENTS ================= -->
     <!-- Top user -->
@@ -49,56 +48,11 @@
     <!-- ================= SCROLLABLE CONTENT ================= -->
     <div class="page-wrapper">
         <main class="products-content">
-            <div class="products-grid">
-
-                <!-- Card 1 -->
-                <div class="product-card">
-                    <img src="asset/img_body_parts.jpg" alt="Phụ tùng thân vỏ">
-                    <div class="card-info">
-                        <h3>Phụ tùng thân vỏ</h3>
-                        <p class="desc">Các bộ phận liên quan đến hệ thống động cơ</p>
-                        <p class="available">Các bộ phận hiện có: <strong>4</strong></p>
-                        <button class="view-btn" onclick="goTo('product1.html')">Chi tiết</button>
-                        
-                    </div>
+            <div class="products-grid" id="categoriesGrid">
+                <!-- Danh mục sẽ được load động từ API -->
+                <div style="text-align: center; padding: 20px;">
+                    <p>Đang tải danh mục...</p>
                 </div>
-
-                <!-- Card 2 -->
-                <div class="product-card">
-                    <img src="asset/img_engine_parts.png" alt="Phụ tùng động cơ">
-                    <div class="card-info">
-                        <h3>Phụ tùng động cơ</h3>
-                        <p class="desc">Các bộ phận liên quan đến hệ thống phanh</p>
-                        <p class="available">Các bộ phận hiện có: <strong>4</strong></p>
-                        <button class="view-btn">Chi tiết</button>
-                        
-                    </div>
-                </div>
-
-                <!-- Card 3 -->
-                <div class="product-card">
-                    <img src="asset/img_transmission_parts.webp" alt="Phụ tùng truyền động">
-                    <div class="card-info">
-                        <h3>Phụ tùng truyền động</h3>
-                        <p class="desc">Các bộ phận liên quan đến hệ thống treo</p>
-                        <p class="available">Các bộ phận hiện có: <strong>4</strong></p>
-                        <button class="view-btn">Chi tiết</button>
-                       
-                    </div>
-                </div>
-
-                <!-- Card 4 -->
-                <div class="product-card">
-                    <img src="asset/img_lighting_parts.jpg" alt="Phụ tùng điện">
-                    <div class="card-info">
-                        <h3>Phụ tùng điện</h3>
-                        <p class="desc">Các bộ phận liên quan đến hệ thống điện</p>
-                        <p class="available">Các bộ phận hiện có: <strong>4</strong></p>
-                        <button class="view-btn">Chi tiết</button>
-                        
-                    </div>
-                </div>
-
             </div>
         </main>
     </div>
@@ -115,6 +69,71 @@
         function goTo(page) {
             window.location.href = page;
         }
+
+        // Mapping hình ảnh cho các danh mục
+        const categoryImages = {
+            '1': 'asset/img_body_parts.jpg',
+            '2': 'asset/img_engine_parts.png',
+            '3': 'asset/img_transmission_parts.webp',
+            '4': 'asset/img_lighting_parts.jpg'
+        };
+
+        // Load danh sách danh mục
+        async function loadCategories() {
+            try {
+                const result = await CategoryAPI.getAll();
+                
+                if (result.success && result.data) {
+                    renderCategories(result.data);
+                } else {
+                    document.getElementById('categoriesGrid').innerHTML = 
+                        '<div style="text-align: center; padding: 20px; color: red;">Lỗi tải danh mục: ' + (result.message || 'Unknown error') + '</div>';
+                }
+            } catch (error) {
+                console.error('Lỗi load danh mục:', error);
+                document.getElementById('categoriesGrid').innerHTML = 
+                    '<div style="text-align: center; padding: 20px; color: red;">Lỗi kết nối server</div>';
+            }
+        }
+
+        // Render danh sách danh mục
+        function renderCategories(categories) {
+            const grid = document.getElementById('categoriesGrid');
+            grid.innerHTML = '';
+
+            categories.forEach(category => {
+                const imageUrl = categoryImages[category.MaDanhMuc] || 'asset/car-icon.png';
+                const productCount = category.SoLuongSanPham || 0;
+                
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.innerHTML = `
+                    <img src="${imageUrl}" alt="${category.TenDanhMuc}" onerror="this.src='asset/car-icon.png'">
+                    <div class="card-info">
+                        <h3>${category.TenDanhMuc || 'Danh mục'}</h3>
+                        <p class="desc">${category.MoTa || 'Các bộ phận phụ tùng'}</p>
+                        <p class="available">Các bộ phận hiện có: <strong>${productCount}</strong></p>
+                        <button class="view-btn" onclick="goToCategory('${category.MaDanhMuc}')">Chi tiết</button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+
+            // Nếu không có danh mục nào
+            if (categories.length === 0) {
+                grid.innerHTML = '<div style="text-align: center; padding: 20px;">Không có danh mục nào</div>';
+            }
+        }
+
+        // Điều hướng đến trang danh mục
+        function goToCategory(categoryId) {
+            window.location.href = `product1.html?category=${categoryId}`;
+        }
+
+        // Load khi trang được tải
+        document.addEventListener('DOMContentLoaded', function() {
+            loadCategories();
+        });
     </script>
 
 </body>
