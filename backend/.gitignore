@@ -31,3 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Local config - KHÔNG PUSH LÊN GIT ###
+application-local.properties
+**/application-local.properties
