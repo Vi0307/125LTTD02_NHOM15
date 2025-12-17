@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 // Routes
 const authRoutes = require('./routes/authRoutes');
 const productRoutes = require('./routes/productRoutes');
+const categoryRoutes = require('./routes/categoryRoutes');
 const userRoutes = require('./routes/userRoutes');
 const orderRoutes = require('./routes/orderRoutes');
 const scheduleRoutes = require('./routes/scheduleRoutes');
@@ -44,6 +45,7 @@ app.get('/health', (req, res) => {
 ======================= */
 app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
+app.use('/api/categories', categoryRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/schedules', scheduleRoutes);
@@ -98,6 +100,7 @@ const startServer = async () => {
             console.log('   GET  /health');
             console.log('   POST /api/auth');
             console.log('   GET  /api/products');
+            console.log('   GET  /api/categories');
             console.log('   GET  /api/users');
             console.log('   GET  /api/orders');
             console.log('   GET  /api/schedules');

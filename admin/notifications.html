@@ -101,16 +101,23 @@ function renderReminders(reminders) {
     const tbody = $('#notifyTableBody');
     tbody.innerHTML = '';
     
+    if (reminders.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:20px;">Không có khách hàng nào cần nhắc bảo dưỡng</td></tr>';
+        return;
+    }
+    
     reminders.forEach(reminder => {
         const row = tbody.insertRow();
+        const soLan = reminder.SoLanBaoDuong || 0;
+        const lanTiepTheo = soLan + 1;
         row.innerHTML = `
-            <td>${reminder.TenKhachHang || ''}</td>
-            <td>${reminder.TenLoaiXe || ''}</td>
-            <td>${reminder.SoLanBaoDuong || 0}</td>
-            <td>${reminder.NgayBaoDuong ? Utils.formatDate(reminder.NgayBaoDuong) : ''}</td>
+            <td>${reminder.TenKhachHang || 'Chưa có tên'}</td>
+            <td>${reminder.TenLoaiXe || 'Chưa đăng ký xe'}</td>
+            <td>${soLan} lần</td>
+            <td>Lần thứ ${lanTiepTheo}</td>
             <td class="action-icons">
-                <i class="fas fa-bell bell-notify" title="Gửi thông báo nhắc nhở" onclick="sendReminder(${reminder.MaND}, '${reminder.TenKhachHang}')"></i>
-                <i class="fas fa-trash delete-notify" title="Xóa khỏi danh sách" onclick="deleteReminder(${reminder.MaND}, '${reminder.TenKhachHang}')"></i>
+                <i class="fas fa-bell bell-notify" style="color:#ffc107;cursor:pointer;margin-right:10px;" title="Gửi thông báo nhắc nhở" onclick="sendReminder(${reminder.MaND}, '${reminder.TenKhachHang || ''}')"></i>
+                <i class="fas fa-check-circle" style="color:#28a745;cursor:pointer;" title="Đánh dấu hoàn tất (6 lần)" onclick="deleteReminder(${reminder.MaND}, '${reminder.TenKhachHang || ''}')"></i>
             </td>
         `;
     });

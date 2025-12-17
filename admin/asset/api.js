@@ -214,6 +214,19 @@ const ProductAPI = {
     }
 };
 
+// ==================== CATEGORIES API ====================
+const CategoryAPI = {
+    // Lấy danh sách danh mục
+    async getAll() {
+        return await apiCall('/categories');
+    },
+
+    // Lấy chi tiết danh mục
+    async getById(id) {
+        return await apiCall(`/categories/${id}`);
+    }
+};
+
 // ==================== USERS API ====================
 const UserAPI = {
     // Lấy danh sách người dùng
@@ -392,6 +405,7 @@ const Utils = {
 if (typeof window !== 'undefined') {
     window.AuthService = AuthService;
     window.ProductAPI = ProductAPI;
+    window.CategoryAPI = CategoryAPI;
     window.UserAPI = UserAPI;
     window.OrderAPI = OrderAPI;
     window.ScheduleAPI = ScheduleAPI;

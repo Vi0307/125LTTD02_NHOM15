@@ -55,24 +55,22 @@ const getAllNotifications = async (req, res) => {
 // Lấy danh sách khách hàng cần nhắc bảo dưỡng
 const getMaintenanceReminders = async (req, res) => {
     try {
+        // Lấy danh sách người dùng có xe và cần bảo dưỡng (số lần bảo dưỡng < 6)
         const query = `
             SELECT 
                 ND.MaND,
                 ND.HoTen as TenKhachHang,
+                ND.DienThoai,
+                ND.Email,
                 ND.NgayBaoDuong,
                 ND.SoLanBaoDuong,
                 X.MaXe,
-                LX.TenLoaiXe,
-                BD.MaBD,
-                BD.TrangThai,
-                BD.DaNhacNho
+                LX.TenLoaiXe
             FROM NGUOI_DUNG ND
             LEFT JOIN XE X ON ND.MaND = X.MaND
             LEFT JOIN LOAI_XE LX ON X.MaLoaiXe = LX.MaLoaiXe
-            LEFT JOIN BAO_DUONG BD ON ND.MaND = BD.MaND
-            WHERE ND.NgayBaoDuong IS NOT NULL 
-                AND (BD.TrangThai = N'Nhắc nhở' OR BD.TrangThai IS NULL)
-            ORDER BY ND.NgayBaoDuong ASC
+            WHERE ND.SoLanBaoDuong < 6 OR ND.SoLanBaoDuong IS NULL
+            ORDER BY ND.SoLanBaoDuong DESC, ND.MaND ASC
         `;
 
         const reminders = await executeQuery(query, {});
@@ -91,7 +89,7 @@ const getMaintenanceReminders = async (req, res) => {
     }
 };
 
-// Gửi thông báo nhắc nhở
+// Gửi thông báo nhắc nhở - tăng số lần bảo dưỡng
 const sendReminder = async (req, res) => {
     try {
         const { maND } = req.body;
@@ -103,30 +101,21 @@ const sendReminder = async (req, res) => {
             });
         }
 
-        // Cập nhật trạng thái bảo dưỡng
+        // Tăng số lần bảo dưỡng và cập nhật ngày bảo dưỡng
         const updateQuery = `
-            UPDATE BAO_DUONG
-            SET TrangThai = N'Đã nhắc nhở', DaNhacNho = 1
-            WHERE MaND = @maND AND TrangThai = N'Nhắc nhở'
+            UPDATE NGUOI_DUNG
+            SET SoLanBaoDuong = ISNULL(SoLanBaoDuong, 0) + 1,
+                NgayBaoDuong = GETDATE()
+            WHERE MaND = @maND
         `;
 
         await executeQuery(updateQuery, {
             maND: { type: sql.Int, value: parseInt(maND) }
         });
 
-        // Tạo thông báo
-        const insertQuery = `
-            INSERT INTO THONG_BAO (MaND, TieuDe, NoiDung)
-            VALUES (@maND, N'Thông báo bảo dưỡng', N'Xe của bạn sắp đến hạn bảo dưỡng định kỳ. Vui lòng liên hệ đại lý để đặt lịch.')
-        `;
-
-        await executeQuery(insertQuery, {
-            maND: { type: sql.Int, value: parseInt(maND) }
-        });
-
         res.json({
             success: true,
-            message: 'Đã gửi thông báo nhắc nhở thành công'
+            message: 'Đã gửi thông báo nhắc nhở và cập nhật số lần bảo dưỡng'
         });
     } catch (error) {
         console.error('Lỗi gửi thông báo:', error);
@@ -138,7 +127,7 @@ const sendReminder = async (req, res) => {
     }
 };
 
-// Xóa khỏi danh sách nhắc nhở
+// Xóa khỏi danh sách nhắc nhở - đặt số lần bảo dưỡng = 6 (hoàn tất)
 const deleteReminder = async (req, res) => {
     try {
         const { maND } = req.body;
@@ -150,9 +139,10 @@ const deleteReminder = async (req, res) => {
             });
         }
 
+        // Đặt số lần bảo dưỡng = 6 để xóa khỏi danh sách nhắc nhở
         const query = `
-            UPDATE BAO_DUONG
-            SET TrangThai = N'Chưa đến hạn'
+            UPDATE NGUOI_DUNG
+            SET SoLanBaoDuong = 6
             WHERE MaND = @maND
         `;
 

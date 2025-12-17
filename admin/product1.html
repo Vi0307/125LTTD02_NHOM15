@@ -45,7 +45,7 @@
         <section class="panel-grid">
         <!-- BẢNG SẢN PHẨM -->
         <div class="table-card">
-            <h2 class="table-title">Sản phẩm</h2>
+            <h2 class="table-title" id="categoryTitle">Sản phẩm</h2>
             <div class="table-container">
                 <table class="product-table">
                     <thead>
@@ -140,15 +140,48 @@ if (!AuthService.isAuthenticated()) {
 
 let currentRow = null;
 let currentProductId = null;
+let currentCategoryId = null;
 
 // Helper
 function $(s) { return document.querySelector(s); }
 
-// Load danh sách sản phẩm từ API
+// Lấy category ID từ URL
+function getCategoryIdFromURL() {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get('category') || urlParams.get('maDanhMuc') || null;
+}
+
+// Load thông tin danh mục
+async function loadCategoryInfo() {
+    const categoryId = getCategoryIdFromURL();
+    if (!categoryId) {
+        $('#categoryTitle').textContent = 'Tất cả sản phẩm';
+        return;
+    }
+
+    try {
+        const result = await CategoryAPI.getById(categoryId);
+        if (result.success && result.data) {
+            $('#categoryTitle').textContent = result.data.TenDanhMuc || 'Sản phẩm';
+            currentCategoryId = categoryId;
+        }
+    } catch (error) {
+        console.error('Lỗi load danh mục:', error);
+    }
+}
+
+// Load danh sách sản phẩm từ API (chỉ 4 sản phẩm theo danh mục)
 async function loadProducts() {
     try {
         Utils.showLoading($('#productTableBody'));
-        const result = await ProductAPI.getAll({ limit: 100 });
+        const categoryId = getCategoryIdFromURL();
+        
+        const params = { limit: 4 }; // Chỉ lấy 4 sản phẩm
+        if (categoryId) {
+            params.maDanhMuc = categoryId;
+        }
+        
+        const result = await ProductAPI.getAll(params);
         
         if (result.success) {
             renderProducts(result.data);
@@ -327,6 +360,7 @@ function goTo(page) {
 
 // Load dữ liệu khi trang được tải
 document.addEventListener('DOMContentLoaded', function() {
+    loadCategoryInfo();
     loadProducts();
 });
 </script>
