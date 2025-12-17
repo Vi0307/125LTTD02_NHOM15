@@ -6,7 +6,6 @@ import com.example.backend.repository.GioHangRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,91 +15,61 @@ public class GioHangService {
     
     private final GioHangRepository gioHangRepository;
     
-    // Lấy giỏ hàng theo người dùng
-    public List<GioHangDTO> getGioHangByNguoiDung(Long maNguoiDung) {
-        return gioHangRepository.findByMaNguoiDung(maNguoiDung)
+    // Lấy tất cả giỏ hàng
+    public List<GioHangDTO> getAllGioHang() {
+        return gioHangRepository.findAll()
                 .stream()
                 .map(this::toDTO)
                 .collect(Collectors.toList());
     }
     
-    // Thêm sản phẩm vào giỏ hàng
-    @Transactional
-    public GioHangDTO themVaoGioHang(GioHangDTO dto) {
-        // Kiểm tra sản phẩm đã có trong giỏ chưa
-        GioHang existing = gioHangRepository.findByMaNguoiDungAndMaSanPham(
-                dto.getMaNguoiDung(), dto.getMaSanPham());
-        
-        if (existing != null) {
-            // Cập nhật số lượng nếu đã có
-            existing.setSoLuong(existing.getSoLuong() + dto.getSoLuong());
-            existing.setThanhTien(existing.getDonGia().multiply(new BigDecimal(existing.getSoLuong())));
-            return toDTO(gioHangRepository.save(existing));
-        }
-        
-        // Thêm mới
-        GioHang gioHang = toEntity(dto);
-        gioHang.setThanhTien(gioHang.getDonGia().multiply(new BigDecimal(gioHang.getSoLuong())));
-        return toDTO(gioHangRepository.save(gioHang));
-    }
-    
-    // Cập nhật số lượng
-    @Transactional
-    public GioHangDTO capNhatSoLuong(Long maGioHang, Integer soLuong) {
+    // Lấy giỏ hàng theo ID
+    public GioHangDTO getGioHangById(Integer maGioHang) {
         GioHang gioHang = gioHangRepository.findById(maGioHang)
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy giỏ hàng"));
+        return toDTO(gioHang);
+    }
+    
+    // Lấy giỏ hàng theo người dùng
+    public GioHangDTO getGioHangByNguoiDung(Integer maND) {
+        GioHang gioHang = gioHangRepository.findByMaND(maND)
+                .orElseThrow(() -> new RuntimeException("Người dùng chưa có giỏ hàng"));
+        return toDTO(gioHang);
+    }
+    
+    // Tạo giỏ hàng mới cho người dùng
+    @Transactional
+    public GioHangDTO taoGioHang(Integer maND) {
+        // Kiểm tra đã có giỏ hàng chưa
+        if (gioHangRepository.existsByMaND(maND)) {
+            throw new RuntimeException("Người dùng đã có giỏ hàng");
+        }
         
-        gioHang.setSoLuong(soLuong);
-        gioHang.setThanhTien(gioHang.getDonGia().multiply(new BigDecimal(soLuong)));
+        GioHang gioHang = GioHang.builder()
+                .maND(maND)
+                .build();
         return toDTO(gioHangRepository.save(gioHang));
     }
     
-    // Xóa một sản phẩm khỏi giỏ hàng
+    // Lấy hoặc tạo giỏ hàng
     @Transactional
-    public void xoaKhoiGioHang(Long maGioHang) {
+    public GioHangDTO getOrCreateGioHang(Integer maND) {
+        return gioHangRepository.findByMaND(maND)
+                .map(this::toDTO)
+                .orElseGet(() -> taoGioHang(maND));
+    }
+    
+    // Xóa giỏ hàng
+    @Transactional
+    public void xoaGioHang(Integer maGioHang) {
         gioHangRepository.deleteById(maGioHang);
-    }
-    
-    // Xóa toàn bộ giỏ hàng của người dùng
-    @Transactional
-    public void xoaToanBoGioHang(Long maNguoiDung) {
-        gioHangRepository.deleteByMaNguoiDung(maNguoiDung);
-    }
-    
-    // Đếm số sản phẩm trong giỏ
-    public int demSoLuongSanPham(Long maNguoiDung) {
-        return gioHangRepository.findByMaNguoiDung(maNguoiDung).size();
-    }
-    
-    // Tính tổng tiền giỏ hàng
-    public BigDecimal tinhTongTien(Long maNguoiDung) {
-        return gioHangRepository.findByMaNguoiDung(maNguoiDung)
-                .stream()
-                .map(GioHang::getThanhTien)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
     
     // Convert Entity to DTO
     private GioHangDTO toDTO(GioHang entity) {
         return GioHangDTO.builder()
                 .maGioHang(entity.getMaGioHang())
-                .maNguoiDung(entity.getMaNguoiDung())
-                .maSanPham(entity.getMaSanPham())
-                .soLuong(entity.getSoLuong())
-                .donGia(entity.getDonGia())
-                .thanhTien(entity.getThanhTien())
-                .build();
-    }
-    
-    // Convert DTO to Entity
-    private GioHang toEntity(GioHangDTO dto) {
-        return GioHang.builder()
-                .maGioHang(dto.getMaGioHang())
-                .maNguoiDung(dto.getMaNguoiDung())
-                .maSanPham(dto.getMaSanPham())
-                .soLuong(dto.getSoLuong())
-                .donGia(dto.getDonGia())
-                .thanhTien(dto.getThanhTien())
+                .maND(entity.getMaND())
                 .build();
     }
 }
