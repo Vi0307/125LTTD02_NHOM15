@@ -111,7 +111,7 @@ public class Booking_Fragment extends Fragment {
     }
 
     private void setCalendarView(View view) {
-        CalendarView calendarView = calendarView.findViewById(R.id.calendarView);
+        CalendarView calendarView = view.findViewById(R.id.calendarView);
         calendarView.setMinDate(System.currentTimeMillis());   
     }
 
