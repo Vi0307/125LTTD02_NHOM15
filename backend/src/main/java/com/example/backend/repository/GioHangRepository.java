@@ -3,16 +3,12 @@ package com.example.backend.repository;
 import com.example.backend.entity.GioHang;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import java.util.List;
+import java.util.Optional;
 
 @Repository
-public interface GioHangRepository extends JpaRepository<GioHang, Long> {
+public interface GioHangRepository extends JpaRepository<GioHang, Integer> {
     
-    List<GioHang> findByMaNguoiDung(Long maNguoiDung);
+    Optional<GioHang> findByMaND(Integer maND);
     
-    GioHang findByMaNguoiDungAndMaSanPham(Long maNguoiDung, Long maSanPham);
-    
-    void deleteByMaNguoiDung(Long maNguoiDung);
-    
-    void deleteByMaNguoiDungAndMaSanPham(Long maNguoiDung, Long maSanPham);
+    boolean existsByMaND(Integer maND);
 }
