@@ -11,7 +11,7 @@ public interface VoucherRepository extends JpaRepository<Voucher, Integer> {
     @Query(value = """
                 SELECT v FROM Voucher v
                 WHERE v.maND = :maND
-                AND v.trangThai = N'Còn hiệu lực'
+                AND v.trangThai = 'Còn hiệu lực'
                 AND (v.hanSuDung IS NULL OR v.hanSuDung >= CURRENT_DATE)
             """)
     List<Voucher> getVoucherHopLe(Integer maND);
