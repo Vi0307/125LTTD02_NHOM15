@@ -299,6 +299,24 @@ CREATE TABLE OTP_VERIFICATION (
     CONSTRAINT FK_OTP_ND FOREIGN KEY (MaND) REFERENCES NGUOI_DUNG(MaND)
 );
 
+-- =========================
+-- BẢNG ĐỊA CHỈ
+-- =========================
+CREATE TABLE DIA_CHI (
+    MaDiaChi INT IDENTITY(1,1) PRIMARY KEY,
+    MaND INT NOT NULL,
+    LoaiDiaChi NVARCHAR(20) NOT NULL 
+        CHECK (LoaiDiaChi IN (N'Nhà riêng', N'Công ty')),
+    HoTenNguoiNhan NVARCHAR(100) NOT NULL,
+    SoDienThoai VARCHAR(20) NOT NULL,
+    TinhThanhPho NVARCHAR(100) NOT NULL,
+    QuanHuyen NVARCHAR(100) NOT NULL,
+    PhuongXa NVARCHAR(100) NOT NULL,
+    DiaChiChiTiet NVARCHAR(255) NOT NULL,
+    MacDinh BIT NOT NULL DEFAULT 0,
+    CONSTRAINT FK_DC_ND FOREIGN KEY (MaND) REFERENCES NGUOI_DUNG(MaND)
+);
+
 -- ====================================================
 --                 DỮ LIỆU MẪU
 -- ====================================================
@@ -445,4 +463,18 @@ VALUES
 (4, '119843', '2025-12-13 23:59:59');
 GO
 
+INSERT INTO DIA_CHI (MaND, LoaiDiaChi, HoTenNguoiNhan, SoDienThoai, TinhThanhPho, QuanHuyen, PhuongXa, DiaChiChiTiet, MacDinh) VALUES
+-- Người dùng 1: Vi Trần
+(1, N'Nhà riêng', N'Vi Trần', '0911222333', N'Đà Nẵng', N'Hải Châu', N'Thạch Thang', N'123 Nguyễn Văn Linh', 1),
+(1, N'Công ty', N'Vi Trần', '0911222333', N'Đà Nẵng', N'Thanh Khê', N'Tam Thuận', N'Tòa nhà FPT, Lầu 3', 0),
+-- Người dùng 2: Hải Phan
+(2, N'Nhà riêng', N'Hải Phan', '0931951811', N'Đà Nẵng', N'Sơn Trà', N'An Hải Bắc', N'45 Ngô Quyền', 1),
+(2, N'Công ty', N'Hải Phan', '0931951811', N'Đà Nẵng', N'Ngũ Hành Sơn', N'Mỹ An', N'Tòa nhà Viettel, Tầng 2', 0),
+-- Người dùng 3: Phúc Phan
+(3, N'Nhà riêng', N'Phúc Phan', '0988666777', N'Đà Nẵng', N'Liên Chiểu', N'Hòa Khánh Bắc', N'78 Tôn Đức Thắng', 1),
+(3, N'Công ty', N'Phúc Phan', '0988666777', N'Đà Nẵng', N'Cẩm Lệ', N'Hòa Thọ Đông', N'KCN Hòa Khánh, Nhà xưởng 5', 0),
+-- Người dùng 4: Hoàng
+(4, N'Nhà riêng', N'Hoàng', '0909001122', N'Đà Nẵng', N'Thanh Khê', N'Thanh Khê Đông', N'12 Điện Biên Phủ', 1),
+(4, N'Công ty', N'Hoàng', '0909001122', N'Đà Nẵng', N'Hải Châu', N'Hải Châu 1', N'Tòa nhà Indochina, Lầu 10', 0);
+GO
 
