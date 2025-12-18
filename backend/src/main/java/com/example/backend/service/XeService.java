@@ -34,40 +34,6 @@ public class XeService {
                 .collect(Collectors.toList());
     }
 
-    @Transactional
-    public XeDTO createXe(XeDTO dto) {
-        if (xeRepository.existsById(dto.getMaXe())) {
-            throw new RuntimeException("Vehicle ID already exists: " + dto.getMaXe());
-        }
-        Xe xe = toEntity(dto);
-        return toDTO(xeRepository.save(xe));
-    }
-
-    @Transactional
-    public XeDTO updateXe(String id, XeDTO dto) {
-        Xe xe = xeRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Vehicle not found with id " + id));
-        
-        xe.setMaHangXe(dto.getMaHangXe());
-        xe.setMaND(dto.getMaND());
-        xe.setMaLoaiXe(dto.getMaLoaiXe());
-        xe.setBienSo(dto.getBienSo());
-        xe.setDungTich(dto.getDungTich());
-        xe.setSoKhung(dto.getSoKhung());
-        xe.setMauSac(dto.getMauSac());
-        xe.setHinhAnh(dto.getHinhAnh());
-        
-        return toDTO(xeRepository.save(xe));
-    }
-
-    @Transactional
-    public void deleteXe(String id) {
-        if (!xeRepository.existsById(id)) {
-            throw new RuntimeException("Vehicle not found with id " + id);
-        }
-        xeRepository.deleteById(id);
-    }
-
     private XeDTO toDTO(Xe entity) {
         return XeDTO.builder()
                 .maXe(entity.getMaXe())
