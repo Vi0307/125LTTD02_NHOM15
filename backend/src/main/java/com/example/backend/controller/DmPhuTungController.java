@@ -27,28 +27,4 @@ public class DmPhuTungController {
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
-
-    @PostMapping
-    public DmPhuTung createDanhMuc(@RequestBody DmPhuTung danhMuc) {
-        return dmPhuTungService.saveDanhMuc(danhMuc);
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<DmPhuTung> updateDanhMuc(@PathVariable String id, @RequestBody DmPhuTung danhMucDetails) {
-        return dmPhuTungService.getDanhMucById(id)
-                .map(danhMuc -> {
-                    danhMuc.setTenDanhMuc(danhMucDetails.getTenDanhMuc());
-                    return ResponseEntity.ok(dmPhuTungService.saveDanhMuc(danhMuc));
-                })
-                .orElse(ResponseEntity.notFound().build());
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteDanhMuc(@PathVariable String id) {
-        if (dmPhuTungService.getDanhMucById(id).isPresent()) {
-            dmPhuTungService.deleteDanhMuc(id);
-            return ResponseEntity.ok().build();
-        }
-        return ResponseEntity.notFound().build();
-    }
 }
