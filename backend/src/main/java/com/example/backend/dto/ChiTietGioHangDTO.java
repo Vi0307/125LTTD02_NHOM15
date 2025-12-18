@@ -12,6 +12,7 @@ public class ChiTietGioHangDTO {
     private Integer maCTGH;
     private Integer maGioHang;
     private String maPhuTung;
+    private String tenPhuTung;  // Thêm tên phụ tùng
     private String hinhAnh;
     private Integer soLuong;
     private BigDecimal donGia;
