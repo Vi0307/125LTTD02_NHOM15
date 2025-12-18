@@ -4,8 +4,10 @@ import com.example.backend.dto.ChiTietGioHangDTO;
 import com.example.backend.dto.ThemVaoGioHangRequest;
 import com.example.backend.entity.ChiTietGioHang;
 import com.example.backend.entity.GioHang;
+import com.example.backend.entity.PhuTung;
 import com.example.backend.repository.ChiTietGioHangRepository;
 import com.example.backend.repository.GioHangRepository;
+import com.example.backend.repository.PhuTungRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +21,7 @@ public class ChiTietGioHangService {
     
     private final ChiTietGioHangRepository chiTietGioHangRepository;
     private final GioHangRepository gioHangRepository;
+    private final PhuTungRepository phuTungRepository;
     
     // Lấy tất cả chi tiết trong giỏ hàng
     public List<ChiTietGioHangDTO> getChiTietByGioHang(Integer maGioHang) {
@@ -123,10 +126,16 @@ public class ChiTietGioHangService {
     
     // Convert Entity to DTO
     private ChiTietGioHangDTO toDTO(ChiTietGioHang entity) {
+        // Lấy tên phụ tùng từ database
+        String tenPhuTung = phuTungRepository.findById(entity.getMaPhuTung())
+                .map(PhuTung::getTenPhuTung)
+                .orElse(null);
+        
         return ChiTietGioHangDTO.builder()
                 .maCTGH(entity.getMaCTGH())
                 .maGioHang(entity.getMaGioHang())
                 .maPhuTung(entity.getMaPhuTung())
+                .tenPhuTung(tenPhuTung)
                 .hinhAnh(entity.getHinhAnh())
                 .soLuong(entity.getSoLuong())
                 .donGia(entity.getDonGia())
