@@ -21,12 +21,4 @@ public class DmPhuTungService {
     public Optional<DmPhuTung> getDanhMucById(String id) {
         return dmPhuTungRepository.findById(id);
     }
-
-    public DmPhuTung saveDanhMuc(DmPhuTung danhMuc) {
-        return dmPhuTungRepository.save(danhMuc);
-    }
-
-    public void deleteDanhMuc(String id) {
-        dmPhuTungRepository.deleteById(id);
-    }
 }
