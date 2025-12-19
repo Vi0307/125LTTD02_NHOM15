@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layout_address_item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="10dp"
+    android:orientation="horizontal"
+    android:background="@drawable/btn_gray_rounded"
+    android:padding="16dp"
+    android:gravity="center_vertical"
+    android:elevation="1dp">
+
+    <ImageView
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_location22"
+        app:tint="#000000" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_marginStart="10dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/txtAddressType"
+            android:text="Loại địa chỉ"
+            android:textColor="#000000"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"/>
+
+        <TextView
+            android:id="@+id/txtAddressDetail"
+            android:text="Địa chỉ chi tiết"
+            android:textColor="#4C4C4C"
+            android:textSize="13sp"
+            android:layout_marginTop="4dp"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:maxLines="2"
+            android:ellipsize="end"/>
+
+        <TextView
+            android:id="@+id/txtReceiverInfo"
+            android:text="Người nhận - SĐT"
+            android:textColor="#888888"
+            android:textSize="12sp"
+            android:layout_marginTop="2dp"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"/>
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/radioButton"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:src="@drawable/ic_radio_button_unchecked"
+        app:tint="#000000" />
+
+</LinearLayout>

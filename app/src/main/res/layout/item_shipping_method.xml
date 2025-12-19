@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layout_shipping_item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="8dp"
+    android:background="@drawable/btn_gray_rounded"
+    android:backgroundTint="#F0F0F0"
+    android:elevation="3dp"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:padding="16dp">
+
+    <ImageView
+        android:id="@+id/ivShippingIcon"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:src="@drawable/ic_car"
+        app:tint="#000000" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/txtShippingName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tên phương thức"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txtShippingDays"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Dự kiến: 3 ngày"
+            android:textColor="#4C4C4C"
+            android:textSize="13sp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/txtShippingPrice"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:text="0 VND"
+        android:textColor="#000000"
+        android:textSize="14sp" />
+
+    <ImageView
+        android:id="@+id/radioButton"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+        android:layout_marginStart="8dp"
+        android:src="@drawable/ic_radio_button_unchecked"
+        app:tint="#000000" />
+
+</LinearLayout>
