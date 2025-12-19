@@ -335,9 +335,10 @@
                             android:src="@drawable/ic_car_getstarted" />
 
                         <TextView
+                            android:id="@+id/tvTenDaiLy"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="TƯỜNG PHÁT 1"
+                            android:text="Đang tải..."
                             android:textStyle="bold"
                             android:textSize="16sp" />
 
@@ -356,11 +357,12 @@
                                 app:tint="@color/red" />
 
                             <TextView
+                                android:id="@+id/tvDiaChiDaiLy"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:layout_marginStart="8dp"
-                                android:text="18-20 HOÀNG HOA THÁM, ĐÀ NẴNG"
+                                android:text="Đang tải..."
                                 android:textSize="13sp"
                                 android:textColor="#666666"
                                 android:maxLines="2"
@@ -381,10 +383,11 @@
                                 android:src="@drawable/ic_time" />
 
                             <TextView
+                                android:id="@+id/tvGioLamViec"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="8dp"
-                                android:text="07:30 - 18:00"
+                                android:text="Đang tải..."
                                 android:textSize="13sp"
                                 android:textColor="#666666" />
                         </LinearLayout>
@@ -404,10 +407,11 @@
                                 app:tint="#DC2626" />
 
                             <TextView
+                                android:id="@+id/tvSoDienThoai"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="8dp"
-                                android:text="0123456789"
+                                android:text="Đang tải..."
                                 android:textSize="13sp"
                                 android:textColor="#666666" />
                         </LinearLayout>
