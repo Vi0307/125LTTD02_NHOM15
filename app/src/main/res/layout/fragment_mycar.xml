@@ -77,9 +77,10 @@
 
                         <!-- Tên xe -->
                         <TextView
+                            android:id="@+id/tvTenXe"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="BMW i5"
+                            android:text="Đang tải..."
                             android:textSize="28sp"
                             android:textStyle="bold"
                             android:textColor="#000000"
@@ -87,26 +88,29 @@
 
                         <!-- Biển số -->
                         <TextView
+                            android:id="@+id/tvBienSo"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="74-B1 12345 "
+                            android:text="Đang tải..."
                             android:textSize="16sp"
                             android:textColor="#666666"
                             android:layout_marginTop="4dp" />
 
                         <!-- Thông tin chi tiết -->
                         <TextView
+                            android:id="@+id/tvDungTich"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Động cơ: 2.0L • 228 HP"
+                            android:text="Động cơ: Đang tải..."
                             android:textSize="14sp"
                             android:textColor="#666666"
                             android:layout_marginTop="12dp" />
 
                         <TextView
+                            android:id="@+id/tvSoKhung"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Số khung: WBA5X-A1B2C-000000000"
+                            android:text="Số khung: Đang tải..."
                             android:textSize="14sp"
                             android:textColor="#666666"
                             android:layout_marginTop="4dp" />

@@ -6,16 +6,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.quanlyoto.Agency_Detail_Activity;
 import com.example.quanlyoto.R;
+import com.example.quanlyoto.model.DaiLy;
+import com.example.quanlyoto.viewmodel.DaiLyViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +28,8 @@ public class Agency_Fragment extends Fragment {
 
     private RecyclerView recyclerView;
     private AgencyAdapter agencyAdapter;
-    private final List<Agency> agencyList = new ArrayList<>();
+    private DaiLyViewModel daiLyViewModel;
+    private final List<DaiLy> daiLyList = new ArrayList<>();
 
     public Agency_Fragment() { }
 
@@ -44,6 +49,7 @@ public class Agency_Fragment extends Fragment {
 
         setupBackButton(view);
         setupRecyclerView(view);
+        setupViewModel();
     }
 
     private void setupBackButton(View view) {
@@ -116,26 +122,43 @@ public class Agency_Fragment extends Fragment {
         if (recyclerView == null) return;
 
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-
-        populateDummyAgencies();
-        agencyAdapter = new AgencyAdapter(agencyList);
+        agencyAdapter = new AgencyAdapter(daiLyList);
         recyclerView.setAdapter(agencyAdapter);
     }
 
-    private void populateDummyAgencies() {
-        agencyList.clear();
-        agencyList.add(new Agency("DATRACO 1", "4.9", "3.1k đánh giá", "18-20 Hoàng Hoa Thám, Thanh Khê, Đà Nẵng"));
-        agencyList.add(new Agency("HEAD Hùng Phát", "4.8", "2.2k đánh giá", "52 Nguyễn Văn Linh, Hải Châu, Đà Nẵng"));
-        agencyList.add(new Agency("BMW", "4.7", "1.5k đánh giá", "145 Điện Biên Phủ, Thanh Khê, Đà Nẵng"));
-        agencyList.add(new Agency("HEAD Trung Nam", "4.9", "980 đánh giá", "305 CMT8, Cẩm Lệ, Đà Nẵng"));
-        agencyList.add(new Agency("BWM Tiến Lành", "4.6", "1.2k đánh giá", "09 Quang Trung, Hải Châu, Đà Nẵng"));
+    private void setupViewModel() {
+        daiLyViewModel = new ViewModelProvider(this).get(DaiLyViewModel.class);
+
+        // Observe danh sách đại lý từ API
+        daiLyViewModel.getDaiLyList().observe(getViewLifecycleOwner(), daiLyListData -> {
+            if (daiLyListData != null) {
+                daiLyList.clear();
+                daiLyList.addAll(daiLyListData);
+                agencyAdapter.notifyDataSetChanged();
+            }
+        });
+
+        // Observe lỗi
+        daiLyViewModel.getError().observe(getViewLifecycleOwner(), error -> {
+            if (error != null && !error.isEmpty()) {
+                Toast.makeText(requireContext(), error, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // Observe trạng thái loading
+        daiLyViewModel.getLoading().observe(getViewLifecycleOwner(), isLoading -> {
+            // Có thể thêm ProgressBar nếu cần
+        });
+
+        // Gọi API để load dữ liệu
+        daiLyViewModel.loadDaiLy();
     }
 
     private class AgencyAdapter extends RecyclerView.Adapter<AgencyAdapter.AgencyViewHolder> {
 
-        private final List<Agency> agencies;
+        private final List<DaiLy> agencies;
 
-        AgencyAdapter(List<Agency> agencies) {
+        AgencyAdapter(List<DaiLy> agencies) {
             this.agencies = agencies;
         }
 
@@ -149,20 +172,24 @@ public class Agency_Fragment extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull AgencyViewHolder holder, int position) {
-            Agency agency = agencies.get(position);
+            DaiLy daiLy = agencies.get(position);
 
-            holder.tvName.setText(agency.name);
-            holder.tvRating.setText(agency.rating);
-            holder.tvReviews.setText(agency.reviews);
-            holder.tvAddress.setText(agency.address);
+            holder.tvName.setText(daiLy.getTenDaiLy());
+            holder.tvAddress.setText(daiLy.getDiaChi());
 
             holder.iconNext.setOnClickListener(v -> {
                 Agency_Detail_Fragment detailFragment = new Agency_Detail_Fragment();
 
                 // Gửi dữ liệu qua fragment
                 Bundle bundle = new Bundle();
-                bundle.putString("agency_name", agency.name);
-                bundle.putString("agency_address", agency.address);
+                bundle.putString("agency_name", daiLy.getTenDaiLy());
+                bundle.putString("agency_address", daiLy.getDiaChi());
+                bundle.putString("agency_phone", daiLy.getSoDienThoai());
+                bundle.putString("agency_hours", daiLy.getGioLamViec());
+                bundle.putString("agency_description", daiLy.getMoTa());
+                if (daiLy.getMaDaiLy() != null) {
+                    bundle.putInt("agency_id", daiLy.getMaDaiLy());
+                }
                 detailFragment.setArguments(bundle);
 
                 requireActivity()
@@ -180,31 +207,15 @@ public class Agency_Fragment extends Fragment {
         }
 
         class AgencyViewHolder extends RecyclerView.ViewHolder {
-            TextView tvName, tvRating, tvReviews, tvAddress;
+            TextView tvName, tvAddress;
             ImageView iconNext;
 
             AgencyViewHolder(@NonNull View itemView) {
                 super(itemView);
                 tvName = itemView.findViewById(R.id.tvName);
-                tvRating = itemView.findViewById(R.id.tvRating);
-                tvReviews = itemView.findViewById(R.id.tvReviews);
                 tvAddress = itemView.findViewById(R.id.tvAddress);
                 iconNext = itemView.findViewById(R.id.ic_next);
             }
-        }
-    }
-
-    private static class Agency {
-        final String name;
-        final String rating;
-        final String reviews;
-        final String address;
-
-        Agency(String name, String rating, String reviews, String address) {
-            this.name = name;
-            this.rating = rating;
-            this.reviews = reviews;
-            this.address = address;
         }
     }
 }

@@ -3,9 +3,19 @@ package com.example.backend.dto;
 import java.time.LocalDate;
 
 public class VoucherDTO {
+    private Integer maND;
     private Integer maVC;
     private String loaiVoucher;
     private LocalDate hanSuDung;
+
+    // Getter và Setter cho maND
+    public Integer getMaND() {
+        return maND;
+    }
+
+    public void setMaND(Integer maND) {
+        this.maND = maND;
+    }
 
     // Getter và Setter cho maVC
     public Integer getMaVC() {
@@ -32,6 +42,16 @@ public class VoucherDTO {
 
     public void setHanSuDung(LocalDate hanSuDung) {
         this.hanSuDung = hanSuDung;
+    }
+
+    private String trangThai;
+
+    public String getTrangThai() {
+        return trangThai;
+    }
+
+    public void setTrangThai(String trangThai) {
+        this.trangThai = trangThai;
     }
 }
 

@@ -14,20 +14,38 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.quanlyoto.R;
+import com.example.quanlyoto.model.ApiResponse;
 import com.example.quanlyoto.model.DaiLy;
+import com.example.quanlyoto.model.LoaiXe;
+import com.example.quanlyoto.model.NguoiDung;
+import com.example.quanlyoto.model.Xe;
+import com.example.quanlyoto.network.RetrofitClient;
 import com.example.quanlyoto.viewmodel.DaiLyViewModel;
 
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class HomeFragment extends Fragment {
 
     private static final String TAG = "HomeFragment";
+
+    // Demo user ID - thay đổi theo database của bạn
+    private static final int DEMO_USER_ID = 1;
 
     // ViewModel
     private DaiLyViewModel daiLyViewModel;
 
     // Views cho phần Đại lý
     private TextView tvTenDaiLy, tvDiaChiDaiLy, tvGioLamViec, tvSoDienThoai;
+
+    // View cho tên người dùng
+    private TextView tvUserName;
+
+    // Views cho thông tin xe
+    private TextView tvTenXe, tvBienSo;
 
     public HomeFragment() {
     }
@@ -40,11 +58,17 @@ public class HomeFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_main_home, container, false);
 
-        // Khởi tạo Views cho Đại lý
-        initDaiLyViews(view);
+        // Khởi tạo Views
+        initViews(view);
 
-        // Khởi tạo ViewModel và load dữ liệu
+        // Khởi tạo ViewModel và load dữ liệu đại lý
         setupViewModel();
+
+        // Load thông tin người dùng
+        loadUserInfo();
+
+        // Load thông tin xe
+        loadXeInfo();
 
         // ======================================================
         // BOTTOM NAV
@@ -150,9 +174,8 @@ public class HomeFragment extends Fragment {
         // ================================
         // BẤM VÀO TÊN USER -> TRANG INFO
         // ================================
-        View userName = view.findViewById(R.id.UserName);
-        if (userName != null) {
-            userName.setOnClickListener(v -> {
+        if (tvUserName != null) {
+            tvUserName.setOnClickListener(v -> {
                 requireActivity().getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.fragment_container, new PersonalActivity())
@@ -193,41 +216,146 @@ public class HomeFragment extends Fragment {
     }
 
     /**
-     * Khởi tạo các View cho phần Đại lý
+     * Khởi tạo các View
      */
-    private void initDaiLyViews(View view) {
+    private void initViews(View view) {
+        // Views cho Đại lý
         tvTenDaiLy = view.findViewById(R.id.tvTenDaiLy);
         tvDiaChiDaiLy = view.findViewById(R.id.tvDiaChiDaiLy);
         tvGioLamViec = view.findViewById(R.id.tvGioLamViec);
         tvSoDienThoai = view.findViewById(R.id.tvSoDienThoai);
+
+        // View cho tên người dùng
+        tvUserName = view.findViewById(R.id.UserName);
+
+        // Views cho xe
+        tvTenXe = view.findViewById(R.id.tvTenXe);
+        tvBienSo = view.findViewById(R.id.tvBienSo);
     }
 
     /**
-     * Setup ViewModel và observe dữ liệu
+     * Setup ViewModel và observe dữ liệu Đại lý
      */
     private void setupViewModel() {
-        // Khởi tạo ViewModel
         daiLyViewModel = new ViewModelProvider(this).get(DaiLyViewModel.class);
 
-        // Observe danh sách đại lý
         daiLyViewModel.getDaiLyList().observe(getViewLifecycleOwner(), daiLyList -> {
             if (daiLyList != null && !daiLyList.isEmpty()) {
-                // Hiển thị đại lý đầu tiên
                 updateDaiLyUI(daiLyList.get(0));
                 Log.d(TAG, "Loaded " + daiLyList.size() + " đại lý");
             }
         });
 
-        // Observe lỗi
         daiLyViewModel.getError().observe(getViewLifecycleOwner(), error -> {
             if (error != null && !error.isEmpty()) {
                 Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
-                Log.e(TAG, "Error: " + error);
+                Log.e(TAG, "Error DaiLy: " + error);
             }
         });
 
-        // Gọi API load dữ liệu
         daiLyViewModel.loadDaiLy();
+    }
+
+    /**
+     * Load thông tin người dùng từ API
+     */
+    private void loadUserInfo() {
+        RetrofitClient.getApiService().getNguoiDungById(DEMO_USER_ID).enqueue(new Callback<NguoiDung>() {
+            @Override
+            public void onResponse(Call<NguoiDung> call, Response<NguoiDung> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    NguoiDung user = response.body();
+                    updateUserUI(user);
+                    Log.d(TAG, "Loaded user: " + user.getHoTen());
+                } else {
+                    Log.e(TAG, "Error loading user: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<NguoiDung> call, Throwable t) {
+                Log.e(TAG, "Error loading user: " + t.getMessage());
+            }
+        });
+    }
+
+    /**
+     * Load thông tin xe của người dùng từ API
+     */
+    private void loadXeInfo() {
+        RetrofitClient.getApiService().getXeByNguoiDung(DEMO_USER_ID).enqueue(new Callback<ApiResponse<List<Xe>>>() {
+            @Override
+            public void onResponse(Call<ApiResponse<List<Xe>>> call, Response<ApiResponse<List<Xe>>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    ApiResponse<List<Xe>> apiResponse = response.body();
+                    if (apiResponse.isSuccess() && apiResponse.getData() != null && !apiResponse.getData().isEmpty()) {
+                        Xe xe = apiResponse.getData().get(0); // Lấy xe đầu tiên
+                        updateXeUI(xe);
+                        Log.d(TAG, "Loaded xe: " + xe.getBienSo());
+
+                        // Load tên loại xe
+                        if (xe.getMaLoaiXe() != null) {
+                            loadLoaiXeInfo(xe.getMaLoaiXe());
+                        }
+                    } else {
+                        Log.w(TAG, "Người dùng chưa có xe");
+                        if (tvTenXe != null)
+                            tvTenXe.setText("Chưa có xe");
+                        if (tvBienSo != null)
+                            tvBienSo.setText("Thêm xe của bạn");
+                    }
+                } else {
+                    Log.e(TAG, "Error loading xe: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse<List<Xe>>> call, Throwable t) {
+                Log.e(TAG, "Error loading xe: " + t.getMessage());
+            }
+        });
+    }
+
+    /**
+     * Load tên loại xe để hiển thị
+     */
+    private void loadLoaiXeInfo(String maLoaiXe) {
+        RetrofitClient.getApiService().getLoaiXeById(maLoaiXe).enqueue(new Callback<LoaiXe>() {
+            @Override
+            public void onResponse(Call<LoaiXe> call, Response<LoaiXe> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    LoaiXe loaiXe = response.body();
+                    if (tvTenXe != null && loaiXe.getTenLoaiXe() != null) {
+                        tvTenXe.setText(loaiXe.getTenLoaiXe());
+                    }
+                    Log.d(TAG, "Loaded loại xe: " + loaiXe.getTenLoaiXe());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LoaiXe> call, Throwable t) {
+                Log.e(TAG, "Error loading loại xe: " + t.getMessage());
+            }
+        });
+    }
+
+    /**
+     * Cập nhật UI với thông tin người dùng
+     */
+    private void updateUserUI(NguoiDung user) {
+        if (tvUserName != null && user.getHoTen() != null) {
+            tvUserName.setText(user.getHoTen());
+        }
+    }
+
+    /**
+     * Cập nhật UI với thông tin xe
+     */
+    private void updateXeUI(Xe xe) {
+        if (tvBienSo != null && xe.getBienSo() != null) {
+            tvBienSo.setText(xe.getBienSo());
+        }
+        // tvTenXe sẽ được cập nhật khi load LoaiXe
     }
 
     /**
