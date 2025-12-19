@@ -40,125 +40,31 @@
             android:textStyle="bold" />
     </LinearLayout>
 
-    <!-- OPTION FAST DELIVERY -->
-    <LinearLayout
-        android:id="@+id/linearLayout"
+    <!-- RecyclerView danh sách phương thức vận chuyển -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcvShippingMethods"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_margin="12dp"
-        android:background="@drawable/btn_gray_rounded"
-        android:elevation="3dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:padding="16dp"
-        android:backgroundTint="#F0F0F0"
+        android:clipToPadding="false"
         app:layout_constraintTop_toBottomOf="@id/linearLayoutHeader"
+        app:layout_constraintBottom_toTopOf="@id/iv_Promotion_applies"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"/>
 
-        <ImageView
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:src="@drawable/ic_fast_delivery_car"
-            app:tint="#000000" />
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Giao hàng nhanh"
-                android:textColor="#000000"
-                android:textStyle="bold"
-                android:textSize="16sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Est. Arrival: Dec 20-23"
-                android:textColor="#4C4C4C"
-                android:textSize="13sp" />
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="90dp"
-            android:gravity="end"
-            android:layout_height="wrap_content"
-            android:text="560.000 VND"
-            android:textColor="#000000" />
-
-        <ImageView
-            android:id="@+id/radio_fast"
-            android:layout_width="22dp"
-            android:layout_height="22dp"
-            android:src="@drawable/ic_radio_button_unchecked"
-            app:tint="#000000" />
-    </LinearLayout>
-
-    <!-- OPTION SAVE DELIVERY -->
-    <LinearLayout
-        android:id="@+id/linearLayout2"
-        android:layout_width="0dp"
+    <!-- Thông báo khi không có phương thức -->
+    <TextView
+        android:id="@+id/txtNoShipping"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="12dp"
-        android:background="@drawable/btn_gray_rounded"
-        android:elevation="3dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:padding="16dp"
-        android:backgroundTint="#F0F0F0"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        android:text="Không có phương thức vận chuyển"
+        android:textColor="#888888"
+        android:textSize="14sp"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/linearLayoutHeader"
+        app:layout_constraintBottom_toTopOf="@id/iv_Promotion_applies"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <ImageView
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:src="@drawable/ic_economical_delivery_vehicle"
-            app:tint="#000000" />
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Giao hàng tiết kiệm"
-                android:textColor="#000000"
-                android:textStyle="bold"
-                android:textSize="16sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Est. Arrival: Dec 20-22"
-                android:textSize="13sp"
-                android:textColor="#4C4C4C" />
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="90dp"
-            android:layout_height="wrap_content"
-            android:gravity="end"
-            android:text="450.000 VND"
-            android:textColor="#000000" />
-
-        <ImageView
-            android:id="@+id/radio_save"
-            android:layout_width="22dp"
-            android:layout_height="22dp"
-            android:src="@drawable/ic_radio_button_unchecked"
-            app:tint="#000000" />
-    </LinearLayout>
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <!-- BOTTOM BUTTON -->
     <Button

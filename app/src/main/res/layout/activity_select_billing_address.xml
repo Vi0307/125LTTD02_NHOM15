@@ -46,111 +46,31 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- ====== NHÀ RIÊNG ====== -->
-            <LinearLayout
-                android:id="@+id/layout_home"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal"
-                android:background="@drawable/btn_gray_rounded"
-                android:padding="16dp"
+            <!-- RecyclerView danh sách địa chỉ -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rcvAddresses"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:elevation="1dp"
-                android:layout_marginBottom="10dp">
+                android:nestedScrollingEnabled="false"/>
 
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_location22"
-                    app:tint="#000000" />
-
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_marginStart="10dp"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1">
-
-                    <TextView
-                        android:text="Nhà riêng"
-                        android:textColor="#000000"
-                        android:textSize="15sp"
-                        android:textStyle="bold"
-                        android:layout_height="20dp"
-                        android:layout_width="200dp"/>
-
-                    <TextView
-                        android:text="61840 Sunbrook Park, PC 5679"
-                        android:textColor="#4C4C4C"
-                        android:textSize="13sp"
-                        android:layout_height="20dp"
-                        android:layout_width="200dp"/>
-                </LinearLayout>
-
-                <ImageView
-                    android:id="@+id/radio_home"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/ic_radio_button"
-                    app:tint="#000000" />
-
-            </LinearLayout>
-
-            <!-- ====== VĂN PHÒNG ====== -->
-            <LinearLayout
-                android:id="@+id/layout_office"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal"
-                android:background="@drawable/btn_gray_rounded"
-                android:padding="16dp"
+            <!-- Thông báo khi không có địa chỉ -->
+            <TextView
+                android:id="@+id/txtNoAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:elevation="1dp"
-                android:layout_marginBottom="20dp">
-
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_location22"
-                    app:tint="#000000" />
-
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_marginStart="10dp"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1">
-
-                    <TextView
-                        android:text="Văn phòng"
-                        android:textColor="#000000"
-                        android:textSize="15sp"
-                        android:textStyle="bold"
-                        android:layout_height="20dp"
-                        android:layout_width="200dp"/>
-
-                    <TextView
-                        android:text="8386 Meadow Valley, PC 3618"
-                        android:textColor="#4C4C4C"
-                        android:textSize="13sp"
-                        android:layout_height="20dp"
-                        android:layout_width="200dp"/>
-                </LinearLayout>
-
-                <ImageView
-                    android:id="@+id/radio_office"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/ic_radio_button_unchecked"
-                    app:tint="#000000" />
-            </LinearLayout>
+                android:text="Chưa có địa chỉ nào. Hãy thêm địa chỉ mới!"
+                android:textColor="#888888"
+                android:textSize="14sp"
+                android:gravity="center"
+                android:visibility="gone"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"/>
 
             <Button
                 android:id="@+id/btn_themDiaChi"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
+                android:layout_marginTop="10dp"
                 android:backgroundTint="@color/black"
                 android:text="Thêm địa chỉ" />
 

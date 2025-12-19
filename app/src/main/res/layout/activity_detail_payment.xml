@@ -30,7 +30,7 @@
             android:layout_marginStart="12dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Thanh toán"
+            android:text="Đơn hàng"
             android:textSize="20sp"
             android:textStyle="bold"
             android:textColor="#000000"/>
@@ -83,6 +83,7 @@
                     android:layout_weight="1">
 
                     <TextView
+                        android:id="@+id/txtAddressType"
                         android:text="Nhà riêng"
                         android:textColor="#000000"
                         android:textSize="15sp"
@@ -91,7 +92,8 @@
                         android:layout_height="wrap_content"/>
 
                     <TextView
-                        android:text="61840 Sunbrook Park, PC 5679"
+                        android:id="@+id/txtAddressDetail"
+                        android:text="Đang tải..."
                         android:textColor="#4C4C4C"
                         android:textSize="13sp"
                         android:layout_width="wrap_content"
@@ -190,6 +192,7 @@
                     tools:ignore="UseAppTint" />
 
                 <TextView
+                    android:id="@+id/txtShippingMethod"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -232,6 +235,7 @@
                     tools:ignore="UseAppTint" />
 
                 <TextView
+                    android:id="@+id/txtVoucherCode"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -266,7 +270,8 @@
                         android:layout_width="100dp"/>
 
                     <TextView
-                        android:text="7.000.000 VND"
+                        android:id="@+id/txtPrice"
+                        android:text="0 VND"
                         android:gravity="end"
                         android:textStyle="bold"
                         android:textSize="15sp"
@@ -286,6 +291,7 @@
                         android:layout_width="100dp"/>
 
                     <TextView
+                        android:id="@+id/txtShippingFee"
                         android:text="-"
                         android:gravity="end"
                         android:textStyle="bold"
@@ -308,6 +314,7 @@
                         android:layout_width="100dp"/>
 
                     <TextView
+                        android:id="@+id/txtDiscount"
                         android:text="-"
                         android:gravity="end"
                         android:textStyle="bold"
@@ -338,14 +345,14 @@
                         android:layout_weight="1"/>
 
                     <TextView
-                        android:text="7.000.000 VND"
+                        android:id="@+id/txtTotal"
+                        android:text="0 VND"
                         android:textSize="17sp"
                         android:textStyle="bold"
                         android:textColor="#000000"
-
                         tools:ignore="HardcodedText"
                         android:layout_height="match_parent"
-                         android:layout_width="wrap_content"/>
+                        android:layout_width="wrap_content"/>
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
