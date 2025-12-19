@@ -14,10 +14,25 @@ public class VoucherService {
     private VoucherRepository repo;
 
     public List<VoucherDTO> getVoucherByUser(Integer maND) {
-        return repo.getVoucherHopLe(maND)
+        // Sử dụng findByMaND để lấy danh sách đầy đủ (cả hết hạn/khác trạng thái)
+        return repo.findByMaND(maND)
                 .stream()
                 .map(v -> {
                     VoucherDTO dto = new VoucherDTO();
+                    dto.setMaND(v.getMaND());
+                    dto.setMaVC(v.getMaVC());
+                    dto.setLoaiVoucher(v.getLoaiVoucher());
+                    dto.setHanSuDung(v.getHanSuDung());
+                    return dto;
+                }).toList();
+    }
+
+    public List<VoucherDTO> getAllVouchers() {
+        return repo.findAll()
+                .stream()
+                .map(v -> {
+                    VoucherDTO dto = new VoucherDTO();
+                    dto.setMaND(v.getMaND());
                     dto.setMaVC(v.getMaVC());
                     dto.setLoaiVoucher(v.getLoaiVoucher());
                     dto.setHanSuDung(v.getHanSuDung());

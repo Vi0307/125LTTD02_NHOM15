@@ -21,5 +21,10 @@ public class VoucherController {
     public List<VoucherDTO> getVoucher(@PathVariable Integer maND) {
         return service.getVoucherByUser(maND);
     }
+
+    @GetMapping
+    public List<VoucherDTO> getAllVouchers() {
+        return service.getAllVouchers();
+    }
 }
 

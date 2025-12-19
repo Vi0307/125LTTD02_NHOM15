@@ -15,6 +15,9 @@ public interface VoucherRepository extends JpaRepository<Voucher, Integer> {
                 AND (v.hanSuDung IS NULL OR v.hanSuDung >= CURRENT_DATE)
             """)
     List<Voucher> getVoucherHopLe(Integer maND);
+
+    // Lấy tất cả voucher của user bất kể trạng thái
+    List<Voucher> findByMaND(Integer maND);
 }
 
 
