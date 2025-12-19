@@ -43,5 +43,15 @@ public class VoucherDTO {
     public void setHanSuDung(LocalDate hanSuDung) {
         this.hanSuDung = hanSuDung;
     }
+
+    private String trangThai;
+
+    public String getTrangThai() {
+        return trangThai;
+    }
+
+    public void setTrangThai(String trangThai) {
+        this.trangThai = trangThai;
+    }
 }
 

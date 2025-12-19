@@ -31,6 +31,10 @@ public interface ApiService {
     @GET("api/nguoidung/{id}")
     Call<NguoiDung> getNguoiDungById(@Path("id") Integer id);
 
+
+    // ==================== VOUCHER ====================
+    @GET("api/voucher/{maND}")
+    Call<List<com.example.quanlyoto.model.Voucher>> getVoucherByUser(@Path("maND") Integer maND);
     // ==================== ĐỊA CHỈ ====================
     @GET("api/address/{maND}")
     Call<List<DiaChi>> getDiaChiByUser(@Path("maND") Integer maND);
