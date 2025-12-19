@@ -6,6 +6,8 @@ import com.example.quanlyoto.model.DiaChi;
 import com.example.quanlyoto.model.NguoiDung;
 import com.example.quanlyoto.model.PhuongThucVanChuyen;
 import com.example.quanlyoto.model.Voucher;
+import com.example.quanlyoto.model.LoaiXe;
+import com.example.quanlyoto.model.Xe;
 
 import java.util.List;
 
@@ -46,5 +48,12 @@ public interface ApiService {
 
     @GET("api/voucher")
     Call<List<Voucher>> getAllVouchers();
+    // ==================== XE ====================
+    @GET("api/xe/nguoidung/{maND}")
+    Call<ApiResponse<List<Xe>>> getXeByNguoiDung(@Path("maND") Integer maND);
+
+    // ==================== LOẠI XE ====================
+    @GET("api/loaixe/{id}")
+    Call<LoaiXe> getLoaiXeById(@Path("id") String id);
 }
 
