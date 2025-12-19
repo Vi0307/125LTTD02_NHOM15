@@ -64,7 +64,7 @@ public class Detail_Payment_Fragment extends Fragment {
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        // Nhận dữ liệu từ Bundle (shipping, voucher được chọn từ các fragment khác)
+        // Nhận dữ liệu từ Bundle (address, shipping, voucher được chọn từ các fragment khác)
         if (getArguments() != null) {
             // Nhận giá sản phẩm
             String priceStr = getArguments().getString("product_price", "0");
@@ -72,6 +72,15 @@ public class Detail_Payment_Fragment extends Fragment {
                 productPrice = new BigDecimal(priceStr.replaceAll("[^\\d.]", ""));
             } catch (Exception e) {
                 productPrice = BigDecimal.ZERO;
+            }
+
+            // Nhận địa chỉ đã chọn
+            if (getArguments().containsKey("selected_address_type")) {
+                selectedAddress = new DiaChi();
+                selectedAddress.setLoaiDiaChi(getArguments().getString("selected_address_type"));
+                selectedAddress.setDiaChiChiTiet(getArguments().getString("selected_address_detail", ""));
+                selectedAddress.setHoTenNguoiNhan(getArguments().getString("selected_address_receiver"));
+                selectedAddress.setSoDienThoai(getArguments().getString("selected_address_phone"));
             }
 
             // Nhận shipping đã chọn
@@ -111,7 +120,14 @@ public class Detail_Payment_Fragment extends Fragment {
 
         initViews(view);
         setupClickListeners(view);
-        loadDefaultAddress();
+
+        // Chỉ load từ API nếu chưa có địa chỉ được chọn từ Bundle
+        if (selectedAddress != null) {
+            displayAddress();
+        } else {
+            loadDefaultAddress();
+        }
+
         updateUI();
     }
 
