@@ -1,27 +1,50 @@
 package com.example.quanlyoto.fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.quanlyoto.R;
+import com.example.quanlyoto.model.DaiLy;
+import com.example.quanlyoto.viewmodel.DaiLyViewModel;
+
+import java.util.List;
 
 public class HomeFragment extends Fragment {
 
-    public HomeFragment() { }
+    private static final String TAG = "HomeFragment";
+
+    // ViewModel
+    private DaiLyViewModel daiLyViewModel;
+
+    // Views cho phần Đại lý
+    private TextView tvTenDaiLy, tvDiaChiDaiLy, tvGioLamViec, tvSoDienThoai;
+
+    public HomeFragment() {
+    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
-                             @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
+            @Nullable ViewGroup container,
+            @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_main_home, container, false);
+
+        // Khởi tạo Views cho Đại lý
+        initDaiLyViews(view);
+
+        // Khởi tạo ViewModel và load dữ liệu
+        setupViewModel();
 
         // ======================================================
         // BOTTOM NAV
@@ -71,7 +94,6 @@ public class HomeFragment extends Fragment {
                         .commit();
             });
         }
-
 
         // ======================================================
         // CÁC NÚT TRONG TRANG HOME
@@ -139,7 +161,6 @@ public class HomeFragment extends Fragment {
             });
         }
 
-
         // ======================================================
         // CHI TIẾT & ĐẶT HẸN DỊCH VỤ
         // ======================================================
@@ -169,5 +190,61 @@ public class HomeFragment extends Fragment {
         }
 
         return view;
+    }
+
+    /**
+     * Khởi tạo các View cho phần Đại lý
+     */
+    private void initDaiLyViews(View view) {
+        tvTenDaiLy = view.findViewById(R.id.tvTenDaiLy);
+        tvDiaChiDaiLy = view.findViewById(R.id.tvDiaChiDaiLy);
+        tvGioLamViec = view.findViewById(R.id.tvGioLamViec);
+        tvSoDienThoai = view.findViewById(R.id.tvSoDienThoai);
+    }
+
+    /**
+     * Setup ViewModel và observe dữ liệu
+     */
+    private void setupViewModel() {
+        // Khởi tạo ViewModel
+        daiLyViewModel = new ViewModelProvider(this).get(DaiLyViewModel.class);
+
+        // Observe danh sách đại lý
+        daiLyViewModel.getDaiLyList().observe(getViewLifecycleOwner(), daiLyList -> {
+            if (daiLyList != null && !daiLyList.isEmpty()) {
+                // Hiển thị đại lý đầu tiên
+                updateDaiLyUI(daiLyList.get(0));
+                Log.d(TAG, "Loaded " + daiLyList.size() + " đại lý");
+            }
+        });
+
+        // Observe lỗi
+        daiLyViewModel.getError().observe(getViewLifecycleOwner(), error -> {
+            if (error != null && !error.isEmpty()) {
+                Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
+                Log.e(TAG, "Error: " + error);
+            }
+        });
+
+        // Gọi API load dữ liệu
+        daiLyViewModel.loadDaiLy();
+    }
+
+    /**
+     * Cập nhật UI với dữ liệu đại lý từ API
+     */
+    private void updateDaiLyUI(DaiLy daiLy) {
+        if (tvTenDaiLy != null) {
+            tvTenDaiLy.setText(daiLy.getTenDaiLy() != null ? daiLy.getTenDaiLy() : "N/A");
+        }
+        if (tvDiaChiDaiLy != null) {
+            tvDiaChiDaiLy.setText(daiLy.getDiaChi() != null ? daiLy.getDiaChi() : "N/A");
+        }
+        if (tvGioLamViec != null) {
+            tvGioLamViec.setText(daiLy.getGioLamViec() != null ? daiLy.getGioLamViec() : "N/A");
+        }
+        if (tvSoDienThoai != null) {
+            tvSoDienThoai.setText(daiLy.getSoDienThoai() != null ? daiLy.getSoDienThoai() : "N/A");
+        }
     }
 }
