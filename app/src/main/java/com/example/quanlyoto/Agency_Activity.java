@@ -84,8 +84,6 @@ public class Agency_Activity extends AppCompatActivity {
         public void onBindViewHolder(@NonNull AgencyViewHolder holder, int position) {
             Agency agency = agencies.get(position);
             holder.tvName.setText(agency.name);
-            holder.tvRating.setText(agency.rating);
-            holder.tvReviews.setText(agency.reviews);
             holder.tvAddress.setText(agency.address);
 
             holder.iconNext.setOnClickListener(new View.OnClickListener() {
@@ -105,14 +103,12 @@ public class Agency_Activity extends AppCompatActivity {
         }
 
         class AgencyViewHolder extends RecyclerView.ViewHolder {
-            TextView tvName, tvRating, tvReviews, tvAddress;
+            TextView tvName, tvAddress;
             ImageView iconNext;
 
             AgencyViewHolder(@NonNull View itemView) {
                 super(itemView);
                 tvName = itemView.findViewById(R.id.tvName);
-                tvRating = itemView.findViewById(R.id.tvRating);
-                tvReviews = itemView.findViewById(R.id.tvReviews);
                 tvAddress = itemView.findViewById(R.id.tvAddress);
                 iconNext = itemView.findViewById(R.id.ic_next);
             }
@@ -121,14 +117,10 @@ public class Agency_Activity extends AppCompatActivity {
 
     private static class Agency {
         final String name;
-        final String rating;
-        final String reviews;
         final String address;
 
         Agency(String name, String rating, String reviews, String address) {
             this.name = name;
-            this.rating = rating;
-            this.reviews = reviews;
             this.address = address;
         }
     }

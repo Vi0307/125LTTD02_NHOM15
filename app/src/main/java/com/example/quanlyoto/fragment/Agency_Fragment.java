@@ -184,7 +184,6 @@ public class Agency_Fragment extends Fragment {
                 Bundle bundle = new Bundle();
                 bundle.putString("agency_name", daiLy.getTenDaiLy());
                 bundle.putString("agency_address", daiLy.getDiaChi());
-                bundle.putString("agency_phone", daiLy.getSoDienThoai());
                 bundle.putString("agency_hours", daiLy.getGioLamViec());
                 bundle.putString("agency_description", daiLy.getMoTa());
                 if (daiLy.getMaDaiLy() != null) {
@@ -207,14 +206,12 @@ public class Agency_Fragment extends Fragment {
         }
 
         class AgencyViewHolder extends RecyclerView.ViewHolder {
-            TextView tvName, tvRating, tvReviews, tvAddress;
+            TextView tvName, tvAddress;
             ImageView iconNext;
 
             AgencyViewHolder(@NonNull View itemView) {
                 super(itemView);
                 tvName = itemView.findViewById(R.id.tvName);
-                tvRating = itemView.findViewById(R.id.tvRating);
-                tvReviews = itemView.findViewById(R.id.tvReviews);
                 tvAddress = itemView.findViewById(R.id.tvAddress);
                 iconNext = itemView.findViewById(R.id.ic_next);
             }
