@@ -184,6 +184,7 @@ public class Agency_Fragment extends Fragment {
                 Bundle bundle = new Bundle();
                 bundle.putString("agency_name", daiLy.getTenDaiLy());
                 bundle.putString("agency_address", daiLy.getDiaChi());
+                bundle.putString("agency_phone", daiLy.getSoDienThoai());
                 bundle.putString("agency_hours", daiLy.getGioLamViec());
                 bundle.putString("agency_description", daiLy.getMoTa());
                 if (daiLy.getMaDaiLy() != null) {
