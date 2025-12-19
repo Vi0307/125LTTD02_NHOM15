@@ -1,14 +1,13 @@
-package com.example.backend.dto;
+package com.example.quanlyoto.model;
 
 import java.time.LocalDate;
 
-public class VoucherDTO {
+public class Voucher {
     private Integer maND;
     private Integer maVC;
     private String loaiVoucher;
-    private LocalDate hanSuDung;
+    private String hanSuDung; // Receiving as String (ISO-8601) or specific format from JSON
 
-    // Getter và Setter cho maND
     public Integer getMaND() {
         return maND;
     }
@@ -17,7 +16,6 @@ public class VoucherDTO {
         this.maND = maND;
     }
 
-    // Getter và Setter cho maVC
     public Integer getMaVC() {
         return maVC;
     }
@@ -26,7 +24,6 @@ public class VoucherDTO {
         this.maVC = maVC;
     }
 
-    // Getter và Setter cho loaiVoucher
     public String getLoaiVoucher() {
         return loaiVoucher;
     }
@@ -35,12 +32,11 @@ public class VoucherDTO {
         this.loaiVoucher = loaiVoucher;
     }
 
-    // Getter và Setter cho hanSuDung
-    public LocalDate getHanSuDung() {
+    public String getHanSuDung() {
         return hanSuDung;
     }
 
-    public void setHanSuDung(LocalDate hanSuDung) {
+    public void setHanSuDung(String hanSuDung) {
         this.hanSuDung = hanSuDung;
     }
 
@@ -54,4 +50,3 @@ public class VoucherDTO {
         this.trangThai = trangThai;
     }
 }
-

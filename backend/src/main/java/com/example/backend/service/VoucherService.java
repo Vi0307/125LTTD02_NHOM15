@@ -23,6 +23,7 @@ public class VoucherService {
                     dto.setMaVC(v.getMaVC());
                     dto.setLoaiVoucher(v.getLoaiVoucher());
                     dto.setHanSuDung(v.getHanSuDung());
+                    dto.setTrangThai(v.getTrangThai());
                     return dto;
                 }).toList();
     }
@@ -36,6 +37,7 @@ public class VoucherService {
                     dto.setMaVC(v.getMaVC());
                     dto.setLoaiVoucher(v.getLoaiVoucher());
                     dto.setHanSuDung(v.getHanSuDung());
+                    dto.setTrangThai(v.getTrangThai());
                     return dto;
                 }).toList();
     }
