@@ -35,4 +35,15 @@ public class NguoiDungController {
         // The server can return 200 OK to acknowledge the request.
         return ResponseEntity.ok("Logged out successfully");
     }
+
+    // Lấy thông tin người dùng theo ID
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getNguoiDungById(@PathVariable Integer id) {
+        try {
+            NguoiDungDTO user = nguoiDungService.getNguoiDungById(id);
+            return ResponseEntity.ok(user);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(404).body(e.getMessage());
+        }
+    }
 }

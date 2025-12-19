@@ -45,4 +45,11 @@ public class NguoiDungService {
                 .isLocked(user.getIsLocked())
                 .build();
     }
+
+    // Lấy người dùng theo ID
+    public NguoiDungDTO getNguoiDungById(Integer maND) {
+        return nguoiDungRepository.findById(maND)
+                .map(this::mapToDTO)
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy người dùng với mã: " + maND));
+    }
 }
