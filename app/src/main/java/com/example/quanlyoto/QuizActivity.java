@@ -1,6 +1,5 @@
 package com.example.quanlyoto;
 
-
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -9,9 +8,17 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.quanlyoto.model.RewardRequest;
+import com.example.quanlyoto.network.RetrofitClient;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class QuizActivity extends AppCompatActivity {
 
@@ -19,11 +26,12 @@ public class QuizActivity extends AppCompatActivity {
     Button btnA, btnB, btnC, btnD;
 
     int currentIndex = 0;
+    int score = 0; // Added score tracking
 
     // Colors
-    String DEFAULT_COLOR = "#C4B5DEC2";  // màu mặc định
-    String CORRECT_COLOR = "#18DAE2";    // màu đúng
-    String WRONG_COLOR = "#F4C7CD";      // màu sai
+    String DEFAULT_COLOR = "#C4B5DEC2"; // màu mặc định
+    String CORRECT_COLOR = "#18DAE2"; // màu đúng
+    String WRONG_COLOR = "#F4C7CD"; // màu sai
 
     List<QuestionModel> questionList;
 
@@ -68,11 +76,13 @@ public class QuizActivity extends AppCompatActivity {
 
         questionList.add(new QuestionModel(
                 "Cách lái xe nào giúp tiết kiệm nhiên liệu và an toàn hơn?",
-                "Phóng nhanh, thắng gấp", "Chạy đều ga", "Tăng tốc đột ngột để vượt xe", "Để xe nổ máy lâu khi dừng", "B"));
+                "Phóng nhanh, thắng gấp", "Chạy đều ga", "Tăng tốc đột ngột để vượt xe", "Để xe nổ máy lâu khi dừng",
+                "B"));
 
         questionList.add(new QuestionModel(
                 "Ắc quy xe có tác dụng chính là gì?",
-                "Làm mát động cơ", "Cung cấp điện cho xe khởi động", "Giảm tiếng ồn khi chạy", "Giúp xe chạy nhanh hơn", "B"));
+                "Làm mát động cơ", "Cung cấp điện cho xe khởi động", "Giảm tiếng ồn khi chạy", "Giúp xe chạy nhanh hơn",
+                "B"));
 
         questionList.add(new QuestionModel(
                 "Khi xe bị hết xăng giữa đường, bạn nên làm gì?",
@@ -125,6 +135,7 @@ public class QuizActivity extends AppCompatActivity {
 
         if (userAnswer.equals(correct)) {
             clickedBtn.setBackgroundColor(Color.parseColor(CORRECT_COLOR));
+            score++; // Increment score
         } else {
             clickedBtn.setBackgroundColor(Color.parseColor(WRONG_COLOR));
             highlightCorrect(correct);
@@ -139,19 +150,50 @@ public class QuizActivity extends AppCompatActivity {
                 updateQuestion();
             } else {
                 // CHUYỂN TRANG SAU KHI HOÀN THÀNH CÂU 10
-                Intent intent = new Intent(QuizActivity.this, ResultActivity.class);
-                startActivity(intent);
-                finish();
+                // Call API before navigating
+                sendRewardRequest();
             }
 
         }, 900);
     }
 
+    private void sendRewardRequest() {
+        RewardRequest request = new RewardRequest(1, score); // Hardcoded maND=1 for now
+        RetrofitClient.getApiService().rewardVoucher(request).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if (response.isSuccessful()) {
+                    String msg = response.body();
+                    Toast.makeText(QuizActivity.this, "Đúng " + score + "/10 câu. " + msg, Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(QuizActivity.this, "Đúng " + score + "/10 câu.", Toast.LENGTH_SHORT).show();
+                }
+                navigateToResult();
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                Toast.makeText(QuizActivity.this, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                navigateToResult();
+            }
+        });
+    }
+
+    private void navigateToResult() {
+        Intent intent = new Intent(QuizActivity.this, ResultActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
     private void highlightCorrect(String correct) {
-        if (correct.equals("A")) btnA.setBackgroundColor(Color.parseColor(CORRECT_COLOR));
-        if (correct.equals("B")) btnB.setBackgroundColor(Color.parseColor(CORRECT_COLOR));
-        if (correct.equals("C")) btnC.setBackgroundColor(Color.parseColor(CORRECT_COLOR));
-        if (correct.equals("D")) btnD.setBackgroundColor(Color.parseColor(CORRECT_COLOR));
+        if (correct.equals("A"))
+            btnA.setBackgroundColor(Color.parseColor(CORRECT_COLOR));
+        if (correct.equals("B"))
+            btnB.setBackgroundColor(Color.parseColor(CORRECT_COLOR));
+        if (correct.equals("C"))
+            btnC.setBackgroundColor(Color.parseColor(CORRECT_COLOR));
+        if (correct.equals("D"))
+            btnD.setBackgroundColor(Color.parseColor(CORRECT_COLOR));
     }
 
     private void resetButtonColor() {
@@ -168,4 +210,3 @@ public class QuizActivity extends AppCompatActivity {
         btnD.setEnabled(enable);
     }
 }
-

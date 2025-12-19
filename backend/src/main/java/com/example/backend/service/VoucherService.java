@@ -41,5 +41,28 @@ public class VoucherService {
                     return dto;
                 }).toList();
     }
+
+    public void rewardVoucher(Integer maND, Integer correctAnswers) {
+        System.out.println("Processing reward for User: " + maND + ", Score: " + correctAnswers);
+        String voucherName = "";
+        if (correctAnswers >= 10) {
+            voucherName = "Miễn phí Vận chuyển";
+        } else if (correctAnswers >= 7) {
+            voucherName = "Giảm 50% phí vận chuyển";
+        } else {
+            System.out.println("Not eligible for reward (Score < 7)");
+            return; // Không đủ điều kiện
+        }
+        System.out.println("Rewarding voucher: " + voucherName);
+
+        com.example.backend.entity.Voucher voucher = new com.example.backend.entity.Voucher();
+        voucher.setMaND(maND);
+        voucher.setLoaiVoucher(voucherName);
+        voucher.setHanSuDung(java.time.LocalDate.now().plusMonths(1)); // Hạn 1 tháng
+        voucher.setTrangThai("Còn hiệu lực");
+        
+        repo.save(voucher);
+        System.out.println("Voucher saved successfully");
+    }
 }
 
