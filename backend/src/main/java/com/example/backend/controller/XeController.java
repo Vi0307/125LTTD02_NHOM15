@@ -30,4 +30,14 @@ public class XeController {
             return ResponseEntity.badRequest().body(ApiResponse.error(e.getMessage()));
         }
     }
+
+    // Lấy xe theo người dùng
+    @GetMapping("/nguoidung/{maND}")
+    public ResponseEntity<ApiResponse<List<XeDTO>>> getXeByNguoiDung(@PathVariable Integer maND) {
+        try {
+            return ResponseEntity.ok(ApiResponse.success(xeService.getXeByNguoiDung(maND)));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(ApiResponse.error(e.getMessage()));
+        }
+    }
 }

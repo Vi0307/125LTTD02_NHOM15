@@ -123,17 +123,19 @@
                             android:orientation="vertical">
 
                             <TextView
+                                android:id="@+id/tvTenXe"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="BMW i5"
+                                android:text="Đang tải..."
                                 android:textStyle="bold"
                                 android:textSize="18sp"
                                 android:textColor="#000000" />
 
                             <TextView
+                                android:id="@+id/tvBienSo"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="74-B1 12345 /BMW"
+                                android:text="Đang tải..."
                                 android:textSize="13sp"
                                 android:textColor="#666666" />
 
