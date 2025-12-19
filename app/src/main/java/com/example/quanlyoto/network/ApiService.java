@@ -2,7 +2,9 @@ package com.example.quanlyoto.network;
 
 import com.example.quanlyoto.model.ApiResponse;
 import com.example.quanlyoto.model.DaiLy;
+import com.example.quanlyoto.model.LoaiXe;
 import com.example.quanlyoto.model.NguoiDung;
+import com.example.quanlyoto.model.Xe;
 
 import java.util.List;
 
@@ -25,4 +27,12 @@ public interface ApiService {
     // ==================== NGƯỜI DÙNG ====================
     @GET("api/nguoidung/{id}")
     Call<NguoiDung> getNguoiDungById(@Path("id") Integer id);
+
+    // ==================== XE ====================
+    @GET("api/xe/nguoidung/{maND}")
+    Call<ApiResponse<List<Xe>>> getXeByNguoiDung(@Path("maND") Integer maND);
+
+    // ==================== LOẠI XE ====================
+    @GET("api/loaixe/{id}")
+    Call<LoaiXe> getLoaiXeById(@Path("id") String id);
 }
