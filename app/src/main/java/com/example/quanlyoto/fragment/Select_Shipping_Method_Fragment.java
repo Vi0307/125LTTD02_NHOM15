@@ -99,6 +99,8 @@ public class Select_Shipping_Method_Fragment extends Fragment {
                 // Truyền shipping đã chọn về Detail_Payment_Fragment
                 Detail_Payment_Fragment detailFragment = new Detail_Payment_Fragment();
                 Bundle bundle = new Bundle();
+                
+                // Shipping mới chọn
                 bundle.putString("selected_shipping_name", selectedShipping.getTenPTVC());
                 if (selectedShipping.getGiaVanChuyen() != null) {
                     bundle.putString("selected_shipping_fee", selectedShipping.getGiaVanChuyen().toString());
@@ -109,6 +111,24 @@ public class Select_Shipping_Method_Fragment extends Fragment {
                 if (selectedShipping.getMaPTVC() != null) {
                     bundle.putInt("selected_shipping_id", selectedShipping.getMaPTVC());
                 }
+                
+                // Giữ nguyên địa chỉ và voucher từ trước (nếu có)
+                if (getArguments() != null) {
+                    if (getArguments().containsKey("current_address_type")) {
+                        bundle.putString("selected_address_type", getArguments().getString("current_address_type"));
+                        bundle.putString("selected_address_detail", getArguments().getString("current_address_detail"));
+                        bundle.putString("selected_address_receiver", getArguments().getString("current_address_receiver"));
+                        bundle.putString("selected_address_phone", getArguments().getString("current_address_phone"));
+                    }
+                    if (getArguments().containsKey("current_voucher_type")) {
+                        bundle.putString("selected_voucher_type", getArguments().getString("current_voucher_type"));
+                        bundle.putString("selected_voucher_discount", getArguments().getString("current_voucher_discount"));
+                    }
+                    if (getArguments().containsKey("product_price")) {
+                        bundle.putString("product_price", getArguments().getString("product_price"));
+                    }
+                }
+                
                 detailFragment.setArguments(bundle);
 
                 requireActivity()
