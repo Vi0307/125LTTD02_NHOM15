@@ -27,6 +27,11 @@ public interface ApiService {
     @GET("api/daily/{id}")
     Call<ApiResponse<DaiLy>> getDaiLyById(@Path("id") Integer id);
 
+
+    // ==================== DANH MỤC PHỤ TÙNG ====================
+    @GET("api/danhmuc-phutung")
+    Call<List<com.example.quanlyoto.model.DmPhuTung>> getAllDanhMuc();
+
     // ==================== NGƯỜI DÙNG ====================
     @GET("api/nguoidung/{id}")
     Call<NguoiDung> getNguoiDungById(@Path("id") Integer id);
@@ -56,6 +61,10 @@ public interface ApiService {
     // ==================== LOẠI XE ====================
     @GET("api/loaixe/{id}")
     Call<LoaiXe> getLoaiXeById(@Path("id") String id);
+
+
+}
+
 
     @retrofit2.http.POST("api/voucher/reward")
     Call<String> rewardVoucher(@retrofit2.http.Body com.example.quanlyoto.model.RewardRequest request);
