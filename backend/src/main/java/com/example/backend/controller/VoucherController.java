@@ -26,5 +26,12 @@ public class VoucherController {
     public List<VoucherDTO> getAllVouchers() {
         return service.getAllVouchers();
     }
+
+    @org.springframework.web.bind.annotation.PostMapping("/reward")
+    public org.springframework.http.ResponseEntity<String> rewardVoucher(@org.springframework.web.bind.annotation.RequestBody com.example.backend.dto.RewardRequest request) {
+        System.out.println("Reward Request Received: User=" + request.getMaND() + ", Score=" + request.getCorrectAnswers());
+        service.rewardVoucher(request.getMaND(), request.getCorrectAnswers());
+        return org.springframework.http.ResponseEntity.ok("Trả thưởng thành công");
+    }
 }
 

@@ -31,10 +31,13 @@ public interface ApiService {
     @GET("api/nguoidung/{id}")
     Call<NguoiDung> getNguoiDungById(@Path("id") Integer id);
 
-
     // ==================== VOUCHER ====================
     @GET("api/voucher/{maND}")
-    Call<List<com.example.quanlyoto.model.Voucher>> getVoucherByUser(@Path("maND") Integer maND);
+    Call<List<Voucher>> getVoucherByUser(@Path("maND") Integer maND);
+
+    @GET("api/voucher")
+    Call<List<Voucher>> getAllVouchers();
+
     // ==================== ĐỊA CHỈ ====================
     @GET("api/address/{maND}")
     Call<List<DiaChi>> getDiaChiByUser(@Path("maND") Integer maND);
@@ -46,12 +49,6 @@ public interface ApiService {
     @GET("api/shipping")
     Call<List<PhuongThucVanChuyen>> getAllShipping();
 
-    // ==================== VOUCHER ====================
-    @GET("api/voucher/{maND}")
-    Call<List<Voucher>> getVoucherByUser(@Path("maND") Integer maND);
-
-    @GET("api/voucher")
-    Call<List<Voucher>> getAllVouchers();
     // ==================== XE ====================
     @GET("api/xe/nguoidung/{maND}")
     Call<ApiResponse<List<Xe>>> getXeByNguoiDung(@Path("maND") Integer maND);
@@ -59,5 +56,7 @@ public interface ApiService {
     // ==================== LOẠI XE ====================
     @GET("api/loaixe/{id}")
     Call<LoaiXe> getLoaiXeById(@Path("id") String id);
-}
 
+    @retrofit2.http.POST("api/voucher/reward")
+    Call<String> rewardVoucher(@retrofit2.http.Body com.example.quanlyoto.model.RewardRequest request);
+}
