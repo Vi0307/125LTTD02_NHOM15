@@ -20,4 +20,8 @@ public interface ApiService {
 
     @GET("api/daily/{id}")
     Call<ApiResponse<DaiLy>> getDaiLyById(@Path("id") Integer id);
+
+    // ==================== DANH MỤC PHỤ TÙNG ====================
+    @GET("api/danhmuc-phutung")
+    Call<List<com.example.quanlyoto.model.DmPhuTung>> getAllDanhMuc();
 }

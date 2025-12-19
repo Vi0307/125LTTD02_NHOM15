@@ -17,10 +17,36 @@ public class Homeparts extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
-                             @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
+            @Nullable ViewGroup container,
+            @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.activity_homeparts_screen, container, false);
+
+        // --- GỌI API DANH MỤC ---
+        com.example.quanlyoto.network.RetrofitClient.getApiService().getAllDanhMuc()
+                .enqueue(new retrofit2.Callback<java.util.List<com.example.quanlyoto.model.DmPhuTung>>() {
+                    @Override
+                    public void onResponse(retrofit2.Call<java.util.List<com.example.quanlyoto.model.DmPhuTung>> call,
+                            retrofit2.Response<java.util.List<com.example.quanlyoto.model.DmPhuTung>> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            android.util.Log.d("API_DMPHUTUNG",
+                                    "Lấy thành công " + response.body().size() + " danh mục");
+                            for (com.example.quanlyoto.model.DmPhuTung dm : response.body()) {
+                                android.util.Log.d("API_DMPHUTUNG", " - " + dm.getTenDanhMuc());
+                            }
+                            // TODO: Hiển thị lên UI (nếu cần)
+                        } else {
+                            android.util.Log.e("API_DMPHUTUNG", "Lỗi: " + response.code());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(retrofit2.Call<java.util.List<com.example.quanlyoto.model.DmPhuTung>> call,
+                            Throwable t) {
+                        android.util.Log.e("API_DMPHUTUNG", "Thất bại: " + t.getMessage());
+                    }
+                });
+        // ------------------------
 
         // ⭐ Icon giỏ hàng — mở trang Cart
         View imgCart = view.findViewById(R.id.imgCart);
@@ -73,14 +99,13 @@ public class Homeparts extends Fragment {
             requireActivity().getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.fragment_container, new Electricalparts())
-                    .addToBackStack(null)     // quay lại Homeparts
+                    .addToBackStack(null) // quay lại Homeparts
                     .commit();
         });
 
         // ======================================================
         // BOTTOM NAV
         // ======================================================
-
 
         // 2. Trang chủ
         View navParts = view.findViewById(R.id.navHome);
@@ -94,7 +119,6 @@ public class Homeparts extends Fragment {
             });
         }
 
-
         // 1. Xe của tôi
         view.findViewById(R.id.navCar).setOnClickListener(v -> {
             requireActivity().getSupportFragmentManager()
@@ -103,7 +127,6 @@ public class Homeparts extends Fragment {
                     .addToBackStack(null)
                     .commit();
         });
-
 
         // 3. Voucher
         View navVoucher = view.findViewById(R.id.navVoucher);
