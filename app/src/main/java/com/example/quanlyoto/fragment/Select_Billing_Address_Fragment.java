@@ -89,6 +89,8 @@ public class Select_Billing_Address_Fragment extends Fragment {
                     // Truyền địa chỉ đã chọn về Detail_Payment_Fragment
                     Detail_Payment_Fragment detailFragment = new Detail_Payment_Fragment();
                     Bundle bundle = new Bundle();
+                    
+                    // Địa chỉ mới chọn
                     bundle.putString("selected_address_type", selectedAddress.getLoaiDiaChi());
                     bundle.putString("selected_address_detail", selectedAddress.getFullAddress());
                     bundle.putString("selected_address_receiver", selectedAddress.getHoTenNguoiNhan());
@@ -96,6 +98,22 @@ public class Select_Billing_Address_Fragment extends Fragment {
                     if (selectedAddress.getMaDiaChi() != null) {
                         bundle.putInt("selected_address_id", selectedAddress.getMaDiaChi());
                     }
+                    
+                    // Giữ nguyên shipping và voucher từ trước (nếu có)
+                    if (getArguments() != null) {
+                        if (getArguments().containsKey("current_shipping_name")) {
+                            bundle.putString("selected_shipping_name", getArguments().getString("current_shipping_name"));
+                            bundle.putString("selected_shipping_fee", getArguments().getString("current_shipping_fee"));
+                        }
+                        if (getArguments().containsKey("current_voucher_type")) {
+                            bundle.putString("selected_voucher_type", getArguments().getString("current_voucher_type"));
+                            bundle.putString("selected_voucher_discount", getArguments().getString("current_voucher_discount"));
+                        }
+                        if (getArguments().containsKey("product_price")) {
+                            bundle.putString("product_price", getArguments().getString("product_price"));
+                        }
+                    }
+                    
                     detailFragment.setArguments(bundle);
 
                     requireActivity().getSupportFragmentManager()

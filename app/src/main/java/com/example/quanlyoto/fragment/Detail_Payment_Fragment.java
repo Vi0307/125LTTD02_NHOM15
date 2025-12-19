@@ -157,28 +157,34 @@ public class Detail_Payment_Fragment extends Fragment {
         // ==================== NÚT CHỈNH SỬA ĐỊA CHỈ ==================== //
         ImageView icPen = view.findViewById(R.id.ic_pen);
         icPen.setOnClickListener(v -> {
+            Select_Billing_Address_Fragment fragment = new Select_Billing_Address_Fragment();
+            fragment.setArguments(createCurrentStateBundle());
             requireActivity()
                     .getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.fragment_container, new Select_Billing_Address_Fragment())
+                    .replace(R.id.fragment_container, fragment)
                     .addToBackStack(null)
                     .commit();
         });
 
         // Chuyển sang phương thức vận chuyển
         view.findViewById(R.id.ic_shipping_method).setOnClickListener(v -> {
+            Select_Shipping_Method_Fragment fragment = new Select_Shipping_Method_Fragment();
+            fragment.setArguments(createCurrentStateBundle());
             requireActivity().getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.fragment_container, new Select_Shipping_Method_Fragment())
+                    .replace(R.id.fragment_container, fragment)
                     .addToBackStack(null)
                     .commit();
         });
 
         // Chuyển sang áp dụng khuyến mãi
         view.findViewById(R.id.ic_payment_method).setOnClickListener(v -> {
+            Promotion_Applies_Fragment fragment = new Promotion_Applies_Fragment();
+            fragment.setArguments(createCurrentStateBundle());
             requireActivity().getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.fragment_container, new Promotion_Applies_Fragment())
+                    .replace(R.id.fragment_container, fragment)
                     .addToBackStack(null)
                     .commit();
         });
@@ -191,6 +197,40 @@ public class Detail_Payment_Fragment extends Fragment {
                     .addToBackStack(null)
                     .commit();
         });
+    }
+
+    /**
+     * Tạo Bundle chứa trạng thái hiện tại để truyền sang fragment khác
+     */
+    private Bundle createCurrentStateBundle() {
+        Bundle bundle = new Bundle();
+        
+        // Địa chỉ hiện tại
+        if (selectedAddress != null) {
+            bundle.putString("current_address_type", selectedAddress.getLoaiDiaChi());
+            bundle.putString("current_address_detail", selectedAddress.getDiaChiChiTiet());
+            bundle.putString("current_address_receiver", selectedAddress.getHoTenNguoiNhan());
+            bundle.putString("current_address_phone", selectedAddress.getSoDienThoai());
+        }
+        
+        // Shipping hiện tại
+        if (selectedShipping != null) {
+            bundle.putString("current_shipping_name", selectedShipping.getTenPTVC());
+            if (selectedShipping.getGiaVanChuyen() != null) {
+                bundle.putString("current_shipping_fee", selectedShipping.getGiaVanChuyen().toString());
+            }
+        }
+        
+        // Voucher hiện tại
+        if (selectedVoucher != null) {
+            bundle.putString("current_voucher_type", selectedVoucher.getLoaiVoucher());
+            bundle.putString("current_voucher_discount", discount.toString());
+        }
+        
+        // Giá sản phẩm
+        bundle.putString("product_price", productPrice.toString());
+        
+        return bundle;
     }
 
     private void loadDefaultAddress() {
@@ -218,12 +258,20 @@ public class Detail_Payment_Fragment extends Fragment {
             // Hiển thị loại địa chỉ
             if (selectedAddress.getLoaiDiaChi() != null && !selectedAddress.getLoaiDiaChi().isEmpty()) {
                 txtAddressType.setText(selectedAddress.getLoaiDiaChi());
+            } else {
+                txtAddressType.setText("Địa chỉ");
             }
 
             // Hiển thị địa chỉ chi tiết
-            String fullAddress = selectedAddress.getFullAddress();
-            if (fullAddress != null && !fullAddress.isEmpty()) {
-                txtAddressDetail.setText(fullAddress);
+            // Ưu tiên diaChiChiTiet (từ Bundle đã là địa chỉ đầy đủ)
+            String addressToShow = selectedAddress.getDiaChiChiTiet();
+            if (addressToShow == null || addressToShow.isEmpty()) {
+                // Nếu không có, thử build từ getFullAddress (từ API)
+                addressToShow = selectedAddress.getFullAddress();
+            }
+            
+            if (addressToShow != null && !addressToShow.isEmpty()) {
+                txtAddressDetail.setText(addressToShow);
             } else {
                 txtAddressDetail.setText("Chưa có địa chỉ");
             }
