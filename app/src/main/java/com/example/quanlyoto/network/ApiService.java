@@ -2,6 +2,7 @@ package com.example.quanlyoto.network;
 
 import com.example.quanlyoto.model.ApiResponse;
 import com.example.quanlyoto.model.DaiLy;
+import com.example.quanlyoto.model.NguoiDung;
 
 import java.util.List;
 
@@ -20,4 +21,8 @@ public interface ApiService {
 
     @GET("api/daily/{id}")
     Call<ApiResponse<DaiLy>> getDaiLyById(@Path("id") Integer id);
+
+    // ==================== NGƯỜI DÙNG ====================
+    @GET("api/nguoidung/{id}")
+    Call<NguoiDung> getNguoiDungById(@Path("id") Integer id);
 }
