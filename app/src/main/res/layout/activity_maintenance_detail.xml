@@ -274,62 +274,12 @@
                 android:layout_height="1dp"
                 android:background="#E0E0E0"/>
 
-            <!-- ITEM 1 -->
+            <!-- Container để hiển thị danh sách công việc từ API -->
             <LinearLayout
+                android:id="@+id/containerChiTiet"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingTop="12dp"
-                android:paddingBottom="12dp">
-
-                <TextView
-                    android:id="@+id/job1"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="PIN (CR2032)"
-                    android:textSize="14sp"
-                    android:textColor="#000000"/>
-
-                <TextView
-                    android:id="@+id/price1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="28,000"
-                    android:textSize="14sp"
-                    android:textColor="#000000"/>
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#F3F3F3"/>
-
-            <!-- ITEM 2 -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingTop="12dp"
-                android:paddingBottom="12dp">
-
-                <TextView
-                    android:id="@+id/job2"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="CHAI DẦU NHỚT SL 10W-30 MA 0.8L"
-                    android:textSize="14sp"
-                    android:textColor="#000000"/>
-
-                <TextView
-                    android:id="@+id/price2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="102,000"
-                    android:textSize="14sp"
-                    android:textColor="#000000"/>
-            </LinearLayout>
+                android:orientation="vertical" />
 
             <View
                 android:layout_width="match_parent"

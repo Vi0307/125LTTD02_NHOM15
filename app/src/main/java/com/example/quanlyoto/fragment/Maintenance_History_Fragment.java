@@ -32,12 +32,12 @@ import retrofit2.Response;
 public class Maintenance_History_Fragment extends Fragment {
 
     private static final String TAG = "MaintenanceHistory";
-    
+
     private RecyclerView recyclerView;
     private MaintenanceHistoryAdapter adapter;
     private List<MaintenanceRecord> recordList;
     private int currentUserId = -1;
-    
+
     // Cache tên đại lý
     private Map<Integer, String> daiLyCache = new HashMap<>();
 
@@ -47,7 +47,7 @@ public class Maintenance_History_Fragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+            Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.activity_maintenance_history, container, false);
 
@@ -100,7 +100,7 @@ public class Maintenance_History_Fragment extends Fragment {
                     .commit();
         });
 
-        //==================== XỬ LÝ NÚT BACK ====================//
+        // ==================== XỬ LÝ NÚT BACK ====================//
         ImageView btnBack = view.findViewById(R.id.btnBack);
         if (btnBack != null) {
             btnBack.setOnClickListener(v -> {
@@ -110,7 +110,7 @@ public class Maintenance_History_Fragment extends Fragment {
 
         return view;
     }
-    
+
     /**
      * Load lịch sử bảo dưỡng từ API
      */
@@ -119,7 +119,7 @@ public class Maintenance_History_Fragment extends Fragment {
             Log.w(TAG, "User chưa đăng nhập");
             return;
         }
-        
+
         RetrofitClient.getApiService().getLichSuBaoDuongByNguoiDung(currentUserId)
                 .enqueue(new Callback<ApiResponse<List<LichSuBaoDuong>>>() {
                     @Override
@@ -129,11 +129,11 @@ public class Maintenance_History_Fragment extends Fragment {
                             ApiResponse<List<LichSuBaoDuong>> apiResponse = response.body();
                             if (apiResponse.isSuccess() && apiResponse.getData() != null) {
                                 List<LichSuBaoDuong> danhSachLichSu = apiResponse.getData();
-                                
+
                                 for (LichSuBaoDuong ls : danhSachLichSu) {
                                     loadDaiLyAndAddRecord(ls);
                                 }
-                                
+
                                 Log.d(TAG, "Loaded " + danhSachLichSu.size() + " lịch sử bảo dưỡng");
                             }
                         } else {
@@ -147,18 +147,18 @@ public class Maintenance_History_Fragment extends Fragment {
                     }
                 });
     }
-    
+
     /**
      * Load tên đại lý và thêm record vào list
      */
     private void loadDaiLyAndAddRecord(LichSuBaoDuong lichSu) {
         Integer maDaiLy = lichSu.getMaDaiLy();
-        
+
         if (daiLyCache.containsKey(maDaiLy)) {
             addRecordToList(daiLyCache.get(maDaiLy), lichSu);
             return;
         }
-        
+
         RetrofitClient.getApiService().getDaiLyById(maDaiLy).enqueue(new Callback<ApiResponse<DaiLy>>() {
             @Override
             public void onResponse(Call<ApiResponse<DaiLy>> call, Response<ApiResponse<DaiLy>> response) {
@@ -179,22 +179,25 @@ public class Maintenance_History_Fragment extends Fragment {
             }
         });
     }
-    
+
     /**
      * Thêm record vào list và notify adapter
      */
     private void addRecordToList(String tenDaiLy, LichSuBaoDuong lichSu) {
         String ngayFormatted = formatNgay(lichSu.getNgayThucHien());
-        MaintenanceRecord record = new MaintenanceRecord(tenDaiLy, ngayFormatted, "N/A", lichSu.getMaLSBD());
+        MaintenanceRecord record = new MaintenanceRecord(
+                tenDaiLy, ngayFormatted, "N/A",
+                lichSu.getMaLSBD(), lichSu.getMaDaiLy());
         recordList.add(record);
         adapter.notifyItemInserted(recordList.size() - 1);
     }
-    
+
     /**
      * Format ngày từ ISO string sang dd/MM/yyyy
      */
     private String formatNgay(String isoDate) {
-        if (isoDate == null) return "N/A";
+        if (isoDate == null)
+            return "N/A";
         try {
             if (isoDate.contains("T")) {
                 String[] parts = isoDate.split("T")[0].split("-");
@@ -208,27 +211,44 @@ public class Maintenance_History_Fragment extends Fragment {
         }
     }
 
-    //================= MODEL CHO ADAPTER =================//
+    // ================= MODEL CHO ADAPTER =================//
     public static class MaintenanceRecord {
         private String dealer;
         private String date;
         private String km;
         private Integer maLSBD;
+        private Integer maDaiLy;
 
-        public MaintenanceRecord(String dealer, String date, String km, Integer maLSBD) {
+        public MaintenanceRecord(String dealer, String date, String km, Integer maLSBD, Integer maDaiLy) {
             this.dealer = dealer;
             this.date = date;
             this.km = km;
             this.maLSBD = maLSBD;
+            this.maDaiLy = maDaiLy;
         }
 
-        public String getDealer() { return dealer; }
-        public String getDate() { return date; }
-        public String getKm() { return km; }
-        public Integer getMaLSBD() { return maLSBD; }
+        public String getDealer() {
+            return dealer;
+        }
+
+        public String getDate() {
+            return date;
+        }
+
+        public String getKm() {
+            return km;
+        }
+
+        public Integer getMaLSBD() {
+            return maLSBD;
+        }
+
+        public Integer getMaDaiLy() {
+            return maDaiLy;
+        }
     }
 
-    //================= ADAPTER =================//
+    // ================= ADAPTER =================//
     public static class MaintenanceHistoryAdapter extends RecyclerView.Adapter<MaintenanceHistoryAdapter.ViewHolder> {
 
         private List<MaintenanceRecord> recordList;
@@ -264,6 +284,9 @@ public class Maintenance_History_Fragment extends Fragment {
                 bundle.putString("km", record.getKm());
                 if (record.getMaLSBD() != null) {
                     bundle.putInt("maLSBD", record.getMaLSBD());
+                }
+                if (record.getMaDaiLy() != null) {
+                    bundle.putInt("maDaiLy", record.getMaDaiLy());
                 }
                 detailFragment.setArguments(bundle);
 
