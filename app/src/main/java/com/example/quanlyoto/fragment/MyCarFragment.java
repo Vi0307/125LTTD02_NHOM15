@@ -106,20 +106,6 @@ public class MyCarFragment extends Fragment {
                     .commit();
         });
 
-        // ==========================
-        // CHATBOX → ChatFragment
-        // ==========================
-        View chatBtn = view.findViewById(R.id.btnChat);
-        if (chatBtn != null) {
-            chatBtn.setOnClickListener(v -> {
-                requireActivity().getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.fragment_container, new ChatBox())
-                        .addToBackStack(null)
-                        .commit();
-            });
-        }
-
         // ======================================================
         // BUTTON — ĐẶT DỊCH VỤ → ĐẠI LÝ
         // ======================================================
