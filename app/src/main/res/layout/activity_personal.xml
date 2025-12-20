@@ -61,11 +61,12 @@
 
                 <!-- Tên người dùng -->
                 <TextView
+                    android:id="@+id/tvUserNameHeader"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginBottom="24dp"
-                    android:text="Andrew Ainsley"
+                    android:text="Đang tải..."
                     android:textColor="#000000"
                     android:textSize="22sp"
                     android:textStyle="bold" />
@@ -80,13 +81,14 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/tvHoTen"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:layout_marginTop="8dp"
                     android:background="@drawable/bg_text_field"
                     android:gravity="center_vertical"
                     android:paddingStart="16dp"
-                    android:text="Andrew Ainsley"
+                    android:text="Đang tải..."
                     android:textColor="#000000"
                     android:textSize="15sp" />
 
@@ -101,13 +103,14 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/tvSoDienThoai"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:layout_marginTop="8dp"
                     android:background="@drawable/bg_text_field"
                     android:gravity="center_vertical"
                     android:paddingStart="16dp"
-                    android:text="0123456789"
+                    android:text="Đang tải..."
                     android:textColor="#000000"
                     android:textSize="15sp" />
 
@@ -128,12 +131,12 @@
                     android:background="@drawable/bg_text_field">
 
                     <TextView
-                        android:id="@+id/txt_birthday"
+                        android:id="@+id/tvNgaySinh"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
                         android:paddingStart="16dp"
-                        android:text="15/08/2000"
+                        android:text="Đang tải..."
                         android:textColor="#000000"
                         android:textSize="15sp" />
 
@@ -159,13 +162,14 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/tvEmail"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:layout_marginTop="8dp"
                     android:background="@drawable/bg_text_field"
                     android:gravity="center_vertical"
                     android:paddingStart="16dp"
-                    android:text="andrew_ainsley@yourdomain.com"
+                    android:text="Đang tải..."
                     android:textColor="#000000"
                     android:textSize="15sp" />
 
@@ -180,13 +184,14 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/tvTinhThanh"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:layout_marginTop="8dp"
                     android:background="@drawable/bg_text_field"
                     android:gravity="center_vertical"
                     android:paddingStart="16dp"
-                    android:text="Đà Nẵng"
+                    android:text="Đang tải..."
                     android:textColor="#000000"
                     android:textSize="15sp" />
 
