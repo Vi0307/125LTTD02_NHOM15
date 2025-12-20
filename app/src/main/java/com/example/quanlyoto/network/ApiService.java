@@ -10,6 +10,7 @@ import com.example.quanlyoto.model.PhuongThucVanChuyen;
 import com.example.quanlyoto.model.RewardRequest;
 import com.example.quanlyoto.model.Voucher;
 import com.example.quanlyoto.model.Xe;
+import com.example.quanlyoto.model.PhuTung;
 
 import java.util.List;
 
@@ -73,5 +74,12 @@ public interface ApiService {
 
     @GET("api/loaixe/{id}")
     Call<LoaiXe> getLoaiXeById(@Path("id") String id);
+
+    // ==================== PHỤ TÙNG ====================
+    @GET("api/phutung")
+    Call<List<PhuTung>> getAllPhuTung();
+
+    @GET("api/phutung/danhmuc/{maDanhMuc}")
+    Call<List<PhuTung>> getPhuTungByDanhMuc(@Path("maDanhMuc") String maDanhMuc);
 
 }
