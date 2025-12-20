@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF">
+    android:background="#E5E7EB">
 
     <!-- Scroll content -->
     <ScrollView
@@ -29,7 +29,8 @@
                     android:id="@+id/btnBack"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@drawable/ic_back_arrow" />
+                    android:src="@drawable/ic_back_arrow"
+                    android:layout_marginEnd="8dp" />
 
 
                 <TextView
@@ -41,13 +42,12 @@
                     android:layout_weight="1"
                     android:textColor="#000000"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="BMW"
-                    android:textStyle="bold"
-                    android:textSize="16sp"
-                    android:textColor="#000000" />
+                <ImageView
+                    android:id="@+id/btnCartHeader"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_cart"
+                    android:contentDescription="Giỏ hàng" />
             </LinearLayout>
 
             <!-- ===== ĐƯỜNG KẺ NGANG DƯỚI HEADER ===== -->
@@ -262,21 +262,7 @@
 
         </LinearLayout>
     </ScrollView>
-    <!-- FAB Chatbox -->
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabChatbox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="86dp"
-        android:src="@drawable/ic_chat_box"
-        android:contentDescription="Mở chat hỗ trợ"
-        app:backgroundTint="#FFFFFF"
-        app:tint="#C50E0E"
-        app:elevation="8dp"
-        app:borderWidth="0dp"/>
+
 
     <!-- Bottom Navigation - Fixed -->
     <LinearLayout
