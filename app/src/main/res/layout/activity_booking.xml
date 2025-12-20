@@ -205,6 +205,7 @@
             android:layout_margin="6dp"
             android:background="@drawable/bg_button_black"
             android:text="07:30"
+            android:textColor="#FFFFFF"
             tools:ignore="TouchTargetSizeCheck" />
 
         <Button
@@ -213,6 +214,7 @@
             android:layout_margin="6dp"
             android:background="@drawable/bg_button_black"
             android:text="08:00"
+            android:textColor="#FFFFFF"
             tools:ignore="TouchTargetSizeCheck" />
 
         <Button
@@ -220,49 +222,56 @@
             android:layout_height="48dp"
             android:layout_margin="6dp"
             android:background="@drawable/bg_button_black"
-            android:text="08:30" />
+            android:text="08:30"
+            android:textColor="#FFFFFF"/>
 
         <Button
             android:layout_width="100dp"
             android:layout_height="48dp"
             android:layout_margin="6dp"
             android:background="@drawable/bg_button_black"
-            android:text="08:30" />
+            android:text="09:00"
+            android:textColor="#FFFFFF"/>
 
         <Button
             android:layout_width="100dp"
             android:layout_height="48dp"
             android:layout_margin="6dp"
             android:background="@drawable/bg_button_black"
-            android:text="08:30" />
+            android:text="09:30"
+            android:textColor="#FFFFFF"/>
 
         <Button
             android:layout_width="100dp"
             android:layout_height="48dp"
             android:layout_margin="6dp"
             android:background="@drawable/bg_button_black"
-            android:text="08:30" />
+            android:text="10:00"
+            android:textColor="#FFFFFF"/>
 
         <Button
             android:layout_width="100dp"
             android:layout_height="48dp"
             android:layout_margin="6dp"
             android:background="@drawable/bg_button_black"
-            android:text="08:30" />
+            android:text="10:30"
+            android:textColor="#FFFFFF"/>
 
         <Button
             android:layout_width="100dp"
             android:layout_height="48dp"
             android:layout_margin="6dp"
             android:background="@drawable/bg_button_black"
-            android:text="08:30" />
+            android:text="11:00"
+            android:textColor="#FFFFFF"/>
 
         <Button
             android:layout_width="100dp"
             android:layout_height="48dp"
             android:layout_margin="6dp"
             android:background="@drawable/bg_button_black"
-            android:text="08:30" />
+            android:text="11:30"
+            android:textColor="#FFFFFF"/>
 
     </GridLayout>
 
