@@ -39,8 +39,8 @@ public class MyCarDetailFragment extends Fragment {
 
     private static final String TAG = "MyCarDetailFragment";
 
-    // Demo user ID - thay đổi theo database của bạn
-    private static final int DEMO_USER_ID = 1;
+    // User ID từ SharedPreferences
+    private int currentUserId = -1;
 
     private LinearLayout layoutHistoryDetail;
     private ImageButton btnExpandHistory;
@@ -75,6 +75,11 @@ public class MyCarDetailFragment extends Fragment {
 
         // Khởi tạo Views
         initViews(view);
+
+        // Lấy userId từ SharedPreferences
+        android.content.SharedPreferences prefs = requireActivity().getSharedPreferences("UserPrefs",
+                android.content.Context.MODE_PRIVATE);
+        currentUserId = prefs.getInt("userId", -1);
 
         // Load thông tin xe
         loadXeInfo();
@@ -194,7 +199,7 @@ public class MyCarDetailFragment extends Fragment {
      * Load thông tin người dùng để lấy số lần bảo dưỡng
      */
     private void loadUserInfo() {
-        RetrofitClient.getApiService().getNguoiDungById(DEMO_USER_ID).enqueue(new Callback<NguoiDung>() {
+        RetrofitClient.getApiService().getNguoiDungById(currentUserId).enqueue(new Callback<NguoiDung>() {
             @Override
             public void onResponse(Call<NguoiDung> call, Response<NguoiDung> response) {
                 if (response.isSuccessful() && response.body() != null) {
@@ -220,7 +225,7 @@ public class MyCarDetailFragment extends Fragment {
      * Load danh sách nhắc nhở bảo dưỡng từ API
      */
     private void loadNhacNhoBaoDuong() {
-        RetrofitClient.getApiService().getBaoDuongByNguoiDung(DEMO_USER_ID)
+        RetrofitClient.getApiService().getBaoDuongByNguoiDung(currentUserId)
                 .enqueue(new Callback<ApiResponse<List<BaoDuong>>>() {
                     @Override
                     public void onResponse(Call<ApiResponse<List<BaoDuong>>> call,
@@ -264,7 +269,7 @@ public class MyCarDetailFragment extends Fragment {
      * Load lịch sử bảo dưỡng từ API
      */
     private void loadLichSuBaoDuong() {
-        RetrofitClient.getApiService().getLichSuBaoDuongByNguoiDung(DEMO_USER_ID)
+        RetrofitClient.getApiService().getLichSuBaoDuongByNguoiDung(currentUserId)
                 .enqueue(new Callback<ApiResponse<List<LichSuBaoDuong>>>() {
                     @Override
                     public void onResponse(Call<ApiResponse<List<LichSuBaoDuong>>> call,
@@ -507,7 +512,7 @@ public class MyCarDetailFragment extends Fragment {
      * Load thông tin xe của người dùng từ API
      */
     private void loadXeInfo() {
-        RetrofitClient.getApiService().getXeByNguoiDung(DEMO_USER_ID).enqueue(new Callback<ApiResponse<List<Xe>>>() {
+        RetrofitClient.getApiService().getXeByNguoiDung(currentUserId).enqueue(new Callback<ApiResponse<List<Xe>>>() {
             @Override
             public void onResponse(Call<ApiResponse<List<Xe>>> call, Response<ApiResponse<List<Xe>>> response) {
                 if (response.isSuccessful() && response.body() != null) {
