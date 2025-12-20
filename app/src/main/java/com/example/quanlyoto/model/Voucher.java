@@ -9,11 +9,16 @@ public class Voucher {
     private Integer maVC;
     private String loaiVoucher;
 
+
     private String hanSuDung; // Receiving as String (ISO-8601) or specific format from JSON
 
-    private String hanSuDung; // String format for easier parsing from JSON
 
-    // Getters
+
+    private String hanSuDung; // String format for easier parsing from JSON
+    private String trangThai;
+
+    public Voucher() {
+    }
 
     public Integer getMaND() {
         return maND;
@@ -47,14 +52,13 @@ public class Voucher {
         this.hanSuDung = hanSuDung;
     }
 
-    private String trangThai;
-
     public String getTrangThai() {
         return trangThai;
     }
 
     public void setTrangThai(String trangThai) {
         this.trangThai = trangThai;
+
         // Setters
         public void setMaND(Integer maND) {
             this.maND = maND;
@@ -71,6 +75,9 @@ public class Voucher {
         public void setHanSuDung(String hanSuDung) {
             this.hanSuDung = hanSuDung;
         }
+
+    }
+
 
         /**
          * Trả về mô tả voucher
