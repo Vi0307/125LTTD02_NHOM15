@@ -509,17 +509,4 @@
                 android:layout_height="120dp" />
         </LinearLayout>
     </ScrollView>
-    <!-- CHATBOX FLOATING BUTTON NỔI -->
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btnChat"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-        android:layout_gravity="bottom|end"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="80dp"
-        android:src="@drawable/ic_chat_box"
-        app:backgroundTint="#FFFFFF"
-        app:tint="#C50E0E"
-        app:elevation="8dp"
-        android:contentDescription="Mở chat hỗ trợ"/>
 </FrameLayout>
