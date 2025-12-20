@@ -231,6 +231,42 @@
                         app:tint="#999999" />
                 </LinearLayout>
 
+                <!-- Dịch vụ -->
+                <LinearLayout
+                    android:id="@+id/item_service"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/bg_item_clickable"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_fix_appointment"
+                        app:tint="#E53935" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="16dp"
+                        android:text="Dịch vụ của tôi"
+                        android:textColor="#000000"
+                        android:textSize="15sp" />
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_arrow_right"
+                        app:tint="#999999" />
+                </LinearLayout>
+
                 <!-- Đơn hàng -->
                 <LinearLayout
                     android:id="@+id/item_order"

@@ -78,7 +78,6 @@ public interface ApiService {
     @GET("api/loaixe/{id}")
     Call<LoaiXe> getLoaiXeById(@Path("id") String id);
 
-
     // ==================== PHỤ TÙNG ====================
     @GET("api/phutung")
     Call<List<PhuTung>> getAllPhuTung();
@@ -97,5 +96,12 @@ public interface ApiService {
     @GET("api/lich-su-bao-duong/{maLSBD}/chi-tiet")
     Call<ApiResponse<List<ChiTietLichSuBaoDuong>>> getChiTietLichSuBaoDuong(@Path("maLSBD") Integer maLSBD);
 
+    // ==================== DỊCH VỤ ====================
+    @POST("api/dich-vu")
+    Call<ApiResponse<com.example.quanlyoto.model.DichVuDTO>> createDichVu(
+            @Body com.example.quanlyoto.model.DichVuDTO dichVuDTO);
+
+    @GET("api/dich-vu/nguoi-dung/{maND}")
+    Call<ApiResponse<List<com.example.quanlyoto.model.DichVuDTO>>> getDichVuByNguoiDung(@Path("maND") Integer maND);
 
 }
