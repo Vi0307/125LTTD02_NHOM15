@@ -36,6 +36,9 @@ public interface ApiService {
     Call<List<DmPhuTung>> getAllDanhMuc();
 
     // ==================== NGƯỜI DÙNG ====================
+    @POST("api/nguoidung/login")
+    Call<NguoiDung> login(@Body com.example.quanlyoto.model.LoginRequest request);
+
     @GET("api/nguoidung/{id}")
     Call<NguoiDung> getNguoiDungById(@Path("id") Integer id);
 

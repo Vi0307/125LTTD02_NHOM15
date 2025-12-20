@@ -260,23 +260,29 @@ public class HomeFragment extends Fragment {
      * Load thông tin người dùng từ API
      */
     private void loadUserInfo() {
-        RetrofitClient.getApiService().getNguoiDungById(DEMO_USER_ID).enqueue(new Callback<NguoiDung>() {
-            @Override
-            public void onResponse(Call<NguoiDung> call, Response<NguoiDung> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    NguoiDung user = response.body();
-                    updateUserUI(user);
-                    Log.d(TAG, "Loaded user: " + user.getHoTen());
-                } else {
-                    Log.e(TAG, "Error loading user: " + response.code());
-                }
-            }
+        android.content.SharedPreferences prefs = requireActivity().getSharedPreferences("UserPrefs",
+                android.content.Context.MODE_PRIVATE);
+        int userId = prefs.getInt("userId", -1);
 
-            @Override
-            public void onFailure(Call<NguoiDung> call, Throwable t) {
-                Log.e(TAG, "Error loading user: " + t.getMessage());
-            }
-        });
+        if (userId != -1) {
+            RetrofitClient.getApiService().getNguoiDungById(userId).enqueue(new Callback<NguoiDung>() {
+                @Override
+                public void onResponse(Call<NguoiDung> call, Response<NguoiDung> response) {
+                    if (response.isSuccessful() && response.body() != null) {
+                        NguoiDung user = response.body();
+                        updateUserUI(user);
+                        Log.d(TAG, "Loaded user: " + user.getHoTen());
+                    } else {
+                        Log.e(TAG, "Error loading user: " + response.code());
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<NguoiDung> call, Throwable t) {
+                    Log.e(TAG, "Error loading user: " + t.getMessage());
+                }
+            });
+        }
     }
 
     /**
