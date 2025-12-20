@@ -133,14 +133,26 @@ public class Booking_Fragment extends Fragment {
         });
     }
 
+    private android.widget.Button selectedButton = null;
+
     private void setupTimeButtons(View view) {
         android.widget.GridLayout gridTime = view.findViewById(R.id.gridTime);
         for (int i = 0; i < gridTime.getChildCount(); i++) {
             View child = gridTime.getChildAt(i);
             if (child instanceof android.widget.Button) {
                 child.setOnClickListener(v -> {
-                    selectedTime = ((android.widget.Button) v).getText().toString();
-                    // Visual feedback could be added here
+                    android.widget.Button btn = (android.widget.Button) v;
+
+                    // Reset previous selection
+                    if (selectedButton != null) {
+                        selectedButton.setBackgroundResource(R.drawable.bg_button_black);
+                    }
+
+                    // Set new selection
+                    selectedButton = btn;
+                    selectedButton.setBackgroundResource(R.drawable.bg_button_red);
+
+                    selectedTime = btn.getText().toString();
                 });
             }
         }

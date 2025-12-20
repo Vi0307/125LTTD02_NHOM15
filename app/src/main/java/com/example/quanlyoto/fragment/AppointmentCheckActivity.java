@@ -23,6 +23,12 @@ public class AppointmentCheckActivity extends Fragment {
     private FrameLayout dialogOverlay;
     private Button btnGoHome;
 
+    private String date = "";
+    private String time = "";
+    private String serviceType = "";
+    private String serviceDetail = "";
+    private int dealerId = 1;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
@@ -32,38 +38,32 @@ public class AppointmentCheckActivity extends Fragment {
         ImageView btnBack = view.findViewById(R.id.btn_back);
         btnBack.setOnClickListener(v -> getParentFragmentManager().popBackStack());
 
+        // Parse arguments immediately
+        if (getArguments() != null) {
+            date = getArguments().getString("selectedDate");
+            time = getArguments().getString("selectedTime");
+            serviceType = getArguments().getString("serviceType");
+            serviceDetail = getArguments().getString("serviceDetail");
+
+            // Update UI immediately
+            TextView tvServiceType = view.findViewById(R.id.tvServiceType);
+            if (tvServiceType != null && serviceType != null) {
+                tvServiceType.setText(serviceType);
+            }
+
+            // Get agency_id, default to 1 if invalid
+            int passedId = getArguments().getInt("agency_id", -1);
+            if (passedId != -1) {
+                dealerId = passedId;
+            }
+        }
+
         // Dialog
         btnComplete = view.findViewById(R.id.button);
         dialogOverlay = view.findViewById(R.id.dialogOverlay);
         btnGoHome = view.findViewById(R.id.btnGoHome);
 
         btnComplete.setOnClickListener(v -> {
-            // Collect data
-            String date = "";
-            String time = "";
-            String serviceType = "";
-            String serviceDetail = "";
-            int dealerId = 1;
-
-            if (getArguments() != null) {
-                date = getArguments().getString("selectedDate");
-                time = getArguments().getString("selectedTime");
-                serviceType = getArguments().getString("serviceType");
-                serviceDetail = getArguments().getString("serviceDetail");
-
-                // Set text for service type
-                TextView tvServiceType = view.findViewById(R.id.tvServiceType);
-                if (tvServiceType != null && serviceType != null) {
-                    tvServiceType.setText(serviceType);
-                }
-
-                // Get agency_id, default to 1 if invalid
-                int passedId = getArguments().getInt("agency_id", -1);
-                if (passedId != -1) {
-                    dealerId = passedId;
-                }
-            }
-
             // Create payload
             int userId = 1;
             // dealerId is set above
