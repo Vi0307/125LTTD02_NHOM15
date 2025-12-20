@@ -1,31 +1,26 @@
 package com.example.quanlyoto.model;
 
+import java.io.Serializable;
+
 /**
- * /**
  * Model class cho Voucher - tương ứng với VoucherDTO từ backend
  */
-public class Voucher {
-    private Integer maND;
+public class Voucher implements Serializable {
     private Integer maVC;
+    private Integer maND;
     private String loaiVoucher;
-
-
-    private String hanSuDung; // Receiving as String (ISO-8601) or specific format from JSON
-
-
-
-    private String hanSuDung; // String format for easier parsing from JSON
+    private String hanSuDung;
     private String trangThai;
 
     public Voucher() {
     }
 
-    public Integer getMaND() {
-        return maND;
-    }
-
-    public void setMaND(Integer maND) {
+    public Voucher(Integer maVC, Integer maND, String loaiVoucher, String hanSuDung, String trangThai) {
+        this.maVC = maVC;
         this.maND = maND;
+        this.loaiVoucher = loaiVoucher;
+        this.hanSuDung = hanSuDung;
+        this.trangThai = trangThai;
     }
 
     public Integer getMaVC() {
@@ -34,6 +29,14 @@ public class Voucher {
 
     public void setMaVC(Integer maVC) {
         this.maVC = maVC;
+    }
+
+    public Integer getMaND() {
+        return maND;
+    }
+
+    public void setMaND(Integer maND) {
+        this.maND = maND;
     }
 
     public String getLoaiVoucher() {
@@ -58,34 +61,15 @@ public class Voucher {
 
     public void setTrangThai(String trangThai) {
         this.trangThai = trangThai;
-
-        // Setters
-        public void setMaND(Integer maND) {
-            this.maND = maND;
-        }
-
-        public void setMaVC(Integer maVC) {
-            this.maVC = maVC;
-        }
-
-        public void setLoaiVoucher(String loaiVoucher) {
-            this.loaiVoucher = loaiVoucher;
-        }
-
-        public void setHanSuDung(String hanSuDung) {
-            this.hanSuDung = hanSuDung;
-        }
-
     }
 
-
-        /**
-         * Trả về mô tả voucher
-         */
-        public String getDescription() {
-            if (loaiVoucher != null && hanSuDung != null) {
-                return loaiVoucher + " - HSD: " + hanSuDung;
-            }
-            return loaiVoucher != null ? loaiVoucher : "";
+    /**
+     * Trả về mô tả voucher
+     */
+    public String getDescription() {
+        if (loaiVoucher != null && hanSuDung != null) {
+            return loaiVoucher + " - HSD: " + hanSuDung;
         }
+        return loaiVoucher != null ? loaiVoucher : "";
     }
+}
