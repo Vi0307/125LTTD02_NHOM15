@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -18,6 +19,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.quanlyoto.R;
 import com.example.quanlyoto.model.ApiResponse;
+import com.example.quanlyoto.model.BaoDuong;
 import com.example.quanlyoto.model.LoaiXe;
 import com.example.quanlyoto.model.NguoiDung;
 import com.example.quanlyoto.model.Xe;
@@ -48,6 +50,10 @@ public class MyCarDetailFragment extends Fragment {
     // Views cho các ô bảo dưỡng
     private TextView tvLan1, tvLan2, tvLan3, tvLan4, tvLan5, tvLan6;
 
+    // Views cho nhắc nhở phụ tùng
+    private LinearLayout containerNhacNho;
+    private TextView tvKhongCoNhacNho;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -64,6 +70,9 @@ public class MyCarDetailFragment extends Fragment {
 
         // Load thông tin người dùng (để lấy số lần bảo dưỡng)
         loadUserInfo();
+
+        // Load nhắc nhở bảo dưỡng
+        loadNhacNhoBaoDuong();
 
         // ScrollView
         scrollView = view.findViewById(R.id.scrollView);
@@ -157,6 +166,10 @@ public class MyCarDetailFragment extends Fragment {
         tvLan4 = view.findViewById(R.id.tvLan4);
         tvLan5 = view.findViewById(R.id.tvLan5);
         tvLan6 = view.findViewById(R.id.tvLan6);
+
+        // Views cho nhắc nhở
+        containerNhacNho = view.findViewById(R.id.containerNhacNho);
+        tvKhongCoNhacNho = view.findViewById(R.id.tvKhongCoNhacNho);
     }
 
     /**
@@ -183,6 +196,97 @@ public class MyCarDetailFragment extends Fragment {
                 Log.e(TAG, "Error loading user: " + t.getMessage());
             }
         });
+    }
+
+    /**
+     * Load danh sách nhắc nhở bảo dưỡng từ API
+     */
+    private void loadNhacNhoBaoDuong() {
+        RetrofitClient.getApiService().getBaoDuongByNguoiDung(DEMO_USER_ID)
+                .enqueue(new Callback<ApiResponse<List<BaoDuong>>>() {
+                    @Override
+                    public void onResponse(Call<ApiResponse<List<BaoDuong>>> call,
+                            Response<ApiResponse<List<BaoDuong>>> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            ApiResponse<List<BaoDuong>> apiResponse = response.body();
+                            if (apiResponse.isSuccess() && apiResponse.getData() != null) {
+                                List<BaoDuong> danhSachBaoDuong = apiResponse.getData();
+
+                                // Lọc những bản ghi có TrangThai = 'Nhắc nhở'
+                                int count = 0;
+                                for (BaoDuong bd : danhSachBaoDuong) {
+                                    if ("Nhắc nhở".equals(bd.getTrangThai())) {
+                                        addNhacNhoItem(bd.getMoTa());
+                                        count++;
+                                    }
+                                }
+
+                                if (count == 0) {
+                                    // Không có nhắc nhở
+                                    if (tvKhongCoNhacNho != null) {
+                                        tvKhongCoNhacNho.setVisibility(View.VISIBLE);
+                                    }
+                                }
+
+                                Log.d(TAG, "Loaded " + count + " nhắc nhở bảo dưỡng");
+                            }
+                        } else {
+                            Log.e(TAG, "Error loading bao duong: " + response.code());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ApiResponse<List<BaoDuong>>> call, Throwable t) {
+                        Log.e(TAG, "Error loading bao duong: " + t.getMessage());
+                    }
+                });
+    }
+
+    /**
+     * Thêm một item nhắc nhở vào container
+     */
+    private void addNhacNhoItem(String moTa) {
+        if (containerNhacNho == null || getContext() == null)
+            return;
+
+        // Tạo LinearLayout cho item
+        LinearLayout itemLayout = new LinearLayout(getContext());
+        itemLayout.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT));
+        itemLayout.setOrientation(LinearLayout.HORIZONTAL);
+        itemLayout.setBackgroundColor(0xFFFFF3F3); // #FFF3F3
+        itemLayout.setPadding(36, 36, 36, 36);
+        itemLayout.setGravity(android.view.Gravity.CENTER_VERTICAL);
+
+        // Margin bottom
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) itemLayout.getLayoutParams();
+        params.bottomMargin = 24;
+        itemLayout.setLayoutParams(params);
+
+        // ImageView
+        ImageView icon = new ImageView(getContext());
+        LinearLayout.LayoutParams iconParams = new LinearLayout.LayoutParams(72, 72);
+        icon.setLayoutParams(iconParams);
+        icon.setImageResource(android.R.drawable.ic_menu_info_details);
+        icon.setColorFilter(0xFFD32F2F); // #D32F2F
+
+        // TextView
+        TextView textView = new TextView(getContext());
+        LinearLayout.LayoutParams textParams = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT,
+                1);
+        textParams.leftMargin = 36;
+        textView.setLayoutParams(textParams);
+        textView.setText(moTa != null ? moTa : "Nhắc nhở bảo dưỡng");
+        textView.setTextColor(0xFFD32F2F); // #D32F2F
+        textView.setTextSize(15);
+
+        // Thêm vào item
+        itemLayout.addView(icon);
+        itemLayout.addView(textView);
+
+        // Thêm item vào container
+        containerNhacNho.addView(itemLayout);
     }
 
     /**

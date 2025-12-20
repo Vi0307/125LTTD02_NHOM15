@@ -1,6 +1,7 @@
 package com.example.quanlyoto.network;
 
 import com.example.quanlyoto.model.ApiResponse;
+import com.example.quanlyoto.model.BaoDuong;
 import com.example.quanlyoto.model.DaiLy;
 import com.example.quanlyoto.model.DiaChi;
 import com.example.quanlyoto.model.DmPhuTung;
@@ -73,5 +74,9 @@ public interface ApiService {
 
     @GET("api/loaixe/{id}")
     Call<LoaiXe> getLoaiXeById(@Path("id") String id);
+
+    // ==================== BẢO DƯỠNG ====================
+    @GET("api/bao-duong/nguoi-dung/{maND}")
+    Call<ApiResponse<List<BaoDuong>>> getBaoDuongByNguoiDung(@Path("maND") Integer maND);
 
 }
