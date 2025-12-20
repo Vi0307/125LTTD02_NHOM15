@@ -18,10 +18,12 @@ import com.example.quanlyoto.model.ApiResponse;
 import com.example.quanlyoto.model.DaiLy;
 import com.example.quanlyoto.model.LoaiXe;
 import com.example.quanlyoto.model.NguoiDung;
+import com.example.quanlyoto.model.Voucher;
 import com.example.quanlyoto.model.Xe;
 import com.example.quanlyoto.network.RetrofitClient;
 import com.example.quanlyoto.viewmodel.DaiLyViewModel;
 
+import android.widget.LinearLayout;
 import java.util.List;
 
 import retrofit2.Call;
@@ -46,6 +48,10 @@ public class HomeFragment extends Fragment {
 
     // Views cho thông tin xe
     private TextView tvTenXe, tvBienSo;
+
+    // Views cho voucher
+    private LinearLayout containerVoucher;
+    private TextView tvKhongCoVoucher;
 
     public HomeFragment() {
     }
@@ -74,6 +80,9 @@ public class HomeFragment extends Fragment {
 
         // Load thông tin xe
         loadXeInfo();
+
+        // Load voucher
+        loadVoucherInfo();
 
         // ======================================================
         // BOTTOM NAV
@@ -203,20 +212,6 @@ public class HomeFragment extends Fragment {
             });
         }
 
-        // ======================================================
-        // FAB CHAT — MỞ TRANG CHAT
-        // ======================================================
-        View btnChat = view.findViewById(R.id.btnChat);
-        if (btnChat != null) {
-            btnChat.setOnClickListener(v -> {
-                requireActivity().getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.fragment_container, new ChatBox())
-                        .addToBackStack(null)
-                        .commit();
-            });
-        }
-
         return view;
     }
 
@@ -236,6 +231,10 @@ public class HomeFragment extends Fragment {
         // Views cho xe
         tvTenXe = view.findViewById(R.id.tvTenXe);
         tvBienSo = view.findViewById(R.id.tvBienSo);
+
+        // Views cho voucher
+        containerVoucher = view.findViewById(R.id.containerVoucher);
+        tvKhongCoVoucher = view.findViewById(R.id.tvKhongCoVoucher);
     }
 
     /**
@@ -386,5 +385,121 @@ public class HomeFragment extends Fragment {
         if (tvSoDienThoai != null) {
             tvSoDienThoai.setText(daiLy.getSoDienThoai() != null ? daiLy.getSoDienThoai() : "N/A");
         }
+    }
+
+    /**
+     * Load voucher của người dùng từ API
+     */
+    private void loadVoucherInfo() {
+        if (currentUserId == -1) {
+            Log.w(TAG, "User chưa đăng nhập");
+            return;
+        }
+
+        RetrofitClient.getApiService().getVoucherByUser(currentUserId).enqueue(new Callback<List<Voucher>>() {
+            @Override
+            public void onResponse(Call<List<Voucher>> call, Response<List<Voucher>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    List<Voucher> vouchers = response.body();
+
+                    if (vouchers.isEmpty()) {
+                        if (tvKhongCoVoucher != null) {
+                            tvKhongCoVoucher.setVisibility(View.VISIBLE);
+                        }
+                    } else {
+                        // Hiển thị tối đa 3 voucher
+                        int count = 0;
+                        for (Voucher v : vouchers) {
+                            if (count >= 3)
+                                break;
+                            if ("Còn hiệu lực".equals(v.getTrangThai())) {
+                                addVoucherItem(v);
+                                count++;
+                            }
+                        }
+                        if (count == 0 && tvKhongCoVoucher != null) {
+                            tvKhongCoVoucher.setVisibility(View.VISIBLE);
+                        }
+                    }
+                    Log.d(TAG, "Loaded " + vouchers.size() + " vouchers");
+                } else {
+                    Log.e(TAG, "Error loading vouchers: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Voucher>> call, Throwable t) {
+                Log.e(TAG, "Error loading vouchers: " + t.getMessage());
+            }
+        });
+    }
+
+    /**
+     * Thêm một voucher item vào container
+     */
+    private void addVoucherItem(Voucher voucher) {
+        if (containerVoucher == null || getContext() == null)
+            return;
+
+        // Tạo LinearLayout cho item
+        LinearLayout itemLayout = new LinearLayout(getContext());
+        itemLayout.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT));
+        itemLayout.setOrientation(LinearLayout.HORIZONTAL);
+        itemLayout.setBackgroundColor(0xFFF0F9FF); // Light blue
+        itemLayout.setPadding(32, 24, 32, 24);
+        itemLayout.setGravity(android.view.Gravity.CENTER_VERTICAL);
+
+        // Margin bottom
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) itemLayout.getLayoutParams();
+        params.bottomMargin = 16;
+        itemLayout.setLayoutParams(params);
+
+        // Icon
+        android.widget.ImageView icon = new android.widget.ImageView(getContext());
+        LinearLayout.LayoutParams iconParams = new LinearLayout.LayoutParams(64, 64);
+        icon.setLayoutParams(iconParams);
+        icon.setImageResource(R.drawable.ic_voucher);
+        icon.setColorFilter(0xFF2196F3); // Blue
+
+        // Text container
+        LinearLayout textContainer = new LinearLayout(getContext());
+        LinearLayout.LayoutParams textContainerParams = new LinearLayout.LayoutParams(
+                0, LinearLayout.LayoutParams.WRAP_CONTENT, 1);
+        textContainerParams.leftMargin = 24;
+        textContainer.setLayoutParams(textContainerParams);
+        textContainer.setOrientation(LinearLayout.VERTICAL);
+
+        // Loại voucher
+        TextView tvLoai = new TextView(getContext());
+        tvLoai.setText(voucher.getLoaiVoucher() != null ? voucher.getLoaiVoucher() : "Voucher");
+        tvLoai.setTextColor(0xFF000000);
+        tvLoai.setTextSize(14);
+        tvLoai.setTypeface(null, android.graphics.Typeface.BOLD);
+
+        // Hạn sử dụng
+        TextView tvHan = new TextView(getContext());
+        String hanSuDung = voucher.getHanSuDung();
+        if (hanSuDung != null && hanSuDung.contains("T")) {
+            // Format date
+            String[] parts = hanSuDung.split("T")[0].split("-");
+            if (parts.length == 3) {
+                hanSuDung = "HSD: " + parts[2] + "/" + parts[1] + "/" + parts[0];
+            }
+        } else {
+            hanSuDung = "HSD: " + (hanSuDung != null ? hanSuDung : "N/A");
+        }
+        tvHan.setText(hanSuDung);
+        tvHan.setTextColor(0xFF666666);
+        tvHan.setTextSize(12);
+
+        textContainer.addView(tvLoai);
+        textContainer.addView(tvHan);
+
+        itemLayout.addView(icon);
+        itemLayout.addView(textContainer);
+
+        containerVoucher.addView(itemLayout);
     }
 }

@@ -258,33 +258,29 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="E-Vouchers"
+                        android:text="E-Vouchers của bạn"
                         android:textStyle="bold"
                         android:textSize="14sp"
                         android:layout_marginTop="10dp"/>
 
+                    <!-- Container hiển thị danh sách voucher -->
+                    <LinearLayout
+                        android:id="@+id/containerVoucher"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginTop="8dp" />
+
+                    <!-- Hiển thị khi không có voucher -->
                     <TextView
+                        android:id="@+id/tvKhongCoVoucher"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Chưa có khuyến mãi để hiển thị"
+                        android:text="Chưa có voucher nào"
                         android:textColor="#888888"
                         android:textSize="13sp"
+                        android:visibility="gone"
                         android:layout_marginBottom="12dp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Khuyến mãi"
-                        android:textStyle="bold"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Chưa có khuyến mãi để hiển thị"
-                        android:textColor="#888888"
-                        android:textSize="13sp"
-                        android:layout_marginBottom="16dp" />
 
                     <Button
                         android:id="@+id/btnXemVoucher"
@@ -292,7 +288,8 @@
                         android:layout_height="50dp"
                         android:text="Xem tất cả các khuyến mãi"
                         android:backgroundTint="#000000"
-                        android:textColor="#FFFFFF" />
+                        android:textColor="#FFFFFF"
+                        android:layout_marginTop="12dp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 

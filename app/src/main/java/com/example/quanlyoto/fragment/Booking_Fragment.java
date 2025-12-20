@@ -75,18 +75,6 @@ public class Booking_Fragment extends Fragment {
                         .commit();
             });
         }
-
-        // CHATBOX → ChatFragment
-        View chatBtn = view.findViewById(R.id.btnChat);
-        if (chatBtn != null) {
-            chatBtn.setOnClickListener(v -> {
-                requireActivity().getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.fragment_container, new ChatBox())
-                        .addToBackStack(null)
-                        .commit();
-            });
-        }
         super.onViewCreated(view, savedInstanceState);
 
         setupBackButton(view);
