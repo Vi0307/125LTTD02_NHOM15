@@ -22,28 +22,38 @@ public class Homeparts extends Fragment {
 
         View view = inflater.inflate(R.layout.activity_homeparts_screen, container, false);
 
-        // --- GỌI API USER (Hardcoded ID = 1 demo) ---
+        // --- GỌI API USER ---
         android.widget.TextView tvUserName = view.findViewById(R.id.tvUserName);
-        com.example.quanlyoto.network.RetrofitClient.getApiService().getNguoiDungById(1)
-                .enqueue(new retrofit2.Callback<com.example.quanlyoto.model.NguoiDung>() {
-                    @Override
-                    public void onResponse(retrofit2.Call<com.example.quanlyoto.model.NguoiDung> call,
-                            retrofit2.Response<com.example.quanlyoto.model.NguoiDung> response) {
-                        if (response.isSuccessful() && response.body() != null) {
-                            String userName = response.body().getHoTen();
-                            if (tvUserName != null) {
-                                tvUserName.setText(userName);
-                            }
-                        } else {
-                            android.util.Log.e("API_USER", "Lỗi: " + response.code());
-                        }
-                    }
+        android.content.SharedPreferences prefs = requireActivity().getSharedPreferences("UserPrefs",
+                android.content.Context.MODE_PRIVATE);
+        int userId = prefs.getInt("userId", -1); // Default to -1
 
-                    @Override
-                    public void onFailure(retrofit2.Call<com.example.quanlyoto.model.NguoiDung> call, Throwable t) {
-                        android.util.Log.e("API_USER", "Thất bại: " + t.getMessage());
-                    }
-                });
+        if (userId != -1) {
+            com.example.quanlyoto.network.RetrofitClient.getApiService().getNguoiDungById(userId)
+                    .enqueue(new retrofit2.Callback<com.example.quanlyoto.model.NguoiDung>() {
+                        @Override
+                        public void onResponse(retrofit2.Call<com.example.quanlyoto.model.NguoiDung> call,
+                                retrofit2.Response<com.example.quanlyoto.model.NguoiDung> response) {
+                            if (response.isSuccessful() && response.body() != null) {
+                                String userName = response.body().getHoTen();
+                                if (tvUserName != null) {
+                                    tvUserName.setText(userName);
+                                }
+                            } else {
+                                android.util.Log.e("API_USER", "Lỗi: " + response.code());
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(retrofit2.Call<com.example.quanlyoto.model.NguoiDung> call, Throwable t) {
+                            android.util.Log.e("API_USER", "Thất bại: " + t.getMessage());
+                        }
+                    });
+        } else {
+            if (tvUserName != null) {
+                tvUserName.setText("Khách");
+            }
+        }
         // ------------------------
 
         // --- GỌI API DANH MỤC ---
