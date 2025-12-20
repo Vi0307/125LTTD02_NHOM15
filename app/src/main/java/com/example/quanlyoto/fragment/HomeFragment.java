@@ -32,8 +32,8 @@ public class HomeFragment extends Fragment {
 
     private static final String TAG = "HomeFragment";
 
-    // Demo user ID - thay đổi theo database của bạn
-    private static final int DEMO_USER_ID = 1;
+    // User ID từ SharedPreferences
+    private int currentUserId = -1;
 
     // ViewModel
     private DaiLyViewModel daiLyViewModel;
@@ -60,6 +60,11 @@ public class HomeFragment extends Fragment {
 
         // Khởi tạo Views
         initViews(view);
+
+        // Lấy userId từ SharedPreferences
+        android.content.SharedPreferences prefs = requireActivity().getSharedPreferences("UserPrefs",
+                android.content.Context.MODE_PRIVATE);
+        currentUserId = prefs.getInt("userId", -1);
 
         // Khởi tạo ViewModel và load dữ liệu đại lý
         setupViewModel();
@@ -260,12 +265,9 @@ public class HomeFragment extends Fragment {
      * Load thông tin người dùng từ API
      */
     private void loadUserInfo() {
-        android.content.SharedPreferences prefs = requireActivity().getSharedPreferences("UserPrefs",
-                android.content.Context.MODE_PRIVATE);
-        int userId = prefs.getInt("userId", -1);
 
-        if (userId != -1) {
-            RetrofitClient.getApiService().getNguoiDungById(userId).enqueue(new Callback<NguoiDung>() {
+        if (currentUserId != -1) {
+            RetrofitClient.getApiService().getNguoiDungById(currentUserId).enqueue(new Callback<NguoiDung>() {
                 @Override
                 public void onResponse(Call<NguoiDung> call, Response<NguoiDung> response) {
                     if (response.isSuccessful() && response.body() != null) {
@@ -289,7 +291,11 @@ public class HomeFragment extends Fragment {
      * Load thông tin xe của người dùng từ API
      */
     private void loadXeInfo() {
-        RetrofitClient.getApiService().getXeByNguoiDung(DEMO_USER_ID).enqueue(new Callback<ApiResponse<List<Xe>>>() {
+        if (currentUserId == -1) {
+            Log.w(TAG, "User chưa đăng nhập");
+            return;
+        }
+        RetrofitClient.getApiService().getXeByNguoiDung(currentUserId).enqueue(new Callback<ApiResponse<List<Xe>>>() {
             @Override
             public void onResponse(Call<ApiResponse<List<Xe>>> call, Response<ApiResponse<List<Xe>>> response) {
                 if (response.isSuccessful() && response.body() != null) {

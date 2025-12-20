@@ -400,54 +400,23 @@
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
+                    <!-- Container để thêm các nhắc nhở động từ API -->
                     <LinearLayout
+                        android:id="@+id/containerNhacNho"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:background="#FFF3F3"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:padding="12dp">
+                        android:orientation="vertical" />
 
-                        <ImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:src="@android:drawable/ic_menu_info_details"
-                            app:tint="#D32F2F" />
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="12dp"
-                            android:layout_weight="1"
-                            android:text="Thay nhớt"
-                            android:textColor="#D32F2F"
-                            android:textSize="15sp" />
-                    </LinearLayout>
-
-                    <LinearLayout
+                    <!-- Hiển thị khi không có nhắc nhở -->
+                    <TextView
+                        android:id="@+id/tvKhongCoNhacNho"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="#FFF3F3"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:padding="12dp">
-
-                        <ImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:src="@android:drawable/ic_menu_info_details"
-                            app:tint="#D32F2F" />
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="12dp"
-                            android:layout_weight="1"
-                            android:text="Dầu phanh"
-                            android:textColor="#D32F2F"
-                            android:textSize="15sp" />
-                    </LinearLayout>
+                        android:text="Không có nhắc nhở nào"
+                        android:textColor="#888888"
+                        android:textSize="14sp"
+                        android:gravity="center"
+                        android:visibility="gone" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -502,95 +471,23 @@
                         android:visibility="gone"
                         android:paddingTop="8dp">
 
-                        <!-- ITEM 1 -->
+                        <!-- Container để thêm các lịch sử động từ API -->
                         <LinearLayout
+                            android:id="@+id/containerLichSu"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:padding="12dp"
-                            android:background="#F8F8F8"
-                            android:layout_marginBottom="10dp">
+                            android:orientation="vertical" />
 
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:gravity="center_vertical">
-
-                                <ImageView
-                                    android:layout_width="28dp"
-                                    android:layout_height="28dp"
-                                    android:src="@drawable/ic_build"
-                                    app:tint="#000000" />
-
-                                <LinearLayout
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="vertical"
-                                    android:layout_marginStart="12dp">
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="Đại lý Trường Phát 1"
-                                        android:textColor="#000000"
-                                        android:textSize="16sp"
-                                        android:textStyle="bold"/>
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="Ngày bảo dưỡng: 12/08/2024"
-                                        android:textColor="#6B7280"
-                                        android:textSize="14sp"/>
-                                </LinearLayout>
-                            </LinearLayout>
-                        </LinearLayout>
-
-                        <!-- ITEM 2 -->
-                        <LinearLayout
+                        <!-- Hiển thị khi không có lịch sử -->
+                        <TextView
+                            android:id="@+id/tvKhongCoLichSu"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:padding="12dp"
-                            android:background="#F8F8F8"
-                            android:layout_marginBottom="10dp">
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:gravity="center_vertical">
-
-                                <ImageView
-                                    android:layout_width="28dp"
-                                    android:layout_height="28dp"
-                                    android:src="@drawable/ic_build"
-                                    app:tint="#000000" />
-
-                                <LinearLayout
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="vertical"
-                                    android:layout_marginStart="12dp">
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="Đại lý Trường Phát 2"
-                                        android:textColor="#000000"
-                                        android:textSize="16sp"
-                                        android:textStyle="bold"/>
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="Ngày bảo dưỡng: 10/03/2024"
-                                        android:textColor="#6B7280"
-                                        android:textSize="14sp"/>
-                                </LinearLayout>
-                            </LinearLayout>
-                        </LinearLayout>
+                            android:text="Chưa có lịch sử bảo dưỡng"
+                            android:textColor="#888888"
+                            android:textSize="14sp"
+                            android:gravity="center"
+                            android:visibility="gone" />
 
                         <!-- NÚT XEM CHI TIẾT CUỐI DANH SÁCH ITEM -->
                         <Button
@@ -612,17 +509,4 @@
                 android:layout_height="120dp" />
         </LinearLayout>
     </ScrollView>
-    <!-- CHATBOX FLOATING BUTTON NỔI -->
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btnChat"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-        android:layout_gravity="bottom|end"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="80dp"
-        android:src="@drawable/ic_chat_box"
-        app:backgroundTint="#FFFFFF"
-        app:tint="#C50E0E"
-        app:elevation="8dp"
-        android:contentDescription="Mở chat hỗ trợ"/>
 </FrameLayout>

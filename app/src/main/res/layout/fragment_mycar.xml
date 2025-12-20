@@ -301,21 +301,4 @@
 
         </LinearLayout>
     </LinearLayout>
-
-
-    <!-- FAB CHATBOX -->
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btnChat"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-        android:layout_gravity="bottom|end"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="80dp"
-        app:fabSize="normal"
-        android:src="@drawable/ic_chat_box"
-        android:contentDescription="chatbox button"
-        app:backgroundTint="#FFFFFF"
-        app:tint="#C50E0E"
-        app:elevation="8dp" />
-
 </FrameLayout>
