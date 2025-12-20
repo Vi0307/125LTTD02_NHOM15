@@ -145,9 +145,14 @@ public class Drivetrainparts extends Fragment {
                     resId = getResources().getIdentifier(cleanName, "drawable", getContext().getPackageName());
                 }
 
-                // 3. Manual mapping (can be expanded)
+                // 3. Manual mapping
                 if (resId == 0) {
-                    // Add manual mappings for drivetrain parts if discovered later
+                    switch (imageName) {
+                        case "giam_xoc_sau":
+                            resId = getResources().getIdentifier("giamxocsauxe", "drawable",
+                                    getContext().getPackageName());
+                            break;
+                    }
                 }
 
                 if (resId != 0) {
@@ -160,11 +165,12 @@ public class Drivetrainparts extends Fragment {
                 img.setImageResource(R.drawable.giamxocsauxe);
             }
 
-            // Click Item -> Details
             itemView.setOnClickListener(v -> {
                 Details detailsFragment = new Details();
                 Bundle args = new Bundle();
-                // Pass data if Details fragment supports it
+                args.putSerializable("phutung_item", item);
+                detailsFragment.setArguments(args);
+
                 requireActivity().getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.fragment_container, detailsFragment)

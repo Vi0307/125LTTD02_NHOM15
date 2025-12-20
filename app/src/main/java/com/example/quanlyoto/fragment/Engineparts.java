@@ -145,10 +145,12 @@ public class Engineparts extends Fragment {
                     resId = getResources().getIdentifier(cleanName, "drawable", getContext().getPackageName());
                 }
 
-                // 3. Manual mapping (keeping for safety, can be expanded for DM04 items if
-                // needed)
+                // 3. Manual mapping
                 if (resId == 0) {
-                    // Add manual mappings for engine parts if discovered later
+                    if (imageName.equals("dongcobnbon")) {
+                        resId = getResources().getIdentifier("dongcobomnuocdft", "drawable",
+                                getContext().getPackageName());
+                    }
                 }
 
                 if (resId != 0) {
@@ -162,13 +164,12 @@ public class Engineparts extends Fragment {
                 img.setImageResource(R.drawable.dongcobnba);
             }
 
-            // Click Item -> Details
             itemView.setOnClickListener(v -> {
                 Details detailsFragment = new Details();
                 Bundle args = new Bundle();
-                // Pass data if Details fragment supports it (e.g., args.putString("ID",
-                // item.getMaPhuTung()))
-                // For now, keeping navigation as is
+                args.putSerializable("phutung_item", item);
+                detailsFragment.setArguments(args);
+
                 requireActivity().getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.fragment_container, detailsFragment)

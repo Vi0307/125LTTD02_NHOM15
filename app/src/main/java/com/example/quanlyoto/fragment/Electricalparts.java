@@ -145,9 +145,17 @@ public class Electricalparts extends Fragment {
                     resId = getResources().getIdentifier(cleanName, "drawable", getContext().getPackageName());
                 }
 
-                // 3. Manual mapping (can be expanded)
+                // 3. Manual mapping
                 if (resId == 0) {
-                    // Add manual mappings for electrical parts if discovered later
+                    switch (imageName) {
+                        case "giamxoctruc": // Check key
+                            resId = getResources().getIdentifier("giamxoctruoc", "drawable",
+                                    getContext().getPackageName());
+                            break;
+                        case "thuoc_lai_mercedes": // Check key
+                            resId = getResources().getIdentifier("thuoclai", "drawable", getContext().getPackageName());
+                            break;
+                    }
                 }
 
                 if (resId != 0) {
@@ -160,11 +168,12 @@ public class Electricalparts extends Fragment {
                 img.setImageResource(R.drawable.daudvdxe);
             }
 
-            // Click Item -> Details
             itemView.setOnClickListener(v -> {
                 Details detailsFragment = new Details();
                 Bundle args = new Bundle();
-                // Pass data if needed
+                args.putSerializable("phutung_item", item);
+                detailsFragment.setArguments(args);
+
                 requireActivity().getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.fragment_container, detailsFragment)
