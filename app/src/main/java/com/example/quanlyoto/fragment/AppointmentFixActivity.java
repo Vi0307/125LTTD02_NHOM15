@@ -13,7 +13,6 @@ import android.widget.TextView;
 import com.example.quanlyoto.fragment.AppointmentPeriodActivity;
 import com.example.quanlyoto.fragment.AppointmentDesActivity;
 
-
 import com.example.quanlyoto.R;
 
 public class AppointmentFixActivity extends Fragment {
@@ -23,7 +22,7 @@ public class AppointmentFixActivity extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+            Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_appointment_fix, container, false);
 
         // Khởi tạo CardViews
@@ -63,6 +62,7 @@ public class AppointmentFixActivity extends Fragment {
             if (!selectedService.isEmpty()) {
 
                 Fragment nextFragment;
+                Bundle args = new Bundle();
 
                 if (selectedService.equals("baoDuong")) {
                     nextFragment = new AppointmentPeriodActivity(); // → chuyển đến lịch theo kỳ
@@ -70,13 +70,23 @@ public class AppointmentFixActivity extends Fragment {
                     nextFragment = new AppointmentDesActivity(); // → chuyển đến mô tả sửa chữa
                 }
 
+                if (getArguments() != null) {
+                    args.putString("selectedDate", getArguments().getString("selectedDate"));
+                    args.putString("selectedTime", getArguments().getString("selectedTime"));
+
+                    // Pass agency_id
+                    int agencyId = getArguments().getInt("agency_id", -1);
+                    args.putInt("agency_id", agencyId);
+                }
+                args.putString("serviceType", selectedService.equals("baoDuong") ? "Bảo dưỡng" : "Sửa chữa");
+                nextFragment.setArguments(args);
+
                 getParentFragmentManager().beginTransaction()
                         .replace(R.id.fragment_container, nextFragment)
                         .addToBackStack(null)
                         .commit();
             }
         });
-
 
         return view;
     }

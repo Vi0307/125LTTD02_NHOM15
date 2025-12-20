@@ -15,7 +15,7 @@ public class AppointmentPeriodActivity extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+            Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_appointment_period, container, false);
 
         // Nút back
@@ -28,8 +28,22 @@ public class AppointmentPeriodActivity extends Fragment {
         // Nút tiếp → chuyển sang fragment check
         Button btnNext = view.findViewById(R.id.button);
         btnNext.setOnClickListener(v -> {
+            AppointmentCheckActivity nextFragment = new AppointmentCheckActivity();
+            Bundle args = new Bundle();
+            if (getArguments() != null) {
+                args.putString("selectedDate", getArguments().getString("selectedDate"));
+                args.putString("selectedTime", getArguments().getString("selectedTime"));
+                args.putString("serviceType", getArguments().getString("serviceType"));
+                args.putInt("agency_id", getArguments().getInt("agency_id", -1));
+            }
+            // For now, hardcode or grab value. Ideally find the selected radio button.
+            // Since there is only one in the current xml shown:
+            args.putString("serviceDetail", "KTDK lần 5");
+
+            nextFragment.setArguments(args);
+
             getParentFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, new AppointmentCheckActivity())
+                    .replace(R.id.fragment_container, nextFragment)
                     .addToBackStack(null) // để back được
                     .commit();
         });

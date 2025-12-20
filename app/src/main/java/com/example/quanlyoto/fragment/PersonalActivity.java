@@ -95,6 +95,17 @@ public class PersonalActivity extends Fragment {
                     .commit();
         });
 
+        // Dịch vụ của tôi
+        View itemService = view.findViewById(R.id.item_service);
+        if (itemService != null) {
+            itemService.setOnClickListener(v -> {
+                getParentFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, new AppointmentSee_Fragment())
+                        .addToBackStack(null)
+                        .commit();
+            });
+        }
+
         // Nút Đăng xuất - Hiện dialog
         btnLogout.setOnClickListener(v -> logoutOverlay.setVisibility(View.VISIBLE));
 

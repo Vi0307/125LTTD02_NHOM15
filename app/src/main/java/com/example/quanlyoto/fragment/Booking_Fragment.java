@@ -1,6 +1,5 @@
 package com.example.quanlyoto.fragment;
 
-
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,15 +23,26 @@ public class Booking_Fragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
-                             @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
+            @Nullable ViewGroup container,
+            @Nullable Bundle savedInstanceState) {
 
         return inflater.inflate(R.layout.activity_booking, container, false);
     }
 
+    private String selectedDate = "";
+    private String selectedTime = "";
+
     @Override
     public void onViewCreated(@NonNull View view,
-                              @Nullable Bundle savedInstanceState) {
+            @Nullable Bundle savedInstanceState) {
+
+        // Initialize Default Date
+        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault());
+        selectedDate = sdf.format(new java.util.Date());
+
+        setCalendarView(view);
+        setupTimeButtons(view);
+
         // BOTTOM NAV — HOME
         view.findViewById(R.id.navHome).setOnClickListener(v -> {
             requireActivity().getSupportFragmentManager()
@@ -49,9 +59,23 @@ public class Booking_Fragment extends Fragment {
                     .commit();
         });
         view.findViewById(R.id.btnNext).setOnClickListener(v -> {
+            AppointmentFixActivity nextFragment = new AppointmentFixActivity();
+            Bundle args = new Bundle();
+            args.putString("selectedDate", selectedDate);
+            args.putString("selectedTime", selectedTime);
+
+            // Pass agency_id if available
+            int agencyId = -1;
+            if (getArguments() != null) {
+                agencyId = getArguments().getInt("agency_id", -1);
+            }
+            args.putInt("agency_id", agencyId);
+
+            nextFragment.setArguments(args);
+
             requireActivity().getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.fragment_container, new AppointmentFixActivity())
+                    .replace(R.id.fragment_container, nextFragment)
                     .addToBackStack(null)
                     .commit();
         });
@@ -84,10 +108,9 @@ public class Booking_Fragment extends Fragment {
         ImageView btnBack = view.findViewById(R.id.btnBack_agency_detail);
         TextView txtCancel = view.findViewById(R.id.txtCancel);
 
-        View.OnClickListener goBackListener = v ->
-                requireActivity()
-                        .getSupportFragmentManager()
-                        .popBackStack();
+        View.OnClickListener goBackListener = v -> requireActivity()
+                .getSupportFragmentManager()
+                .popBackStack();
 
         if (btnBack != null) {
             btnBack.setOnClickListener(goBackListener);
@@ -100,7 +123,27 @@ public class Booking_Fragment extends Fragment {
 
     private void setCalendarView(View view) {
         CalendarView calendarView = view.findViewById(R.id.calendarView);
-        calendarView.setMinDate(System.currentTimeMillis());   
+        calendarView.setMinDate(System.currentTimeMillis());
+        calendarView.setOnDateChangeListener((view1, year, month, dayOfMonth) -> {
+            java.util.Calendar calendar = java.util.Calendar.getInstance();
+            calendar.set(year, month, dayOfMonth);
+            java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd",
+                    java.util.Locale.getDefault());
+            selectedDate = sdf.format(calendar.getTime());
+        });
+    }
+
+    private void setupTimeButtons(View view) {
+        android.widget.GridLayout gridTime = view.findViewById(R.id.gridTime);
+        for (int i = 0; i < gridTime.getChildCount(); i++) {
+            View child = gridTime.getChildAt(i);
+            if (child instanceof android.widget.Button) {
+                child.setOnClickListener(v -> {
+                    selectedTime = ((android.widget.Button) v).getText().toString();
+                    // Visual feedback could be added here
+                });
+            }
+        }
     }
 
 }
