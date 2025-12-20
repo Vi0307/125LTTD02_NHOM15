@@ -1,6 +1,8 @@
 package com.example.quanlyoto.fragment;
 
 import android.os.Bundle;
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -12,16 +14,32 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.quanlyoto.Maintenance_Record;
 import com.example.quanlyoto.R;
+import com.example.quanlyoto.model.ApiResponse;
+import com.example.quanlyoto.model.DaiLy;
+import com.example.quanlyoto.model.LichSuBaoDuong;
+import com.example.quanlyoto.network.RetrofitClient;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class Maintenance_History_Fragment extends Fragment {
 
+    private static final String TAG = "MaintenanceHistory";
+    
     private RecyclerView recyclerView;
-    private List<Maintenance_Record> recordList;
+    private MaintenanceHistoryAdapter adapter;
+    private List<MaintenanceRecord> recordList;
+    private int currentUserId = -1;
+    
+    // Cache tên đại lý
+    private Map<Integer, String> daiLyCache = new HashMap<>();
 
     public Maintenance_History_Fragment() {
         // Required empty public constructor
@@ -33,19 +51,21 @@ public class Maintenance_History_Fragment extends Fragment {
 
         View view = inflater.inflate(R.layout.activity_maintenance_history, container, false);
 
+        // Lấy userId từ SharedPreferences
+        android.content.SharedPreferences prefs = requireActivity().getSharedPreferences("UserPrefs",
+                android.content.Context.MODE_PRIVATE);
+        currentUserId = prefs.getInt("userId", -1);
+
         recyclerView = view.findViewById(R.id.recyclerViewHistory);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        // Tạo dữ liệu mẫu
+        // Khởi tạo list và adapter
         recordList = new ArrayList<>();
-        recordList.add(new Maintenance_Record("TƯỜNG PHÁT 1", "02/09/2025", "6,256"));
-        recordList.add(new Maintenance_Record("TƯỜNG PHÁT 1", "16/02/2025", "3,986"));
-        recordList.add(new Maintenance_Record("TƯỜNG PHÁT 1", "07/09/2024", "2,504"));
-        recordList.add(new Maintenance_Record("THẢO ÁI", "30/09/2023", "307"));
-
-        // Gắn adapter
-        MaintenanceHistoryAdapter adapter = new MaintenanceHistoryAdapter(recordList, this);
+        adapter = new MaintenanceHistoryAdapter(recordList, this);
         recyclerView.setAdapter(adapter);
+
+        // Load dữ liệu từ API
+        loadLichSuBaoDuong();
 
         // BOTTOM NAV — HOME
         view.findViewById(R.id.navHome).setOnClickListener(v -> {
@@ -90,14 +110,131 @@ public class Maintenance_History_Fragment extends Fragment {
 
         return view;
     }
+    
+    /**
+     * Load lịch sử bảo dưỡng từ API
+     */
+    private void loadLichSuBaoDuong() {
+        if (currentUserId == -1) {
+            Log.w(TAG, "User chưa đăng nhập");
+            return;
+        }
+        
+        RetrofitClient.getApiService().getLichSuBaoDuongByNguoiDung(currentUserId)
+                .enqueue(new Callback<ApiResponse<List<LichSuBaoDuong>>>() {
+                    @Override
+                    public void onResponse(Call<ApiResponse<List<LichSuBaoDuong>>> call,
+                            Response<ApiResponse<List<LichSuBaoDuong>>> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            ApiResponse<List<LichSuBaoDuong>> apiResponse = response.body();
+                            if (apiResponse.isSuccess() && apiResponse.getData() != null) {
+                                List<LichSuBaoDuong> danhSachLichSu = apiResponse.getData();
+                                
+                                for (LichSuBaoDuong ls : danhSachLichSu) {
+                                    loadDaiLyAndAddRecord(ls);
+                                }
+                                
+                                Log.d(TAG, "Loaded " + danhSachLichSu.size() + " lịch sử bảo dưỡng");
+                            }
+                        } else {
+                            Log.e(TAG, "Error loading lich su: " + response.code());
+                        }
+                    }
 
-    //================= ADAPTER ĐƯỢC GỘP TRONG FRAGMENT =================//
+                    @Override
+                    public void onFailure(Call<ApiResponse<List<LichSuBaoDuong>>> call, Throwable t) {
+                        Log.e(TAG, "Error loading lich su: " + t.getMessage());
+                    }
+                });
+    }
+    
+    /**
+     * Load tên đại lý và thêm record vào list
+     */
+    private void loadDaiLyAndAddRecord(LichSuBaoDuong lichSu) {
+        Integer maDaiLy = lichSu.getMaDaiLy();
+        
+        if (daiLyCache.containsKey(maDaiLy)) {
+            addRecordToList(daiLyCache.get(maDaiLy), lichSu);
+            return;
+        }
+        
+        RetrofitClient.getApiService().getDaiLyById(maDaiLy).enqueue(new Callback<ApiResponse<DaiLy>>() {
+            @Override
+            public void onResponse(Call<ApiResponse<DaiLy>> call, Response<ApiResponse<DaiLy>> response) {
+                String tenDaiLy = "Đại lý #" + maDaiLy;
+                if (response.isSuccessful() && response.body() != null) {
+                    ApiResponse<DaiLy> apiResponse = response.body();
+                    if (apiResponse.isSuccess() && apiResponse.getData() != null) {
+                        tenDaiLy = apiResponse.getData().getTenDaiLy();
+                        daiLyCache.put(maDaiLy, tenDaiLy);
+                    }
+                }
+                addRecordToList(tenDaiLy, lichSu);
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse<DaiLy>> call, Throwable t) {
+                addRecordToList("Đại lý #" + maDaiLy, lichSu);
+            }
+        });
+    }
+    
+    /**
+     * Thêm record vào list và notify adapter
+     */
+    private void addRecordToList(String tenDaiLy, LichSuBaoDuong lichSu) {
+        String ngayFormatted = formatNgay(lichSu.getNgayThucHien());
+        MaintenanceRecord record = new MaintenanceRecord(tenDaiLy, ngayFormatted, "N/A", lichSu.getMaLSBD());
+        recordList.add(record);
+        adapter.notifyItemInserted(recordList.size() - 1);
+    }
+    
+    /**
+     * Format ngày từ ISO string sang dd/MM/yyyy
+     */
+    private String formatNgay(String isoDate) {
+        if (isoDate == null) return "N/A";
+        try {
+            if (isoDate.contains("T")) {
+                String[] parts = isoDate.split("T")[0].split("-");
+                if (parts.length == 3) {
+                    return parts[2] + "/" + parts[1] + "/" + parts[0];
+                }
+            }
+            return isoDate;
+        } catch (Exception e) {
+            return isoDate;
+        }
+    }
+
+    //================= MODEL CHO ADAPTER =================//
+    public static class MaintenanceRecord {
+        private String dealer;
+        private String date;
+        private String km;
+        private Integer maLSBD;
+
+        public MaintenanceRecord(String dealer, String date, String km, Integer maLSBD) {
+            this.dealer = dealer;
+            this.date = date;
+            this.km = km;
+            this.maLSBD = maLSBD;
+        }
+
+        public String getDealer() { return dealer; }
+        public String getDate() { return date; }
+        public String getKm() { return km; }
+        public Integer getMaLSBD() { return maLSBD; }
+    }
+
+    //================= ADAPTER =================//
     public static class MaintenanceHistoryAdapter extends RecyclerView.Adapter<MaintenanceHistoryAdapter.ViewHolder> {
 
-        private List<Maintenance_Record> recordList;
+        private List<MaintenanceRecord> recordList;
         private Fragment fragment;
 
-        public MaintenanceHistoryAdapter(List<Maintenance_Record> recordList, Fragment fragment) {
+        public MaintenanceHistoryAdapter(List<MaintenanceRecord> recordList, Fragment fragment) {
             this.recordList = recordList;
             this.fragment = fragment;
         }
@@ -112,21 +249,22 @@ public class Maintenance_History_Fragment extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-            Maintenance_Record record = recordList.get(position);
+            MaintenanceRecord record = recordList.get(position);
 
             holder.tvDealer.setText("Đại lý: " + record.getDealer());
             holder.tvDate.setText(record.getDate());
             holder.tvKm.setText(record.getKm());
 
-            // Xử lý chuyển qua fragment chi tiết
             holder.arrow.setOnClickListener(v -> {
-
                 Maintenance_Detail_Fragment detailFragment = new Maintenance_Detail_Fragment();
 
                 Bundle bundle = new Bundle();
                 bundle.putString("dealer", record.getDealer());
                 bundle.putString("date", record.getDate());
                 bundle.putString("km", record.getKm());
+                if (record.getMaLSBD() != null) {
+                    bundle.putInt("maLSBD", record.getMaLSBD());
+                }
                 detailFragment.setArguments(bundle);
 
                 fragment.getParentFragmentManager()
@@ -156,4 +294,3 @@ public class Maintenance_History_Fragment extends Fragment {
         }
     }
 }
-
