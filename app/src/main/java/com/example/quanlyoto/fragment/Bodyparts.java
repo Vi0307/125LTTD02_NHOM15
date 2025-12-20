@@ -236,9 +236,14 @@ public class Bodyparts extends Fragment {
             }
 
             itemView.setOnClickListener(v -> {
+                Details detailsFragment = new Details();
+                Bundle args = new Bundle();
+                args.putSerializable("phutung_item", item);
+                detailsFragment.setArguments(args);
+
                 requireActivity().getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.fragment_container, new Details())
+                        .replace(R.id.fragment_container, detailsFragment)
                         .addToBackStack(null)
                         .commit();
             });
