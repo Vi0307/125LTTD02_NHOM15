@@ -3,16 +3,20 @@ package com.example.quanlyoto.network;
 import com.example.quanlyoto.model.ApiResponse;
 import com.example.quanlyoto.model.DaiLy;
 import com.example.quanlyoto.model.DiaChi;
+import com.example.quanlyoto.model.DmPhuTung;
+import com.example.quanlyoto.model.LoaiXe;
 import com.example.quanlyoto.model.NguoiDung;
 import com.example.quanlyoto.model.PhuongThucVanChuyen;
+import com.example.quanlyoto.model.RewardRequest;
 import com.example.quanlyoto.model.Voucher;
-import com.example.quanlyoto.model.LoaiXe;
 import com.example.quanlyoto.model.Xe;
 
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 /**
@@ -29,7 +33,7 @@ public interface ApiService {
 
     // ==================== DANH MỤC PHỤ TÙNG ====================
     @GET("api/danhmuc-phutung")
-    Call<List<com.example.quanlyoto.model.DmPhuTung>> getAllDanhMuc();
+    Call<List<DmPhuTung>> getAllDanhMuc();
 
     // ==================== NGƯỜI DÙNG ====================
     @GET("api/nguoidung/{id}")
@@ -37,13 +41,13 @@ public interface ApiService {
 
     // ==================== VOUCHER ====================
     @GET("api/voucher/{maND}")
-
-    Call<List<com.example.quanlyoto.model.Voucher>> getVoucherByUser(@Path("maND") Integer maND);
-
     Call<List<Voucher>> getVoucherByUser(@Path("maND") Integer maND);
 
     @GET("api/voucher")
     Call<List<Voucher>> getAllVouchers();
+
+    @POST("api/voucher/reward")
+    Call<String> rewardVoucher(@Body RewardRequest request);
 
     // ==================== ĐỊA CHỈ ====================
     @GET("api/address/{maND}")
@@ -55,13 +59,6 @@ public interface ApiService {
     // ==================== PHƯƠNG THỨC VẬN CHUYỂN ====================
     @GET("api/shipping")
     Call<List<PhuongThucVanChuyen>> getAllShipping();
-
-    // ==================== VOUCHER ====================
-    @GET("api/voucher/{maND}")
-    Call<List<Voucher>> getVoucherByUser(@Path("maND") Integer maND);
-
-    @GET("api/voucher")
-    Call<List<Voucher>> getAllVouchers();
 
     // ==================== XE ====================
     @GET("api/xe/nguoidung/{maND}")
@@ -75,8 +72,3 @@ public interface ApiService {
     Call<LoaiXe> getLoaiXeById(@Path("id") String id);
 
 }
-
-    @retrofit2.http.POST("api/voucher/reward")
-    Call<String> rewardVoucher(@retrofit2.http.Body com.example.quanlyoto.model.RewardRequest request);
-}
-
