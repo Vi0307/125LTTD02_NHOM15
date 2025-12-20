@@ -48,6 +48,32 @@ public class Homeparts extends Fragment {
                 });
         // ------------------------
 
+        // --- GỌI API LOẠI XE & SETUP RECYCLER VIEW ---
+        androidx.recyclerview.widget.RecyclerView rvLoaiXe = view.findViewById(R.id.rvLoaiXe);
+        rvLoaiXe.setLayoutManager(new androidx.recyclerview.widget.GridLayoutManager(getContext(), 2));
+
+        com.example.quanlyoto.network.RetrofitClient.getApiService().getAllLoaiXe()
+                .enqueue(new retrofit2.Callback<java.util.List<com.example.quanlyoto.model.LoaiXe>>() {
+                    @Override
+                    public void onResponse(retrofit2.Call<java.util.List<com.example.quanlyoto.model.LoaiXe>> call,
+                            retrofit2.Response<java.util.List<com.example.quanlyoto.model.LoaiXe>> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            com.example.quanlyoto.adapter.LoaiXeAdapter adapter = new com.example.quanlyoto.adapter.LoaiXeAdapter(
+                                    response.body());
+                            rvLoaiXe.setAdapter(adapter);
+                        } else {
+                            android.util.Log.e("API_LOAIXE", "Lỗi: " + response.code());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(retrofit2.Call<java.util.List<com.example.quanlyoto.model.LoaiXe>> call,
+                            Throwable t) {
+                        android.util.Log.e("API_LOAIXE", "Thất bại: " + t.getMessage());
+                    }
+                });
+        // ------------------------
+
         // ⭐ Icon giỏ hàng — mở trang Cart
         View imgCart = view.findViewById(R.id.imgCart);
         if (imgCart != null) {
@@ -147,20 +173,6 @@ public class Homeparts extends Fragment {
                 requireActivity().getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.fragment_container, new Agency_Fragment())
-                        .addToBackStack(null)
-                        .commit();
-            });
-        }
-
-        // ======================================================
-        // FAB CHAT — MỞ TRANG CHAT
-        // ======================================================
-        View btnChat = view.findViewById(R.id.fabChatbox);
-        if (btnChat != null) {
-            btnChat.setOnClickListener(v -> {
-                requireActivity().getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.fragment_container, new ChatBox())
                         .addToBackStack(null)
                         .commit();
             });
