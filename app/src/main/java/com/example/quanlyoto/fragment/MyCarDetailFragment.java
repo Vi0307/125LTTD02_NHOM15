@@ -20,12 +20,16 @@ import androidx.fragment.app.Fragment;
 import com.example.quanlyoto.R;
 import com.example.quanlyoto.model.ApiResponse;
 import com.example.quanlyoto.model.BaoDuong;
+import com.example.quanlyoto.model.DaiLy;
+import com.example.quanlyoto.model.LichSuBaoDuong;
 import com.example.quanlyoto.model.LoaiXe;
 import com.example.quanlyoto.model.NguoiDung;
 import com.example.quanlyoto.model.Xe;
 import com.example.quanlyoto.network.RetrofitClient;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -54,6 +58,13 @@ public class MyCarDetailFragment extends Fragment {
     private LinearLayout containerNhacNho;
     private TextView tvKhongCoNhacNho;
 
+    // Views cho lịch sử bảo dưỡng
+    private LinearLayout containerLichSu;
+    private TextView tvKhongCoLichSu;
+
+    // Cache tên đại lý
+    private Map<Integer, String> daiLyCache = new HashMap<>();
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -73,6 +84,9 @@ public class MyCarDetailFragment extends Fragment {
 
         // Load nhắc nhở bảo dưỡng
         loadNhacNhoBaoDuong();
+
+        // Load lịch sử bảo dưỡng
+        loadLichSuBaoDuong();
 
         // ScrollView
         scrollView = view.findViewById(R.id.scrollView);
@@ -170,6 +184,10 @@ public class MyCarDetailFragment extends Fragment {
         // Views cho nhắc nhở
         containerNhacNho = view.findViewById(R.id.containerNhacNho);
         tvKhongCoNhacNho = view.findViewById(R.id.tvKhongCoNhacNho);
+
+        // Views cho lịch sử
+        containerLichSu = view.findViewById(R.id.containerLichSu);
+        tvKhongCoLichSu = view.findViewById(R.id.tvKhongCoLichSu);
     }
 
     /**
@@ -240,6 +258,179 @@ public class MyCarDetailFragment extends Fragment {
                         Log.e(TAG, "Error loading bao duong: " + t.getMessage());
                     }
                 });
+    }
+
+    /**
+     * Load lịch sử bảo dưỡng từ API
+     */
+    private void loadLichSuBaoDuong() {
+        RetrofitClient.getApiService().getLichSuBaoDuongByNguoiDung(DEMO_USER_ID)
+                .enqueue(new Callback<ApiResponse<List<LichSuBaoDuong>>>() {
+                    @Override
+                    public void onResponse(Call<ApiResponse<List<LichSuBaoDuong>>> call,
+                            Response<ApiResponse<List<LichSuBaoDuong>>> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            ApiResponse<List<LichSuBaoDuong>> apiResponse = response.body();
+                            if (apiResponse.isSuccess() && apiResponse.getData() != null) {
+                                List<LichSuBaoDuong> danhSachLichSu = apiResponse.getData();
+
+                                if (danhSachLichSu.isEmpty()) {
+                                    if (tvKhongCoLichSu != null) {
+                                        tvKhongCoLichSu.setVisibility(View.VISIBLE);
+                                    }
+                                } else {
+                                    for (LichSuBaoDuong ls : danhSachLichSu) {
+                                        // Load tên đại lý và thêm item
+                                        loadDaiLyAndAddHistoryItem(ls);
+                                    }
+                                }
+
+                                Log.d(TAG, "Loaded " + danhSachLichSu.size() + " lịch sử bảo dưỡng");
+                            }
+                        } else {
+                            Log.e(TAG, "Error loading lich su: " + response.code());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ApiResponse<List<LichSuBaoDuong>>> call, Throwable t) {
+                        Log.e(TAG, "Error loading lich su: " + t.getMessage());
+                    }
+                });
+    }
+
+    /**
+     * Load tên đại lý và thêm item lịch sử
+     */
+    private void loadDaiLyAndAddHistoryItem(LichSuBaoDuong lichSu) {
+        Integer maDaiLy = lichSu.getMaDaiLy();
+
+        // Kiểm tra cache
+        if (daiLyCache.containsKey(maDaiLy)) {
+            addLichSuItem(daiLyCache.get(maDaiLy), lichSu.getNgayThucHien());
+            return;
+        }
+
+        // Gọi API lấy tên đại lý
+        RetrofitClient.getApiService().getDaiLyById(maDaiLy).enqueue(new Callback<ApiResponse<DaiLy>>() {
+            @Override
+            public void onResponse(Call<ApiResponse<DaiLy>> call, Response<ApiResponse<DaiLy>> response) {
+                String tenDaiLy = "Đại lý #" + maDaiLy;
+                if (response.isSuccessful() && response.body() != null) {
+                    ApiResponse<DaiLy> apiResponse = response.body();
+                    if (apiResponse.isSuccess() && apiResponse.getData() != null) {
+                        tenDaiLy = apiResponse.getData().getTenDaiLy();
+                        daiLyCache.put(maDaiLy, tenDaiLy);
+                    }
+                }
+                addLichSuItem(tenDaiLy, lichSu.getNgayThucHien());
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse<DaiLy>> call, Throwable t) {
+                addLichSuItem("Đại lý #" + maDaiLy, lichSu.getNgayThucHien());
+            }
+        });
+    }
+
+    /**
+     * Thêm một item lịch sử vào container
+     */
+    private void addLichSuItem(String tenDaiLy, String ngayThucHien) {
+        if (containerLichSu == null || getContext() == null)
+            return;
+
+        // Tạo LinearLayout cho item (outer)
+        LinearLayout itemLayout = new LinearLayout(getContext());
+        itemLayout.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT));
+        itemLayout.setOrientation(LinearLayout.VERTICAL);
+        itemLayout.setBackgroundColor(0xFFF8F8F8); // #F8F8F8
+        itemLayout.setPadding(36, 36, 36, 36);
+
+        // Margin bottom
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) itemLayout.getLayoutParams();
+        params.bottomMargin = 30;
+        itemLayout.setLayoutParams(params);
+
+        // Inner horizontal layout
+        LinearLayout innerLayout = new LinearLayout(getContext());
+        innerLayout.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT));
+        innerLayout.setOrientation(LinearLayout.HORIZONTAL);
+        innerLayout.setGravity(android.view.Gravity.CENTER_VERTICAL);
+
+        // ImageView (icon)
+        ImageView icon = new ImageView(getContext());
+        LinearLayout.LayoutParams iconParams = new LinearLayout.LayoutParams(84, 84);
+        icon.setLayoutParams(iconParams);
+        icon.setImageResource(R.drawable.ic_build);
+        icon.setColorFilter(0xFF000000); // Black
+
+        // Text container
+        LinearLayout textContainer = new LinearLayout(getContext());
+        LinearLayout.LayoutParams textContainerParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+        textContainerParams.leftMargin = 36;
+        textContainer.setLayoutParams(textContainerParams);
+        textContainer.setOrientation(LinearLayout.VERTICAL);
+
+        // Tên đại lý
+        TextView tvTenDaiLy = new TextView(getContext());
+        tvTenDaiLy.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT));
+        tvTenDaiLy.setText(tenDaiLy);
+        tvTenDaiLy.setTextColor(0xFF000000);
+        tvTenDaiLy.setTextSize(16);
+        tvTenDaiLy.setTypeface(null, android.graphics.Typeface.BOLD);
+
+        // Ngày bảo dưỡng
+        TextView tvNgay = new TextView(getContext());
+        tvNgay.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT));
+
+        // Format ngày
+        String ngayFormatted = formatNgay(ngayThucHien);
+        tvNgay.setText("Ngày bảo dưỡng: " + ngayFormatted);
+        tvNgay.setTextColor(0xFF6B7280);
+        tvNgay.setTextSize(14);
+
+        // Build layout
+        textContainer.addView(tvTenDaiLy);
+        textContainer.addView(tvNgay);
+
+        innerLayout.addView(icon);
+        innerLayout.addView(textContainer);
+
+        itemLayout.addView(innerLayout);
+
+        // Thêm item vào container
+        containerLichSu.addView(itemLayout);
+    }
+
+    /**
+     * Format ngày từ ISO string sang dd/MM/yyyy
+     */
+    private String formatNgay(String isoDate) {
+        if (isoDate == null)
+            return "N/A";
+        try {
+            // Format từ "2025-05-06T00:00:00" sang "06/05/2025"
+            if (isoDate.contains("T")) {
+                String[] parts = isoDate.split("T")[0].split("-");
+                if (parts.length == 3) {
+                    return parts[2] + "/" + parts[1] + "/" + parts[0];
+                }
+            }
+            return isoDate;
+        } catch (Exception e) {
+            return isoDate;
+        }
     }
 
     /**

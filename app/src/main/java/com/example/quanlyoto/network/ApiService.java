@@ -2,9 +2,11 @@ package com.example.quanlyoto.network;
 
 import com.example.quanlyoto.model.ApiResponse;
 import com.example.quanlyoto.model.BaoDuong;
+import com.example.quanlyoto.model.ChiTietLichSuBaoDuong;
 import com.example.quanlyoto.model.DaiLy;
 import com.example.quanlyoto.model.DiaChi;
 import com.example.quanlyoto.model.DmPhuTung;
+import com.example.quanlyoto.model.LichSuBaoDuong;
 import com.example.quanlyoto.model.LoaiXe;
 import com.example.quanlyoto.model.NguoiDung;
 import com.example.quanlyoto.model.PhuongThucVanChuyen;
@@ -78,5 +80,12 @@ public interface ApiService {
     // ==================== BẢO DƯỠNG ====================
     @GET("api/bao-duong/nguoi-dung/{maND}")
     Call<ApiResponse<List<BaoDuong>>> getBaoDuongByNguoiDung(@Path("maND") Integer maND);
+
+    // ==================== LỊCH SỬ BẢO DƯỠNG ====================
+    @GET("api/lich-su-bao-duong/nguoi-dung/{maND}")
+    Call<ApiResponse<List<LichSuBaoDuong>>> getLichSuBaoDuongByNguoiDung(@Path("maND") Integer maND);
+
+    @GET("api/lich-su-bao-duong/{maLSBD}/chi-tiet")
+    Call<ApiResponse<List<ChiTietLichSuBaoDuong>>> getChiTietLichSuBaoDuong(@Path("maLSBD") Integer maLSBD);
 
 }

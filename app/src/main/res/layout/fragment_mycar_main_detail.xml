@@ -471,95 +471,23 @@
                         android:visibility="gone"
                         android:paddingTop="8dp">
 
-                        <!-- ITEM 1 -->
+                        <!-- Container để thêm các lịch sử động từ API -->
                         <LinearLayout
+                            android:id="@+id/containerLichSu"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:padding="12dp"
-                            android:background="#F8F8F8"
-                            android:layout_marginBottom="10dp">
+                            android:orientation="vertical" />
 
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:gravity="center_vertical">
-
-                                <ImageView
-                                    android:layout_width="28dp"
-                                    android:layout_height="28dp"
-                                    android:src="@drawable/ic_build"
-                                    app:tint="#000000" />
-
-                                <LinearLayout
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="vertical"
-                                    android:layout_marginStart="12dp">
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="Đại lý Trường Phát 1"
-                                        android:textColor="#000000"
-                                        android:textSize="16sp"
-                                        android:textStyle="bold"/>
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="Ngày bảo dưỡng: 12/08/2024"
-                                        android:textColor="#6B7280"
-                                        android:textSize="14sp"/>
-                                </LinearLayout>
-                            </LinearLayout>
-                        </LinearLayout>
-
-                        <!-- ITEM 2 -->
-                        <LinearLayout
+                        <!-- Hiển thị khi không có lịch sử -->
+                        <TextView
+                            android:id="@+id/tvKhongCoLichSu"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:padding="12dp"
-                            android:background="#F8F8F8"
-                            android:layout_marginBottom="10dp">
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:gravity="center_vertical">
-
-                                <ImageView
-                                    android:layout_width="28dp"
-                                    android:layout_height="28dp"
-                                    android:src="@drawable/ic_build"
-                                    app:tint="#000000" />
-
-                                <LinearLayout
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="vertical"
-                                    android:layout_marginStart="12dp">
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="Đại lý Trường Phát 2"
-                                        android:textColor="#000000"
-                                        android:textSize="16sp"
-                                        android:textStyle="bold"/>
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="Ngày bảo dưỡng: 10/03/2024"
-                                        android:textColor="#6B7280"
-                                        android:textSize="14sp"/>
-                                </LinearLayout>
-                            </LinearLayout>
-                        </LinearLayout>
+                            android:text="Chưa có lịch sử bảo dưỡng"
+                            android:textColor="#888888"
+                            android:textSize="14sp"
+                            android:gravity="center"
+                            android:visibility="gone" />
 
                         <!-- NÚT XEM CHI TIẾT CUỐI DANH SÁCH ITEM -->
                         <Button
