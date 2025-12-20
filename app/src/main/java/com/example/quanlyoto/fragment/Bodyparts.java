@@ -1,62 +1,70 @@
 package com.example.quanlyoto.fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.GridLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.quanlyoto.R;
+import com.example.quanlyoto.model.PhuTung;
+import com.example.quanlyoto.network.RetrofitClient;
+
+import java.text.DecimalFormat;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class Bodyparts extends Fragment {
+
+    private static final String TAG = "BodypartsFragment";
+    private GridLayout gridLayout;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
-                             @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
+            @Nullable ViewGroup container,
+            @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.activity_bodyparts_screen, container, false);
 
-        // Khai báo View
-        Button btnAddToCart = view.findViewById(R.id.btnAddToCart);
-        ImageView imgOngGioNapHoi = view.findViewById(R.id.imgOngGioNapHoi);
-        ImageView btnBack = view.findViewById(R.id.btnBack);
-
         // 👉 Nút back → quay về Homeparts
+        ImageView btnBack = view.findViewById(R.id.btnBack);
         btnBack.setOnClickListener(v -> {
             requireActivity()
                     .getSupportFragmentManager()
-                    .popBackStack();   // trở về fragment trước đó (Homeparts)
+                    .popBackStack(); // trở về fragment trước đó (Homeparts)
         });
 
-        // 👉 Click ảnh → sang Details
-        imgOngGioNapHoi.setOnClickListener(v -> {
-            requireActivity().getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.fragment_container, new Details())
-                    .addToBackStack(null)
-                    .commit();
-        });
+        // ======================================================
+        // GRID LAYOUT SETUP (Recursive Find)
+        // ======================================================
+        gridLayout = findGridLayout(view);
 
-        // 👉 Click nút "THÊM GIỎ HÀNG" → sang Cart
-        btnAddToCart.setOnClickListener(v -> {
-            requireActivity().getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.fragment_container, new Cart())
-                    .addToBackStack(null)
-                    .commit();
-        });
+        if (gridLayout != null) {
+            // Remove hardcoded items immediately so user knows logic is running
+            gridLayout.removeAllViews();
+            loadPhuTungData();
+        } else {
+            Log.e(TAG, "Could not find GridLayout to populate data");
+            Toast.makeText(getContext(), "Lỗi giao diện: Không tìm thấy lưới sản phẩm", Toast.LENGTH_SHORT).show();
+        }
 
         // ======================================================
         // BOTTOM NAV
         // ======================================================
-
 
         // 2. Trang chủ
         View navParts = view.findViewById(R.id.navHome);
@@ -70,7 +78,6 @@ public class Bodyparts extends Fragment {
             });
         }
 
-
         // 1. Xe của tôi
         view.findViewById(R.id.navCar).setOnClickListener(v -> {
             requireActivity().getSupportFragmentManager()
@@ -79,7 +86,6 @@ public class Bodyparts extends Fragment {
                     .addToBackStack(null)
                     .commit();
         });
-
 
         // 3. Voucher
         View navVoucher = view.findViewById(R.id.navVoucher);
@@ -105,19 +111,148 @@ public class Bodyparts extends Fragment {
             });
         }
 
-        // ======================================================
-        // FAB CHAT — MỞ TRANG CHAT
-        // ======================================================
-        View btnChat = view.findViewById(R.id.fabChatbox);
-        if (btnChat != null) {
-            btnChat.setOnClickListener(v -> {
+        return view;
+    }
+
+    // Helper to find GridLayout recursively
+    private GridLayout findGridLayout(View root) {
+        if (root instanceof GridLayout) {
+            return (GridLayout) root;
+        }
+        if (root instanceof ViewGroup) {
+            ViewGroup group = (ViewGroup) root;
+            for (int i = 0; i < group.getChildCount(); i++) {
+                GridLayout found = findGridLayout(group.getChildAt(i));
+                if (found != null)
+                    return found;
+            }
+        }
+        return null;
+    }
+
+    private void loadPhuTungData() {
+        // "DM01" là mã danh mục cho Phụ tùng thân vỏ
+        RetrofitClient.getApiService().getPhuTungByDanhMuc("DM01").enqueue(new Callback<List<PhuTung>>() {
+            @Override
+            public void onResponse(Call<List<PhuTung>> call, Response<List<PhuTung>> response) {
+                if (getContext() == null)
+                    return; // Fragment died
+
+                if (response.isSuccessful() && response.body() != null) {
+                    List<PhuTung> phuTungList = response.body();
+                    Log.d(TAG, "API Success: Received " + phuTungList.size() + " items");
+                    for (PhuTung pt : phuTungList) {
+                        Log.d(TAG, "Item: " + pt.getTenPhuTung() + " - " + pt.getHinhAnh());
+                    }
+                    updateGridLayout(phuTungList);
+                } else {
+                    Log.e(TAG, "Failed to load phu tung: " + response.code());
+                    Toast.makeText(getContext(), "Không thể tải danh sách phụ tùng (Code: " + response.code() + ")",
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<PhuTung>> call, Throwable t) {
+                if (getContext() == null)
+                    return;
+                Log.e(TAG, "Error loading phu tung: " + t.getMessage());
+                Toast.makeText(getContext(), "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void updateGridLayout(List<PhuTung> list) {
+        if (gridLayout == null || getContext() == null)
+            return;
+
+        gridLayout.removeAllViews();
+
+        LayoutInflater inflater = LayoutInflater.from(getContext());
+        DecimalFormat formatter = new DecimalFormat("#,###");
+
+        if (list == null || list.isEmpty()) {
+            Toast.makeText(getContext(), "Không có phụ tùng nào", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        for (PhuTung item : list) {
+            View itemView = inflater.inflate(R.layout.item_phutung, gridLayout, false);
+
+            GridLayout.LayoutParams params = new GridLayout.LayoutParams();
+            params.width = 0;
+            params.height = GridLayout.LayoutParams.WRAP_CONTENT;
+            params.columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f);
+
+            int margin = (int) (8 * getResources().getDisplayMetrics().density);
+            params.setMargins(margin, margin, margin, margin);
+
+            itemView.setLayoutParams(params);
+
+            ImageView img = itemView.findViewById(R.id.imgPhuTung);
+            TextView tvName = itemView.findViewById(R.id.tvTenPhuTung);
+            TextView tvPrice = itemView.findViewById(R.id.tvGiaPhuTung);
+            Button btnAdd = itemView.findViewById(R.id.btnAddToCart);
+
+            tvName.setText(item.getTenPhuTung());
+            if (item.getGiaBan() != null) {
+                tvPrice.setText(formatter.format(item.getGiaBan()) + " VND");
+            } else {
+                tvPrice.setText("Liên hệ");
+            }
+
+            // Image
+            String imageName = item.getHinhAnh();
+            if (imageName != null && !imageName.isEmpty()) {
+                if (imageName.contains(".")) {
+                    imageName = imageName.substring(0, imageName.lastIndexOf('.'));
+                }
+
+                // 1. Try exact match
+                int resId = getResources().getIdentifier(imageName, "drawable", getContext().getPackageName());
+
+                // 2. Try removing underscores (e.g., den_pha -> denpha)
+                if (resId == 0) {
+                    String cleanName = imageName.replace("_", "");
+                    resId = getResources().getIdentifier(cleanName, "drawable", getContext().getPackageName());
+                }
+
+                // 3. Manual mapping for specific cases
+                if (resId == 0) {
+                    if (imageName.equals("bom_nuoc_dft")) {
+                        resId = getResources().getIdentifier("dongcobomnuocdft", "drawable",
+                                getContext().getPackageName());
+                    }
+                }
+
+                if (resId != 0) {
+                    img.setImageResource(resId);
+                } else {
+                    // Fallback
+                    img.setImageResource(R.drawable.onggionaphoi);
+                }
+            } else {
+                img.setImageResource(R.drawable.onggionaphoi);
+            }
+
+            itemView.setOnClickListener(v -> {
                 requireActivity().getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.fragment_container, new ChatBox())
+                        .replace(R.id.fragment_container, new Details())
                         .addToBackStack(null)
                         .commit();
             });
+
+            btnAdd.setOnClickListener(v -> {
+                requireActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, new Cart())
+                        .addToBackStack(null)
+                        .commit();
+                Toast.makeText(getContext(), "Đã thêm " + item.getTenPhuTung() + " vào giỏ", Toast.LENGTH_SHORT).show();
+            });
+
+            gridLayout.addView(itemView);
         }
-        return view;
     }
 }
