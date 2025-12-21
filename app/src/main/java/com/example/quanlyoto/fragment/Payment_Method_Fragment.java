@@ -53,11 +53,15 @@ public class Payment_Method_Fragment extends Fragment {
         layoutApple.setOnClickListener(v -> selectMethod("apple"));
         layoutBank.setOnClickListener(v -> selectMethod("bank"));
 
-        // Back
+        // Back - quay về trang đơn hàng
         icBack.setOnClickListener(v -> {
+            Detail_Payment_Fragment fragment = new Detail_Payment_Fragment();
+            if (getArguments() != null) {
+                fragment.setArguments(getArguments());
+            }
             requireActivity().getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.fragment_container, new Complete_Detail_Payment_Fragment())
+                    .replace(R.id.fragment_container, fragment)
                     .addToBackStack(null)
                     .commit();
         });

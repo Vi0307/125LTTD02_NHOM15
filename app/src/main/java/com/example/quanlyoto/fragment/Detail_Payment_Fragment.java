@@ -219,11 +219,13 @@ public class Detail_Payment_Fragment extends Fragment {
                     .commit();
         });
 
-        // Chuyển sang trang tiếp theo
+        // Chuyển sang trang phương thức thanh toán
         view.findViewById(R.id.btn_billing_address).setOnClickListener(v -> {
+            Payment_Method_Fragment fragment = new Payment_Method_Fragment();
+            fragment.setArguments(createCurrentStateBundle());
             requireActivity().getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.fragment_container, new Complete_Detail_Payment_Fragment())
+                    .replace(R.id.fragment_container, fragment)
                     .addToBackStack(null)
                     .commit();
         });
