@@ -48,6 +48,17 @@ public class Bodyparts extends Fragment {
                     .popBackStack(); // trở về fragment trước đó (Homeparts)
         });
 
+        // 👉 Nút Giỏ hàng header
+        View btnCartHeader = view.findViewById(R.id.btnCartHeader);
+        if (btnCartHeader != null) {
+            btnCartHeader.setOnClickListener(v -> {
+                requireActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, new Cart())
+                        .addToBackStack(null)
+                        .commit();
+            });
+        }
         // ======================================================
         // GRID LAYOUT SETUP (Recursive Find)
         // ======================================================
