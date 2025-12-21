@@ -12,8 +12,12 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.quanlyoto.R;
+import com.example.quanlyoto.adapter.OrderProductAdapter;
+import com.example.quanlyoto.model.ChiTietGioHangDTO;
 import com.example.quanlyoto.model.DiaChi;
 import com.example.quanlyoto.model.PhuongThucVanChuyen;
 import com.example.quanlyoto.model.Voucher;
@@ -22,6 +26,8 @@ import com.example.quanlyoto.network.RetrofitClient;
 
 import java.math.BigDecimal;
 import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import retrofit2.Call;
@@ -39,6 +45,8 @@ public class Detail_Payment_Fragment extends Fragment {
     private TextView txtShippingFee;
     private TextView txtDiscount;
     private TextView txtTotal;
+    private RecyclerView rvOrderProducts;
+    private OrderProductAdapter orderProductAdapter;
 
     // Data
     private DiaChi selectedAddress;
@@ -47,6 +55,7 @@ public class Detail_Payment_Fragment extends Fragment {
     private BigDecimal productPrice = BigDecimal.ZERO;
     private BigDecimal shippingFee = BigDecimal.ZERO;
     private BigDecimal discount = BigDecimal.ZERO;
+    private List<ChiTietGioHangDTO> cartItems = new ArrayList<>();
 
     // ID người dùng (cần lấy từ session/shared preferences)
     private Integer currentUserId = 1; // Mặc định, cần thay đổi theo logic đăng nhập
@@ -66,6 +75,20 @@ public class Detail_Payment_Fragment extends Fragment {
 
         // Nhận dữ liệu từ Bundle (address, shipping, voucher được chọn từ các fragment khác)
         if (getArguments() != null) {
+            // Nhận danh sách sản phẩm từ giỏ hàng
+            if (getArguments().containsKey("cart_items")) {
+                try {
+                    @SuppressWarnings("unchecked")
+                    List<ChiTietGioHangDTO> items = (List<ChiTietGioHangDTO>) getArguments().getSerializable("cart_items");
+                    if (items != null) {
+                        cartItems.clear();
+                        cartItems.addAll(items);
+                    }
+                } catch (Exception e) {
+                    android.util.Log.e("Detail_Payment", "Error loading cart items: " + e.getMessage());
+                }
+            }
+            
             // Nhận giá sản phẩm
             String priceStr = getArguments().getString("product_price", "0");
             try {
@@ -120,6 +143,7 @@ public class Detail_Payment_Fragment extends Fragment {
 
         initViews(view);
         setupClickListeners(view);
+        setupOrderProductsRecyclerView(view);
 
         // Chỉ load từ API nếu chưa có địa chỉ được chọn từ Bundle
         if (selectedAddress != null) {
@@ -140,6 +164,17 @@ public class Detail_Payment_Fragment extends Fragment {
         txtShippingFee = view.findViewById(R.id.txtShippingFee);
         txtDiscount = view.findViewById(R.id.txtDiscount);
         txtTotal = view.findViewById(R.id.txtTotal);
+        rvOrderProducts = view.findViewById(R.id.rvOrderProducts);
+    }
+
+    /**
+     * Setup RecyclerView để hiển thị danh sách sản phẩm từ giỏ hàng
+     */
+    private void setupOrderProductsRecyclerView(View view) {
+        rvOrderProducts.setLayoutManager(new LinearLayoutManager(getContext()));
+        rvOrderProducts.setNestedScrollingEnabled(false);
+        orderProductAdapter = new OrderProductAdapter(getContext(), cartItems);
+        rvOrderProducts.setAdapter(orderProductAdapter);
     }
 
     private void setupClickListeners(View view) {
@@ -229,6 +264,9 @@ public class Detail_Payment_Fragment extends Fragment {
         
         // Giá sản phẩm
         bundle.putString("product_price", productPrice.toString());
+        
+        // Danh sách sản phẩm
+        bundle.putSerializable("cart_items", new ArrayList<>(cartItems));
         
         return bundle;
     }
