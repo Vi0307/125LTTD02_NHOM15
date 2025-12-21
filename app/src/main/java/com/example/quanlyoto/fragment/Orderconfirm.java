@@ -1,5 +1,7 @@
 package com.example.quanlyoto.fragment;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,12 +20,21 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.quanlyoto.R;
 import com.example.quanlyoto.adapter.OrderProductAdapter;
 import com.example.quanlyoto.model.ChiTietGioHangDTO;
+import com.example.quanlyoto.model.DonHangRequest;
+import com.example.quanlyoto.model.DonHangResponse;
+import com.example.quanlyoto.network.ApiService;
+import com.example.quanlyoto.network.RetrofitClient;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class Orderconfirm extends Fragment {
 
@@ -252,13 +264,78 @@ public class Orderconfirm extends Fragment {
                 requireActivity().getSupportFragmentManager().popBackStack()
         );
 
-        // COMPLETE → sang Ordersuccess
+        // COMPLETE → Tạo đơn hàng và chuyển sang Ordersuccess
         btnComplete.setOnClickListener(v -> {
-            requireActivity().getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.fragment_container, new Ordersuccess())
-                    .addToBackStack(null)
-                    .commit();
+            createOrderAndNavigate(btnComplete);
+        });
+    }
+
+    private void createOrderAndNavigate(Button btnComplete) {
+        // Disable button để tránh click nhiều lần
+        btnComplete.setEnabled(false);
+        btnComplete.setText("Đang xử lý...");
+
+        // Lấy userId từ SharedPreferences
+        SharedPreferences prefs = requireActivity().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+        int userId = prefs.getInt("userId", 1);
+
+        // Tạo request
+        DonHangRequest request = new DonHangRequest();
+        
+        // Tên sản phẩm và hình ảnh
+        if (cartItems != null && !cartItems.isEmpty()) {
+            ChiTietGioHangDTO firstItem = cartItems.get(0);
+            request.setTenPhuTung(firstItem.getTenPhuTung());
+            request.setHinhAnh(firstItem.getHinhAnh() != null ? firstItem.getHinhAnh() : "default.png");
+        } else {
+            request.setTenPhuTung("Sản phẩm");
+            request.setHinhAnh("default.png");
+        }
+
+        // Giá tiền
+        double productPriceValue = parsePrice(productPrice);
+        double shippingFeeValue = parsePrice(shippingFee);
+        request.setTongTien(BigDecimal.valueOf(productPriceValue));
+        request.setPhiVanChuyen(BigDecimal.valueOf(shippingFeeValue));
+
+        // Địa chỉ giao
+        request.setDiaChiGiao(selectedAddress.isEmpty() ? "Chưa có địa chỉ" : selectedAddress);
+
+        // Mã người dùng
+        request.setMaND(userId);
+
+        // Phương thức thanh toán
+        request.setPhuongThucThanhToan(selectedPaymentMethod);
+
+        // Gọi API
+        ApiService apiService = RetrofitClient.getApiService();
+        apiService.createOrder(request).enqueue(new Callback<DonHangResponse>() {
+            @Override
+            public void onResponse(Call<DonHangResponse> call, Response<DonHangResponse> response) {
+                btnComplete.setEnabled(true);
+                btnComplete.setText("Hoàn tất thanh toán");
+
+                if (response.isSuccessful() && response.body() != null) {
+                    DonHangResponse order = response.body();
+                    Toast.makeText(getContext(), "Đặt hàng thành công! Mã: " + order.getMaDH(), Toast.LENGTH_SHORT).show();
+
+                    // Chuyển sang Ordersuccess
+                    requireActivity().getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.fragment_container, new Ordersuccess())
+                            .addToBackStack(null)
+                            .commit();
+                } else {
+                    Toast.makeText(getContext(), "Đặt hàng thất bại! Vui lòng thử lại.", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DonHangResponse> call, Throwable t) {
+                btnComplete.setEnabled(true);
+                btnComplete.setText("Hoàn tất thanh toán");
+                Toast.makeText(getContext(), "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
         });
     }
 

@@ -1,12 +1,13 @@
-package com.example.backend.dto;
+package com.example.quanlyoto.model;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
-public class DonHangDTO {
-
+/**
+ * Model class for order response
+ */
+public class DonHangResponse {
     private String maDH;
-    private LocalDateTime ngayDat;
+    private String ngayDat;
     private String tenPhuTung;
     private String hinhAnh;
     private BigDecimal tongTien;
@@ -14,11 +15,12 @@ public class DonHangDTO {
     private BigDecimal tongThanhToan;
     private String diaChiGiao;
     private String trangThai;
-    private Integer maND;
     private String phuongThucThanhToan;
-    private LocalDateTime ngayNhanDuKien;
+    private String ngayNhanDuKien;
 
-    // Getter và Setter
+    public DonHangResponse() {}
+
+    // Getters and Setters
     public String getMaDH() {
         return maDH;
     }
@@ -27,11 +29,11 @@ public class DonHangDTO {
         this.maDH = maDH;
     }
 
-    public LocalDateTime getNgayDat() {
+    public String getNgayDat() {
         return ngayDat;
     }
 
-    public void setNgayDat(LocalDateTime ngayDat) {
+    public void setNgayDat(String ngayDat) {
         this.ngayDat = ngayDat;
     }
 
@@ -91,14 +93,6 @@ public class DonHangDTO {
         this.trangThai = trangThai;
     }
 
-    public Integer getMaND() {
-        return maND;
-    }
-
-    public void setMaND(Integer maND) {
-        this.maND = maND;
-    }
-
     public String getPhuongThucThanhToan() {
         return phuongThucThanhToan;
     }
@@ -107,12 +101,11 @@ public class DonHangDTO {
         this.phuongThucThanhToan = phuongThucThanhToan;
     }
 
-    public LocalDateTime getNgayNhanDuKien() {
+    public String getNgayNhanDuKien() {
         return ngayNhanDuKien;
     }
 
-    public void setNgayNhanDuKien(LocalDateTime ngayNhanDuKien) {
+    public void setNgayNhanDuKien(String ngayNhanDuKien) {
         this.ngayNhanDuKien = ngayNhanDuKien;
     }
 }
-
