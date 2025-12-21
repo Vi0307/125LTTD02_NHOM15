@@ -122,6 +122,10 @@ public class Promotion_Applies_Fragment extends Fragment {
                     if (getArguments().containsKey("product_price")) {
                         bundle.putString("product_price", getArguments().getString("product_price"));
                     }
+                    // Giữ nguyên danh sách sản phẩm từ giỏ hàng
+                    if (getArguments().containsKey("cart_items")) {
+                        bundle.putSerializable("cart_items", getArguments().getSerializable("cart_items"));
+                    }
                 }
                 
                 detailFragment.setArguments(bundle);
