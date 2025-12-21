@@ -30,7 +30,7 @@ public class Add_New_Address_Fragment extends Fragment {
     private LinearLayout optionHome, optionOffice;
     private ImageView radioHome, radioOffice;
     private EditText etTinhThanh, etQuanHuyen, etPhuongXa, etAddress;
-    private Button btnAddAddress, btnApply;
+    private Button btnAddAddress;
     
     private int selected = 0; // 1 = nhà riêng, 2 = văn phòng
     private Integer userId;
@@ -80,7 +80,6 @@ public class Add_New_Address_Fragment extends Fragment {
         
         // Buttons
         btnAddAddress = view.findViewById(R.id.btn_add_address);
-        btnApply = view.findViewById(R.id.btn_apply);
     }
 
     private void setupClickListeners(View view) {
@@ -100,17 +99,6 @@ public class Add_New_Address_Fragment extends Fragment {
         // THÊM ĐỊA CHỈ - Gọi API để lưu vào database
         btnAddAddress.setOnClickListener(v -> {
             addNewAddress();
-        });
-
-        // ÁP DỤNG - Quay về trang chọn địa chỉ
-        btnApply.setOnClickListener(v -> {
-            if (newlyAddedAddress == null) {
-                Toast.makeText(getContext(), "Vui lòng thêm địa chỉ trước", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            // Quay về trang chọn địa chỉ
-            requireActivity().getSupportFragmentManager().popBackStack();
         });
     }
 
@@ -143,7 +131,7 @@ public class Add_New_Address_Fragment extends Fragment {
         diaChi.setQuanHuyen(quanHuyen);
         diaChi.setPhuongXa(phuongXa);
         diaChi.setDiaChiChiTiet(diaChiChiTiet);
-        diaChi.setLoaiDiaChi(selected == 1 ? "Nhà riêng" : "Văn phòng");
+        diaChi.setLoaiDiaChi(selected == 1 ? "Nhà riêng" : "Công ty");
         diaChi.setMacDinh(false); // Mặc định không phải địa chỉ mặc định
 
         // Disable button để tránh click nhiều lần
@@ -161,18 +149,23 @@ public class Add_New_Address_Fragment extends Fragment {
                     newlyAddedAddress = response.body();
                     Toast.makeText(getContext(), "Thêm địa chỉ thành công!", Toast.LENGTH_SHORT).show();
                     
-                    // Xóa input để người dùng có thể thêm địa chỉ khác
-                    clearInputs();
+                    // Chuyển về trang chọn địa chỉ
+                    requireActivity().getSupportFragmentManager().popBackStack();
                 } else {
-                    String errorMsg = "Lỗi thêm địa chỉ";
+                    String errorMsg = "Lỗi thêm địa chỉ (Code: " + response.code() + ")";
                     try {
                         if (response.errorBody() != null) {
-                            errorMsg += ": " + response.errorBody().string();
+                            String errorDetail = response.errorBody().string();
+                            android.util.Log.e("AddAddress", "Error: " + errorDetail);
+                            if (errorDetail.length() > 100) {
+                                errorDetail = errorDetail.substring(0, 100);
+                            }
+                            errorMsg += " - " + errorDetail;
                         }
                     } catch (Exception e) {
-                        // ignore
+                        android.util.Log.e("AddAddress", "Parse error: " + e.getMessage());
                     }
-                    Toast.makeText(getContext(), errorMsg, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), errorMsg, Toast.LENGTH_LONG).show();
                 }
             }
 

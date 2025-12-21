@@ -60,13 +60,20 @@ public class DiaChiService {
     public DiaChiDTO addDiaChi(Integer maND, DiaChiDTO diaChiDTO) {
         DiaChi diaChi = new DiaChi();
         diaChi.setMaND(maND);
-        diaChi.setLoaiDiaChi(diaChiDTO.getLoaiDiaChi() != null ? diaChiDTO.getLoaiDiaChi() : "Nhà riêng");
-        diaChi.setHoTenNguoiNhan(diaChiDTO.getHoTenNguoiNhan() != null ? diaChiDTO.getHoTenNguoiNhan() : "Người nhận");
-        diaChi.setSoDienThoai(diaChiDTO.getSoDienThoai() != null ? diaChiDTO.getSoDienThoai() : "0000000000");
-        diaChi.setTinhThanhPho(diaChiDTO.getTinhThanhPho() != null ? diaChiDTO.getTinhThanhPho() : "");
-        diaChi.setQuanHuyen(diaChiDTO.getQuanHuyen() != null ? diaChiDTO.getQuanHuyen() : "");
-        diaChi.setPhuongXa(diaChiDTO.getPhuongXa() != null ? diaChiDTO.getPhuongXa() : "");
-        diaChi.setDiaChiChiTiet(diaChiDTO.getDiaChiChiTiet() != null ? diaChiDTO.getDiaChiChiTiet() : "");
+        diaChi.setLoaiDiaChi(diaChiDTO.getLoaiDiaChi() != null && !diaChiDTO.getLoaiDiaChi().isEmpty()
+            ? diaChiDTO.getLoaiDiaChi() : "Nhà riêng");
+        diaChi.setHoTenNguoiNhan(diaChiDTO.getHoTenNguoiNhan() != null && !diaChiDTO.getHoTenNguoiNhan().isEmpty()
+            ? diaChiDTO.getHoTenNguoiNhan() : "Người nhận");
+        diaChi.setSoDienThoai(diaChiDTO.getSoDienThoai() != null && !diaChiDTO.getSoDienThoai().isEmpty()
+            ? diaChiDTO.getSoDienThoai() : "0000000000");
+        diaChi.setTinhThanhPho(diaChiDTO.getTinhThanhPho() != null && !diaChiDTO.getTinhThanhPho().isEmpty()
+            ? diaChiDTO.getTinhThanhPho() : "Chưa cập nhật");
+        diaChi.setQuanHuyen(diaChiDTO.getQuanHuyen() != null && !diaChiDTO.getQuanHuyen().isEmpty()
+            ? diaChiDTO.getQuanHuyen() : "Chưa cập nhật");
+        diaChi.setPhuongXa(diaChiDTO.getPhuongXa() != null && !diaChiDTO.getPhuongXa().isEmpty()
+            ? diaChiDTO.getPhuongXa() : "Chưa cập nhật");
+        diaChi.setDiaChiChiTiet(diaChiDTO.getDiaChiChiTiet() != null && !diaChiDTO.getDiaChiChiTiet().isEmpty()
+            ? diaChiDTO.getDiaChiChiTiet() : "Chưa cập nhật");
         diaChi.setMacDinh(diaChiDTO.getMacDinh() != null ? diaChiDTO.getMacDinh() : false);
 
         DiaChi saved = diaChiRepository.save(diaChi);

@@ -1,5 +1,7 @@
 package com.example.quanlyoto.fragment;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,7 +39,7 @@ public class Select_Billing_Address_Fragment extends Fragment {
     private int selectedPosition = -1;
 
     private ApiService apiService;
-    private Integer currentUserId = 1; // Mặc định, cần thay đổi theo logic đăng nhập
+    private Integer currentUserId;
 
     public Select_Billing_Address_Fragment() {
         // Required empty public constructor
@@ -54,6 +56,10 @@ public class Select_Billing_Address_Fragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         apiService = RetrofitClient.getApiService();
+        
+        // Lấy userId từ SharedPreferences
+        SharedPreferences prefs = requireActivity().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+        currentUserId = prefs.getInt("userId", 1);
 
         initViews(view);
         setupRecyclerView();
