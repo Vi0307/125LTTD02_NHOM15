@@ -342,10 +342,11 @@
                         android:background="#000000" />
 
                     <TextView
+                        android:id="@+id/tvNgayKTDKGanNhat"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="8dp"
-                        android:text="Ngày KTDK gần nhất (Lần 4): 16/02/2025"
+                        android:text="Ngày KTDK gần nhất: Đang tải..."
                         android:textColor="#000000"
                         android:textSize="14sp" />
 
@@ -357,10 +358,11 @@
                         android:background="#000000" />
 
                     <TextView
+                        android:id="@+id/tvNgayKTDKTiepTheo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="16dp"
-                        android:text="Ngày KTDK tiếp theo (Lần 5): 14/12/2025"
+                        android:text="Ngày KTDK tiếp theo: Đang tải..."
                         android:textColor="#666666"
                         android:textSize="14sp" />
 
