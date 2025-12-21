@@ -26,4 +26,10 @@ public class DiaChiController {
     public DiaChiDTO getDiaChiMacDinh(@PathVariable Integer maND) {
         return diaChiService.getDiaChiMacDinh(maND);
     }
+
+    // Thêm địa chỉ mới
+    @PostMapping("/{maND}")
+    public DiaChiDTO addDiaChi(@PathVariable Integer maND, @RequestBody DiaChiDTO diaChiDTO) {
+        return diaChiService.addDiaChi(maND, diaChiDTO);
+    }
 }
