@@ -39,13 +39,12 @@ import retrofit2.Response;
 public class Orderconfirm extends Fragment {
 
     // Views
-    private TextView tvProductName, tvQuantity, tvPrice;
     private TextView tvSubtotal, tvShipping, tvDiscount, tvTotal;
     private TextView tvAddressType, tvAddress;
     private TextView tvPaymentMethod;
     private TextView tvShippingMethod, tvDeliveryTime;
-    private ImageView imgProduct;
     private RecyclerView rvProducts;
+    private OrderProductAdapter productAdapter;
 
     // Data
     private List<ChiTietGioHangDTO> cartItems;
@@ -72,16 +71,14 @@ public class Orderconfirm extends Fragment {
 
         initViews(view);
         loadDataFromArguments();
+        setupProductsRecyclerView();
         updateUI();
         setupClickListeners(view);
     }
 
     private void initViews(View view) {
-        // Product info - single product view
-        imgProduct = view.findViewById(R.id.imgProduct);
-        tvProductName = view.findViewById(R.id.tvProductName);
-        tvQuantity = view.findViewById(R.id.tvQuantity);
-        tvPrice = view.findViewById(R.id.tvPrice);
+        // Products RecyclerView
+        rvProducts = view.findViewById(R.id.rvProducts);
 
         // Price details
         tvSubtotal = view.findViewById(R.id.tvSubtotal);
@@ -99,6 +96,14 @@ public class Orderconfirm extends Fragment {
         // Shipping method
         tvShippingMethod = view.findViewById(R.id.tvShippingMethod);
         tvDeliveryTime = view.findViewById(R.id.tvDeliveryTime);
+    }
+
+    private void setupProductsRecyclerView() {
+        if (cartItems != null && !cartItems.isEmpty()) {
+            rvProducts.setLayoutManager(new LinearLayoutManager(getContext()));
+            productAdapter = new OrderProductAdapter(getContext(), cartItems);
+            rvProducts.setAdapter(productAdapter);
+        }
     }
 
     private void loadDataFromArguments() {
@@ -177,41 +182,15 @@ public class Orderconfirm extends Fragment {
     }
 
     private void updateUI() {
-        // Hiển thị sản phẩm đầu tiên (hoặc tổng hợp)
-        if (cartItems != null && !cartItems.isEmpty()) {
-            ChiTietGioHangDTO firstItem = cartItems.get(0);
-            
-            if (tvProductName != null) {
-                tvProductName.setText(firstItem.getTenPhuTung());
-            }
-            
-            if (tvQuantity != null) {
-                int totalQuantity = 0;
-                for (ChiTietGioHangDTO item : cartItems) {
-                    totalQuantity += item.getSoLuong();
-                }
-                tvQuantity.setText("x" + totalQuantity);
-            }
-            
-            // Load hình ảnh sản phẩm đầu tiên
-            if (imgProduct != null && firstItem.getHinhAnh() != null) {
-                String imageName = firstItem.getHinhAnh().replace(".png", "").replace(".jpg", "");
-                int resId = getResources().getIdentifier(imageName, "drawable", requireActivity().getPackageName());
-                if (resId != 0) {
-                    imgProduct.setImageResource(resId);
-                }
-            }
-        }
-
         // Hiển thị giá sản phẩm
         double productPriceValue = parsePrice(productPrice);
         double shippingFeeValue = parsePrice(shippingFee);
         double discountValue = parsePrice(discount);
         double totalValue = productPriceValue + shippingFeeValue - discountValue;
 
-        if (tvPrice != null) {
-            tvPrice.setText(formatPrice(productPriceValue));
-        }
+//        if (tvPrice != null) {
+//            tvPrice.setText(formatPrice(productPriceValue));
+//        }
         if (tvSubtotal != null) {
             tvSubtotal.setText(formatPrice(productPriceValue));
         }
