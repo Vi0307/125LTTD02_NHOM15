@@ -1,266 +1,454 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OTOTECH - Khách hàng</title>
     <link rel="stylesheet" href="asset/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        /* Chi tiết người dùng - chỉ xem */
+        .detail-card {
+            display: none;
+        }
+
+        .detail-card.show {
+            display: block;
+        }
+
+        .info-row {
+            display: flex;
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: #666;
+            width: 160px;
+            flex-shrink: 0;
+        }
+
+        .info-value {
+            color: #333;
+            flex: 1;
+        }
+
+        .status-locked {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .status-active {
+            background: #d4edda;
+            color: #155724;
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .progress-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .progress-bar {
+            width: 120px;
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 50px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 50px;
+            background: linear-gradient(90deg, #28a745, #34ce57);
+        }
+
+        .action-buttons-view {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+            justify-content: flex-end;
+        }
+
+        .btn-lock {
+            background: linear-gradient(135deg, #ffc107, #e0a800);
+            color: #212529;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-lock:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 193, 7, 0.4);
+        }
+
+        .btn-delete {
+            background: linear-gradient(135deg, #dc3545, #c82333);
+            color: white;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-delete:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(220, 53, 69, 0.4);
+        }
+
+        .btn-close {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-close:hover {
+            background: #5a6268;
+        }
+    </style>
 </head>
+
 <body class="dashboard-body admin-body">
 
-<div class="page-wrapper">
+    <div class="page-wrapper">
 
-    <!-- Top User & Sidebar giữ nguyên -->
-    <div class="top-user">
-        <span class="username">Administrator</span>
-    </div>
+        <!-- Top User -->
+        <div class="top-user">
+            <span class="username">Administrator</span>
+        </div>
 
-    <aside class="sidebar">
-        <ul class="menu">
-            <li class="menu-item " onclick="goTo('dashboard.html')">
-                <i class="fas fa-th-large"></i> Sản phẩm
-            </li>
-            <li class="menu-item active" onclick="goTo('user.html')">
-                <i class="fas fa-users"></i> Người dùng
-            </li>
-            <li class="menu-item" onclick="goTo('order.html')">
-                <i class="fas fa-shopping-cart"></i> Đơn hàng
-            </li>
-            <li class="menu-item" onclick="goTo('schedule.html')">
-                <i class="fas fa-calendar-check"></i> Đặt lịch
-            </li>
-            <li class="menu-item" onclick="goTo('notifications.html')">
-                <i class="fas fa-bell"></i> Thông báo
-            </li>
-            <li class="menu-item" onclick="goTo('chatbox.html')">
-                <i class="fas fa-comments"></i> Chatbox
-        </ul>
-    </aside>
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <ul class="menu">
+                <li class="menu-item" onclick="goTo('dashboard.html')">
+                    <i class="fas fa-th-large"></i> Sản phẩm
+                </li>
+                <li class="menu-item active" onclick="goTo('user.html')">
+                    <i class="fas fa-users"></i> Người dùng
+                </li>
+                <li class="menu-item" onclick="goTo('order.html')">
+                    <i class="fas fa-shopping-cart"></i> Đơn hàng
+                </li>
+                <li class="menu-item" onclick="goTo('schedule.html')">
+                    <i class="fas fa-calendar-check"></i> Đặt lịch
+                </li>
+                <li class="menu-item" onclick="goTo('notifications.html')">
+                    <i class="fas fa-bell"></i> Thông báo
+                </li>
+                <li class="menu-item" onclick="goTo('dailymanagement.html')">
+                    <i class="fas fa-store"></i> Đại lý
+                </li>
+            </ul>
+        </aside>
 
-    <main class="admin-main">
-        <section class="panel-grid">
+        <main class="admin-main">
+            <section class="panel-grid">
 
-            <!-- BẢNG KHÁCH HÀNG -->
-            <div class="table-card">
-                <h2 class="table-title">Khách hàng</h2>
-                <div class="table-container">
-                    <table class="user-table">
-                        <thead>
-                            <tr>
-                                <th>Mã KH</th>
-                                <th>Tên khách hàng</th>
-                                <th>SĐT</th>
-                                <th>Email</th>
-                                <th>Số lần bảo dưỡng</th>
-                                <th>Trạng thái</th>
-                                <th>Thao tác</th>
-                            </tr>
-                        </thead>
-                        <tbody id="userTableBody">
-                            <!-- Dữ liệu sẽ được load từ API -->
-                        </tbody>
-                    </table>
+                <!-- BẢNG KHÁCH HÀNG -->
+                <div class="table-card">
+                    <h2 class="table-title">Danh sách khách hàng</h2>
+                    <div class="table-container">
+                        <table class="user-table">
+                            <thead>
+                                <tr>
+                                    <th>Mã KH</th>
+                                    <th>Tên khách hàng</th>
+                                    <th>SĐT</th>
+                                    <th>Email</th>
+                                    <th>Số lần bảo dưỡng</th>
+                                    <th>Trạng thái</th>
+                                    <th>Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody id="userTableBody">
+                                <!-- Dữ liệu sẽ được load từ API -->
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-            </div>
 
-            <!-- FORM CHI TIẾT -->
-            <div id="userDetailCard" class="detail-card">
-                <h2 class="detail-title">Chi tiết khách hàng</h2>
-                <div class="form-grid-user">
+                <!-- FORM XEM CHI TIẾT (chỉ xem, không chỉnh sửa) -->
+                <div id="userDetailCard" class="detail-card">
+                    <h2 class="detail-title"><i class="fas fa-user"></i> Chi tiết khách hàng</h2>
 
-                    <div class="form-group"><label>Mã khách hàng</label><input type="text" id="maKH" readonly></div>
-                    <div class="form-group"><label>Loại xe</label><input type="text" id="loaiXe" readonly></div>
-                    <div class="form-group"><label>SĐT</label><input type="text" id="sdt"></div>
-
-                    <div class="form-group"><label>Mã xe</label><input type="text" id="maXe" readonly></div>
-
-                    <!-- MẬT KHẨU LUÔN HIỆN ******** -->
-                    <div class="form-group">
-                        <label>Mật khẩu</label>
-                        <input type="text" id="matKhau" value="********" readonly style="color:#666; font-weight:600; letter-spacing:2px;">
+                    <div class="info-row">
+                        <span class="info-label">Mã khách hàng:</span>
+                        <span class="info-value" id="view_maKH"></span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Họ tên:</span>
+                        <span class="info-value" id="view_hoTen"></span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Số điện thoại:</span>
+                        <span class="info-value" id="view_sdt"></span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Email:</span>
+                        <span class="info-value" id="view_email"></span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Ngày sinh:</span>
+                        <span class="info-value" id="view_ngaySinh"></span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Loại xe:</span>
+                        <span class="info-value" id="view_loaiXe"></span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Mã xe:</span>
+                        <span class="info-value" id="view_maXe"></span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Số lần bảo dưỡng:</span>
+                        <span class="info-value" id="view_soLanBaoDuong"></span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Trạng thái:</span>
+                        <span class="info-value" id="view_trangThai"></span>
                     </div>
 
-                    <!-- SỐ LẦN BẢO DƯỠNG: CHỈ TỪ 0 ĐẾN 6 -->
-                    <div class="form-group">
-                        <label>Số lần bảo dưỡng</label>
-                        <select id="soLanBaoDuong">
-                            <option value="0">0 lần</option>
-                            <option value="1">1 lần</option>
-                            <option value="2">2 lần</option>
-                            <option value="3">3 lần</option>
-                            <option value="4">4 lần</option>
-                            <option value="5">5 lần</option>
-                            <option value="6" selected>6 lần</option>
-                        </select>
+                    <div class="action-buttons-view">
+                        <button class="btn-close" onclick="closeDetail()">
+                            <i class="fas fa-times"></i> Đóng
+                        </button>
+                        <button class="btn-lock" id="btnLockUser" onclick="lockCurrentUser()">
+                            <i class="fas fa-lock"></i> Khóa tài khoản
+                        </button>
+                        <button class="btn-delete" onclick="deleteCurrentUser()">
+                            <i class="fas fa-trash"></i> Xóa
+                        </button>
                     </div>
-
-                    <div class="form-group"><label>Tên khách hàng</label><input type="text" id="tenKH"></div>
-                    <div class="form-group"><label>Email</label><input type="email" id="email"></div>
                 </div>
 
-                <div class="action-buttons">
-                    <button class="btn-update" onclick="updateUser()">
-                        Cập nhật
-                    </button>
-                </div>
-            </div>
+            </section>
+        </main>
 
-        </section>
-    </main>
-
-    <div class="bottom-brand">
-        <div class="brand-name">OTOTECH</div>
-        <div class="version">Version: 1.0.0.11</div>
+        <div class="bottom-brand">
+            <div class="brand-name">OTOTECH</div>
+            <div class="version">Version: 1.0.0.11</div>
+        </div>
     </div>
-</div>
 
-<!-- API Service -->
-<script src="asset/api.js"></script>
+    <!-- API Service -->
+    <script src="asset/api.js"></script>
 
-<script>
-// Kiểm tra authentication
-if (!AuthService.isAuthenticated()) {
-    window.location.href = 'welcome.html';
-}
-
-var currentUserRow = null;
-var currentUserId = null;
-
-function $(s) { return document.querySelector(s); }
-
-// Load danh sách người dùng
-async function loadUsers() {
-    try {
-        Utils.showLoading($('#userTableBody'));
-        const result = await UserAPI.getAll({ limit: 100 });
-        
-        if (result.success) {
-            renderUsers(result.data);
-        } else {
-            alert('Lỗi: ' + result.message);
+    <script>
+        // Kiểm tra authentication
+        if (!AuthService.isAuthenticated()) {
+            window.location.href = 'welcome.html';
         }
-    } catch (error) {
-        console.error('Lỗi load người dùng:', error);
-        alert('Lỗi tải dữ liệu người dùng');
-    }
-}
 
-// Render danh sách người dùng
-function renderUsers(users) {
-    const tbody = $('#userTableBody');
-    tbody.innerHTML = '';
-    
-    users.forEach(user => {
-        const row = tbody.insertRow();
-        row.onclick = () => fillUserForm(row, user);
-        row.innerHTML = `
+        var currentUser = null;
+
+        function $(s) { return document.querySelector(s); }
+
+        // Load danh sách người dùng
+        async function loadUsers() {
+            try {
+                Utils.showLoading($('#userTableBody'));
+                const result = await UserAPI.getAll({ limit: 100 });
+
+                if (result.success) {
+                    renderUsers(result.data);
+                } else {
+                    alert('Lỗi: ' + result.message);
+                }
+            } catch (error) {
+                console.error('Lỗi load người dùng:', error);
+                alert('Lỗi tải dữ liệu người dùng');
+            }
+        }
+
+        // Render danh sách người dùng
+        function renderUsers(users) {
+            const tbody = $('#userTableBody');
+            tbody.innerHTML = '';
+
+            users.forEach(user => {
+                const row = tbody.insertRow();
+                row.style.cursor = 'pointer';
+                row.onclick = () => viewUserDetail(user);
+
+                const soLan = user.SoLanBaoDuong || 0;
+                const percent = (soLan / 6) * 100;
+
+                row.innerHTML = `
             <td>${user.MaND}</td>
-            <td>${user.HoTen}</td>
-            <td>${user.DienThoai || ''}</td>
-            <td>${user.Email || ''}</td>
-            <td>${user.SoLanBaoDuong || 0}</td>
+            <td><strong>${user.HoTen}</strong></td>
+            <td>${user.DienThoai || '-'}</td>
+            <td>${user.Email || '-'}</td>
             <td>
-                <i class="fas fa-lock lock-icon ${user.IsLocked ? 'locked' : ''}" 
-                   title="${user.IsLocked ? 'Đã khóa' : 'Đang mở'}"
-                   onclick="event.stopPropagation(); lockUser(${user.MaND}, ${user.IsLocked})"></i>
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: ${percent}%"></div>
+                    </div>
+                    <span>${soLan}/6</span>
+                </div>
+            </td>
+            <td>
+                ${user.IsLocked
+                        ? '<span class="status-locked"><i class="fas fa-lock"></i> Đã khóa</span>'
+                        : '<span class="status-active"><i class="fas fa-check"></i> Hoạt động</span>'}
             </td>
             <td class="action-icons">
-                <i class="fas fa-trash delete-icon" onclick="event.stopPropagation(); deleteUser(${user.MaND})"></i>
+                <i class="fas fa-eye" style="color:#007bff;cursor:pointer;margin-right:10px;" 
+                   title="Xem chi tiết" onclick="event.stopPropagation(); viewUserDetail(${JSON.stringify(user).replace(/"/g, '&quot;')})"></i>
+                <i class="fas fa-lock ${user.IsLocked ? 'locked' : ''}" 
+                   style="color:${user.IsLocked ? '#dc3545' : '#ffc107'};cursor:pointer;margin-right:10px;"
+                   title="${user.IsLocked ? 'Mở khóa' : 'Khóa'}"
+                   onclick="event.stopPropagation(); lockUser(${user.MaND}, ${user.IsLocked})"></i>
+                <i class="fas fa-trash delete-icon" style="cursor:pointer;"
+                   title="Xóa" onclick="event.stopPropagation(); deleteUser(${user.MaND})"></i>
             </td>
         `;
-    });
-}
-
-async function fillUserForm(row, user) {
-    currentUserRow = row;
-    currentUserId = user.MaND;
-
-    const card = document.getElementById('userDetailCard');
-    card.style.display = 'block';
-
-    $('#maKH').value = user.MaND;
-    $('#tenKH').value = user.HoTen;
-    $('#sdt').value = user.DienThoai || '';
-    $('#email').value = user.Email || '';
-    $('#soLanBaoDuong').value = user.SoLanBaoDuong || 0;
-    $('#loaiXe').value = user.TenLoaiXe || '';
-    $('#maXe').value = user.MaXe || '';
-
-    card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-}
-
-async function lockUser(maND, isLocked) {
-    event.stopPropagation();
-    const action = isLocked ? 'Mở khóa' : 'Khóa';
-    
-    if (!confirm(`${action} tài khoản ${maND}?`)) return;
-
-    try {
-        const result = await UserAPI.toggleLock(maND, !isLocked);
-        if (result.success) {
-            alert(result.message);
-            loadUsers();
-        } else {
-            alert('Lỗi: ' + result.message);
+            });
         }
-    } catch (error) {
-        console.error('Lỗi khóa/mở khóa:', error);
-        alert('Lỗi thực hiện thao tác');
-    }
-}
 
-async function deleteUser(maND) {
-    if (!confirm('Xóa khách hàng này vĩnh viễn?')) return;
+        // Xem chi tiết người dùng (chỉ xem, không sửa)
+        function viewUserDetail(user) {
+            currentUser = user;
 
-    try {
-        const result = await UserAPI.delete(maND);
-        if (result.success) {
-            alert('Xóa thành công!');
-            loadUsers();
+            const card = document.getElementById('userDetailCard');
+            card.classList.add('show');
+            card.style.display = 'block';
+
+            // Hiển thị thông tin (chỉ đọc)
+            $('#view_maKH').textContent = user.MaND;
+            $('#view_hoTen').textContent = user.HoTen || '-';
+            $('#view_sdt').textContent = user.DienThoai || '-';
+            $('#view_email').textContent = user.Email || '-';
+            $('#view_ngaySinh').textContent = user.NgaySinh || '-';
+            $('#view_loaiXe').textContent = user.TenLoaiXe || 'Chưa đăng ký xe';
+            $('#view_maXe').textContent = user.MaXe || '-';
+
+            // Số lần bảo dưỡng với progress bar
+            const soLan = user.SoLanBaoDuong || 0;
+            $('#view_soLanBaoDuong').innerHTML = `
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: ${(soLan / 6) * 100}%"></div>
+            </div>
+            <span><strong>${soLan}/6</strong> lần</span>
+        </div>
+    `;
+
+            // Trạng thái
+            $('#view_trangThai').innerHTML = user.IsLocked
+                ? '<span class="status-locked"><i class="fas fa-lock"></i> Đã khóa</span>'
+                : '<span class="status-active"><i class="fas fa-check"></i> Hoạt động</span>';
+
+            // Cập nhật nút khóa/mở khóa
+            const btnLock = $('#btnLockUser');
+            if (user.IsLocked) {
+                btnLock.innerHTML = '<i class="fas fa-unlock"></i> Mở khóa';
+                btnLock.style.background = 'linear-gradient(135deg, #28a745, #218838)';
+                btnLock.style.color = 'white';
+            } else {
+                btnLock.innerHTML = '<i class="fas fa-lock"></i> Khóa tài khoản';
+                btnLock.style.background = 'linear-gradient(135deg, #ffc107, #e0a800)';
+                btnLock.style.color = '#212529';
+            }
+
+            card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        // Đóng panel chi tiết
+        function closeDetail() {
             document.getElementById('userDetailCard').style.display = 'none';
-        } else {
-            alert('Lỗi: ' + result.message);
+            currentUser = null;
         }
-    } catch (error) {
-        console.error('Lỗi xóa:', error);
-        alert('Lỗi xóa người dùng');
-    }
-}
 
-async function updateUser() {
-    if (!currentUserId) return alert('Vui lòng chọn khách hàng!');
+        // Khóa/Mở khóa tài khoản hiện tại
+        async function lockCurrentUser() {
+            if (!currentUser) return;
+            await lockUser(currentUser.MaND, currentUser.IsLocked);
+        }
 
-    const userData = {
-        HoTen: $('#tenKH').value.trim(),
-        DienThoai: $('#sdt').value.trim(),
-        Email: $('#email').value.trim(),
-        SoLanBaoDuong: parseInt($('#soLanBaoDuong').value) || 0
-    };
+        // Xóa tài khoản hiện tại
+        async function deleteCurrentUser() {
+            if (!currentUser) return;
+            await deleteUser(currentUser.MaND);
+        }
 
-    try {
-        const result = await UserAPI.update(currentUserId, userData);
-        if (result.success) {
-            alert('Cập nhật thành công!');
+        // Khóa/Mở khóa tài khoản
+        async function lockUser(maND, isLocked) {
+            const action = isLocked ? 'Mở khóa' : 'Khóa';
+
+            if (!confirm(`${action} tài khoản khách hàng #${maND}?`)) return;
+
+            try {
+                const result = await UserAPI.toggleLock(maND, !isLocked);
+                if (result.success) {
+                    alert(`✅ ${result.message || action + ' thành công!'}`);
+                    loadUsers();
+                    closeDetail();
+                } else {
+                    alert('❌ Lỗi: ' + result.message);
+                }
+            } catch (error) {
+                console.error('Lỗi khóa/mở khóa:', error);
+                alert('❌ Lỗi thực hiện thao tác');
+            }
+        }
+
+        // Xóa người dùng
+        async function deleteUser(maND) {
+            if (!confirm(`⚠️ Xóa vĩnh viễn khách hàng #${maND}?\n\nHành động này không thể hoàn tác!`)) return;
+
+            try {
+                const result = await UserAPI.delete(maND);
+                if (result.success) {
+                    alert('✅ Xóa thành công!');
+                    loadUsers();
+                    closeDetail();
+                } else {
+                    alert('❌ Lỗi: ' + result.message);
+                }
+            } catch (error) {
+                console.error('Lỗi xóa:', error);
+                alert('❌ Lỗi xóa người dùng');
+            }
+        }
+
+        function goTo(page) {
+            window.location.href = page;
+        }
+
+        // Load dữ liệu khi trang được tải
+        document.addEventListener('DOMContentLoaded', function () {
             loadUsers();
-        } else {
-            alert('Lỗi: ' + result.message);
-        }
-    } catch (error) {
-        console.error('Lỗi cập nhật:', error);
-        alert('Lỗi cập nhật người dùng');
-    }
-}
-
-function goTo(page) {
-    window.location.href = page;
-}
-
-// Load dữ liệu khi trang được tải
-document.addEventListener('DOMContentLoaded', function() {
-    loadUsers();
-});
-</script>
+        });
+    </script>
 
 </body>
+
 </html>

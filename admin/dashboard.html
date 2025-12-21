@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -34,8 +35,8 @@
             <li class="menu-item" onclick="goTo('notifications.html')">
                 <i class="fas fa-bell"></i> Thông báo
             </li>
-            <li class="menu-item" onclick="goTo('chatbox.html')">
-                <i class="fas fa-comments"></i> Chatbox
+            <li class="menu-item" onclick="goTo('dailymanagement.html')">
+                <i class="fas fa-store"></i> Đại lý
         </ul>
     </aside>
 
@@ -58,14 +59,14 @@
     </div>
     <!-- API Service -->
     <script src="asset/api.js"></script>
-    
+
     <!-- Script điều hướng -->
     <script>
         // Kiểm tra authentication
         if (!AuthService.isAuthenticated()) {
             window.location.href = 'welcome.html';
         }
-        
+
         function goTo(page) {
             window.location.href = page;
         }
@@ -82,16 +83,16 @@
         async function loadCategories() {
             try {
                 const result = await CategoryAPI.getAll();
-                
+
                 if (result.success && result.data) {
                     renderCategories(result.data);
                 } else {
-                    document.getElementById('categoriesGrid').innerHTML = 
+                    document.getElementById('categoriesGrid').innerHTML =
                         '<div style="text-align: center; padding: 20px; color: red;">Lỗi tải danh mục: ' + (result.message || 'Unknown error') + '</div>';
                 }
             } catch (error) {
                 console.error('Lỗi load danh mục:', error);
-                document.getElementById('categoriesGrid').innerHTML = 
+                document.getElementById('categoriesGrid').innerHTML =
                     '<div style="text-align: center; padding: 20px; color: red;">Lỗi kết nối server</div>';
             }
         }
@@ -104,7 +105,7 @@
             categories.forEach(category => {
                 const imageUrl = categoryImages[category.MaDanhMuc] || 'asset/car-icon.png';
                 const productCount = category.SoLuongSanPham || 0;
-                
+
                 const card = document.createElement('div');
                 card.className = 'product-card';
                 card.innerHTML = `
@@ -131,10 +132,11 @@
         }
 
         // Load khi trang được tải
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             loadCategories();
         });
     </script>
 
 </body>
+
 </html>
