@@ -270,6 +270,7 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/tvAddressType"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Nhà riêng"
@@ -313,6 +314,7 @@
                         app:tint="#000000" />
 
                     <TextView
+                        android:id="@+id/tvPaymentMethod"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -354,6 +356,7 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/tvShippingMethod"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Giao hàng nhanh"
