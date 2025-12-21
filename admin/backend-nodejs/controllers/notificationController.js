@@ -164,10 +164,129 @@ const deleteReminder = async (req, res) => {
     }
 };
 
+// Lấy danh sách nhắc nhở từ bảng BAO_DUONG (giống Android app)
+const getBaoDuongReminders = async (req, res) => {
+    try {
+        const query = `
+            SELECT 
+                BD.MaBD,
+                BD.NgayBaoDuong,
+                BD.MoTa,
+                BD.TrangThai,
+                BD.DaNhacNho,
+                BD.MaND,
+                ND.HoTen as TenKhachHang,
+                ND.DienThoai,
+                ND.Email,
+                ND.SoLanBaoDuong,
+                X.MaXe,
+                X.BienSo,
+                LX.TenLoaiXe
+            FROM BAO_DUONG BD
+            INNER JOIN NGUOI_DUNG ND ON BD.MaND = ND.MaND
+            LEFT JOIN XE X ON ND.MaND = X.MaND
+            LEFT JOIN LOAI_XE LX ON X.MaLoaiXe = LX.MaLoaiXe
+            WHERE BD.TrangThai = N'Nhắc nhở'
+            ORDER BY BD.NgayBaoDuong DESC
+        `;
+
+        const reminders = await executeQuery(query, {});
+
+        res.json({
+            success: true,
+            data: reminders
+        });
+    } catch (error) {
+        console.error('Lỗi lấy danh sách nhắc nhở bảo dưỡng:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Lỗi server',
+            error: error.message
+        });
+    }
+};
+
+// Cập nhật trạng thái nhắc nhở trong bảng BAO_DUONG
+const updateBaoDuongStatus = async (req, res) => {
+    try {
+        const { maBD, trangThai } = req.body;
+
+        if (!maBD || !trangThai) {
+            return res.status(400).json({
+                success: false,
+                message: 'Vui lòng cung cấp mã bảo dưỡng và trạng thái'
+            });
+        }
+
+        const query = `
+            UPDATE BAO_DUONG
+            SET TrangThai = @trangThai,
+                DaNhacNho = CASE WHEN @trangThai = N'Đã nhắc nhở' THEN 1 ELSE DaNhacNho END
+            WHERE MaBD = @maBD
+        `;
+
+        await executeQuery(query, {
+            maBD: { type: sql.Int, value: parseInt(maBD) },
+            trangThai: { type: sql.NVarChar, value: trangThai }
+        });
+
+        res.json({
+            success: true,
+            message: 'Đã cập nhật trạng thái nhắc nhở'
+        });
+    } catch (error) {
+        console.error('Lỗi cập nhật trạng thái:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Lỗi server',
+            error: error.message
+        });
+    }
+};
+
+// Tạo nhắc nhở mới trong bảng BAO_DUONG
+const createBaoDuongReminder = async (req, res) => {
+    try {
+        const { maND, moTa } = req.body;
+
+        if (!maND) {
+            return res.status(400).json({
+                success: false,
+                message: 'Vui lòng cung cấp mã người dùng'
+            });
+        }
+
+        const query = `
+            INSERT INTO BAO_DUONG (MaND, MoTa, TrangThai, DaNhacNho)
+            VALUES (@maND, @moTa, N'Nhắc nhở', 0)
+        `;
+
+        await executeQuery(query, {
+            maND: { type: sql.Int, value: parseInt(maND) },
+            moTa: { type: sql.NVarChar, value: moTa || 'Nhắc nhở thay thế phụ tùng' }
+        });
+
+        res.json({
+            success: true,
+            message: 'Đã tạo nhắc nhở mới'
+        });
+    } catch (error) {
+        console.error('Lỗi tạo nhắc nhở:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Lỗi server',
+            error: error.message
+        });
+    }
+};
+
 module.exports = {
     getAllNotifications,
     getMaintenanceReminders,
     sendReminder,
-    deleteReminder
+    deleteReminder,
+    getBaoDuongReminders,
+    updateBaoDuongStatus,
+    createBaoDuongReminder
 };
 

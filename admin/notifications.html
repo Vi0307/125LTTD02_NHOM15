@@ -1,179 +1,651 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OTOTECH - Thông báo</title>
     <link rel="stylesheet" href="asset/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        /* Tab Navigation */
+        .tab-nav {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 24px;
+        }
+
+        .tab-btn {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 50px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: #f0f4ff;
+            color: #666;
+        }
+
+        .tab-btn:hover {
+            background: #e0e8ff;
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, #4e9fff, #007bff);
+            color: white;
+            box-shadow: 0 8px 20px rgba(0, 123, 255, 0.3);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Badge đếm */
+        .badge {
+            display: inline-block;
+            background: #dc3545;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 50px;
+            font-size: 12px;
+            margin-left: 8px;
+        }
+
+        .tab-btn.active .badge {
+            background: white;
+            color: #007bff;
+        }
+
+        /* Status badges */
+        .status-warning {
+            background: #fff3cd;
+            color: #856404;
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .status-danger {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .status-success {
+            background: #d4edda;
+            color: #155724;
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .status-info {
+            background: #d1ecf1;
+            color: #0c5460;
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        /* Info boxes */
+        .info-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 28px;
+            border-radius: 16px;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .info-box i {
+            font-size: 32px;
+        }
+
+        .info-box-content h3 {
+            font-size: 18px;
+            margin-bottom: 4px;
+        }
+
+        .info-box-content p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .info-box.warning {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        /* Notify table specifics */
+        .notify-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .notify-table th {
+            background: #f1f3f5;
+            padding: 16px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .notify-table td {
+            padding: 18px 16px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .notify-table tr:hover {
+            background: #f8fbff;
+        }
+
+        /* Action buttons in table */
+        .btn-send {
+            background: linear-gradient(135deg, #28a745, #218838);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-right: 8px;
+        }
+
+        .btn-send:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
+        }
+
+        .btn-complete {
+            background: linear-gradient(135deg, #17a2b8, #138496);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-complete:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(23, 162, 184, 0.4);
+        }
+
+        .btn-reset {
+            background: linear-gradient(135deg, #ffc107, #e0a800);
+            color: #212529;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-reset:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 193, 7, 0.4);
+        }
+
+        /* Progress bar chu ki bao duong */
+        .progress-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .progress-bar {
+            flex: 1;
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 50px;
+            overflow: hidden;
+            min-width: 100px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 50px;
+            transition: width 0.3s;
+        }
+
+        .progress-fill.low {
+            background: linear-gradient(90deg, #28a745, #34ce57);
+        }
+
+        .progress-fill.mid {
+            background: linear-gradient(90deg, #ffc107, #ffca2c);
+        }
+
+        .progress-fill.high {
+            background: linear-gradient(90deg, #dc3545, #f5576c);
+        }
+
+        .progress-text {
+            font-size: 13px;
+            font-weight: 600;
+            min-width: 60px;
+        }
+
+        /* Empty state */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+
+        .empty-state i {
+            font-size: 64px;
+            color: #ddd;
+            margin-bottom: 20px;
+        }
+
+        .empty-state h3 {
+            font-size: 20px;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        /* Cycle info */
+        .cycle-info {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid #007bff;
+        }
+
+        .cycle-info h4 {
+            font-size: 16px;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .cycle-info p {
+            font-size: 14px;
+            color: #666;
+            margin: 4px 0;
+        }
+
+        .cycle-info strong {
+            color: #007bff;
+        }
+
+        /* Description text */
+        .desc-text {
+            font-size: 14px;
+            color: #666;
+            font-style: italic;
+        }
+    </style>
 </head>
-<body>
 
-<div class="page-wrapper">
+<body class="dashboard-body admin-body">
 
-    <!-- Top User -->
-    <div class="top-user">
-        <span class="username">Administrator</span>
-    </div>
+    <div class="page-wrapper">
 
-    <!-- Sidebar -->
-    <aside class="sidebar">
-        <ul class="menu">
-            <li class="menu-item" onclick="goTo('dashboard.html')">
-                <i class="fas fa-th-large"></i> Sản phẩm
-            </li>
-            <li class="menu-item" onclick="goTo('user.html')">
-                <i class="fas fa-users"></i> Người dùng
-            </li>
-            <li class="menu-item" onclick="goTo('order.html')">
-                <i class="fas fa-shopping-cart"></i> Đơn hàng
-            </li>
-            <li class="menu-item" onclick="goTo('schedule.html')">
-                <i class="fas fa-calendar-check"></i> Đặt lịch
-            </li>
-            <li class="menu-item active" onclick="goTo('notifications.html')">
-                <i class="fas fa-bell"></i> Thông báo
-            </li>
-            <li class="menu-item" onclick="goTo('chatbox.html')">
-                <i class="fas fa-comments"></i> Chatbox
-        </ul>
-    </aside>
-
-    <main class="main-content">
-
-        <!-- BẢNG THÔNG BÁO BẢO DƯỠNG SẮP TỚI -->
-        <div class="table-card">
-            <h2 class="table-title">Danh sách khách hàng cần nhắc bảo dưỡng</h2>
-            <div class="table-container">
-                <table class="notify-table">
-                    <thead>
-                        <tr>
-                            <th>Khách hàng</th>
-                            <th>Tên xe</th>
-                            <th>Đã thực hiện</th>
-                            <th>Lần tiếp theo</th>
-                            <th>Thao tác</th>
-                        </tr>
-                    </thead>
-                    <tbody id="notifyTableBody">
-                        <!-- Dữ liệu sẽ được load từ API -->
-                    </tbody>
-                </table>
-            </div>
+        <!-- Top User -->
+        <div class="top-user">
+            <span class="username">Administrator</span>
         </div>
 
-    </main>
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <ul class="menu">
+                <li class="menu-item" onclick="goTo('dashboard.html')">
+                    <i class="fas fa-th-large"></i> Sản phẩm
+                </li>
+                <li class="menu-item" onclick="goTo('user.html')">
+                    <i class="fas fa-users"></i> Người dùng
+                </li>
+                <li class="menu-item" onclick="goTo('order.html')">
+                    <i class="fas fa-shopping-cart"></i> Đơn hàng
+                </li>
+                <li class="menu-item" onclick="goTo('schedule.html')">
+                    <i class="fas fa-calendar-check"></i> Đặt lịch
+                </li>
+                <li class="menu-item active" onclick="goTo('notifications.html')">
+                    <i class="fas fa-bell"></i> Thông báo
+                </li>
+                <li class="menu-item" onclick="goTo('chatbox.html')">
+                    <i class="fas fa-comments"></i> Chatbox
+            </ul>
+        </aside>
 
-    <div class="bottom-brand">
-        <div class="brand-name">OTOTECH</div>
-        <div class="version">Version: 1.0.0.11</div>
+        <main class="main-content">
+
+            <!-- Hướng dẫn chu kỳ -->
+            <div class="cycle-info">
+                <h4><i class="fas fa-info-circle"></i> Quy trình bảo dưỡng & thay phụ tùng</h4>
+                <p>• <strong>Chu kỳ bảo dưỡng:</strong> 2 tháng/lần, tổng cộng 6 lần trong 1 năm</p>
+                <p>• <strong>Sau 6 lần bảo dưỡng:</strong> Cần thay thế phụ tùng và reset chu kỳ mới</p>
+                <p>• <strong>Bảng BAO_DUONG:</strong> Lưu các nhắc nhở thay phụ tùng (TrangThai = 'Nhắc nhở')</p>
+            </div>
+
+            <!-- Tab Navigation -->
+            <div class="tab-nav">
+                <button class="tab-btn active" onclick="switchTab('maintenance')">
+                    <i class="fas fa-wrench"></i> Nhắc bảo dưỡng định kỳ
+                    <span class="badge" id="maintenanceBadge">0</span>
+                </button>
+                <button class="tab-btn" onclick="switchTab('parts')">
+                    <i class="fas fa-cogs"></i> Nhắc thay phụ tùng (Bảng BAO_DUONG)
+                    <span class="badge" id="partsBadge">0</span>
+                </button>
+            </div>
+
+            <!-- Tab 1: Nhắc bảo dưỡng định kỳ (SoLanBaoDuong < 6) -->
+            <div id="maintenance-tab" class="tab-content active">
+                <div class="info-box">
+                    <i class="fas fa-calendar-alt"></i>
+                    <div class="info-box-content">
+                        <h3>Nhắc bảo dưỡng định kỳ - Chu kỳ 2 tháng/lần</h3>
+                        <p>Danh sách khách hàng đang trong chu kỳ bảo dưỡng (chưa đủ 6 lần). Dữ liệu từ
+                            NGUOI_DUNG.SoLanBaoDuong</p>
+                    </div>
+                </div>
+
+                <div class="table-card">
+                    <h2 class="table-title">Danh sách khách hàng cần nhắc bảo dưỡng</h2>
+                    <div class="table-container">
+                        <table class="notify-table">
+                            <thead>
+                                <tr>
+                                    <th>Khách hàng</th>
+                                    <th>Điện thoại</th>
+                                    <th>Loại xe</th>
+                                    <th>Số lần đã bảo dưỡng</th>
+                                    <th>Trạng thái</th>
+                                    <th>Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody id="maintenanceTableBody">
+                                <!-- Dữ liệu sẽ được load từ API -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 2: Nhắc thay phụ tùng (từ bảng BAO_DUONG) -->
+            <div id="parts-tab" class="tab-content">
+                <div class="info-box warning">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <div class="info-box-content">
+                        <h3>Nhắc thay phụ tùng - Bảng BAO_DUONG</h3>
+                        <p>Danh sách nhắc nhở thay thế phụ tùng từ bảng BAO_DUONG với TrangThai = 'Nhắc nhở' (giống
+                            Android app)</p>
+                    </div>
+                </div>
+
+                <div class="table-card">
+                    <h2 class="table-title">Danh sách nhắc nhở thay phụ tùng</h2>
+                    <div class="table-container">
+                        <table class="notify-table">
+                            <thead>
+                                <tr>
+                                    <th>Mã BD</th>
+                                    <th>Khách hàng</th>
+                                    <th>Loại xe</th>
+                                    <th>Nội dung nhắc nhở</th>
+                                    <th>Trạng thái</th>
+                                    <th>Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody id="partsTableBody">
+                                <!-- Dữ liệu sẽ được load từ API -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+        <div class="bottom-brand">
+            <div class="brand-name">OTOTECH</div>
+            <div class="version">Version: 1.0.0.11</div>
+        </div>
     </div>
-</div>
 
-<!-- API Service -->
-<script src="asset/api.js"></script>
+    <!-- API Service -->
+    <script src="asset/api.js"></script>
 
-<script>
-// Kiểm tra authentication
-if (!AuthService.isAuthenticated()) {
-    window.location.href = 'welcome.html';
-}
-
-// Load danh sách nhắc bảo dưỡng
-async function loadReminders() {
-    try {
-        Utils.showLoading($('#notifyTableBody'));
-        const result = await NotificationAPI.getReminders();
-        
-        if (result.success) {
-            renderReminders(result.data);
-        } else {
-            alert('Lỗi: ' + result.message);
+    <script>
+        // Kiểm tra authentication
+        if (!AuthService.isAuthenticated()) {
+            window.location.href = 'welcome.html';
         }
-    } catch (error) {
-        console.error('Lỗi load nhắc nhở:', error);
-        alert('Lỗi tải dữ liệu nhắc nhở');
-    }
-}
 
-// Render danh sách nhắc bảo dưỡng
-function renderReminders(reminders) {
-    const tbody = $('#notifyTableBody');
-    tbody.innerHTML = '';
-    
-    if (reminders.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:20px;">Không có khách hàng nào cần nhắc bảo dưỡng</td></tr>';
-        return;
-    }
-    
-    reminders.forEach(reminder => {
-        const row = tbody.insertRow();
-        const soLan = reminder.SoLanBaoDuong || 0;
-        const lanTiepTheo = soLan + 1;
-        row.innerHTML = `
-            <td>${reminder.TenKhachHang || 'Chưa có tên'}</td>
-            <td>${reminder.TenLoaiXe || 'Chưa đăng ký xe'}</td>
-            <td>${soLan} lần</td>
-            <td>Lần thứ ${lanTiepTheo}</td>
-            <td class="action-icons">
-                <i class="fas fa-bell bell-notify" style="color:#ffc107;cursor:pointer;margin-right:10px;" title="Gửi thông báo nhắc nhở" onclick="sendReminder(${reminder.MaND}, '${reminder.TenKhachHang || ''}')"></i>
-                <i class="fas fa-check-circle" style="color:#28a745;cursor:pointer;" title="Đánh dấu hoàn tất (6 lần)" onclick="deleteReminder(${reminder.MaND}, '${reminder.TenKhachHang || ''}')"></i>
+        function $(s) { return document.querySelector(s); }
+
+        // Chuyển tab
+        function switchTab(tab) {
+            // Update tab buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+
+            // Update tab content
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            document.getElementById(tab + '-tab').classList.add('active');
+        }
+
+        // ==================== TAB 1: NHẮC BẢO DƯỠNG ĐỊNH KỲ ====================
+        // (Dựa trên NGUOI_DUNG.SoLanBaoDuong)
+        async function loadMaintenanceReminders() {
+            try {
+                Utils.showLoading($('#maintenanceTableBody'));
+                const result = await NotificationAPI.getReminders();
+
+                if (result.success) {
+                    renderMaintenanceReminders(result.data);
+                } else {
+                    showEmptyState('maintenanceTableBody', 'Không thể tải dữ liệu');
+                }
+            } catch (error) {
+                console.error('Lỗi load nhắc nhở bảo dưỡng:', error);
+                showEmptyState('maintenanceTableBody', 'Lỗi kết nối server');
+            }
+        }
+
+        function renderMaintenanceReminders(users) {
+            const tbody = $('#maintenanceTableBody');
+            tbody.innerHTML = '';
+
+            // Lọc những khách hàng có SoLanBaoDuong < 6 (đang trong chu kỳ bảo dưỡng)
+            let needReminder = users.filter(user => {
+                const soLan = user.SoLanBaoDuong || 0;
+                return soLan < 6;
+            });
+
+            // Update badge
+            $('#maintenanceBadge').textContent = needReminder.length;
+
+            if (needReminder.length === 0) {
+                showEmptyState('maintenanceTableBody', 'Không có khách hàng nào cần nhắc bảo dưỡng');
+                return;
+            }
+
+            // Sắp xếp: số lần bảo dưỡng thấp trước (cần nhắc gấp)
+            needReminder.sort((a, b) => (a.SoLanBaoDuong || 0) - (b.SoLanBaoDuong || 0));
+
+            needReminder.forEach(user => {
+                const row = tbody.insertRow();
+                const soLan = user.SoLanBaoDuong || 0;
+                const lanTiepTheo = soLan + 1;
+
+                let statusHtml = '';
+                if (soLan === 0) {
+                    statusHtml = '<span class="status-danger">Chưa bảo dưỡng lần nào</span>';
+                } else if (soLan <= 2) {
+                    statusHtml = `<span class="status-warning">Lần tiếp theo: ${lanTiepTheo}</span>`;
+                } else {
+                    statusHtml = `<span class="status-info">Lần tiếp theo: ${lanTiepTheo}</span>`;
+                }
+
+                row.innerHTML = `
+            <td><strong>${user.TenKhachHang || 'Chưa có tên'}</strong></td>
+            <td>${user.DienThoai || 'N/A'}</td>
+            <td>${user.TenLoaiXe || 'Chưa đăng ký xe'}</td>
+            <td>
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill ${soLan <= 2 ? 'low' : soLan <= 4 ? 'mid' : 'high'}" 
+                             style="width: ${(soLan / 6) * 100}%"></div>
+                    </div>
+                    <span class="progress-text">${soLan}/6 lần</span>
+                </div>
+            </td>
+            <td>${statusHtml}</td>
+            <td>
+                <button class="btn-send" onclick="sendMaintenanceReminder(${user.MaND}, '${user.TenKhachHang || ''}', ${soLan})">
+                    <i class="fas fa-check"></i> Ghi nhận bảo dưỡng
+                </button>
             </td>
         `;
-    });
-}
-
-// Gửi thông báo nhắc nhở
-async function sendReminder(maND, tenKH) {
-    event.stopPropagation();
-    
-    if (!confirm(`Gửi thông báo nhắc bảo dưỡng cho khách hàng "${tenKH}"?`)) return;
-
-    try {
-        const result = await NotificationAPI.sendReminder(maND);
-        if (result.success) {
-            alert(`Đã gửi thành công thông báo đến ${tenKH}!`);
-            loadReminders();
-        } else {
-            alert('Lỗi: ' + result.message);
+            });
         }
-    } catch (error) {
-        console.error('Lỗi gửi thông báo:', error);
-        alert('Lỗi gửi thông báo');
-    }
-}
 
-// Xóa khỏi danh sách nhắc nhở
-async function deleteReminder(maND, tenKH) {
-    event.stopPropagation();
-    
-    if (!confirm(`Xóa khách hàng "${tenKH}" khỏi danh sách nhắc bảo dưỡng?`)) return;
+        // ==================== TAB 2: NHẮC THAY PHỤ TÙNG ====================
+        // (Từ bảng BAO_DUONG với TrangThai = 'Nhắc nhở' - giống Android app)
+        async function loadPartsReminders() {
+            try {
+                Utils.showLoading($('#partsTableBody'));
+                const result = await NotificationAPI.getBaoDuongReminders();
 
-    try {
-        const result = await NotificationAPI.deleteReminder(maND);
-        if (result.success) {
-            alert(`Đã xóa ${tenKH} khỏi danh sách!`);
-            loadReminders();
-        } else {
-            alert('Lỗi: ' + result.message);
+                if (result.success) {
+                    renderPartsReminders(result.data);
+                } else {
+                    showEmptyState('partsTableBody', 'Không thể tải dữ liệu');
+                }
+            } catch (error) {
+                console.error('Lỗi load nhắc nhở thay phụ tùng:', error);
+                showEmptyState('partsTableBody', 'Lỗi kết nối server');
+            }
         }
-    } catch (error) {
-        console.error('Lỗi xóa:', error);
-        alert('Lỗi xóa nhắc nhở');
-    }
-}
 
-function $(s) { return document.querySelector(s); }
+        function renderPartsReminders(reminders) {
+            const tbody = $('#partsTableBody');
+            tbody.innerHTML = '';
 
-function goTo(page) {
-    window.location.href = page;
-}
+            // Update badge
+            $('#partsBadge').textContent = reminders.length;
 
-// Load dữ liệu khi trang được tải
-document.addEventListener('DOMContentLoaded', function() {
-    loadReminders();
-});
-</script>
+            if (reminders.length === 0) {
+                showEmptyState('partsTableBody', 'Không có nhắc nhở thay phụ tùng nào');
+                return;
+            }
+
+            reminders.forEach(item => {
+                const row = tbody.insertRow();
+
+                row.innerHTML = `
+            <td><strong>#${item.MaBD}</strong></td>
+            <td>
+                <strong>${item.TenKhachHang || 'Chưa có tên'}</strong>
+                <br><small class="desc-text">${item.DienThoai || ''}</small>
+            </td>
+            <td>${item.TenLoaiXe || 'N/A'}<br><small class="desc-text">${item.BienSo || ''}</small></td>
+            <td>${item.MoTa || 'Nhắc nhở thay phụ tùng'}</td>
+            <td><span class="status-warning">${item.TrangThai}</span></td>
+            <td>
+                <button class="btn-send" onclick="markAsNotified(${item.MaBD}, '${item.TenKhachHang || ''}')">
+                    <i class="fas fa-bell"></i> Đã nhắc nhở
+                </button>
+            </td>
+        `;
+            });
+        }
+
+        // ==================== GỬI THÔNG BÁO ====================
+        async function sendMaintenanceReminder(maND, tenKH, currentCount) {
+            const newCount = currentCount + 1;
+            const message = newCount === 6
+                ? `Xác nhận khách hàng "${tenKH}" đã hoàn thành lần bảo dưỡng thứ ${newCount} (lần cuối trong chu kỳ)?`
+                : `Xác nhận khách hàng "${tenKH}" đã hoàn thành lần bảo dưỡng thứ ${newCount}?`;
+
+            if (!confirm(message)) return;
+
+            try {
+                const result = await NotificationAPI.sendReminder(maND);
+                if (result.success) {
+                    if (newCount >= 6) {
+                        alert(`✅ Đã ghi nhận lần bảo dưỡng thứ ${newCount} cho ${tenKH}!\n\n⚠️ Khách hàng này đã hoàn thành chu kỳ 6 lần bảo dưỡng.\nVui lòng tạo nhắc nhở thay thế phụ tùng trong bảng BAO_DUONG.`);
+                    } else {
+                        alert(`✅ Đã ghi nhận lần bảo dưỡng thứ ${newCount} cho ${tenKH}!`);
+                    }
+                    loadMaintenanceReminders();
+                    loadPartsReminders();
+                } else {
+                    alert('❌ Lỗi: ' + result.message);
+                }
+            } catch (error) {
+                console.error('Lỗi gửi thông báo:', error);
+                alert('❌ Lỗi gửi thông báo');
+            }
+        }
+
+        // Đánh dấu đã nhắc nhở (cập nhật TrangThai trong BAO_DUONG)
+        async function markAsNotified(maBD, tenKH) {
+            if (!confirm(`Đánh dấu đã nhắc nhở thay phụ tùng cho khách hàng "${tenKH}"?\n\nTrạng thái sẽ chuyển thành "Đã nhắc nhở".`)) return;
+
+            try {
+                const result = await NotificationAPI.updateBaoDuongStatus(maBD, 'Đã nhắc nhở');
+                if (result.success) {
+                    alert(`✅ Đã cập nhật trạng thái nhắc nhở cho ${tenKH}!`);
+                    loadPartsReminders();
+                } else {
+                    alert('❌ Lỗi: ' + result.message);
+                }
+            } catch (error) {
+                console.error('Lỗi cập nhật trạng thái:', error);
+                alert('❌ Lỗi cập nhật trạng thái');
+            }
+        }
+
+        // ==================== HELPER FUNCTIONS ====================
+        function showEmptyState(tableId, message) {
+            const tbody = document.getElementById(tableId);
+            tbody.innerHTML = `
+        <tr>
+            <td colspan="6">
+                <div class="empty-state">
+                    <i class="fas fa-check-circle"></i>
+                    <h3>Tuyệt vời!</h3>
+                    <p>${message}</p>
+                </div>
+            </td>
+        </tr>
+    `;
+        }
+
+        function goTo(page) {
+            window.location.href = page;
+        }
+
+        // Load dữ liệu khi trang được tải
+        document.addEventListener('DOMContentLoaded', function () {
+            loadMaintenanceReminders();
+            loadPartsReminders();
+        });
+    </script>
 
 </body>
+
 </html>

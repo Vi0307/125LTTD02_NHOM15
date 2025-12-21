@@ -316,12 +316,12 @@ const NotificationAPI = {
         return await apiCall(`/notifications?${queryString}`);
     },
 
-    // Lấy danh sách nhắc bảo dưỡng
+    // Lấy danh sách nhắc bảo dưỡng (dựa trên NGUOI_DUNG.SoLanBaoDuong)
     async getReminders() {
         return await apiCall('/notifications/reminders');
     },
 
-    // Gửi thông báo nhắc nhở
+    // Gửi thông báo nhắc nhở (tăng SoLanBaoDuong)
     async sendReminder(maND) {
         return await apiCall('/notifications/reminders/send', {
             method: 'POST',
@@ -334,6 +334,29 @@ const NotificationAPI = {
         return await apiCall('/notifications/reminders', {
             method: 'DELETE',
             body: JSON.stringify({ maND })
+        });
+    },
+
+    // ========== API CHO BẢNG BAO_DUONG (giống Android app) ==========
+
+    // Lấy danh sách nhắc nhở thay phụ tùng từ bảng BAO_DUONG
+    async getBaoDuongReminders() {
+        return await apiCall('/notifications/bao-duong');
+    },
+
+    // Cập nhật trạng thái nhắc nhở trong BAO_DUONG
+    async updateBaoDuongStatus(maBD, trangThai) {
+        return await apiCall('/notifications/bao-duong/status', {
+            method: 'PUT',
+            body: JSON.stringify({ maBD, trangThai })
+        });
+    },
+
+    // Tạo nhắc nhở mới trong BAO_DUONG
+    async createBaoDuongReminder(maND, moTa) {
+        return await apiCall('/notifications/bao-duong', {
+            method: 'POST',
+            body: JSON.stringify({ maND, moTa })
         });
     }
 };
