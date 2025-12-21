@@ -130,6 +130,17 @@ CREATE TABLE PHUONG_THUC_VAN_CHUYEN (
 );
 
 -- =========================
+-- PHƯƠNG THỨC THANH TOÁN
+-- =========================
+CREATE TABLE PHUONG_THUC_THANH_TOAN (
+    MaPTTT INT IDENTITY(1,1) PRIMARY KEY,
+    TenPTTT NVARCHAR(100) NOT NULL,
+    MoTa NVARCHAR(255) NULL,
+    Icon NVARCHAR(100) NULL,
+    TrangThai BIT DEFAULT 1 -- 1: Hoạt động, 0: Ngừng hoạt động
+);
+
+-- =========================
 -- ĐƠN HÀNG
 -- =========================
 CREATE TABLE DON_HANG (
@@ -146,13 +157,13 @@ CREATE TABLE DON_HANG (
     MaVC INT NULL,
     NgayNhanDuKien DATETIME NOT NULL,
     MaPTVC INT NULL,
-    PhuongThucThanhToan NVARCHAR(50) DEFAULT N'Tiền mặt'
-        CHECK (PhuongThucThanhToan IN (N'Tiền mặt', N'Apple Pay', N'Ngân hàng liên kết')),
+    MaPTTT INT NULL,
     TrangThai NVARCHAR(50) DEFAULT N'Đang giao'
-        CHECK (TrangThai IN (N'Đang giao', N'Đã giao')),
+        CHECK (TrangThai IN (N'Đang giao', N'Đã giao', N'Đã hủy')),
     CONSTRAINT FK_DH_ND FOREIGN KEY (MaND) REFERENCES NGUOI_DUNG(MaND),
     CONSTRAINT FK_DH_VC FOREIGN KEY (MaVC) REFERENCES VOUCHER(MaVC),
     CONSTRAINT FK_DH_PTVC FOREIGN KEY (MaPTVC) REFERENCES PHUONG_THUC_VAN_CHUYEN(MaPTVC),
+    CONSTRAINT FK_DH_PTTT FOREIGN KEY (MaPTTT) REFERENCES PHUONG_THUC_THANH_TOAN(MaPTTT),
     CONSTRAINT CK_DH_TONGTIEN CHECK (TongTien >= 0),
     CONSTRAINT CK_DH_PHIVC CHECK (PhiVanChuyen >= 0)
 );
@@ -400,6 +411,12 @@ GO
 INSERT INTO PHUONG_THUC_VAN_CHUYEN (TenPTVC, GiaVanChuyen, SoNgayDuKien, MoTa) VALUES
 (N'Giao hàng nhanh', 500000, 1, N'Chỉ áp dụng nội thành'),
 (N'Giao tiết kiệm', 450000, 5, N'Rẻ nhất');
+GO
+
+INSERT INTO PHUONG_THUC_THANH_TOAN (TenPTTT, MoTa, Icon, TrangThai) VALUES
+(N'Tiền mặt', N'Thanh toán khi nhận hàng (COD)', N'ic_cash', 1),
+(N'Apple Pay', N'Thanh toán qua Apple Pay', N'ic_apple_pay', 1),
+(N'Ngân hàng liên kết', N'Chuyển khoản ngân hàng', N'ic_bank', 1);
 GO
 
 
