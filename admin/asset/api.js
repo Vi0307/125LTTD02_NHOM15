@@ -70,7 +70,7 @@ const AuthService = {
                 this.removeToken();
                 return { success: false, message: 'Lỗi phản hồi từ server' };
             }
-            
+
             console.log('🔐 Login response:', {
                 status: response.status,
                 ok: response.ok,
@@ -78,22 +78,22 @@ const AuthService = {
                 hasToken: !!(data.data && data.data.token),
                 fullData: data
             });
-            
+
             // KIỂM TRA CHẶT CHẼ - CHỈ THÀNH CÔNG KHI:
             // 1. Response status = 200 (OK)
             // 2. response.ok = true
             // 3. data.success === true (strict boolean check)
             // 4. Có token trong data.data.token và là string
             const isSuccess = (
-                response.status === 200 && 
-                response.ok === true && 
-                data.success === true && 
-                data.data && 
-                data.data.token && 
+                response.status === 200 &&
+                response.ok === true &&
+                data.success === true &&
+                data.data &&
+                data.data.token &&
                 typeof data.data.token === 'string' &&
                 data.data.token.length > 0
             );
-            
+
             if (isSuccess) {
                 console.log('✅ Login success, setting token:', data.data.token.substring(0, 20) + '...');
                 this.setToken(data.data.token);
@@ -105,12 +105,12 @@ const AuthService = {
                     ok: response.ok,
                     success: data.success,
                     hasToken: !!(data.data && data.data.token),
-                    reason: !response.ok ? 'Response not OK' : 
-                            data.success !== true ? 'Success is not true' :
+                    reason: !response.ok ? 'Response not OK' :
+                        data.success !== true ? 'Success is not true' :
                             !data.data ? 'No data' :
-                            !data.data.token ? 'No token' :
-                            typeof data.data.token !== 'string' ? 'Token is not string' :
-                            data.data.token.length === 0 ? 'Token is empty' : 'Unknown'
+                                !data.data.token ? 'No token' :
+                                    typeof data.data.token !== 'string' ? 'Token is not string' :
+                                        data.data.token.length === 0 ? 'Token is empty' : 'Unknown'
                 });
                 this.removeToken(); // QUAN TRỌNG: Xóa token khi fail
                 const errorMsg = data.message || `Đăng nhập thất bại (Status: ${response.status})`;
@@ -133,7 +133,7 @@ const AuthService = {
 // ==================== API HELPER ====================
 const apiCall = async (endpoint, options = {}) => {
     const token = AuthService.getToken();
-    
+
     const defaultHeaders = {
         'Content-Type': 'application/json'
     };
@@ -152,7 +152,7 @@ const apiCall = async (endpoint, options = {}) => {
 
     try {
         const response = await fetch(`${API_BASE_URL}${endpoint}`, config);
-        
+
         // Nếu token hết hạn hoặc không hợp lệ - logout ngay
         if (response.status === 401) {
             AuthService.logout();
@@ -163,8 +163,8 @@ const apiCall = async (endpoint, options = {}) => {
 
         // Đảm bảo nếu response không thành công thì success = false
         if (!response.ok) {
-            return { 
-                success: false, 
+            return {
+                success: false,
                 message: data.message || 'Lỗi từ server',
                 status: response.status
             };
@@ -359,6 +359,42 @@ const ChatboxAPI = {
     }
 };
 
+// ==================== DEALER API ====================
+const DealerAPI = {
+    // Lấy danh sách đại lý
+    async getAll() {
+        return await apiCall('/dealers');
+    },
+
+    // Lấy chi tiết đại lý
+    async getById(id) {
+        return await apiCall(`/dealers/${id}`);
+    },
+
+    // Thêm đại lý mới
+    async create(dealerData) {
+        return await apiCall('/dealers', {
+            method: 'POST',
+            body: JSON.stringify(dealerData)
+        });
+    },
+
+    // Cập nhật đại lý
+    async update(id, dealerData) {
+        return await apiCall(`/dealers/${id}`, {
+            method: 'PUT',
+            body: JSON.stringify(dealerData)
+        });
+    },
+
+    // Xóa đại lý
+    async delete(id) {
+        return await apiCall(`/dealers/${id}`, {
+            method: 'DELETE'
+        });
+    }
+};
+
 // ==================== UTILITY FUNCTIONS ====================
 const Utils = {
     // Format số tiền
@@ -411,6 +447,7 @@ if (typeof window !== 'undefined') {
     window.ScheduleAPI = ScheduleAPI;
     window.NotificationAPI = NotificationAPI;
     window.ChatboxAPI = ChatboxAPI;
+    window.DealerAPI = DealerAPI;
     window.Utils = Utils;
     window.apiCall = apiCall;
 }
