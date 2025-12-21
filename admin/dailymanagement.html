@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -63,7 +64,7 @@
             background: white;
             border-radius: 20px;
             padding: 28px;
-            box-shadow: 0 10px 35px rgba(0,0,0,0.08);
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08);
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
@@ -81,7 +82,7 @@
 
         .dealer-card:hover {
             transform: translateY(-8px);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
         }
 
         .dealer-card-header {
@@ -170,7 +171,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.5);
+            background: rgba(0, 0, 0, 0.5);
             display: none;
             justify-content: center;
             align-items: center;
@@ -191,7 +192,7 @@
             max-height: 90vh;
             overflow-y: auto;
             animation: modalSlideIn 0.3s ease;
-            box-shadow: 0 25px 80px rgba(0,0,0,0.3);
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.3);
         }
 
         @keyframes modalSlideIn {
@@ -199,6 +200,7 @@
                 opacity: 0;
                 transform: translateY(-30px) scale(0.95);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0) scale(1);
@@ -314,13 +316,13 @@
             font-weight: 600;
             cursor: pointer;
             color: white;
-            box-shadow: 0 8px 25px rgba(0,123,255,0.35);
+            box-shadow: 0 8px 25px rgba(0, 123, 255, 0.35);
             transition: all 0.3s ease;
         }
 
         .btn-save:hover {
             transform: translateY(-2px);
-            box-shadow: 0 12px 35px rgba(0,123,255,0.5);
+            box-shadow: 0 12px 35px rgba(0, 123, 255, 0.5);
         }
 
         /* Empty State */
@@ -329,7 +331,7 @@
             padding: 80px 40px;
             background: white;
             border-radius: 24px;
-            box-shadow: 0 10px 35px rgba(0,0,0,0.08);
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08);
         }
 
         .empty-state i {
@@ -363,8 +365,13 @@
         }
 
         @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
         }
 
         /* Responsive */
@@ -393,164 +400,166 @@
         }
     </style>
 </head>
+
 <body class="dashboard-body admin-body">
 
-<div class="page-wrapper">
+    <div class="page-wrapper">
 
-    <!-- Top User -->
-    <div class="top-user">
-        <span class="username">Administrator</span>
-    </div>
-
-    <!-- Sidebar -->
-    <aside class="sidebar">
-        <ul class="menu">
-            <li class="menu-item" onclick="goTo('product1.html')"><i class="fas fa-th-large"></i> Sản phẩm</li>
-            <li class="menu-item" onclick="goTo('user.html')"><i class="fas fa-users"></i> Người dùng</li>
-            <li class="menu-item" onclick="goTo('order.html')"><i class="fas fa-shopping-cart"></i> Đơn hàng</li>
-            <li class="menu-item" onclick="goTo('schedule.html')"><i class="fas fa-calendar-check"></i> Đặt lịch</li>
-            <li class="menu-item" onclick="goTo('notifications.html')"><i class="fas fa-bell"></i> Thông báo</li>
-            <li class="menu-item active"><i class="fas fa-store"></i> Đại lý</li>
-        </ul>
-    </aside>
-
-    <!-- Main Content: Dealer Management -->
-    <main class="dealer-main">
-        
-        <div class="dealer-header">
-            <h2><i class="fas fa-store" style="margin-right: 12px; color: #4e9fff;"></i>Quản lý Đại lý</h2>
-            <button class="btn-add-dealer" onclick="openAddModal()">
-                <i class="fas fa-plus"></i> Thêm đại lý
-            </button>
+        <!-- Top User -->
+        <div class="top-user">
+            <span class="username">Administrator</span>
         </div>
 
-        <div id="dealerContainer" class="dealer-cards">
-            <!-- Dealer cards will be loaded here -->
-            <div class="loading">
-                <i class="fas fa-spinner"></i>
-                <p>Đang tải dữ liệu...</p>
-            </div>
-        </div>
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <ul class="menu">
+                <li class="menu-item" onclick="goTo('dashboard.html')"><i class="fas fa-th-large"></i> Sản phẩm</li>
+                <li class="menu-item" onclick="goTo('user.html')"><i class="fas fa-users"></i> Người dùng</li>
+                <li class="menu-item" onclick="goTo('order.html')"><i class="fas fa-shopping-cart"></i> Đơn hàng</li>
+                <li class="menu-item" onclick="goTo('schedule.html')"><i class="fas fa-calendar-check"></i> Đặt lịch
+                </li>
+                <li class="menu-item" onclick="goTo('notifications.html')"><i class="fas fa-bell"></i> Thông báo</li>
+                <li class="menu-item active"><i class="fas fa-store"></i> Đại lý</li>
+            </ul>
+        </aside>
 
-    </main>
+        <!-- Main Content: Dealer Management -->
+        <main class="dealer-main">
 
-    <div class="bottom-brand">
-        <div class="brand-name">OTOTECH</div>
-        <div class="version">Version: 1.0.0.11</div>
-    </div>
-</div>
-
-<!-- Modal Add/Edit Dealer -->
-<div class="modal-overlay" id="dealerModal">
-    <div class="modal">
-        <div class="modal-header">
-            <h3 id="modalTitle">Thêm đại lý mới</h3>
-            <button class="modal-close" onclick="closeModal()">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        <form class="modal-form" id="dealerForm" onsubmit="saveDealer(event)">
-            <input type="hidden" id="dealerId">
-            
-            <div class="form-group">
-                <label for="tenDaiLy">Tên đại lý <span style="color: red;">*</span></label>
-                <input type="text" id="tenDaiLy" placeholder="Nhập tên đại lý..." required>
-            </div>
-
-            <div class="form-group">
-                <label for="diaChi">Địa chỉ <span style="color: red;">*</span></label>
-                <input type="text" id="diaChi" placeholder="Nhập địa chỉ..." required>
-            </div>
-
-            <div class="form-group">
-                <label for="soDienThoai">Số điện thoại <span style="color: red;">*</span></label>
-                <input type="tel" id="soDienThoai" placeholder="Nhập số điện thoại..." required>
-            </div>
-
-            <div class="form-group">
-                <label for="gioLamViec">Giờ làm việc</label>
-                <input type="text" id="gioLamViec" placeholder="VD: 8h–18h">
-            </div>
-
-            <div class="form-group">
-                <label for="moTa">Mô tả</label>
-                <textarea id="moTa" placeholder="Nhập mô tả về đại lý..."></textarea>
-            </div>
-
-            <div class="modal-actions">
-                <button type="button" class="btn-cancel" onclick="closeModal()">Hủy bỏ</button>
-                <button type="submit" class="btn-save" id="btnSave">
-                    <i class="fas fa-save" style="margin-right: 8px;"></i>Lưu đại lý
+            <div class="dealer-header">
+                <h2><i class="fas fa-store" style="margin-right: 12px; color: #4e9fff;"></i>Quản lý Đại lý</h2>
+                <button class="btn-add-dealer" onclick="openAddModal()">
+                    <i class="fas fa-plus"></i> Thêm đại lý
                 </button>
             </div>
-        </form>
+
+            <div id="dealerContainer" class="dealer-cards">
+                <!-- Dealer cards will be loaded here -->
+                <div class="loading">
+                    <i class="fas fa-spinner"></i>
+                    <p>Đang tải dữ liệu...</p>
+                </div>
+            </div>
+
+        </main>
+
+        <div class="bottom-brand">
+            <div class="brand-name">OTOTECH</div>
+            <div class="version">Version: 1.0.0.11</div>
+        </div>
     </div>
-</div>
 
-<!-- API Service -->
-<script src="asset/api.js"></script>
+    <!-- Modal Add/Edit Dealer -->
+    <div class="modal-overlay" id="dealerModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 id="modalTitle">Thêm đại lý mới</h3>
+                <button class="modal-close" onclick="closeModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form class="modal-form" id="dealerForm" onsubmit="saveDealer(event)">
+                <input type="hidden" id="dealerId">
 
-<script>
-// Kiểm tra authentication
-if (!AuthService.isAuthenticated()) {
-    window.location.href = 'welcome.html';
-}
+                <div class="form-group">
+                    <label for="tenDaiLy">Tên đại lý <span style="color: red;">*</span></label>
+                    <input type="text" id="tenDaiLy" placeholder="Nhập tên đại lý..." required>
+                </div>
 
-let dealers = [];
-let editingDealerId = null;
+                <div class="form-group">
+                    <label for="diaChi">Địa chỉ <span style="color: red;">*</span></label>
+                    <input type="text" id="diaChi" placeholder="Nhập địa chỉ..." required>
+                </div>
 
-// Load danh sách đại lý
-async function loadDealers() {
-    const container = document.getElementById('dealerContainer');
-    container.innerHTML = `
+                <div class="form-group">
+                    <label for="soDienThoai">Số điện thoại <span style="color: red;">*</span></label>
+                    <input type="tel" id="soDienThoai" placeholder="Nhập số điện thoại..." required>
+                </div>
+
+                <div class="form-group">
+                    <label for="gioLamViec">Giờ làm việc</label>
+                    <input type="text" id="gioLamViec" placeholder="VD: 8h–18h">
+                </div>
+
+                <div class="form-group">
+                    <label for="moTa">Mô tả</label>
+                    <textarea id="moTa" placeholder="Nhập mô tả về đại lý..."></textarea>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn-cancel" onclick="closeModal()">Hủy bỏ</button>
+                    <button type="submit" class="btn-save" id="btnSave">
+                        <i class="fas fa-save" style="margin-right: 8px;"></i>Lưu đại lý
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- API Service -->
+    <script src="asset/api.js"></script>
+
+    <script>
+        // Kiểm tra authentication
+        if (!AuthService.isAuthenticated()) {
+            window.location.href = 'welcome.html';
+        }
+
+        let dealers = [];
+        let editingDealerId = null;
+
+        // Load danh sách đại lý
+        async function loadDealers() {
+            const container = document.getElementById('dealerContainer');
+            container.innerHTML = `
         <div class="loading">
             <i class="fas fa-spinner"></i>
             <p>Đang tải dữ liệu...</p>
         </div>
     `;
-    
-    try {
-        const result = await DealerAPI.getAll();
-        if (result.success) {
-            dealers = result.data || [];
-            renderDealers();
-        } else {
-            container.innerHTML = `
+
+            try {
+                const result = await DealerAPI.getAll();
+                if (result.success) {
+                    dealers = result.data || [];
+                    renderDealers();
+                } else {
+                    container.innerHTML = `
                 <div class="empty-state">
                     <i class="fas fa-exclamation-triangle"></i>
                     <h3>Lỗi tải dữ liệu</h3>
                     <p>${result.message || 'Không thể tải danh sách đại lý'}</p>
                 </div>
             `;
-        }
-    } catch (error) {
-        console.error('Lỗi load đại lý:', error);
-        container.innerHTML = `
+                }
+            } catch (error) {
+                console.error('Lỗi load đại lý:', error);
+                container.innerHTML = `
             <div class="empty-state">
                 <i class="fas fa-exclamation-triangle"></i>
                 <h3>Lỗi kết nối</h3>
                 <p>Không thể kết nối đến server</p>
             </div>
         `;
-    }
-}
+            }
+        }
 
-// Render danh sách đại lý
-function renderDealers() {
-    const container = document.getElementById('dealerContainer');
-    
-    if (dealers.length === 0) {
-        container.innerHTML = `
+        // Render danh sách đại lý
+        function renderDealers() {
+            const container = document.getElementById('dealerContainer');
+
+            if (dealers.length === 0) {
+                container.innerHTML = `
             <div class="empty-state">
                 <i class="fas fa-store-slash"></i>
                 <h3>Chưa có đại lý nào</h3>
                 <p>Nhấn "Thêm đại lý" để thêm đại lý mới</p>
             </div>
         `;
-        return;
-    }
+                return;
+            }
 
-    container.innerHTML = dealers.map(dealer => `
+            container.innerHTML = dealers.map(dealer => `
         <div class="dealer-card" data-id="${dealer.MaDaiLy}">
             <div class="dealer-card-header">
                 <div>
@@ -590,120 +599,121 @@ function renderDealers() {
             </div>
         </div>
     `).join('');
-}
-
-// Mở modal thêm mới
-function openAddModal() {
-    editingDealerId = null;
-    document.getElementById('modalTitle').textContent = 'Thêm đại lý mới';
-    document.getElementById('btnSave').innerHTML = '<i class="fas fa-plus" style="margin-right: 8px;"></i>Thêm đại lý';
-    document.getElementById('dealerForm').reset();
-    document.getElementById('dealerId').value = '';
-    document.getElementById('dealerModal').classList.add('active');
-}
-
-// Mở modal chỉnh sửa
-function openEditModal(id) {
-    const dealer = dealers.find(d => d.MaDaiLy === id);
-    if (!dealer) return;
-    
-    editingDealerId = id;
-    document.getElementById('modalTitle').textContent = 'Cập nhật thông tin đại lý';
-    document.getElementById('btnSave').innerHTML = '<i class="fas fa-save" style="margin-right: 8px;"></i>Cập nhật';
-    
-    document.getElementById('dealerId').value = dealer.MaDaiLy;
-    document.getElementById('tenDaiLy').value = dealer.TenDaiLy;
-    document.getElementById('diaChi').value = dealer.DiaChi;
-    document.getElementById('soDienThoai').value = dealer.SoDienThoai;
-    document.getElementById('gioLamViec').value = dealer.GioLamViec || '';
-    document.getElementById('moTa').value = dealer.MoTa || '';
-    
-    document.getElementById('dealerModal').classList.add('active');
-}
-
-// Đóng modal
-function closeModal() {
-    document.getElementById('dealerModal').classList.remove('active');
-    editingDealerId = null;
-}
-
-// Lưu đại lý
-async function saveDealer(event) {
-    event.preventDefault();
-    
-    const dealerData = {
-        TenDaiLy: document.getElementById('tenDaiLy').value.trim(),
-        DiaChi: document.getElementById('diaChi').value.trim(),
-        SoDienThoai: document.getElementById('soDienThoai').value.trim(),
-        GioLamViec: document.getElementById('gioLamViec').value.trim() || null,
-        MoTa: document.getElementById('moTa').value.trim() || null
-    };
-
-    // Validate
-    if (!dealerData.TenDaiLy || !dealerData.DiaChi || !dealerData.SoDienThoai) {
-        alert('Vui lòng điền đầy đủ thông tin bắt buộc!');
-        return;
-    }
-
-    try {
-        let result;
-        if (editingDealerId) {
-            // Cập nhật
-            result = await DealerAPI.update(editingDealerId, dealerData);
-        } else {
-            // Thêm mới
-            result = await DealerAPI.create(dealerData);
         }
 
-        if (result.success) {
-            alert(editingDealerId ? 'Cập nhật đại lý thành công!' : 'Thêm đại lý thành công!');
-            closeModal();
+        // Mở modal thêm mới
+        function openAddModal() {
+            editingDealerId = null;
+            document.getElementById('modalTitle').textContent = 'Thêm đại lý mới';
+            document.getElementById('btnSave').innerHTML = '<i class="fas fa-plus" style="margin-right: 8px;"></i>Thêm đại lý';
+            document.getElementById('dealerForm').reset();
+            document.getElementById('dealerId').value = '';
+            document.getElementById('dealerModal').classList.add('active');
+        }
+
+        // Mở modal chỉnh sửa
+        function openEditModal(id) {
+            const dealer = dealers.find(d => d.MaDaiLy === id);
+            if (!dealer) return;
+
+            editingDealerId = id;
+            document.getElementById('modalTitle').textContent = 'Cập nhật thông tin đại lý';
+            document.getElementById('btnSave').innerHTML = '<i class="fas fa-save" style="margin-right: 8px;"></i>Cập nhật';
+
+            document.getElementById('dealerId').value = dealer.MaDaiLy;
+            document.getElementById('tenDaiLy').value = dealer.TenDaiLy;
+            document.getElementById('diaChi').value = dealer.DiaChi;
+            document.getElementById('soDienThoai').value = dealer.SoDienThoai;
+            document.getElementById('gioLamViec').value = dealer.GioLamViec || '';
+            document.getElementById('moTa').value = dealer.MoTa || '';
+
+            document.getElementById('dealerModal').classList.add('active');
+        }
+
+        // Đóng modal
+        function closeModal() {
+            document.getElementById('dealerModal').classList.remove('active');
+            editingDealerId = null;
+        }
+
+        // Lưu đại lý
+        async function saveDealer(event) {
+            event.preventDefault();
+
+            const dealerData = {
+                TenDaiLy: document.getElementById('tenDaiLy').value.trim(),
+                DiaChi: document.getElementById('diaChi').value.trim(),
+                SoDienThoai: document.getElementById('soDienThoai').value.trim(),
+                GioLamViec: document.getElementById('gioLamViec').value.trim() || null,
+                MoTa: document.getElementById('moTa').value.trim() || null
+            };
+
+            // Validate
+            if (!dealerData.TenDaiLy || !dealerData.DiaChi || !dealerData.SoDienThoai) {
+                alert('Vui lòng điền đầy đủ thông tin bắt buộc!');
+                return;
+            }
+
+            try {
+                let result;
+                if (editingDealerId) {
+                    // Cập nhật
+                    result = await DealerAPI.update(editingDealerId, dealerData);
+                } else {
+                    // Thêm mới
+                    result = await DealerAPI.create(dealerData);
+                }
+
+                if (result.success) {
+                    alert(editingDealerId ? 'Cập nhật đại lý thành công!' : 'Thêm đại lý thành công!');
+                    closeModal();
+                    loadDealers();
+                } else {
+                    alert('Lỗi: ' + (result.message || 'Không thể lưu đại lý'));
+                }
+            } catch (error) {
+                console.error('Lỗi lưu đại lý:', error);
+                alert('Lỗi kết nối server');
+            }
+        }
+
+        // Xóa đại lý
+        async function deleteDealer(id) {
+            if (!confirm('Bạn có chắc chắn muốn xóa đại lý này?')) return;
+
+            try {
+                const result = await DealerAPI.delete(id);
+                if (result.success) {
+                    alert('Xóa đại lý thành công!');
+                    loadDealers();
+                } else {
+                    alert('Lỗi: ' + (result.message || 'Không thể xóa đại lý'));
+                }
+            } catch (error) {
+                console.error('Lỗi xóa đại lý:', error);
+                alert('Lỗi kết nối server');
+            }
+        }
+
+        function goTo(page) {
+            window.location.href = page;
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('dealerModal').addEventListener('click', function (e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        // Load dữ liệu khi trang được tải
+        document.addEventListener('DOMContentLoaded', function () {
             loadDealers();
-        } else {
-            alert('Lỗi: ' + (result.message || 'Không thể lưu đại lý'));
-        }
-    } catch (error) {
-        console.error('Lỗi lưu đại lý:', error);
-        alert('Lỗi kết nối server');
-    }
-}
-
-// Xóa đại lý
-async function deleteDealer(id) {
-    if (!confirm('Bạn có chắc chắn muốn xóa đại lý này?')) return;
-
-    try {
-        const result = await DealerAPI.delete(id);
-        if (result.success) {
-            alert('Xóa đại lý thành công!');
-            loadDealers();
-        } else {
-            alert('Lỗi: ' + (result.message || 'Không thể xóa đại lý'));
-        }
-    } catch (error) {
-        console.error('Lỗi xóa đại lý:', error);
-        alert('Lỗi kết nối server');
-    }
-}
-
-function goTo(page) {
-    window.location.href = page;
-}
-
-// Close modal when clicking outside
-document.getElementById('dealerModal').addEventListener('click', function(e) {
-    if (e.target === this) {
-        closeModal();
-    }
-});
-
-// Load dữ liệu khi trang được tải
-document.addEventListener('DOMContentLoaded', function() {
-    loadDealers();
-});
-</script>
+        });
+    </script>
 
 </body>
+
 </html>
 </CodeContent>
 <parameter name="EmptyFile">false

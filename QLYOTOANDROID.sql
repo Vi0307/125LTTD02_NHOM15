@@ -367,28 +367,28 @@ INSERT INTO PHU_TUNG
 (MaPhuTung, MaHangXe, MaLoaiXe, TenPhuTung, GiaBan, SoLuong, MoTa, MaDanhMuc, HinhAnh, NhaCC)
 VALUES
 -- Nhóm 1 (LX1 – DM01)
-('PT01','BMW','LX1',N'Ống gió nạp hơi',7000000,10,N'Ống gió cao cấp cho xe BMW','DM01','ong_gio_nap_hoi.png',N'Royal Auto'),
-('PT02','BMW','LX1',N'Bộ đèn pha',8500000,7,N'Đèn pha LED siêu sáng','DM01','den_pha.png',N'Royal Auto'),
-('PT03','BMW','LX1',N'Động cơ bơm nước DFT',10000000,5,N'Bơm nước DFT chuyên dụng','DM01','bom_nuoc_dft.png',N'Royal Auto'),
+('PT01','BMW','LX1',N'Ống gió nạp hơi',7000000,10,N'Ống gió cao cấp cho xe BMW','DM01','onggionaphoi.png',N'Royal Auto'),
+('PT02','BMW','LX1',N'Bộ đèn pha',8500000,7,N'Đèn pha LED siêu sáng','DM01','denpha.png',N'Royal Auto'),
+('PT03','BMW','LX1',N'Động cơ bơm nước DFT',10000000,5,N'Bơm nước DFT chuyên dụng','DM01','dongcobomnuocdft.png',N'Royal Auto'),
 ('PT04','BMW','LX1',N'Cao su chân máy',1500000,3,N'Cao su chân máy chính hãng','DM01','caosuchanmay.png',N'Royal Auto'),
 
 -- Nhóm 2 (LX2 – DM02)
-('PT05','BMW','LX2',N'Mô tơ quạt két nước',8000000,6,N'Mô tơ quạt két nước cao cấp','DM02','mo_to_quat_ket_nuoc.png',N'Royal Auto'),
+('PT05','BMW','LX2',N'Mô tơ quạt két nước',8000000,6,N'Mô tơ quạt két nước cao cấp','DM02','motoquatketnuoc.png',N'Royal Auto'),
 ('PT06','BMW','LX2',N'Động cơ bơm nước AW4020',8500000,4,N'Bơm nước AW4020 chính hãng','DM02','dongcobnhai.png',N'Royal Auto'),
 ('PT07','BMW','LX2',N'Động cơ bơm nước AW40DB',9000000,4,N'Bơm nước AW40DB chất lượng cao','DM02','dongcobnba.png',N'Royal Auto'),
-('PT08','BMW','LX2',N'Giảm xóc sau xe',6000000,8,N'Giảm xóc sau êm ái, bền bỉ','DM02','giam_xoc_sau.png',N'Royal Auto'),
+('PT08','BMW','LX2',N'Giảm xóc sau xe',6000000,8,N'Giảm xóc sau êm ái, bền bỉ','DM02','giamxocsauxe.png',N'Royal Auto'),
 
 -- Nhóm 3 (LX3 – DM03)
-('PT09','BMW','LX3',N'Cây láp trước',5000000,6,N'Cây láp trước chịu lực tốt','DM03','cay_lap_truoc.png',N'Royal Auto'),
-('PT10','BMW','LX3',N'Giảm xóc trục',8500000,7,N'Giảm xóc trục độ bền cao','DM03','giamxoctruc.png',N'Royal Auto'),
-('PT11','BMW','LX3',N'Heo côn trên',1000000,6,N'Heo côn trên cho xe BMW','DM03','heo_con_tren.png',N'Royal Auto'),
-('PT12','BMW','LX3',N'Thước lái BMW',8000000,5,N'Thước lái độ chính xác cao','DM03','thuoc_lai_mercedes.png',N'Royal Auto'),
+('PT09','BMW','LX3',N'Cây láp trước',5000000,6,N'Cây láp trước chịu lực tốt','DM03','caylaptruoc.png',N'Royal Auto'),
+('PT10','BMW','LX3',N'Giảm xóc trước',8500000,7,N'Giảm xóc trước độ bền cao','DM03','giamxoctruoc.png',N'Royal Auto'),
+('PT11','BMW','LX3',N'Heo côn trên',1000000,6,N'Heo côn trên cho xe BMW','DM03','heocontren.png',N'Royal Auto'),
+('PT12','BMW','LX3',N'Thước lái BMW',8000000,5,N'Thước lái độ chính xác cao','DM03','thuoclai.png',N'Royal Auto'),
 
 -- Nhóm 4 (LX4 – DM04)
-('PT13','BMW','LX4',N'Hộp điều khiển',7000000,4,N'Hộp điều khiển ECU xe','DM04','hop_dieu_khien.png',N'Royal Auto'),
+('PT13','BMW','LX4',N'Hộp điều khiển',7000000,4,N'Hộp điều khiển ECU xe','DM04','hopdieukhien.png',N'Royal Auto'),
 ('PT14','BMW','LX4',N'Đầu DVD xe hơi',7500000,9,N'Đầu DVD xe hơi màn hình lớn','DM04','daudvdxe.png',N'Royal Auto'),
-('PT15','BMW','LX4',N'Mô bin đánh lửa',7000000,10,N'Mô bin đánh lửa công suất cao','DM04','mo_bin_danh_lua.png',N'Royal Auto'),
-('PT16','BMW','LX4',N'Động cơ bơm nước DFT (bản phụ)',5000000,5,N'Bơm nước DFT loại phụ','DM04','dongcobnbon.png',N'Royal Auto');
+('PT15','BMW','LX4',N'Mô bin đánh lửa',7000000,10,N'Mô bin đánh lửa công suất cao','DM04','mobindanhlua.png',N'Royal Auto'),
+('PT16','BMW','LX4',N'Động cơ bơm nước (bản phụ)',5000000,5,N'Bơm nước loại phụ','DM04','mobuyn.png',N'Royal Auto');
 
 INSERT INTO VOUCHER (MaND, LoaiVoucher, HanSuDung, TrangThai) VALUES
 (1, N'Giảm 50% phí vận chuyển', '2025-12-31', N'Còn hiệu lực'),
