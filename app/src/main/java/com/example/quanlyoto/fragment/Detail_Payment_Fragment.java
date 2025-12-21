@@ -123,12 +123,7 @@ public class Detail_Payment_Fragment extends Fragment {
             if (getArguments().containsKey("selected_voucher_type")) {
                 selectedVoucher = new Voucher();
                 selectedVoucher.setLoaiVoucher(getArguments().getString("selected_voucher_type"));
-                String discountStr = getArguments().getString("selected_voucher_discount", "0");
-                try {
-                    discount = new BigDecimal(discountStr.replaceAll("[^\\d.]", ""));
-                } catch (Exception e) {
-                    discount = BigDecimal.ZERO;
-                }
+                // Discount sẽ được tính trong updateUI() dựa trên loại voucher và phí vận chuyển
             }
         }
 
@@ -224,11 +219,13 @@ public class Detail_Payment_Fragment extends Fragment {
                     .commit();
         });
 
-        // Chuyển sang trang tiếp theo
+        // Chuyển sang trang phương thức thanh toán
         view.findViewById(R.id.btn_billing_address).setOnClickListener(v -> {
+            Payment_Method_Fragment fragment = new Payment_Method_Fragment();
+            fragment.setArguments(createCurrentStateBundle());
             requireActivity().getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.fragment_container, new Complete_Detail_Payment_Fragment())
+                    .replace(R.id.fragment_container, fragment)
                     .addToBackStack(null)
                     .commit();
         });
@@ -324,11 +321,25 @@ public class Detail_Payment_Fragment extends Fragment {
             txtShippingMethod.setText("Chọn phương thức vận chuyển");
         }
 
-        // Hiển thị voucher đã chọn
+        // Hiển thị voucher đã chọn và tính khuyến mãi
         if (selectedVoucher != null && selectedVoucher.getLoaiVoucher() != null) {
             txtVoucherCode.setText(selectedVoucher.getLoaiVoucher());
+            
+            // Tính discount dựa trên loại voucher
+            String voucherType = selectedVoucher.getLoaiVoucher().toLowerCase();
+            if (voucherType.contains("miễn phí vận chuyển") || voucherType.contains("mien phi van chuyen")) {
+                // Miễn phí vận chuyển = giảm 100% phí vận chuyển
+                discount = shippingFee;
+            } else if (voucherType.contains("giảm 50") || voucherType.contains("giam 50")) {
+                // Giảm 50% phí vận chuyển
+                discount = shippingFee.multiply(new BigDecimal("0.5"));
+            } else {
+                // Các loại voucher khác - giữ mặc định
+                discount = BigDecimal.ZERO;
+            }
         } else {
             txtVoucherCode.setText("Chọn mã khuyến mãi");
+            discount = BigDecimal.ZERO;
         }
 
         // Hiển thị giá
