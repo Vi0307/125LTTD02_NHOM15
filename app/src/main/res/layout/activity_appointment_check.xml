@@ -439,6 +439,7 @@
                                  />
 
                             <TextView
+                                android:id="@+id/tvSelectedDate"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="12dp"
@@ -460,6 +461,7 @@
                                 app:tint="#E53935" />
 
                             <TextView
+                                android:id="@+id/tvSelectedTime"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="12dp"

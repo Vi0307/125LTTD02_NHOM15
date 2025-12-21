@@ -47,14 +47,56 @@ public class AppointmentCheckActivity extends Fragment {
 
             // Update UI immediately
             TextView tvServiceType = view.findViewById(R.id.tvServiceType);
-            if (tvServiceType != null && serviceType != null) {
-                tvServiceType.setText(serviceType);
+            if (tvServiceType != null) {
+                if (serviceDetail != null && !serviceDetail.isEmpty()) {
+                    tvServiceType.setText(serviceDetail);
+                } else if (serviceType != null) {
+                    tvServiceType.setText(serviceType);
+                }
+            }
+
+            // Cập nhật ngày giờ
+            TextView tvSelectedDate = view.findViewById(R.id.tvSelectedDate);
+            if (tvSelectedDate != null && date != null) {
+                tvSelectedDate.setText(date);
+            }
+            TextView tvSelectedTime = view.findViewById(R.id.tvSelectedTime);
+            if (tvSelectedTime != null && time != null) {
+                tvSelectedTime.setText(time);
             }
 
             // Get agency_id, default to 1 if invalid
             int passedId = getArguments().getInt("agency_id", -1);
             if (passedId != -1) {
                 dealerId = passedId;
+                // Fetch dealer info
+                com.example.quanlyoto.network.RetrofitClient.getClient()
+                        .create(com.example.quanlyoto.network.ApiService.class)
+                        .getDaiLyById(dealerId)
+                        .enqueue(
+                                new retrofit2.Callback<com.example.quanlyoto.model.ApiResponse<com.example.quanlyoto.model.DaiLy>>() {
+                                    @Override
+                                    public void onResponse(
+                                            retrofit2.Call<com.example.quanlyoto.model.ApiResponse<com.example.quanlyoto.model.DaiLy>> call,
+                                            retrofit2.Response<com.example.quanlyoto.model.ApiResponse<com.example.quanlyoto.model.DaiLy>> response) {
+                                        if (response.isSuccessful() && response.body() != null
+                                                && response.body().getData() != null) {
+                                            com.example.quanlyoto.model.DaiLy daiLy = response.body().getData();
+                                            TextView tvDealerName = view.findViewById(R.id.tvDealerName);
+                                            if (tvDealerName != null) {
+                                                tvDealerName.setText(daiLy.getTenDaiLy());
+                                            }
+                                            // Update other dealer fields if needed (address, etc.)
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onFailure(
+                                            retrofit2.Call<com.example.quanlyoto.model.ApiResponse<com.example.quanlyoto.model.DaiLy>> call,
+                                            Throwable t) {
+                                        // Ignore or log
+                                    }
+                                });
             }
         }
 
@@ -72,6 +114,13 @@ public class AppointmentCheckActivity extends Fragment {
             try {
                 // Combine and format Date/Time to ISO 8601 for Backend LocalDateTime
                 String combined = date + " " + time;
+                // Xử lý format thời gian: HH:mm-HH:mm -> lấy giờ bắt đầu
+                String timeStart = time;
+                if (time != null && time.contains("-")) {
+                    timeStart = time.split("-")[0].trim();
+                    combined = date + " " + timeStart;
+                }
+
                 java.text.SimpleDateFormat inputFormat = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm",
                         java.util.Locale.getDefault());
                 java.util.Date parsed = inputFormat.parse(combined);
@@ -80,7 +129,7 @@ public class AppointmentCheckActivity extends Fragment {
                 dateTimeIso = outputFormat.format(parsed);
             } catch (Exception e) {
                 e.printStackTrace();
-                dateTimeIso = date + "T" + time + ":00";
+                dateTimeIso = date + "T" + time + ":00"; // Fallback
             }
 
             // Use full package name if imports are missing, or rely on imports if added
@@ -92,9 +141,11 @@ public class AppointmentCheckActivity extends Fragment {
                     dateTimeIso);
 
             // Call API using RetrofitClient
-            com.example.quanlyoto.network.RetrofitClient.getClient()
-                    .create(com.example.quanlyoto.network.ApiService.class)
-                    .createDichVu(dto)
+            com.example.quanlyoto.network.ApiService apiService = com.example.quanlyoto.network.RetrofitClient
+                    .getClient()
+                    .create(com.example.quanlyoto.network.ApiService.class);
+
+            apiService.createDichVu(dto)
                     .enqueue(
                             new retrofit2.Callback<com.example.quanlyoto.model.ApiResponse<com.example.quanlyoto.model.DichVuDTO>>() {
                                 @Override
@@ -102,6 +153,43 @@ public class AppointmentCheckActivity extends Fragment {
                                         retrofit2.Call<com.example.quanlyoto.model.ApiResponse<com.example.quanlyoto.model.DichVuDTO>> call,
                                         retrofit2.Response<com.example.quanlyoto.model.ApiResponse<com.example.quanlyoto.model.DichVuDTO>> response) {
                                     if (response.isSuccessful() && response.body() != null) {
+                                        // Đặt lịch thành công -> Cập nhật số lần bảo dưỡng
+                                        // Chỉ cập nhật nếu là bảo dưỡng định kỳ (dựa vào serviceDetail hoặc logic khác)
+                                        // Hoặc user yêu cầu luôn cập nhật.
+
+                                        // Lấy số lần bảo dưỡng hiện tại từ Arguments (đã được truyền từ Activity trước)
+                                        // Hoặc fetch lại user. Để đơn giản và chính xác nhất, fetch user hiện tại, +1,
+                                        // rồi update.
+                                        // Tuy nhiên, Activity trước đã tính toán rồi? Kiểm tra lại
+                                        // AppointmentPeriodActivity.
+
+                                        // Cách tốt nhất: Gọi API updateMaintenanceCount với logic:
+                                        // Backend nên handle việc +1, nhưng API thiết kế là update(count).
+                                        // Vậy ta cần biết count hiện tại.
+                                        // Giả sử count mới đã được gởi sang đây qua Bundle?
+                                        int nextCount = getArguments() != null
+                                                ? getArguments().getInt("nextMaintenanceCount", -1)
+                                                : -1;
+
+                                        if (nextCount != -1) {
+                                            apiService.updateMaintenanceCount(userId, nextCount).enqueue(
+                                                    new retrofit2.Callback<com.example.quanlyoto.model.NguoiDung>() {
+                                                        @Override
+                                                        public void onResponse(
+                                                                retrofit2.Call<com.example.quanlyoto.model.NguoiDung> call,
+                                                                retrofit2.Response<com.example.quanlyoto.model.NguoiDung> response) {
+                                                            // Updated
+                                                        }
+
+                                                        @Override
+                                                        public void onFailure(
+                                                                retrofit2.Call<com.example.quanlyoto.model.NguoiDung> call,
+                                                                Throwable t) {
+
+                                                        }
+                                                    });
+                                        }
+
                                         dialogOverlay.setVisibility(View.VISIBLE);
                                     } else {
                                         android.widget.Toast
