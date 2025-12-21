@@ -91,9 +91,31 @@ public class Cart extends Fragment {
 
         // Checkout
         btnCheckout.setOnClickListener(v -> {
+            if (cartList.isEmpty()) {
+                android.widget.Toast.makeText(getContext(), "Giỏ hàng trống", android.widget.Toast.LENGTH_SHORT).show();
+                return;
+            }
+            
+            // Tính tổng giá
+            java.math.BigDecimal total = java.math.BigDecimal.ZERO;
+            for (ChiTietGioHangDTO item : cartList) {
+                if (item.getDonGia() != null && item.getSoLuong() != null) {
+                    total = total.add(item.getDonGia().multiply(java.math.BigDecimal.valueOf(item.getSoLuong())));
+                }
+            }
+            
+            // Tạo Bundle để truyền dữ liệu
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("cart_items", new ArrayList<>(cartList));
+            bundle.putString("product_price", total.toString());
+            
+            // Chuyển sang Detail_Payment_Fragment với dữ liệu giỏ hàng
+            Detail_Payment_Fragment fragment = new Detail_Payment_Fragment();
+            fragment.setArguments(bundle);
+            
             requireActivity().getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.fragment_container, new Detail_Payment_Fragment())
+                    .replace(R.id.fragment_container, fragment)
                     .addToBackStack(null)
                     .commit();
         });
