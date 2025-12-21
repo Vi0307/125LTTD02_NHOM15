@@ -86,12 +86,7 @@ public class Cart extends Fragment {
 
         // Back
         btnBack.setOnClickListener(v -> {
-            requireActivity()
-                    .getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.fragment_container, new Homeparts())
-                    .addToBackStack(null)
-                    .commit();
+            requireActivity().getSupportFragmentManager().popBackStack();
         });
 
         // Checkout
