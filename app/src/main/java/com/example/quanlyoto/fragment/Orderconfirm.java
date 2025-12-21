@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.quanlyoto.R;
 import com.example.quanlyoto.adapter.OrderProductAdapter;
+import com.example.quanlyoto.model.ApiResponse;
 import com.example.quanlyoto.model.ChiTietGioHangDTO;
 import com.example.quanlyoto.model.DonHangRequest;
 import com.example.quanlyoto.model.DonHangResponse;
@@ -298,6 +299,9 @@ public class Orderconfirm extends Fragment {
                     DonHangResponse order = response.body();
                     Toast.makeText(getContext(), "Đặt hàng thành công! Mã: " + order.getMaDH(), Toast.LENGTH_SHORT).show();
 
+                    // Xóa giỏ hàng sau khi đặt hàng thành công
+                    clearCart(apiService);
+
                     // Chuyển sang Ordersuccess
                     requireActivity().getSupportFragmentManager()
                             .beginTransaction()
@@ -316,6 +320,29 @@ public class Orderconfirm extends Fragment {
                 Toast.makeText(getContext(), "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    /**
+     * Xóa tất cả sản phẩm trong giỏ hàng sau khi đặt hàng thành công
+     */
+    private void clearCart(ApiService apiService) {
+        if (cartItems == null || cartItems.isEmpty()) return;
+
+        for (ChiTietGioHangDTO item : cartItems) {
+            if (item.getMaCTGH() != null) {
+                apiService.xoaKhoiGioHang(item.getMaCTGH()).enqueue(new Callback<ApiResponse<Void>>() {
+                    @Override
+                    public void onResponse(Call<ApiResponse<Void>> call, Response<ApiResponse<Void>> response) {
+                        // Không cần xử lý kết quả, chỉ cần xóa
+                    }
+
+                    @Override
+                    public void onFailure(Call<ApiResponse<Void>> call, Throwable t) {
+                        // Bỏ qua lỗi xóa giỏ hàng
+                    }
+                });
+            }
+        }
     }
 
     private double parsePrice(String priceStr) {
