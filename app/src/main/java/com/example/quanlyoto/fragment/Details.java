@@ -157,11 +157,20 @@ public class Details extends Fragment {
                                                 return;
                                         }
 
+                                        android.util.Log.d("Details",
+                                                        "Adding to cart: User=" + userId + ", Product="
+                                                                        + mPhuTung.getMaPhuTung());
+
+                                        java.math.BigDecimal giaBan = mPhuTung.getGiaBan();
+                                        if (giaBan == null) {
+                                                giaBan = java.math.BigDecimal.ZERO;
+                                        }
+
                                         com.example.quanlyoto.model.ThemVaoGioHangRequest request = new com.example.quanlyoto.model.ThemVaoGioHangRequest(
                                                         mPhuTung.getMaPhuTung(),
                                                         1,
                                                         mPhuTung.getHinhAnh(),
-                                                        mPhuTung.getGiaBan());
+                                                        giaBan);
 
                                         com.example.quanlyoto.network.RetrofitClient.getApiService()
                                                         .themVaoGioHang(userId, request)
@@ -171,6 +180,10 @@ public class Details extends Fragment {
                                                                                 retrofit2.Call<com.example.quanlyoto.model.ApiResponse<com.example.quanlyoto.model.ChiTietGioHangDTO>> call,
                                                                                 retrofit2.Response<com.example.quanlyoto.model.ApiResponse<com.example.quanlyoto.model.ChiTietGioHangDTO>> response) {
                                                                         if (response.isSuccessful()) {
+                                                                                android.util.Log.d("Details",
+                                                                                                "Add success: " + response
+                                                                                                                .body()
+                                                                                                                .getData());
                                                                                 Toast.makeText(getContext(), "Đã thêm "
                                                                                                 + mPhuTung.getTenPhuTung()
                                                                                                 + " vào giỏ",
@@ -194,8 +207,10 @@ public class Details extends Fragment {
                                                                                                                         + errorBody);
                                                                                         Toast.makeText(getContext(),
                                                                                                         "Lỗi: " + response
-                                                                                                                        .code(),
-                                                                                                        Toast.LENGTH_SHORT)
+                                                                                                                        .code()
+                                                                                                                        + " "
+                                                                                                                        + errorBody,
+                                                                                                        Toast.LENGTH_LONG)
                                                                                                         .show();
                                                                                 } catch (Exception e) {
                                                                                         Toast.makeText(getContext(),
@@ -210,6 +225,9 @@ public class Details extends Fragment {
                                                                 public void onFailure(
                                                                                 retrofit2.Call<com.example.quanlyoto.model.ApiResponse<com.example.quanlyoto.model.ChiTietGioHangDTO>> call,
                                                                                 Throwable t) {
+                                                                        android.util.Log.e("Details",
+                                                                                        "AddCart Net Error: " + t
+                                                                                                        .getMessage());
                                                                         Toast.makeText(getContext(),
                                                                                         "Lỗi kết nối: " + t
                                                                                                         .getMessage(),

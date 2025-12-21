@@ -107,6 +107,7 @@ public class Cart extends Fragment {
     }
 
     private void loadCartData() {
+        android.util.Log.d("Cart", "Loading cart data for user: " + userId);
         RetrofitClient.getApiService().getGioHangByNguoiDung(userId)
                 .enqueue(new Callback<ApiResponse<List<ChiTietGioHangDTO>>>() {
                     @Override
@@ -116,14 +117,28 @@ public class Cart extends Fragment {
                             cartList.clear();
                             if (response.body().getData() != null) {
                                 cartList.addAll(response.body().getData());
+                                android.util.Log.d("Cart", "Loaded " + cartList.size() + " items");
+                                for (ChiTietGioHangDTO item : cartList) {
+                                    android.util.Log.d("Cart",
+                                            "Item: " + item.getTenPhuTung() + " - " + item.getMaPhuTung());
+                                }
+                            } else {
+                                android.util.Log.d("Cart", "Cart data is null");
                             }
                             adapter.notifyDataSetChanged();
                             calculateTotal();
+                        } else {
+                            android.util.Log.e("Cart", "Failed to load cart: " + response.code());
+                            try {
+                                android.util.Log.e("Cart", "Error body: " + response.errorBody().string());
+                            } catch (Exception e) {
+                            }
                         }
                     }
 
                     @Override
                     public void onFailure(Call<ApiResponse<List<ChiTietGioHangDTO>>> call, Throwable t) {
+                        android.util.Log.e("Cart", "API call failed: " + t.getMessage());
                         android.widget.Toast.makeText(getContext(), "Lỗi tải giỏ hàng: " + t.getMessage(),
                                 android.widget.Toast.LENGTH_SHORT).show();
                     }
