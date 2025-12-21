@@ -66,6 +66,9 @@ public interface ApiService {
         @GET("api/address/{maND}/default")
         Call<DiaChi> getDiaChiMacDinh(@Path("maND") Integer maND);
 
+        @POST("api/address/{maND}")
+        Call<DiaChi> addDiaChi(@Path("maND") Integer maND, @Body DiaChi diaChi);
+
         // ==================== PHƯƠNG THỨC VẬN CHUYỂN ====================
         @GET("api/shipping")
         Call<List<PhuongThucVanChuyen>> getAllShipping();

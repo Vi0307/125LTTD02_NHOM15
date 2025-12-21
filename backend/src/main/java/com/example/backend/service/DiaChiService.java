@@ -53,4 +53,43 @@ public class DiaChiService {
 
         return dto;
     }
+
+    /**
+     * Thêm địa chỉ mới cho người dùng
+     */
+    public DiaChiDTO addDiaChi(Integer maND, DiaChiDTO diaChiDTO) {
+        DiaChi diaChi = new DiaChi();
+        diaChi.setMaND(maND);
+        diaChi.setLoaiDiaChi(diaChiDTO.getLoaiDiaChi() != null && !diaChiDTO.getLoaiDiaChi().isEmpty()
+            ? diaChiDTO.getLoaiDiaChi() : "Nhà riêng");
+        diaChi.setHoTenNguoiNhan(diaChiDTO.getHoTenNguoiNhan() != null && !diaChiDTO.getHoTenNguoiNhan().isEmpty()
+            ? diaChiDTO.getHoTenNguoiNhan() : "Người nhận");
+        diaChi.setSoDienThoai(diaChiDTO.getSoDienThoai() != null && !diaChiDTO.getSoDienThoai().isEmpty()
+            ? diaChiDTO.getSoDienThoai() : "0000000000");
+        diaChi.setTinhThanhPho(diaChiDTO.getTinhThanhPho() != null && !diaChiDTO.getTinhThanhPho().isEmpty()
+            ? diaChiDTO.getTinhThanhPho() : "Chưa cập nhật");
+        diaChi.setQuanHuyen(diaChiDTO.getQuanHuyen() != null && !diaChiDTO.getQuanHuyen().isEmpty()
+            ? diaChiDTO.getQuanHuyen() : "Chưa cập nhật");
+        diaChi.setPhuongXa(diaChiDTO.getPhuongXa() != null && !diaChiDTO.getPhuongXa().isEmpty()
+            ? diaChiDTO.getPhuongXa() : "Chưa cập nhật");
+        diaChi.setDiaChiChiTiet(diaChiDTO.getDiaChiChiTiet() != null && !diaChiDTO.getDiaChiChiTiet().isEmpty()
+            ? diaChiDTO.getDiaChiChiTiet() : "Chưa cập nhật");
+        diaChi.setMacDinh(diaChiDTO.getMacDinh() != null ? diaChiDTO.getMacDinh() : false);
+
+        DiaChi saved = diaChiRepository.save(diaChi);
+
+        // Convert to DTO
+        DiaChiDTO result = new DiaChiDTO();
+        result.setMaDiaChi(saved.getMaDiaChi());
+        result.setLoaiDiaChi(saved.getLoaiDiaChi());
+        result.setHoTenNguoiNhan(saved.getHoTenNguoiNhan());
+        result.setSoDienThoai(saved.getSoDienThoai());
+        result.setTinhThanhPho(saved.getTinhThanhPho());
+        result.setQuanHuyen(saved.getQuanHuyen());
+        result.setPhuongXa(saved.getPhuongXa());
+        result.setDiaChiChiTiet(saved.getDiaChiChiTiet());
+        result.setMacDinh(saved.getMacDinh());
+
+        return result;
+    }
 }
