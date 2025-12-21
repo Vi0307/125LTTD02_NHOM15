@@ -52,4 +52,19 @@ public class NguoiDungService {
                 .map(this::mapToDTO)
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy người dùng với mã: " + maND));
     }
+
+    // Cập nhật số lần bảo dưỡng
+    public NguoiDungDTO updateMaintenanceCount(Integer maND, Integer newCount) {
+        Optional<NguoiDung> userOpt = nguoiDungRepository.findById(maND);
+        if (userOpt.isPresent()) {
+            NguoiDung user = userOpt.get();
+            user.setSoLanBaoDuong(newCount);
+            // Optionally update NgayBaoDuong to now
+            user.setNgayBaoDuong(java.time.LocalDateTime.now());
+            NguoiDung updatedUser = nguoiDungRepository.save(user);
+            return mapToDTO(updatedUser);
+        } else {
+            throw new RuntimeException("Không tìm thấy người dùng với mã: " + maND);
+        }
+    }
 }

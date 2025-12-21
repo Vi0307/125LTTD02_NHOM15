@@ -46,4 +46,15 @@ public class NguoiDungController {
             return ResponseEntity.status(404).body(e.getMessage());
         }
     }
+
+    // Cập nhật số lần bảo dưỡng
+    @PutMapping("/{id}/update-maintenance-count")
+    public ResponseEntity<?> updateMaintenanceCount(@PathVariable Integer id, @RequestParam Integer count) {
+        try {
+            NguoiDungDTO user = nguoiDungService.updateMaintenanceCount(id, count);
+            return ResponseEntity.ok(user);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(404).body(e.getMessage());
+        }
+    }
 }

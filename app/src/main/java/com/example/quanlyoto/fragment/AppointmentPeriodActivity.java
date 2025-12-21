@@ -18,6 +18,38 @@ public class AppointmentPeriodActivity extends Fragment {
             Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_appointment_period, container, false);
 
+        int userId = 1; // Hardcoded user
+        final int[] currentMaintenanceCount = { 0 };
+        android.widget.RadioButton rbPeriod = view.findViewById(R.id.rbPeriod);
+
+        // Fetch User Info to get maintenance count
+        com.example.quanlyoto.network.RetrofitClient.getClient()
+                .create(com.example.quanlyoto.network.ApiService.class)
+                .getNguoiDungById(userId)
+                .enqueue(new retrofit2.Callback<com.example.quanlyoto.model.NguoiDung>() {
+                    @Override
+                    public void onResponse(retrofit2.Call<com.example.quanlyoto.model.NguoiDung> call,
+                            retrofit2.Response<com.example.quanlyoto.model.NguoiDung> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            if (response.body().getSoLanBaoDuong() != null) {
+                                currentMaintenanceCount[0] = response.body().getSoLanBaoDuong();
+                            } else {
+                                currentMaintenanceCount[0] = 0;
+                            }
+                            int nextCount = currentMaintenanceCount[0] + 1;
+                            if (rbPeriod != null) {
+                                rbPeriod.setText("KTDK lần " + nextCount);
+                                rbPeriod.setChecked(true);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(retrofit2.Call<com.example.quanlyoto.model.NguoiDung> call, Throwable t) {
+                        // Fail silently or toast
+                    }
+                });
+
         // Nút back
         ImageView btnBack = view.findViewById(R.id.btn_back);
         btnBack.setOnClickListener(v -> {
@@ -36,9 +68,13 @@ public class AppointmentPeriodActivity extends Fragment {
                 args.putString("serviceType", getArguments().getString("serviceType"));
                 args.putInt("agency_id", getArguments().getInt("agency_id", -1));
             }
-            // For now, hardcode or grab value. Ideally find the selected radio button.
-            // Since there is only one in the current xml shown:
-            args.putString("serviceDetail", "KTDK lần 5");
+
+            // Logic: ktdk = so lan bao duong + 1
+            int nextCount = currentMaintenanceCount[0] + 1;
+            String serviceDetail = "KTDK lần " + nextCount;
+
+            args.putString("serviceDetail", serviceDetail);
+            args.putInt("nextMaintenanceCount", nextCount);
 
             nextFragment.setArguments(args);
 
