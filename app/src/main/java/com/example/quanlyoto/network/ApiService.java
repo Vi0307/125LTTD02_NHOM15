@@ -57,7 +57,7 @@ public interface ApiService {
         Call<List<Voucher>> getAllVouchers();
 
         @POST("api/voucher/reward")
-        Call<String> rewardVoucher(@Body RewardRequest request);
+        Call<ApiResponse<String>> rewardVoucher(@Body RewardRequest request);
 
         // ==================== ĐỊA CHỈ ====================
         @GET("api/address/{maND}")
