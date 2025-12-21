@@ -140,4 +140,8 @@ public interface ApiService {
 
         @GET("api/payment-methods/default")
         Call<com.example.quanlyoto.model.PhuongThucThanhToan> getDefaultPaymentMethod();
+
+        // ==================== ĐƠN HÀNG ====================
+        @retrofit2.http.POST("api/orders")
+        Call<com.example.quanlyoto.model.DonHangResponse> createOrder(@Body com.example.quanlyoto.model.DonHangRequest request);
 }
