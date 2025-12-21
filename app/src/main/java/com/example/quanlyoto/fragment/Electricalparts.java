@@ -183,12 +183,51 @@ public class Electricalparts extends Fragment {
 
             // Click Add -> Cart
             btnAdd.setOnClickListener(v -> {
-                requireActivity().getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.fragment_container, new Cart())
-                        .addToBackStack(null)
-                        .commit();
-                Toast.makeText(getContext(), "Đã thêm " + item.getTenPhuTung() + " vào giỏ", Toast.LENGTH_SHORT).show();
+                android.content.SharedPreferences prefs = requireActivity()
+                        .getSharedPreferences("UserPrefs", android.content.Context.MODE_PRIVATE);
+                int userId = prefs.getInt("userId", -1);
+
+                if (userId == -1) {
+                    Toast.makeText(getContext(), "Vui lòng đăng nhập để thêm vào giỏ hàng", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                com.example.quanlyoto.model.ThemVaoGioHangRequest request = new com.example.quanlyoto.model.ThemVaoGioHangRequest(
+                        item.getMaPhuTung(),
+                        1,
+                        item.getHinhAnh(),
+                        item.getGiaBan());
+
+                com.example.quanlyoto.network.RetrofitClient.getApiService()
+                        .themVaoGioHang(userId, request)
+                        .enqueue(
+                                new retrofit2.Callback<com.example.quanlyoto.model.ApiResponse<com.example.quanlyoto.model.ChiTietGioHangDTO>>() {
+                                    @Override
+                                    public void onResponse(
+                                            retrofit2.Call<com.example.quanlyoto.model.ApiResponse<com.example.quanlyoto.model.ChiTietGioHangDTO>> call,
+                                            retrofit2.Response<com.example.quanlyoto.model.ApiResponse<com.example.quanlyoto.model.ChiTietGioHangDTO>> response) {
+                                        if (response.isSuccessful()) {
+                                            Toast.makeText(getContext(), "Đã thêm " + item.getTenPhuTung() + " vào giỏ",
+                                                    Toast.LENGTH_SHORT).show();
+                                            requireActivity().getSupportFragmentManager()
+                                                    .beginTransaction()
+                                                    .replace(R.id.fragment_container, new Cart())
+                                                    .addToBackStack(null)
+                                                    .commit();
+                                        } else {
+                                            Toast.makeText(getContext(), "Lỗi khi thêm vào giỏ hàng",
+                                                    Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onFailure(
+                                            retrofit2.Call<com.example.quanlyoto.model.ApiResponse<com.example.quanlyoto.model.ChiTietGioHangDTO>> call,
+                                            Throwable t) {
+                                        Toast.makeText(getContext(), "Lỗi kết nối: " + t.getMessage(),
+                                                Toast.LENGTH_SHORT).show();
+                                    }
+                                });
             });
 
             // Layout Params for 2 columns

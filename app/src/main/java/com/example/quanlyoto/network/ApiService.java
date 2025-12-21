@@ -104,4 +104,24 @@ public interface ApiService {
     @GET("api/dich-vu/nguoi-dung/{maND}")
     Call<ApiResponse<List<com.example.quanlyoto.model.DichVuDTO>>> getDichVuByNguoiDung(@Path("maND") Integer maND);
 
+    // ==================== GIỎ HÀNG ====================
+    @POST("api/chi-tiet-gio-hang/nguoi-dung/{maND}")
+    Call<ApiResponse<com.example.quanlyoto.model.ChiTietGioHangDTO>> themVaoGioHang(
+            @Path("maND") Integer maND,
+            @Body com.example.quanlyoto.model.ThemVaoGioHangRequest request);
+
+    @GET("api/chi-tiet-gio-hang/nguoi-dung/{maND}")
+    Call<ApiResponse<List<com.example.quanlyoto.model.ChiTietGioHangDTO>>> getGioHangByNguoiDung(
+            @Path("maND") Integer maND);
+
+    @retrofit2.http.DELETE("api/chi-tiet-gio-hang/{maCTGH}")
+    Call<ApiResponse<Void>> xoaKhoiGioHang(@Path("maCTGH") Integer maCTGH);
+
+    @retrofit2.http.PUT("api/chi-tiet-gio-hang/{maCTGH}/so-luong")
+    Call<ApiResponse<com.example.quanlyoto.model.ChiTietGioHangDTO>> capNhatSoLuong(
+            @Path("maCTGH") Integer maCTGH,
+            @retrofit2.http.Query("soLuong") Integer soLuong);
+
+    @GET("api/chi-tiet-gio-hang/nguoi-dung/{maND}/tong-tien")
+    Call<ApiResponse<java.math.BigDecimal>> getTongTienGioHang(@Path("maND") Integer maND);
 }

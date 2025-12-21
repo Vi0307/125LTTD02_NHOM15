@@ -122,6 +122,7 @@ public class Details extends Fragment {
 
         private void setupActions(View view) {
                 ImageView btnBack = view.findViewById(R.id.btnBack);
+                ImageView btnCart = view.findViewById(R.id.btnCart); // Retrieve Cart Button
                 Button btnAddToCart = view.findViewById(R.id.btnAddToCart);
                 Button btnOrder = view.findViewById(R.id.btnOrder);
 
@@ -130,19 +131,91 @@ public class Details extends Fragment {
                         btnBack.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStack());
                 }
 
-                // Add to Cart
-                if (btnAddToCart != null) {
-                        btnAddToCart.setOnClickListener(v -> {
-                                // Add to cart logic here (e.g., saving to database or shared prefs)
-                                // For now, simple navigation as before
+                // Cart Navigation
+                if (btnCart != null) {
+                        btnCart.setOnClickListener(v -> {
                                 requireActivity().getSupportFragmentManager()
                                                 .beginTransaction()
                                                 .replace(R.id.fragment_container, new Cart())
                                                 .addToBackStack(null)
                                                 .commit();
+                        });
+                }
+
+                // Add to Cart
+                if (btnAddToCart != null) {
+                        btnAddToCart.setOnClickListener(v -> {
                                 if (mPhuTung != null) {
-                                        Toast.makeText(getContext(), "Đã thêm " + mPhuTung.getTenPhuTung() + " vào giỏ",
-                                                        Toast.LENGTH_SHORT).show();
+                                        android.content.SharedPreferences prefs = requireActivity()
+                                                        .getSharedPreferences("UserPrefs",
+                                                                        android.content.Context.MODE_PRIVATE);
+                                        int userId = prefs.getInt("userId", -1);
+
+                                        if (userId == -1) {
+                                                Toast.makeText(getContext(), "Vui lòng đăng nhập để thêm vào giỏ hàng",
+                                                                Toast.LENGTH_SHORT).show();
+                                                return;
+                                        }
+
+                                        com.example.quanlyoto.model.ThemVaoGioHangRequest request = new com.example.quanlyoto.model.ThemVaoGioHangRequest(
+                                                        mPhuTung.getMaPhuTung(),
+                                                        1,
+                                                        mPhuTung.getHinhAnh(),
+                                                        mPhuTung.getGiaBan());
+
+                                        com.example.quanlyoto.network.RetrofitClient.getApiService()
+                                                        .themVaoGioHang(userId, request)
+                                                        .enqueue(new retrofit2.Callback<com.example.quanlyoto.model.ApiResponse<com.example.quanlyoto.model.ChiTietGioHangDTO>>() {
+                                                                @Override
+                                                                public void onResponse(
+                                                                                retrofit2.Call<com.example.quanlyoto.model.ApiResponse<com.example.quanlyoto.model.ChiTietGioHangDTO>> call,
+                                                                                retrofit2.Response<com.example.quanlyoto.model.ApiResponse<com.example.quanlyoto.model.ChiTietGioHangDTO>> response) {
+                                                                        if (response.isSuccessful()) {
+                                                                                Toast.makeText(getContext(), "Đã thêm "
+                                                                                                + mPhuTung.getTenPhuTung()
+                                                                                                + " vào giỏ",
+                                                                                                Toast.LENGTH_SHORT)
+                                                                                                .show();
+                                                                                // Navigate to Cart screen
+                                                                                requireActivity()
+                                                                                                .getSupportFragmentManager()
+                                                                                                .beginTransaction()
+                                                                                                .replace(R.id.fragment_container,
+                                                                                                                new Cart())
+                                                                                                .addToBackStack(null)
+                                                                                                .commit();
+                                                                        } else {
+                                                                                try {
+                                                                                        String errorBody = response
+                                                                                                        .errorBody()
+                                                                                                        .string();
+                                                                                        android.util.Log.e("Details",
+                                                                                                        "AddCart Error: "
+                                                                                                                        + errorBody);
+                                                                                        Toast.makeText(getContext(),
+                                                                                                        "Lỗi: " + response
+                                                                                                                        .code(),
+                                                                                                        Toast.LENGTH_SHORT)
+                                                                                                        .show();
+                                                                                } catch (Exception e) {
+                                                                                        Toast.makeText(getContext(),
+                                                                                                        "Lỗi khi thêm vào giỏ hàng",
+                                                                                                        Toast.LENGTH_SHORT)
+                                                                                                        .show();
+                                                                                }
+                                                                        }
+                                                                }
+
+                                                                @Override
+                                                                public void onFailure(
+                                                                                retrofit2.Call<com.example.quanlyoto.model.ApiResponse<com.example.quanlyoto.model.ChiTietGioHangDTO>> call,
+                                                                                Throwable t) {
+                                                                        Toast.makeText(getContext(),
+                                                                                        "Lỗi kết nối: " + t
+                                                                                                        .getMessage(),
+                                                                                        Toast.LENGTH_SHORT).show();
+                                                                }
+                                                        });
                                 }
                         });
                 }

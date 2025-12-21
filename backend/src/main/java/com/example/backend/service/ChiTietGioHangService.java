@@ -33,9 +33,9 @@ public class ChiTietGioHangService {
     
     // Lấy chi tiết giỏ hàng theo người dùng
     public List<ChiTietGioHangDTO> getChiTietByNguoiDung(Integer maND) {
-        GioHang gioHang = gioHangRepository.findByMaND(maND)
-                .orElseThrow(() -> new RuntimeException("Người dùng chưa có giỏ hàng"));
-        return getChiTietByGioHang(gioHang.getMaGioHang());
+        return gioHangRepository.findByMaND(maND)
+                .map(gioHang -> getChiTietByGioHang(gioHang.getMaGioHang()))
+                .orElse(java.util.Collections.emptyList());
     }
     
     // Thêm sản phẩm vào giỏ hàng
