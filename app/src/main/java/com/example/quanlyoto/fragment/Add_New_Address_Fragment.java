@@ -29,7 +29,7 @@ public class Add_New_Address_Fragment extends Fragment {
 
     private LinearLayout optionHome, optionOffice;
     private ImageView radioHome, radioOffice;
-    private EditText etAddress;
+    private EditText etTinhThanh, etQuanHuyen, etPhuongXa, etAddress;
     private Button btnAddAddress, btnApply;
     
     private int selected = 0; // 1 = nhà riêng, 2 = văn phòng
@@ -66,11 +66,19 @@ public class Add_New_Address_Fragment extends Fragment {
     }
 
     private void initViews(View view) {
+        // Input fields
+        etTinhThanh = view.findViewById(R.id.et_tinh_thanh);
+        etQuanHuyen = view.findViewById(R.id.et_quan_huyen);
+        etPhuongXa = view.findViewById(R.id.et_phuong_xa);
         etAddress = view.findViewById(R.id.et_address);
+        
+        // Radio options
         optionHome = view.findViewById(R.id.option_home);
         optionOffice = view.findViewById(R.id.option_office);
         radioHome = view.findViewById(R.id.radio_home);
         radioOffice = view.findViewById(R.id.radio_office);
+        
+        // Buttons
         btnAddAddress = view.findViewById(R.id.btn_add_address);
         btnApply = view.findViewById(R.id.btn_apply);
     }
@@ -107,11 +115,15 @@ public class Add_New_Address_Fragment extends Fragment {
     }
 
     private void addNewAddress() {
-        String address = etAddress.getText().toString().trim();
+        // Lấy dữ liệu từ các input
+        String tinhThanh = etTinhThanh.getText().toString().trim();
+        String quanHuyen = etQuanHuyen.getText().toString().trim();
+        String phuongXa = etPhuongXa.getText().toString().trim();
+        String diaChiChiTiet = etAddress.getText().toString().trim();
         
-        // Validate
-        if (address.isEmpty()) {
-            Toast.makeText(getContext(), "Vui lòng nhập địa chỉ", Toast.LENGTH_SHORT).show();
+        // Validate - ít nhất phải có địa chỉ chi tiết
+        if (diaChiChiTiet.isEmpty()) {
+            Toast.makeText(getContext(), "Vui lòng nhập địa chỉ cụ thể", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -127,7 +139,10 @@ public class Add_New_Address_Fragment extends Fragment {
 
         // Tạo đối tượng DiaChi
         DiaChi diaChi = new DiaChi();
-        diaChi.setDiaChiChiTiet(address);
+        diaChi.setTinhThanhPho(tinhThanh);
+        diaChi.setQuanHuyen(quanHuyen);
+        diaChi.setPhuongXa(phuongXa);
+        diaChi.setDiaChiChiTiet(diaChiChiTiet);
         diaChi.setLoaiDiaChi(selected == 1 ? "Nhà riêng" : "Văn phòng");
         diaChi.setMacDinh(false); // Mặc định không phải địa chỉ mặc định
 
@@ -147,10 +162,7 @@ public class Add_New_Address_Fragment extends Fragment {
                     Toast.makeText(getContext(), "Thêm địa chỉ thành công!", Toast.LENGTH_SHORT).show();
                     
                     // Xóa input để người dùng có thể thêm địa chỉ khác
-                    etAddress.setText("");
-                    selected = 0;
-                    radioHome.setImageResource(R.drawable.ic_radio_button_unchecked);
-                    radioOffice.setImageResource(R.drawable.ic_radio_button_unchecked);
+                    clearInputs();
                 } else {
                     String errorMsg = "Lỗi thêm địa chỉ";
                     try {
@@ -171,6 +183,16 @@ public class Add_New_Address_Fragment extends Fragment {
                 Toast.makeText(getContext(), "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void clearInputs() {
+        etTinhThanh.setText("");
+        etQuanHuyen.setText("");
+        etPhuongXa.setText("");
+        etAddress.setText("");
+        selected = 0;
+        radioHome.setImageResource(R.drawable.ic_radio_button_unchecked);
+        radioOffice.setImageResource(R.drawable.ic_radio_button_unchecked);
     }
 
     private void selectHome() {
