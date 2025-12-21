@@ -159,28 +159,43 @@ public class QuizActivity extends AppCompatActivity {
 
     private void sendRewardRequest() {
         RewardRequest request = new RewardRequest(1, score); // Hardcoded maND=1 for now
-        RetrofitClient.getApiService().rewardVoucher(request).enqueue(new Callback<String>() {
-            @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                if (response.isSuccessful()) {
-                    String msg = response.body();
-                    Toast.makeText(QuizActivity.this, "Đúng " + score + "/10 câu. " + msg, Toast.LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(QuizActivity.this, "Đúng " + score + "/10 câu.", Toast.LENGTH_SHORT).show();
-                }
-                navigateToResult();
-            }
+        RetrofitClient.getApiService().rewardVoucher(request)
+                .enqueue(new Callback<com.example.quanlyoto.model.ApiResponse<String>>() {
+                    @Override
+                    public void onResponse(Call<com.example.quanlyoto.model.ApiResponse<String>> call,
+                            Response<com.example.quanlyoto.model.ApiResponse<String>> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            String msg = response.body().getMessage(); // ApiResponse wrapper
+                            Toast.makeText(QuizActivity.this, "Đúng " + score + "/10 câu. " + msg, Toast.LENGTH_LONG)
+                                    .show();
+                        } else {
+                            Toast.makeText(QuizActivity.this, "Đúng " + score + "/10 câu.", Toast.LENGTH_SHORT).show();
+                        }
+                        navigateToResult();
+                    }
 
-            @Override
-            public void onFailure(Call<String> call, Throwable t) {
-                Toast.makeText(QuizActivity.this, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                navigateToResult();
-            }
-        });
+                    @Override
+                    public void onFailure(Call<com.example.quanlyoto.model.ApiResponse<String>> call, Throwable t) {
+                        // Toast.makeText(QuizActivity.this, "Lỗi kết nối: " + t.getMessage(),
+                        // Toast.LENGTH_SHORT).show();
+                        navigateToResult();
+                    }
+                });
     }
 
     private void navigateToResult() {
-        Intent intent = new Intent(QuizActivity.this, ResultActivity.class);
+        Intent intent;
+        if (score == 10) {
+            intent = new Intent(QuizActivity.this, ResultActivity.class);
+        } else if (score == 7) {
+            intent = new Intent(QuizActivity.this, ResulttwoActivity.class);
+        } else {
+            // Quay về MainActivity, fragment VoucherStillValid
+            intent = new Intent(QuizActivity.this, MainActivity.class);
+            intent.putExtra("fragment", "VoucherStillValid");
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        }
+
         startActivity(intent);
         finish();
     }

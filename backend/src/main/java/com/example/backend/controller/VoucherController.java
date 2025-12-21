@@ -28,10 +28,10 @@ public class VoucherController {
     }
 
     @org.springframework.web.bind.annotation.PostMapping("/reward")
-    public org.springframework.http.ResponseEntity<String> rewardVoucher(@org.springframework.web.bind.annotation.RequestBody com.example.backend.dto.RewardRequest request) {
+    public org.springframework.http.ResponseEntity<com.example.backend.dto.ApiResponse<String>> rewardVoucher(@org.springframework.web.bind.annotation.RequestBody com.example.backend.dto.RewardRequest request) {
         System.out.println("Reward Request Received: User=" + request.getMaND() + ", Score=" + request.getCorrectAnswers());
         service.rewardVoucher(request.getMaND(), request.getCorrectAnswers());
-        return org.springframework.http.ResponseEntity.ok("Trả thưởng thành công");
+        return org.springframework.http.ResponseEntity.ok(com.example.backend.dto.ApiResponse.success("Trả thưởng thành công", "Đã ghi nhận kết quả"));
     }
 }
 
