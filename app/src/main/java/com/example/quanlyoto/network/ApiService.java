@@ -130,4 +130,14 @@ public interface ApiService {
 
         @GET("api/chi-tiet-gio-hang/nguoi-dung/{maND}/tong-tien")
         Call<ApiResponse<java.math.BigDecimal>> getTongTienGioHang(@Path("maND") Integer maND);
+
+        // ==================== PHƯƠNG THỨC THANH TOÁN ====================
+        @GET("api/payment-methods")
+        Call<List<com.example.quanlyoto.model.PhuongThucThanhToan>> getAllPaymentMethods();
+
+        @GET("api/payment-methods/{id}")
+        Call<com.example.quanlyoto.model.PhuongThucThanhToan> getPaymentMethodById(@Path("id") Integer id);
+
+        @GET("api/payment-methods/default")
+        Call<com.example.quanlyoto.model.PhuongThucThanhToan> getDefaultPaymentMethod();
 }
