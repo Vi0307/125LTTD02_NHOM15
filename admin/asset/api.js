@@ -361,27 +361,6 @@ const NotificationAPI = {
     }
 };
 
-// ==================== CHATBOX API ====================
-const ChatboxAPI = {
-    // Lấy danh sách người dùng để chat
-    async getUsers() {
-        return await apiCall('/chatbox/users');
-    },
-
-    // Lấy lịch sử tin nhắn
-    async getMessages(maND) {
-        return await apiCall(`/chatbox/messages?maND=${maND}`);
-    },
-
-    // Gửi tin nhắn
-    async sendMessage(maND, noiDung) {
-        return await apiCall('/chatbox/messages', {
-            method: 'POST',
-            body: JSON.stringify({ maND, noiDung })
-        });
-    }
-};
-
 // ==================== DEALER API ====================
 const DealerAPI = {
     // Lấy danh sách đại lý
@@ -469,7 +448,7 @@ if (typeof window !== 'undefined') {
     window.OrderAPI = OrderAPI;
     window.ScheduleAPI = ScheduleAPI;
     window.NotificationAPI = NotificationAPI;
-    window.ChatboxAPI = ChatboxAPI;
+
     window.DealerAPI = DealerAPI;
     window.Utils = Utils;
     window.apiCall = apiCall;

@@ -10,7 +10,7 @@ const userRoutes = require('./routes/userRoutes');
 const orderRoutes = require('./routes/orderRoutes');
 const scheduleRoutes = require('./routes/scheduleRoutes');
 const notificationRoutes = require('./routes/notificationRoutes');
-const chatboxRoutes = require('./routes/chatboxRoutes');
+const dealerRoutes = require('./routes/dealerRoutes');
 
 // Database
 const { getPool, closePool } = require('./config/database');
@@ -50,7 +50,7 @@ app.use('/api/users', userRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/schedules', scheduleRoutes);
 app.use('/api/notifications', notificationRoutes);
-app.use('/api/chatbox', chatboxRoutes);
+app.use('/api/dealers', dealerRoutes);
 
 /* =======================
    404 HANDLER
@@ -105,7 +105,7 @@ const startServer = async () => {
             console.log('   GET  /api/orders');
             console.log('   GET  /api/schedules');
             console.log('   GET  /api/notifications');
-            console.log('   GET  /api/chatbox');
+            console.log('   GET  /api/dealers');
             console.log('====================================');
         });
     } catch (err) {

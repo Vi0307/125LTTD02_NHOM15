@@ -4,9 +4,199 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OTOTECH - Chatbox</title>
+    <title>OTOTECH - Quản lý Đại lý</title>
     <link rel="stylesheet" href="asset/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        .dealer-main {
+            display: flex;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .dealer-list {
+            flex: 1;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .dealer-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .dealer-header h3 {
+            margin: 0;
+            font-size: 18px;
+        }
+
+        .btn-add {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+
+        .btn-add:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .dealer-items {
+            max-height: calc(100vh - 250px);
+            overflow-y: auto;
+        }
+
+        .dealer-item {
+            padding: 15px 20px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .dealer-item:hover {
+            background: #f8f9fa;
+        }
+
+        .dealer-item.active {
+            background: #e8f4fd;
+            border-left: 4px solid #667eea;
+        }
+
+        .dealer-name {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .dealer-address {
+            font-size: 13px;
+            color: #666;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .dealer-phone {
+            font-size: 13px;
+            color: #888;
+            margin-top: 5px;
+        }
+
+        /* Detail Panel */
+        .dealer-detail {
+            width: 400px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .detail-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .detail-header h3 {
+            margin: 0 0 5px 0;
+        }
+
+        .detail-header p {
+            margin: 0;
+            opacity: 0.8;
+            font-size: 14px;
+        }
+
+        .detail-body {
+            padding: 20px;
+        }
+
+        .detail-row {
+            margin-bottom: 15px;
+        }
+
+        .detail-row label {
+            display: block;
+            font-size: 12px;
+            color: #888;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .detail-row input,
+        .detail-row textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        .detail-row textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .detail-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: opacity 0.2s;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        .btn-save {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-delete {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-cancel {
+            background: #6c757d;
+            color: white;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #888;
+        }
+
+        .empty-state i {
+            font-size: 48px;
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }
+    </style>
 </head>
 
 <body class="dashboard-body admin-body">
@@ -27,77 +217,37 @@
                 <li class="menu-item" onclick="goTo('schedule.html')"><i class="fas fa-calendar-check"></i> Đặt lịch
                 </li>
                 <li class="menu-item" onclick="goTo('notifications.html')"><i class="fas fa-bell"></i> Thông báo</li>
-                <li class="menu-item active"><i class="fas fa-comments"></i> Chatbox</li>
+                <li class="menu-item active"><i class="fas fa-store"></i> Đại lý</li>
             </ul>
         </aside>
 
-        <!-- Main Content: Chatbox -->
-        <main class="admin-main chatbox-main">
+        <!-- Main Content: Dealers -->
+        <main class="admin-main dealer-main">
 
-            <!-- Danh sách khách hàng (bên trái) -->
-            <div class="chat-users">
-                <div class="chat-header">
-                    <h3>Trực tuyến</h3>
+            <!-- Danh sách đại lý -->
+            <div class="dealer-list">
+                <div class="dealer-header">
+                    <h3><i class="fas fa-store"></i> Danh sách đại lý</h3>
+                    <button class="btn-add" onclick="showAddForm()">
+                        <i class="fas fa-plus"></i> Thêm mới
+                    </button>
                 </div>
-                <div class="users-list">
-                    <div class="user-item active" onclick="openChat(this, 'Nguyễn Văn A')">
-                        <div class="user-avatar">NVA</div>
-                        <div class="user-info">
-                            <div class="user-name">Nguyễn Văn A</div>
-                            <div class="user-last-msg">Tuần trước...</div>
-                        </div>
-                        <div class="user-online"></div>
-                    </div>
-                    <div class="user-item" onclick="openChat(this, 'Trần Thị B')">
-                        <div class="user-avatar">TTB</div>
-                        <div class="user-info">
-                            <div class="user-name">Trần Thị B</div>
-                            <div class="user-last-msg">Cần tư vấn phụ tùng</div>
-                        </div>
-                        <div class="user-online"></div>
-                    </div>
-                    <div class="user-item" onclick="openChat(this, 'Lê Minh C')">
-                        <div class="user-avatar">LMC</div>
-                        <div class="user-info">
-                            <div class="user-name">Lê Minh C</div>
-                            <div class="user-last-msg">Hỏi về bảo dưỡng</div>
-                        </div>
-                        <div class="user-online"></div>
-                    </div>
-                    <div class="user-item" onclick="openChat(this, 'Phạm Thị D')">
-                        <div class="user-avatar">PTD</div>
-                        <div class="user-info">
-                            <div class="user-name">Phạm Thị D</div>
-                            <div class="user-last-msg">Liên hệ đặt lịch</div>
-                        </div>
-                        <div class="user-online"></div>
-                    </div>
+                <div class="dealer-items" id="dealerList">
+                    <!-- Dealers will be loaded here -->
                 </div>
             </div>
 
-            <!-- Khu vực chat (bên phải) -->
-            <div class="chat-area">
-                <div class="chat-header">
-                    <div class="chat-user-info">
-                        <div class="chat-avatar" id="chatAvatar">NVA</div>
-                        <div>
-                            <div class="chat-user-name" id="chatUserName">Nguyễn Văn A</div>
-                            <div class="chat-status">Đang hoạt động</div>
-                        </div>
+            <!-- Chi tiết đại lý -->
+            <div class="dealer-detail">
+                <div class="detail-header">
+                    <h3 id="detailTitle">Thông tin đại lý</h3>
+                    <p id="detailSubtitle">Chọn đại lý để xem chi tiết</p>
+                </div>
+                <div class="detail-body" id="detailBody">
+                    <div class="empty-state">
+                        <i class="fas fa-store"></i>
+                        <p>Chọn một đại lý từ danh sách để xem và chỉnh sửa thông tin</p>
                     </div>
-                </div>
-
-                <!-- Tin nhắn -->
-                <div class="chat-messages" id="chatMessages">
-                    <!-- Tin nhắn sẽ được load từ API -->
-                </div>
-
-                <!-- Input chat -->
-                <div class="chat-input">
-                    <input type="text" id="chatInput" placeholder="Nhập tin nhắn..." onkeypress="handleKeyPress(event)">
-                    <button onclick="sendMessage()">
-                        <i class="fas fa-paper-plane"></i>
-                    </button>
                 </div>
             </div>
         </main>
@@ -117,139 +267,196 @@
             window.location.href = 'welcome.html';
         }
 
-        let currentChatUser = null;
-        let currentChatUserId = null;
+        let currentDealerId = null;
+        let isAddMode = false;
 
-        // Load danh sách người dùng để chat
-        async function loadChatUsers() {
+        // Load danh sách đại lý
+        async function loadDealers() {
             try {
-                const result = await ChatboxAPI.getUsers();
+                const result = await DealerAPI.getAll();
                 if (result.success) {
-                    renderChatUsers(result.data);
+                    renderDealers(result.data);
                 } else {
                     alert('Lỗi: ' + result.message);
                 }
             } catch (error) {
-                console.error('Lỗi load người dùng chat:', error);
+                console.error('Lỗi load đại lý:', error);
             }
         }
 
-        // Render danh sách người dùng
-        function renderChatUsers(users) {
-            const usersList = document.querySelector('.users-list');
-            usersList.innerHTML = '';
+        // Render danh sách đại lý
+        function renderDealers(dealers) {
+            const dealerList = document.getElementById('dealerList');
 
-            users.forEach((user, index) => {
-                const userItem = document.createElement('div');
-                userItem.className = `user-item ${index === 0 ? 'active' : ''}`;
-                userItem.onclick = () => openChat(userItem, user);
-
-                const initials = user.TenKhachHang.split(' ').map(n => n[0]).join('').toUpperCase();
-
-                userItem.innerHTML = `
-            <div class="user-avatar">${initials}</div>
-            <div class="user-info">
-                <div class="user-name">${user.TenKhachHang}</div>
-                <div class="user-last-msg">${user.TenLoaiXe || 'Chưa có thông tin'}</div>
-            </div>
-            <div class="user-online"></div>
-        `;
-
-                usersList.appendChild(userItem);
-
-                // Tự động mở chat với người đầu tiên
-                if (index === 0) {
-                    openChat(userItem, user);
-                }
-            });
-        }
-
-        async function openChat(userElement, user) {
-            // Đổi active user
-            document.querySelectorAll('.user-item').forEach(u => u.classList.remove('active'));
-            userElement.classList.add('active');
-            currentChatUser = user.TenKhachHang;
-            currentChatUserId = user.MaND;
-
-            // Cập nhật header chat
-            const chatUserName = document.getElementById('chatUserName');
-            const chatAvatar = document.getElementById('chatAvatar');
-            if (chatUserName) chatUserName.textContent = user.TenKhachHang;
-            if (chatAvatar) {
-                const initials = user.TenKhachHang.split(' ').map(n => n[0]).join('').toUpperCase();
-                chatAvatar.textContent = initials;
-            }
-
-            // Load tin nhắn từ API
-            await loadMessages(user.MaND);
-
-            // Scroll tin nhắn xuống cuối
-            const messagesDiv = document.getElementById('chatMessages');
-            if (messagesDiv) {
-                setTimeout(() => {
-                    messagesDiv.scrollTop = messagesDiv.scrollHeight;
-                }, 100);
-            }
-        }
-
-        async function loadMessages(maND) {
-            try {
-                const result = await ChatboxAPI.getMessages(maND);
-                const messagesDiv = document.getElementById('chatMessages');
-
-                if (result.success && result.data.length > 0) {
-                    messagesDiv.innerHTML = result.data.map(msg => `
-                <div class="message ${msg.Loai}">
-                    <div class="message-content">${msg.NoiDung}</div>
-                    <div class="message-time">${new Date(msg.ThoiGian).toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' })}</div>
-        </div>
-            `).join('');
-                } else {
-                    messagesDiv.innerHTML = '<div style="text-align:center;color:#999;padding:20px;">Chưa có tin nhắn</div>';
-                }
-
-                messagesDiv.scrollTop = messagesDiv.scrollHeight;
-            } catch (error) {
-                console.error('Lỗi load tin nhắn:', error);
-            }
-        }
-
-        async function sendMessage() {
-            if (!currentChatUserId) {
-                alert('Vui lòng chọn người dùng để chat!');
+            if (dealers.length === 0) {
+                dealerList.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-store"></i>
+                        <p>Chưa có đại lý nào</p>
+                    </div>
+                `;
                 return;
             }
 
-            const input = document.getElementById('chatInput');
-            const message = input.value.trim();
-            if (!message) return;
+            dealerList.innerHTML = dealers.map(dealer => `
+                <div class="dealer-item ${currentDealerId === dealer.MaDaiLy ? 'active' : ''}" 
+                     onclick="selectDealer(${dealer.MaDaiLy})">
+                    <div class="dealer-name">${dealer.TenDaiLy}</div>
+                    <div class="dealer-address">
+                        <i class="fas fa-map-marker-alt"></i>
+                        ${dealer.DiaChi}
+                    </div>
+                    <div class="dealer-phone">
+                        <i class="fas fa-phone"></i> ${dealer.SoDienThoai}
+                        ${dealer.GioLamViec ? ` | <i class="fas fa-clock"></i> ${dealer.GioLamViec}` : ''}
+                    </div>
+                </div>
+            `).join('');
+        }
 
+        // Chọn đại lý để xem chi tiết
+        async function selectDealer(id) {
             try {
-                const result = await ChatboxAPI.sendMessage(currentChatUserId, message);
+                currentDealerId = id;
+                isAddMode = false;
+
+                const result = await DealerAPI.getById(id);
                 if (result.success) {
-                    // Thêm tin nhắn vào UI
-                    const messagesDiv = document.getElementById('chatMessages');
-                    const messageDiv = document.createElement('div');
-                    messageDiv.className = 'message admin';
-                    messageDiv.innerHTML = `
-        <div class="message-content">${message}</div>
-        <div class="message-time">${new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' })}</div>
-    `;
-                    messagesDiv.appendChild(messageDiv);
-                    messagesDiv.scrollTop = messagesDiv.scrollHeight;
-                    input.value = '';
+                    showDetailForm(result.data);
+                    // Update active state
+                    document.querySelectorAll('.dealer-item').forEach(item => item.classList.remove('active'));
+                    event.currentTarget.classList.add('active');
                 } else {
                     alert('Lỗi: ' + result.message);
                 }
             } catch (error) {
-                console.error('Lỗi gửi tin nhắn:', error);
-                alert('Lỗi gửi tin nhắn');
+                console.error('Lỗi load chi tiết đại lý:', error);
             }
         }
 
-        function handleKeyPress(event) {
-            if (event.key === 'Enter') {
-                sendMessage();
+        // Hiển thị form chi tiết
+        function showDetailForm(dealer = null) {
+            document.getElementById('detailTitle').textContent = dealer ? 'Chỉnh sửa đại lý' : 'Thêm đại lý mới';
+            document.getElementById('detailSubtitle').textContent = dealer ? dealer.TenDaiLy : 'Nhập thông tin đại lý';
+
+            document.getElementById('detailBody').innerHTML = `
+                <form id="dealerForm">
+                    <div class="detail-row">
+                        <label>Tên đại lý *</label>
+                        <input type="text" id="tenDaiLy" value="${dealer?.TenDaiLy || ''}" required>
+                    </div>
+                    <div class="detail-row">
+                        <label>Địa chỉ *</label>
+                        <input type="text" id="diaChi" value="${dealer?.DiaChi || ''}" required>
+                    </div>
+                    <div class="detail-row">
+                        <label>Số điện thoại *</label>
+                        <input type="text" id="soDienThoai" value="${dealer?.SoDienThoai || ''}" required>
+                    </div>
+                    <div class="detail-row">
+                        <label>Giờ làm việc</label>
+                        <input type="text" id="gioLamViec" value="${dealer?.GioLamViec || ''}" placeholder="VD: 8h–18h">
+                    </div>
+                    <div class="detail-row">
+                        <label>Mô tả</label>
+                        <textarea id="moTa" placeholder="Nhập mô tả...">${dealer?.MoTa || ''}</textarea>
+                    </div>
+                    <div class="detail-actions">
+                        <button type="button" class="btn btn-save" onclick="saveDealer()">
+                            <i class="fas fa-save"></i> Lưu
+                        </button>
+                        ${dealer ? `
+                        <button type="button" class="btn btn-delete" onclick="deleteDealer()">
+                            <i class="fas fa-trash"></i> Xóa
+                        </button>
+                        ` : `
+                        <button type="button" class="btn btn-cancel" onclick="cancelAdd()">
+                            <i class="fas fa-times"></i> Hủy
+                        </button>
+                        `}
+                    </div>
+                </form>
+            `;
+        }
+
+        // Hiển thị form thêm mới
+        function showAddForm() {
+            currentDealerId = null;
+            isAddMode = true;
+            document.querySelectorAll('.dealer-item').forEach(item => item.classList.remove('active'));
+            showDetailForm(null);
+        }
+
+        // Hủy thêm mới
+        function cancelAdd() {
+            currentDealerId = null;
+            isAddMode = false;
+            document.getElementById('detailTitle').textContent = 'Thông tin đại lý';
+            document.getElementById('detailSubtitle').textContent = 'Chọn đại lý để xem chi tiết';
+            document.getElementById('detailBody').innerHTML = `
+                <div class="empty-state">
+                    <i class="fas fa-store"></i>
+                    <p>Chọn một đại lý từ danh sách để xem và chỉnh sửa thông tin</p>
+                </div>
+            `;
+        }
+
+        // Lưu đại lý
+        async function saveDealer() {
+            const dealerData = {
+                TenDaiLy: document.getElementById('tenDaiLy').value.trim(),
+                DiaChi: document.getElementById('diaChi').value.trim(),
+                SoDienThoai: document.getElementById('soDienThoai').value.trim(),
+                GioLamViec: document.getElementById('gioLamViec').value.trim(),
+                MoTa: document.getElementById('moTa').value.trim()
+            };
+
+            if (!dealerData.TenDaiLy || !dealerData.DiaChi || !dealerData.SoDienThoai) {
+                alert('Vui lòng nhập đầy đủ thông tin bắt buộc!');
+                return;
+            }
+
+            try {
+                let result;
+                if (isAddMode) {
+                    result = await DealerAPI.create(dealerData);
+                } else {
+                    result = await DealerAPI.update(currentDealerId, dealerData);
+                }
+
+                if (result.success) {
+                    alert(result.message);
+                    loadDealers();
+                    if (isAddMode) {
+                        cancelAdd();
+                    }
+                } else {
+                    alert('Lỗi: ' + result.message);
+                }
+            } catch (error) {
+                console.error('Lỗi lưu đại lý:', error);
+                alert('Lỗi lưu đại lý');
+            }
+        }
+
+        // Xóa đại lý
+        async function deleteDealer() {
+            if (!confirm('Bạn có chắc muốn xóa đại lý này?')) {
+                return;
+            }
+
+            try {
+                const result = await DealerAPI.delete(currentDealerId);
+                if (result.success) {
+                    alert(result.message);
+                    loadDealers();
+                    cancelAdd();
+                } else {
+                    alert('Lỗi: ' + result.message);
+                }
+            } catch (error) {
+                console.error('Lỗi xóa đại lý:', error);
+                alert('Lỗi xóa đại lý');
             }
         }
 
@@ -259,7 +466,7 @@
 
         // Load dữ liệu khi trang được tải
         document.addEventListener('DOMContentLoaded', function () {
-            loadChatUsers();
+            loadDealers();
         });
     </script>
 
