@@ -2,6 +2,7 @@ package com.example.backend.service;
 
 
 import com.example.backend.dto.DonHangDTO;
+import com.example.backend.dto.PhuongThucThanhToanDTO;
 import com.example.backend.entity.DonHang;
 import com.example.backend.repository.DonHangRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,9 @@ public class DonHangService {
 
     @Autowired
     private DonHangRepository donHangRepository;
+
+    @Autowired
+    private PhuongThucThanhToanService phuongThucThanhToanService;
 
     public List<DonHangDTO> getDonHangByUser(Integer maND) {
 
@@ -35,7 +39,14 @@ public class DonHangService {
                     );
                     dto.setDiaChiGiao(dh.getDiaChiGiao());
                     dto.setTrangThai(dh.getTrangThai());
-                    dto.setPhuongThucThanhToan(dh.getPhuongThucThanhToan());
+                    dto.setMaPTTT(dh.getMaPTTT());
+                    // Lấy tên phương thức thanh toán từ service
+                    if (dh.getMaPTTT() != null) {
+                        PhuongThucThanhToanDTO pttt = phuongThucThanhToanService.getPaymentMethodById(dh.getMaPTTT());
+                        dto.setPhuongThucThanhToan(pttt != null ? pttt.getTenPTTT() : "Tiền mặt");
+                    } else {
+                        dto.setPhuongThucThanhToan("Tiền mặt");
+                    }
                     return dto;
                 }).collect(Collectors.toList());
     }
@@ -58,7 +69,8 @@ public class DonHangService {
         donHang.setPhiVanChuyen(dto.getPhiVanChuyen());
         donHang.setDiaChiGiao(dto.getDiaChiGiao() != null ? dto.getDiaChiGiao() : "Chưa có địa chỉ");
         donHang.setMaND(dto.getMaND());
-        donHang.setPhuongThucThanhToan(dto.getPhuongThucThanhToan() != null ? dto.getPhuongThucThanhToan() : "Tiền mặt");
+        // Sử dụng maPTTT thay vì phuongThucThanhToan
+        donHang.setMaPTTT(dto.getMaPTTT() != null ? dto.getMaPTTT() : 1); // Mặc định là Tiền mặt (ID=1)
         donHang.setTrangThai("Đang giao");
         
         // Ngày nhận dự kiến: 3-5 ngày sau
@@ -78,7 +90,14 @@ public class DonHangService {
         result.setTongThanhToan(saved.getTongTien().add(saved.getPhiVanChuyen()));
         result.setDiaChiGiao(saved.getDiaChiGiao());
         result.setTrangThai(saved.getTrangThai());
-        result.setPhuongThucThanhToan(saved.getPhuongThucThanhToan());
+        result.setMaPTTT(saved.getMaPTTT());
+        // Lấy tên phương thức thanh toán
+        if (saved.getMaPTTT() != null) {
+            PhuongThucThanhToanDTO pttt = phuongThucThanhToanService.getPaymentMethodById(saved.getMaPTTT());
+            result.setPhuongThucThanhToan(pttt != null ? pttt.getTenPTTT() : "Tiền mặt");
+        } else {
+            result.setPhuongThucThanhToan("Tiền mặt");
+        }
         result.setNgayNhanDuKien(saved.getNgayNhanDuKien());
         
         return result;

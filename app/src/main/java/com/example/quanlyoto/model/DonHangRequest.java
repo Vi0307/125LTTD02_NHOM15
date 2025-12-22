@@ -12,9 +12,11 @@ public class DonHangRequest {
     private BigDecimal phiVanChuyen;
     private String diaChiGiao;
     private Integer maND;
+    private Integer maPTTT;
     private String phuongThucThanhToan;
 
-    public DonHangRequest() {}
+    public DonHangRequest() {
+    }
 
     // Getters and Setters
     public String getTenPhuTung() {
@@ -63,6 +65,14 @@ public class DonHangRequest {
 
     public void setMaND(Integer maND) {
         this.maND = maND;
+    }
+
+    public Integer getMaPTTT() {
+        return maPTTT;
+    }
+
+    public void setMaPTTT(Integer maPTTT) {
+        this.maPTTT = maPTTT;
     }
 
     public String getPhuongThucThanhToan() {

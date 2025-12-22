@@ -57,12 +57,13 @@ public class Orderconfirm extends Fragment {
     private String selectedAddressType = "Nhà riêng";
     private String selectedShippingName = "Giao hàng nhanh";
     private String selectedPaymentMethod = "Tiền mặt";
+    private Integer selectedPaymentMethodId = 1; // Mặc định là Tiền mặt (ID=1)
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
-                             @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
+            @Nullable ViewGroup container,
+            @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.orderconfirm_screen, container, false);
     }
 
@@ -109,7 +110,8 @@ public class Orderconfirm extends Fragment {
 
     private void loadDataFromArguments() {
         Bundle args = getArguments();
-        if (args == null) return;
+        if (args == null)
+            return;
 
         // Lấy danh sách sản phẩm
         Serializable cartSerializable = args.getSerializable("cart_items");
@@ -162,7 +164,7 @@ public class Orderconfirm extends Fragment {
         } else if (args.containsKey("selected_address_detail")) {
             selectedAddress = args.getString("selected_address_detail", "");
         }
-        
+
         if (args.containsKey("current_address_type")) {
             selectedAddressType = args.getString("current_address_type", "Nhà riêng");
         } else if (args.containsKey("selected_address_type")) {
@@ -180,6 +182,9 @@ public class Orderconfirm extends Fragment {
         if (args.containsKey("selected_payment_method")) {
             selectedPaymentMethod = args.getString("selected_payment_method", "Tiền mặt");
         }
+        if (args.containsKey("selected_payment_method_id")) {
+            selectedPaymentMethodId = args.getInt("selected_payment_method_id", 1);
+        }
     }
 
     private void updateUI() {
@@ -189,9 +194,9 @@ public class Orderconfirm extends Fragment {
         double discountValue = parsePrice(discount);
         double totalValue = productPriceValue + shippingFeeValue - discountValue;
 
-//        if (tvPrice != null) {
-//            tvPrice.setText(formatPrice(productPriceValue));
-//        }
+        // if (tvPrice != null) {
+        // tvPrice.setText(formatPrice(productPriceValue));
+        // }
         if (tvSubtotal != null) {
             tvSubtotal.setText(formatPrice(productPriceValue));
         }
@@ -240,9 +245,7 @@ public class Orderconfirm extends Fragment {
         ImageView btnBack = view.findViewById(R.id.btnBack);
 
         // BACK → quay lại Payment_Method_Fragment
-        btnBack.setOnClickListener(v ->
-                requireActivity().getSupportFragmentManager().popBackStack()
-        );
+        btnBack.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStack());
 
         // COMPLETE → Tạo đơn hàng và chuyển sang Ordersuccess
         btnComplete.setOnClickListener(v -> {
@@ -261,7 +264,7 @@ public class Orderconfirm extends Fragment {
 
         // Tạo request
         DonHangRequest request = new DonHangRequest();
-        
+
         // Tên sản phẩm và hình ảnh
         if (cartItems != null && !cartItems.isEmpty()) {
             ChiTietGioHangDTO firstItem = cartItems.get(0);
@@ -285,6 +288,7 @@ public class Orderconfirm extends Fragment {
         request.setMaND(userId);
 
         // Phương thức thanh toán
+        request.setMaPTTT(selectedPaymentMethodId);
         request.setPhuongThucThanhToan(selectedPaymentMethod);
 
         // Gọi API
@@ -297,7 +301,8 @@ public class Orderconfirm extends Fragment {
 
                 if (response.isSuccessful() && response.body() != null) {
                     DonHangResponse order = response.body();
-                    Toast.makeText(getContext(), "Đặt hàng thành công! Mã: " + order.getMaDH(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Đặt hàng thành công! Mã: " + order.getMaDH(), Toast.LENGTH_SHORT)
+                            .show();
 
                     // Xóa giỏ hàng sau khi đặt hàng thành công
                     clearCart(apiService);
@@ -326,7 +331,8 @@ public class Orderconfirm extends Fragment {
      * Xóa tất cả sản phẩm trong giỏ hàng sau khi đặt hàng thành công
      */
     private void clearCart(ApiService apiService) {
-        if (cartItems == null || cartItems.isEmpty()) return;
+        if (cartItems == null || cartItems.isEmpty())
+            return;
 
         for (ChiTietGioHangDTO item : cartItems) {
             if (item.getMaCTGH() != null) {
@@ -346,12 +352,15 @@ public class Orderconfirm extends Fragment {
     }
 
     private double parsePrice(String priceStr) {
-        if (priceStr == null || priceStr.isEmpty()) return 0;
+        if (priceStr == null || priceStr.isEmpty())
+            return 0;
         try {
-            // Thử parse trực tiếp trước (cho trường hợp số đơn giản như "250000" hoặc "250000.0")
+            // Thử parse trực tiếp trước (cho trường hợp số đơn giản như "250000" hoặc
+            // "250000.0")
             priceStr = priceStr.trim();
-            
-            // Nếu có dấu . và sau dấu . có 1-2 số thì đó là decimal (250000.0 hoặc 250000.50)
+
+            // Nếu có dấu . và sau dấu . có 1-2 số thì đó là decimal (250000.0 hoặc
+            // 250000.50)
             if (priceStr.contains(".") && priceStr.indexOf(".") > 0) {
                 String afterDot = priceStr.substring(priceStr.lastIndexOf(".") + 1);
                 if (afterDot.length() <= 2 || afterDot.matches("0+")) {
@@ -359,7 +368,7 @@ public class Orderconfirm extends Fragment {
                     return Double.parseDouble(priceStr.replaceAll("[^0-9.]", ""));
                 }
             }
-            
+
             // Nếu không có dấu . hoặc dấu . là phân cách hàng nghìn (VD: 500.000)
             // Loại bỏ dấu . và , (phân cách hàng nghìn)
             String cleanPrice = priceStr.replaceAll("[^0-9]", "");
