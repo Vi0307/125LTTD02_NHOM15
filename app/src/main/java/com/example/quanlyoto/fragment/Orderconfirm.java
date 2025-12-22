@@ -58,6 +58,8 @@ public class Orderconfirm extends Fragment {
     private String selectedShippingName = "Giao hàng nhanh";
     private String selectedPaymentMethod = "Tiền mặt";
     private Integer selectedPaymentMethodId = 1; // Mặc định là Tiền mặt (ID=1)
+    private Integer selectedVoucherId = null; // Mã voucher
+    private Integer selectedShippingMethodId = null; // Mã phương thức vận chuyển
 
     @Nullable
     @Override
@@ -177,6 +179,15 @@ public class Orderconfirm extends Fragment {
         } else if (args.containsKey("selected_shipping_name")) {
             selectedShippingName = args.getString("selected_shipping_name", "Giao hàng nhanh");
         }
+        if (args.containsKey("current_shipping_id")) {
+            selectedShippingMethodId = args.getInt("current_shipping_id", 0);
+            if (selectedShippingMethodId == 0)
+                selectedShippingMethodId = null;
+        } else if (args.containsKey("selected_shipping_id")) {
+            selectedShippingMethodId = args.getInt("selected_shipping_id", 0);
+            if (selectedShippingMethodId == 0)
+                selectedShippingMethodId = null;
+        }
 
         // Lấy phương thức thanh toán
         if (args.containsKey("selected_payment_method")) {
@@ -184,6 +195,17 @@ public class Orderconfirm extends Fragment {
         }
         if (args.containsKey("selected_payment_method_id")) {
             selectedPaymentMethodId = args.getInt("selected_payment_method_id", 1);
+        }
+
+        // Lấy voucher
+        if (args.containsKey("current_voucher_id")) {
+            selectedVoucherId = args.getInt("current_voucher_id", 0);
+            if (selectedVoucherId == 0)
+                selectedVoucherId = null;
+        } else if (args.containsKey("selected_voucher_id")) {
+            selectedVoucherId = args.getInt("selected_voucher_id", 0);
+            if (selectedVoucherId == 0)
+                selectedVoucherId = null;
         }
     }
 
@@ -290,6 +312,10 @@ public class Orderconfirm extends Fragment {
         // Phương thức thanh toán
         request.setMaPTTT(selectedPaymentMethodId);
         request.setPhuongThucThanhToan(selectedPaymentMethod);
+
+        // Voucher và phương thức vận chuyển
+        request.setMaVC(selectedVoucherId);
+        request.setMaPTVC(selectedShippingMethodId);
 
         // Gọi API
         ApiService apiService = RetrofitClient.getApiService();
