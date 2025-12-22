@@ -1,72 +1,66 @@
 package com.example.backend.service;
 
 import com.example.backend.dto.PhuongThucThanhToanDTO;
+import com.example.backend.entity.PhuongThucThanhToan;
+import com.example.backend.repository.PhuongThucThanhToanRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Service for Payment Methods
- * Trả về danh sách các phương thức thanh toán tĩnh (không lưu trong database)
+ * Lấy dữ liệu từ bảng PHUONG_THUC_THANH_TOAN trong database
  */
 @Service
 public class PhuongThucThanhToanService {
 
+    @Autowired
+    private PhuongThucThanhToanRepository phuongThucThanhToanRepository;
+
     /**
-     * Lấy tất cả phương thức thanh toán
-     * Các phương thức này tương ứng với CHECK constraint trong bảng DON_HANG:
-     * 'Tiền mặt', 'Apple Pay', 'Ngân hàng liên kết'
+     * Chuyển đổi Entity sang DTO
+     */
+    private PhuongThucThanhToanDTO convertToDTO(PhuongThucThanhToan entity, boolean isDefault) {
+        return new PhuongThucThanhToanDTO(
+            entity.getMaPTTT(),
+            entity.getTenPTTT(),
+            entity.getMoTa(),
+            entity.getIcon(),
+            isDefault
+        );
+    }
+
+    /**
+     * Lấy tất cả phương thức thanh toán đang hoạt động từ database
      */
     public List<PhuongThucThanhToanDTO> getAllPaymentMethods() {
-        List<PhuongThucThanhToanDTO> methods = new ArrayList<>();
-
-        methods.add(new PhuongThucThanhToanDTO(
-            1,
-            "Tiền mặt",
-            "Thanh toán bằng tiền mặt khi nhận hàng",
-            "today_24dp_icon",
-            true
-        ));
-
-        methods.add(new PhuongThucThanhToanDTO(
-            2,
-            "Apple Pay",
-            "Thanh toán qua Apple Pay",
-            "ic_apple",
-            false
-        ));
-
-        methods.add(new PhuongThucThanhToanDTO(
-            3,
-            "Ngân hàng liên kết",
-            "Thanh toán qua ngân hàng liên kết",
-            "ic_bank_payment",
-            false
-        ));
-
-        return methods;
+        List<PhuongThucThanhToan> entities = phuongThucThanhToanRepository.findByTrangThaiTrue();
+        
+        // Đánh dấu phương thức đầu tiên là mặc định
+        return entities.stream()
+                .map(entity -> {
+                    boolean isDefault = entities.indexOf(entity) == 0;
+                    return convertToDTO(entity, isDefault);
+                })
+                .collect(Collectors.toList());
     }
 
     /**
      * Lấy phương thức thanh toán theo ID
      */
     public PhuongThucThanhToanDTO getPaymentMethodById(Integer id) {
-        List<PhuongThucThanhToanDTO> methods = getAllPaymentMethods();
-        return methods.stream()
-                .filter(m -> m.getMaPTTT().equals(id))
-                .findFirst()
+        return phuongThucThanhToanRepository.findById(id)
+                .map(entity -> convertToDTO(entity, false))
                 .orElse(null);
     }
 
     /**
-     * Lấy phương thức thanh toán mặc định
+     * Lấy phương thức thanh toán mặc định (phương thức đầu tiên đang hoạt động)
      */
     public PhuongThucThanhToanDTO getDefaultPaymentMethod() {
-        List<PhuongThucThanhToanDTO> methods = getAllPaymentMethods();
-        return methods.stream()
-                .filter(m -> Boolean.TRUE.equals(m.getMacDinh()))
-                .findFirst()
-                .orElse(methods.isEmpty() ? null : methods.get(0));
+        PhuongThucThanhToan entity = phuongThucThanhToanRepository.findFirstByTrangThaiTrueOrderByMaPTTTAsc();
+        return entity != null ? convertToDTO(entity, true) : null;
     }
 }
