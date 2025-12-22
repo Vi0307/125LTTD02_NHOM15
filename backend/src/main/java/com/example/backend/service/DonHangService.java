@@ -69,6 +69,9 @@ public class DonHangService {
         donHang.setPhiVanChuyen(dto.getPhiVanChuyen());
         donHang.setDiaChiGiao(dto.getDiaChiGiao() != null ? dto.getDiaChiGiao() : "Chưa có địa chỉ");
         donHang.setMaND(dto.getMaND());
+        // Set mã voucher và phương thức vận chuyển
+        donHang.setMaVC(dto.getMaVC());
+        donHang.setMaPTVC(dto.getMaPTVC());
         // Sử dụng maPTTT thay vì phuongThucThanhToan
         donHang.setMaPTTT(dto.getMaPTTT() != null ? dto.getMaPTTT() : 1); // Mặc định là Tiền mặt (ID=1)
         donHang.setTrangThai("Đang giao");

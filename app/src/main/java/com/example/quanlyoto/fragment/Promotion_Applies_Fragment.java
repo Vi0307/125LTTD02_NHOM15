@@ -77,7 +77,7 @@ public class Promotion_Applies_Fragment extends Fragment {
     }
 
     private void setupClickListeners(View view) {
-        //==================== NÚT BACK ====================//
+        // ==================== NÚT BACK ====================//
         ImageView icBack = view.findViewById(R.id.ic_back);
         if (icBack != null) {
             icBack.setOnClickListener(v -> {
@@ -85,7 +85,7 @@ public class Promotion_Applies_Fragment extends Fragment {
             });
         }
 
-        //==================== NÚT ÁP DỤNG ====================//
+        // ==================== NÚT ÁP DỤNG ====================//
         Button btnComplete = view.findViewById(R.id.btn_complete_payment_detail);
         if (btnComplete != null) {
             btnComplete.setOnClickListener(v -> {
@@ -97,7 +97,7 @@ public class Promotion_Applies_Fragment extends Fragment {
                 // Truyền voucher đã chọn về Detail_Payment_Fragment
                 Detail_Payment_Fragment detailFragment = new Detail_Payment_Fragment();
                 Bundle bundle = new Bundle();
-                
+
                 // Voucher mới chọn
                 bundle.putString("selected_voucher_type", selectedVoucher.getLoaiVoucher());
                 bundle.putString("selected_voucher_expiry", selectedVoucher.getHanSuDung());
@@ -106,18 +106,22 @@ public class Promotion_Applies_Fragment extends Fragment {
                 }
                 // Giá trị discount mặc định (có thể cần thêm trường này trong API)
                 bundle.putString("selected_voucher_discount", "0");
-                
+
                 // Giữ nguyên địa chỉ và shipping từ trước (nếu có)
                 if (getArguments() != null) {
                     if (getArguments().containsKey("current_address_type")) {
                         bundle.putString("selected_address_type", getArguments().getString("current_address_type"));
                         bundle.putString("selected_address_detail", getArguments().getString("current_address_detail"));
-                        bundle.putString("selected_address_receiver", getArguments().getString("current_address_receiver"));
+                        bundle.putString("selected_address_receiver",
+                                getArguments().getString("current_address_receiver"));
                         bundle.putString("selected_address_phone", getArguments().getString("current_address_phone"));
                     }
                     if (getArguments().containsKey("current_shipping_name")) {
                         bundle.putString("selected_shipping_name", getArguments().getString("current_shipping_name"));
                         bundle.putString("selected_shipping_fee", getArguments().getString("current_shipping_fee"));
+                        if (getArguments().containsKey("current_shipping_id")) {
+                            bundle.putInt("selected_shipping_id", getArguments().getInt("current_shipping_id"));
+                        }
                     }
                     if (getArguments().containsKey("product_price")) {
                         bundle.putString("product_price", getArguments().getString("product_price"));
@@ -127,7 +131,7 @@ public class Promotion_Applies_Fragment extends Fragment {
                         bundle.putSerializable("cart_items", getArguments().getSerializable("cart_items"));
                     }
                 }
-                
+
                 detailFragment.setArguments(bundle);
 
                 requireActivity()
@@ -136,6 +140,7 @@ public class Promotion_Applies_Fragment extends Fragment {
                         .replace(R.id.fragment_container, detailFragment)
                         .commit();
             });
+
         }
     }
 
@@ -217,7 +222,8 @@ public class Promotion_Applies_Fragment extends Fragment {
             Voucher voucher = voucherList.get(position);
 
             // Hiển thị loại voucher
-            holder.txtVoucherType.setText(voucher.getLoaiVoucher() != null ? voucher.getLoaiVoucher() : "Voucher " + (position + 1));
+            holder.txtVoucherType
+                    .setText(voucher.getLoaiVoucher() != null ? voucher.getLoaiVoucher() : "Voucher " + (position + 1));
 
             // Hiển thị hạn sử dụng
             if (voucher.getHanSuDung() != null) {
@@ -264,4 +270,3 @@ public class Promotion_Applies_Fragment extends Fragment {
         }
     }
 }
-

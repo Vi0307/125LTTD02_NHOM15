@@ -15,6 +15,8 @@ public class DonHangDTO {
     private String diaChiGiao;
     private String trangThai;
     private Integer maND;
+    private Integer maVC;
+    private Integer maPTVC;
     private Integer maPTTT;
     private String phuongThucThanhToan;
     private LocalDateTime ngayNhanDuKien;
@@ -98,6 +100,22 @@ public class DonHangDTO {
 
     public void setMaND(Integer maND) {
         this.maND = maND;
+    }
+
+    public Integer getMaVC() {
+        return maVC;
+    }
+
+    public void setMaVC(Integer maVC) {
+        this.maVC = maVC;
+    }
+
+    public Integer getMaPTVC() {
+        return maPTVC;
+    }
+
+    public void setMaPTVC(Integer maPTVC) {
+        this.maPTVC = maPTVC;
     }
 
     public Integer getMaPTTT() {

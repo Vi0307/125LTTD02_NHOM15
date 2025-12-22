@@ -18,13 +18,17 @@ const getAllOrders = async (req, res) => {
                 DH.TongThanhToan,
                 DH.DiaChiGiao,
                 DH.TrangThai,
-                DH.PhuongThucThanhToan,
+                DH.MaPTTT,
+                PTTT.TenPTTT as PhuongThucThanhToan,
+                VC.LoaiVoucher,
                 ND.MaND,
                 ND.HoTen as TenKhachHang,
                 ND.DienThoai,
                 ND.Email
             FROM DON_HANG DH
             INNER JOIN NGUOI_DUNG ND ON DH.MaND = ND.MaND
+            LEFT JOIN PHUONG_THUC_THANH_TOAN PTTT ON DH.MaPTTT = PTTT.MaPTTT
+            LEFT JOIN VOUCHER VC ON DH.MaVC = VC.MaVC
             WHERE 1=1
         `;
 
@@ -90,7 +94,22 @@ const getOrderById = async (req, res) => {
 
         const query = `
             SELECT 
-                DH.*,
+                DH.MaDH,
+                DH.NgayDat,
+                DH.TenPhuTung,
+                DH.HinhAnh,
+                DH.TongTien,
+                DH.PhiVanChuyen,
+                DH.TongThanhToan,
+                DH.DiaChiGiao,
+                DH.TrangThai,
+                DH.MaPTTT,
+                DH.MaND,
+                DH.MaVC,
+                DH.MaPTVC,
+                DH.NgayNhanDuKien,
+                DH.GhiChu,
+                PTTT.TenPTTT as PhuongThucThanhToan,
                 ND.HoTen as TenKhachHang,
                 ND.DienThoai,
                 ND.Email,
@@ -98,6 +117,7 @@ const getOrderById = async (req, res) => {
                 VC.LoaiVoucher
             FROM DON_HANG DH
             INNER JOIN NGUOI_DUNG ND ON DH.MaND = ND.MaND
+            LEFT JOIN PHUONG_THUC_THANH_TOAN PTTT ON DH.MaPTTT = PTTT.MaPTTT
             LEFT JOIN PHUONG_THUC_VAN_CHUYEN PTVC ON DH.MaPTVC = PTVC.MaPTVC
             LEFT JOIN VOUCHER VC ON DH.MaVC = VC.MaVC
             WHERE DH.MaDH = @id
@@ -162,8 +182,15 @@ const updateOrderStatus = async (req, res) => {
         }
 
         if (PhuongThucThanhToan) {
-            updates.push(`PhuongThucThanhToan = @PhuongThucThanhToan`);
-            params.PhuongThucThanhToan = { type: sql.NVarChar, value: PhuongThucThanhToan };
+            // Lookup MaPTTT from payment method name
+            const lookupQuery = `SELECT MaPTTT FROM PHUONG_THUC_THANH_TOAN WHERE TenPTTT = @PhuongThucThanhToan`;
+            const lookupResult = await executeQuery(lookupQuery, {
+                PhuongThucThanhToan: { type: sql.NVarChar, value: PhuongThucThanhToan }
+            });
+            if (lookupResult.length > 0) {
+                updates.push(`MaPTTT = @MaPTTT`);
+                params.MaPTTT = { type: sql.Int, value: lookupResult[0].MaPTTT };
+            }
         }
 
         if (TongTien !== undefined) {
