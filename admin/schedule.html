@@ -51,6 +51,7 @@
                         <table class="schedule-table">
                             <thead>
                                 <tr>
+                                    <th>STT</th>
                                     <th>Mã dịch vụ</th>
                                     <th>Khách hàng</th>
                                     <th>Loại dịch vụ</th>
@@ -195,7 +196,14 @@
                 return;
             }
 
-            schedules.forEach(schedule => {
+            // Sắp xếp theo NgayTao tăng dần (lịch cũ trước, lịch mới sau - lịch mới ở cuối danh sách)
+            schedules.sort((a, b) => {
+                const dateA = new Date(a.NgayTao || 0);
+                const dateB = new Date(b.NgayTao || 0);
+                return dateA - dateB;
+            });
+
+            schedules.forEach((schedule, index) => {
                 const row = tbody.insertRow();
                 row.onclick = () => fillScheduleForm(row, schedule);
                 row.style.cursor = 'pointer';
@@ -207,6 +215,7 @@
                 const loaiDVClass = schedule.LoaiDichVu === 'Sửa chữa' ? 'repair' : 'maintenance';
 
                 row.innerHTML = `
+            <td>${index + 1}</td>
             <td>DV${schedule.MaDV.toString().padStart(3, '0')}</td>
             <td>${schedule.TenKhachHang || ''}</td>
             <td><span class="service-type ${loaiDVClass}">${schedule.LoaiDichVu || ''}</span></td>
