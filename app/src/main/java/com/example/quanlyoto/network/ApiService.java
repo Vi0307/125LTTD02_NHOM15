@@ -69,6 +69,9 @@ public interface ApiService {
         @GET("api/address/{maND}/default")
         Call<DiaChi> getDiaChiMacDinh(@Path("maND") Integer maND);
 
+        @POST("api/address/{maND}")
+        Call<DiaChi> addDiaChi(@Path("maND") Integer maND, @Body DiaChi diaChi);
+
         // ==================== PHƯƠNG THỨC VẬN CHUYỂN ====================
         @GET("api/shipping")
         Call<List<PhuongThucVanChuyen>> getAllShipping();
@@ -131,10 +134,26 @@ public interface ApiService {
         @GET("api/chi-tiet-gio-hang/nguoi-dung/{maND}/tong-tien")
         Call<ApiResponse<java.math.BigDecimal>> getTongTienGioHang(@Path("maND") Integer maND);
 
+
         // ==================== ĐƠN HÀNG ====================
         @GET("api/donhang/{maDH}")
         Call<ApiResponse<DonHang>> getDonHangById(@Path("maDH") String maDH);
 
         @GET("api/donhang/{maDH}/chitiet")
         Call<ApiResponse<List<ChiTietDonHang>>> getChiTietDonHangByMaDH(@Path("maDH") String maDH);
+
+        // ==================== PHƯƠNG THỨC THANH TOÁN ====================
+        @GET("api/payment-methods")
+        Call<List<com.example.quanlyoto.model.PhuongThucThanhToan>> getAllPaymentMethods();
+
+        @GET("api/payment-methods/{id}")
+        Call<com.example.quanlyoto.model.PhuongThucThanhToan> getPaymentMethodById(@Path("id") Integer id);
+
+        @GET("api/payment-methods/default")
+        Call<com.example.quanlyoto.model.PhuongThucThanhToan> getDefaultPaymentMethod();
+
+        // ==================== ĐƠN HÀNG ====================
+        @retrofit2.http.POST("api/orders")
+        Call<com.example.quanlyoto.model.DonHangResponse> createOrder(@Body com.example.quanlyoto.model.DonHangRequest request);
+
 }

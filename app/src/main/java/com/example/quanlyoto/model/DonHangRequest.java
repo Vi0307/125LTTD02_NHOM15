@@ -1,43 +1,26 @@
-package com.example.backend.dto;
+package com.example.quanlyoto.model;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
-public class DonHangDTO {
-
-    private String maDH;
-    private LocalDateTime ngayDat;
+/**
+ * Model class for creating order request
+ */
+public class DonHangRequest {
     private String tenPhuTung;
     private String hinhAnh;
     private BigDecimal tongTien;
     private BigDecimal phiVanChuyen;
-    private BigDecimal tongThanhToan;
     private String diaChiGiao;
-    private String trangThai;
     private Integer maND;
     private Integer maVC;
     private Integer maPTVC;
     private Integer maPTTT;
     private String phuongThucThanhToan;
-    private LocalDateTime ngayNhanDuKien;
 
-    // Getter và Setter
-    public String getMaDH() {
-        return maDH;
+    public DonHangRequest() {
     }
 
-    public void setMaDH(String maDH) {
-        this.maDH = maDH;
-    }
-
-    public LocalDateTime getNgayDat() {
-        return ngayDat;
-    }
-
-    public void setNgayDat(LocalDateTime ngayDat) {
-        this.ngayDat = ngayDat;
-    }
-
+    // Getters and Setters
     public String getTenPhuTung() {
         return tenPhuTung;
     }
@@ -70,28 +53,12 @@ public class DonHangDTO {
         this.phiVanChuyen = phiVanChuyen;
     }
 
-    public BigDecimal getTongThanhToan() {
-        return tongThanhToan;
-    }
-
-    public void setTongThanhToan(BigDecimal tongThanhToan) {
-        this.tongThanhToan = tongThanhToan;
-    }
-
     public String getDiaChiGiao() {
         return diaChiGiao;
     }
 
     public void setDiaChiGiao(String diaChiGiao) {
         this.diaChiGiao = diaChiGiao;
-    }
-
-    public String getTrangThai() {
-        return trangThai;
-    }
-
-    public void setTrangThai(String trangThai) {
-        this.trangThai = trangThai;
     }
 
     public Integer getMaND() {
@@ -133,13 +100,4 @@ public class DonHangDTO {
     public void setPhuongThucThanhToan(String phuongThucThanhToan) {
         this.phuongThucThanhToan = phuongThucThanhToan;
     }
-
-    public LocalDateTime getNgayNhanDuKien() {
-        return ngayNhanDuKien;
-    }
-
-    public void setNgayNhanDuKien(LocalDateTime ngayNhanDuKien) {
-        this.ngayNhanDuKien = ngayNhanDuKien;
-    }
 }
-

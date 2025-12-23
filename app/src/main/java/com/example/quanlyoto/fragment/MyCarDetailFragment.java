@@ -35,6 +35,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+
 public class MyCarDetailFragment extends Fragment {
 
     private static final String TAG = "MyCarDetailFragment";
@@ -53,6 +58,9 @@ public class MyCarDetailFragment extends Fragment {
 
     // Views cho các ô bảo dưỡng
     private TextView tvLan1, tvLan2, tvLan3, tvLan4, tvLan5, tvLan6;
+
+    // Views cho ngày KTDK
+    private TextView tvNgayKTDKGanNhat, tvNgayKTDKTiepTheo;
 
     // Views cho nhắc nhở phụ tùng
     private LinearLayout containerNhacNho;
@@ -172,6 +180,10 @@ public class MyCarDetailFragment extends Fragment {
         tvLan5 = view.findViewById(R.id.tvLan5);
         tvLan6 = view.findViewById(R.id.tvLan6);
 
+        // Views cho ngày KTDK
+        tvNgayKTDKGanNhat = view.findViewById(R.id.tvNgayKTDKGanNhat);
+        tvNgayKTDKTiepTheo = view.findViewById(R.id.tvNgayKTDKTiepTheo);
+
         // Views cho nhắc nhở
         containerNhacNho = view.findViewById(R.id.containerNhacNho);
         tvKhongCoNhacNho = view.findViewById(R.id.tvKhongCoNhacNho);
@@ -193,6 +205,7 @@ public class MyCarDetailFragment extends Fragment {
                     Integer soLanBaoDuong = user.getSoLanBaoDuong();
                     if (soLanBaoDuong != null) {
                         updateBaoDuongUI(soLanBaoDuong);
+                        updateMaintenanceDates(soLanBaoDuong);
                         Log.d(TAG, "Số lần bảo dưỡng: " + soLanBaoDuong);
                     }
                 } else {
@@ -491,6 +504,48 @@ public class MyCarDetailFragment extends Fragment {
                     lanViews[i].setTextColor(getResources().getColor(android.R.color.black));
                 }
             }
+        }
+    }
+
+    /**
+     * Tính toán và cập nhật ngày bảo dưỡng gần nhất và kế tiếp
+     * Chu kỳ: 2 tháng/lần
+     * Ngày bắt đầu: dựa trên ngày hiện tại hoặc ngày đầu tiên đăng ký
+     */
+    private void updateMaintenanceDates(int soLanBaoDuong) {
+        if (tvNgayKTDKGanNhat == null || tvNgayKTDKTiepTheo == null)
+            return;
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        Calendar calendar = Calendar.getInstance();
+
+        // Giả sử ngày bắt đầu là ngày đầu năm hiện tại (có thể thay đổi theo yêu cầu)
+        // Hoặc có thể lấy từ ngày đăng ký của user
+        calendar.set(Calendar.MONTH, Calendar.JANUARY);
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        calendar.set(Calendar.YEAR, Calendar.getInstance().get(Calendar.YEAR));
+
+        Date ngayBatDau = calendar.getTime();
+
+        // Tính ngày bảo dưỡng gần nhất (2 tháng * số lần đã bảo dưỡng)
+        if (soLanBaoDuong > 0) {
+            calendar.setTime(ngayBatDau);
+            calendar.add(Calendar.MONTH, 2 * soLanBaoDuong);
+            String ngayGanNhat = sdf.format(calendar.getTime());
+            tvNgayKTDKGanNhat.setText("Ngày KTDK gần nhất (Lần " + soLanBaoDuong + "): " + ngayGanNhat);
+        } else {
+            tvNgayKTDKGanNhat.setText("Ngày KTDK gần nhất: Chưa có");
+        }
+
+        // Tính ngày bảo dưỡng kế tiếp (2 tháng * (số lần đã bảo dưỡng + 1))
+        int lanKeTiep = soLanBaoDuong + 1;
+        if (lanKeTiep <= 6) { // Giới hạn 6 lần
+            calendar.setTime(ngayBatDau);
+            calendar.add(Calendar.MONTH, 2 * lanKeTiep);
+            String ngayKeTiep = sdf.format(calendar.getTime());
+            tvNgayKTDKTiepTheo.setText("Ngày KTDK tiếp theo (Lần " + lanKeTiep + "): " + ngayKeTiep);
+        } else {
+            tvNgayKTDKTiepTheo.setText("Đã hoàn thành tất cả lần bảo dưỡng");
         }
     }
 

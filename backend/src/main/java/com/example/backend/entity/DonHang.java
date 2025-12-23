@@ -45,8 +45,8 @@ public class DonHang {
     @Column(name = "MaPTVC")
     private Integer maPTVC;
 
-    @Column(name = "PhuongThucThanhToan")
-    private String phuongThucThanhToan;
+    @Column(name = "MaPTTT")
+    private Integer maPTTT;
 
     @Column(name = "TrangThai")
     private String trangThai;
@@ -149,12 +149,12 @@ public class DonHang {
         this.maPTVC = maPTVC;
     }
 
-    public String getPhuongThucThanhToan() {
-        return phuongThucThanhToan;
+    public Integer getMaPTTT() {
+        return maPTTT;
     }
 
-    public void setPhuongThucThanhToan(String phuongThucThanhToan) {
-        this.phuongThucThanhToan = phuongThucThanhToan;
+    public void setMaPTTT(Integer maPTTT) {
+        this.maPTTT = maPTTT;
     }
 
     public String getTrangThai() {

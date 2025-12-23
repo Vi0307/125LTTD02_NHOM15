@@ -19,5 +19,14 @@ public class DonHangController {
     public List<DonHangDTO> getOrders(@PathVariable Integer maND) {
         return donHangService.getDonHangByUser(maND);
     }
+
+    /**
+     * Tạo đơn hàng mới
+     * POST /api/orders
+     */
+    @PostMapping
+    public DonHangDTO createOrder(@RequestBody DonHangDTO donHangDTO) {
+        return donHangService.createOrder(donHangDTO);
+    }
 }
 

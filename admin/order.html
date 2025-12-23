@@ -52,9 +52,9 @@
                         <table class="order-table">
                             <thead>
                                 <tr>
+                                    <th>STT</th>
                                     <th>Mã đơn hàng</th>
                                     <th>Mã khách hàng</th>
-                                    <th>Mã phụ tùng</th>
                                     <th>Trạng thái</th>
                                 </tr>
                             </thead>
@@ -71,26 +71,25 @@
                     <div class="form-grid-order">
                         <div class="form-group"><label>Mã đơn hàng</label><input type="text" id="maDonHang" readonly>
                         </div>
-                        <div class="form-group"><label>Mã phụ tùng</label><input type="text" id="maPhuTung" readonly>
-                        </div>
-                        <div class="form-group"><label>Tổng tiền</label><input type="text" id="tongTien"></div>
+                        <div class="form-group"><label>Tổng tiền</label><input type="text" id="tongTien" readonly></div>
                         <div class="form-group"><label>Mã khách hàng</label><input type="text" id="maKhachHang"
                                 readonly></div>
-                        <div class="form-group"><label>Tên phụ tùng</label><input type="text" id="tenPhuTung"></div>
+                        <div class="form-group"><label>Tên phụ tùng</label><input type="text" id="tenPhuTung" readonly>
+                        </div>
                         <div class="form-group"><label>Phương thức thanh toán</label><input type="text"
-                                id="phuongThucTT" value="Chuyển khoản"></div>
-                        <div class="form-group"><label>Tên khách hàng</label><input type="text" id="tenKhachHang"></div>
-                        <div class="form-group"><label>Địa chỉ</label><input type="text" id="diaChi"></div>
-                        <div class="form-group"><label>Vận chuyển</label><input type="text" id="vanChuyen"
-                                value="Giao hàng tiết kiệm"></div>
-                        <div class="form-group"><label>Số lượng</label><input type="number" id="soLuong" min="1"
-                                value="1"></div>
-                        <div class="form-group"><label>Voucher</label><input type="text" id="voucher"></div>
+                                id="phuongThucTT" readonly></div>
+                        <div class="form-group"><label>Tên khách hàng</label><input type="text" id="tenKhachHang"
+                                readonly></div>
+                        <div class="form-group"><label>Địa chỉ</label><input type="text" id="diaChi" readonly></div>
+                        <div class="form-group"><label>Vận chuyển</label><input type="text" id="vanChuyen" readonly>
+                        </div>
+                        <div class="form-group"><label>Voucher</label><input type="text" id="voucher" readonly></div>
                         <div class="form-group">
                             <label>Trạng thái</label>
                             <select id="trangThai">
-                                <option value="pending">Chưa hoàn thành</option>
-                                <option value="completed">Đã hoàn thành</option>
+                                <option value="pending">Đang giao</option>
+                                <option value="completed">Đã giao</option>
+                                <option value="cancelled">Đã hủy</option>
                             </select>
                         </div>
                     </div>
@@ -144,16 +143,23 @@
             const tbody = $('#orderTableBody');
             tbody.innerHTML = '';
 
-            orders.forEach(order => {
+            orders.forEach((order, index) => {
                 const row = tbody.insertRow();
                 row.onclick = () => fillOrderForm(row, order);
-                const statusClass = order.TrangThai === 'Đã giao' ? 'completed' : 'pending';
-                const statusText = order.TrangThai === 'Đã giao' ? 'Đã hoàn thành' : 'Chưa hoàn thành';
+                let statusClass = 'pending';
+                let statusText = 'Đang giao';
+                if (order.TrangThai === 'Đã giao') {
+                    statusClass = 'completed';
+                    statusText = 'Đã giao';
+                } else if (order.TrangThai === 'Đã hủy') {
+                    statusClass = 'cancelled';
+                    statusText = 'Đã hủy';
+                }
 
                 row.innerHTML = `
+            <td>${index + 1}</td>
             <td>${order.MaDH}</td>
             <td>${order.MaND}</td>
-            <td>${order.TenPhuTung || ''}</td>
             <td><span class="status ${statusClass}">${statusText}</span></td>
         `;
             });
@@ -177,9 +183,17 @@
                     $('#tongTien').value = Utils.formatCurrency(orderDetail.TongTien);
                     $('#tenPhuTung').value = orderDetail.TenPhuTung || '';
                     $('#diaChi').value = orderDetail.DiaChiGiao || '';
-                    $('#phuongThucTT').value = orderDetail.PhuongThucThanhToan || 'Chuyển khoản';
+                    $('#phuongThucTT').value = orderDetail.PhuongThucThanhToan || 'Tiền mặt';
                     $('#vanChuyen').value = orderDetail.TenPTVC || 'Giao hàng tiết kiệm';
-                    $('#trangThai').value = orderDetail.TrangThai === 'Đã giao' ? 'completed' : 'pending';
+                    $('#voucher').value = orderDetail.LoaiVoucher || 'Không có';
+                    // Set trạng thái
+                    if (orderDetail.TrangThai === 'Đã giao') {
+                        $('#trangThai').value = 'completed';
+                    } else if (orderDetail.TrangThai === 'Đã hủy') {
+                        $('#trangThai').value = 'cancelled';
+                    } else {
+                        $('#trangThai').value = 'pending';
+                    }
                 }
             } catch (error) {
                 console.error('Lỗi load chi tiết:', error);
@@ -195,7 +209,12 @@
             }
 
             const statusValue = $('#trangThai').value;
-            const statusText = statusValue === 'completed' ? 'Đã giao' : 'Đang giao';
+            let statusText = 'Đang giao';
+            if (statusValue === 'completed') {
+                statusText = 'Đã giao';
+            } else if (statusValue === 'cancelled') {
+                statusText = 'Đã hủy';
+            }
 
             try {
                 const result = await OrderAPI.update(currentOrderId, { TrangThai: statusText });

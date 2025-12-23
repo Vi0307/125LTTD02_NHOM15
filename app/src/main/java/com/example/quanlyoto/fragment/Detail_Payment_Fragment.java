@@ -70,16 +70,18 @@ public class Detail_Payment_Fragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
-                             @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
+            @Nullable ViewGroup container,
+            @Nullable Bundle savedInstanceState) {
 
-        // Nhận dữ liệu từ Bundle (address, shipping, voucher được chọn từ các fragment khác)
+        // Nhận dữ liệu từ Bundle (address, shipping, voucher được chọn từ các fragment
+        // khác)
         if (getArguments() != null) {
             // Nhận danh sách sản phẩm từ giỏ hàng
             if (getArguments().containsKey("cart_items")) {
                 try {
                     @SuppressWarnings("unchecked")
-                    List<ChiTietGioHangDTO> items = (List<ChiTietGioHangDTO>) getArguments().getSerializable("cart_items");
+                    List<ChiTietGioHangDTO> items = (List<ChiTietGioHangDTO>) getArguments()
+                            .getSerializable("cart_items");
                     if (items != null) {
                         cartItems.clear();
                         cartItems.addAll(items);
@@ -88,7 +90,7 @@ public class Detail_Payment_Fragment extends Fragment {
                     android.util.Log.e("Detail_Payment", "Error loading cart items: " + e.getMessage());
                 }
             }
-            
+
             // Nhận giá sản phẩm
             String priceStr = getArguments().getString("product_price", "0");
             try {
@@ -117,13 +119,22 @@ public class Detail_Payment_Fragment extends Fragment {
                 } catch (Exception e) {
                     selectedShipping.setGiaVanChuyen(BigDecimal.ZERO);
                 }
+                // Lấy ID phương thức vận chuyển
+                if (getArguments().containsKey("selected_shipping_id")) {
+                    selectedShipping.setMaPTVC(getArguments().getInt("selected_shipping_id"));
+                }
             }
 
             // Nhận voucher đã chọn
             if (getArguments().containsKey("selected_voucher_type")) {
                 selectedVoucher = new Voucher();
                 selectedVoucher.setLoaiVoucher(getArguments().getString("selected_voucher_type"));
-                // Discount sẽ được tính trong updateUI() dựa trên loại voucher và phí vận chuyển
+                // Lấy ID voucher
+                if (getArguments().containsKey("selected_voucher_id")) {
+                    selectedVoucher.setMaVC(getArguments().getInt("selected_voucher_id"));
+                }
+                // Discount sẽ được tính trong updateUI() dựa trên loại voucher và phí vận
+                // chuyển
             }
         }
 
@@ -236,7 +247,7 @@ public class Detail_Payment_Fragment extends Fragment {
      */
     private Bundle createCurrentStateBundle() {
         Bundle bundle = new Bundle();
-        
+
         // Địa chỉ hiện tại
         if (selectedAddress != null) {
             bundle.putString("current_address_type", selectedAddress.getLoaiDiaChi());
@@ -244,27 +255,33 @@ public class Detail_Payment_Fragment extends Fragment {
             bundle.putString("current_address_receiver", selectedAddress.getHoTenNguoiNhan());
             bundle.putString("current_address_phone", selectedAddress.getSoDienThoai());
         }
-        
+
         // Shipping hiện tại
         if (selectedShipping != null) {
             bundle.putString("current_shipping_name", selectedShipping.getTenPTVC());
             if (selectedShipping.getGiaVanChuyen() != null) {
                 bundle.putString("current_shipping_fee", selectedShipping.getGiaVanChuyen().toString());
             }
+            if (selectedShipping.getMaPTVC() != null) {
+                bundle.putInt("current_shipping_id", selectedShipping.getMaPTVC());
+            }
         }
-        
+
         // Voucher hiện tại
         if (selectedVoucher != null) {
             bundle.putString("current_voucher_type", selectedVoucher.getLoaiVoucher());
             bundle.putString("current_voucher_discount", discount.toString());
+            if (selectedVoucher.getMaVC() != null) {
+                bundle.putInt("current_voucher_id", selectedVoucher.getMaVC());
+            }
         }
-        
+
         // Giá sản phẩm
         bundle.putString("product_price", productPrice.toString());
-        
+
         // Danh sách sản phẩm
         bundle.putSerializable("cart_items", new ArrayList<>(cartItems));
-        
+
         return bundle;
     }
 
@@ -304,7 +321,7 @@ public class Detail_Payment_Fragment extends Fragment {
                 // Nếu không có, thử build từ getFullAddress (từ API)
                 addressToShow = selectedAddress.getFullAddress();
             }
-            
+
             if (addressToShow != null && !addressToShow.isEmpty()) {
                 txtAddressDetail.setText(addressToShow);
             } else {
@@ -324,7 +341,7 @@ public class Detail_Payment_Fragment extends Fragment {
         // Hiển thị voucher đã chọn và tính khuyến mãi
         if (selectedVoucher != null && selectedVoucher.getLoaiVoucher() != null) {
             txtVoucherCode.setText(selectedVoucher.getLoaiVoucher());
-            
+
             // Tính discount dựa trên loại voucher
             String voucherType = selectedVoucher.getLoaiVoucher().toLowerCase();
             if (voucherType.contains("miễn phí vận chuyển") || voucherType.contains("mien phi van chuyen")) {
