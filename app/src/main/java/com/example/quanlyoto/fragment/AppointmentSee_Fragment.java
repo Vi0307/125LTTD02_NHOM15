@@ -151,6 +151,12 @@ public class AppointmentSee_Fragment extends Fragment {
                 status = item.getTrangThai();
             }
             holder.tvStatus.setText(status);
+
+            if ("Đã hoàn thành".equals(status)) {
+                holder.tvStatus.setTextColor(android.graphics.Color.parseColor("#4CAF50")); // Green
+            } else {
+                holder.tvStatus.setTextColor(android.graphics.Color.parseColor("#FF9800")); // Orange (Default)
+            }
         }
 
         @Override

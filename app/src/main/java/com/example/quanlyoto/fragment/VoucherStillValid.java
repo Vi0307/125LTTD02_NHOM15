@@ -46,6 +46,7 @@ public class VoucherStillValid extends Fragment {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Quay lại trang trước (pop stack), tránh tạo vòng lặp
                 getParentFragmentManager().popBackStack();
             }
         });
@@ -56,7 +57,7 @@ public class VoucherStillValid extends Fragment {
             public void onClick(View v) {
                 getParentFragmentManager().beginTransaction()
                         .replace(R.id.fragment_container, new VoucherExpired())
-                        .addToBackStack(null)
+                        // .addToBackStack(null) // KHÔNG add vào stack khi chuyển tab để tránh loop
                         .commit();
             }
         });
@@ -71,8 +72,13 @@ public class VoucherStillValid extends Fragment {
             }
         });
 
-        // Container chứa danh sách voucher
-        LinearLayout voucherContainer = view.findViewById(R.id.voucher_container);
+        // RecyclerView Setup
+        androidx.recyclerview.widget.RecyclerView rcvVoucher = view.findViewById(R.id.rcv_voucher);
+        rcvVoucher.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(getContext()));
+
+        com.example.quanlyoto.adapter.VoucherAdapter adapter = new com.example.quanlyoto.adapter.VoucherAdapter(
+                getContext(), new java.util.ArrayList<>(), false);
+        rcvVoucher.setAdapter(adapter);
 
         // Gọi API lấy voucher của user 1
         ApiService apiService = RetrofitClient.getApiService();
@@ -82,78 +88,19 @@ public class VoucherStillValid extends Fragment {
             public void onResponse(Call<List<Voucher>> call, Response<List<Voucher>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     List<Voucher> vouchers = response.body();
-
-                    if (getContext() == null || voucherContainer == null)
-                        return;
-
-                    // Xóa các view cũ
-                    voucherContainer.removeAllViews();
+                    List<Voucher> filteredList = new java.util.ArrayList<>();
 
                     for (Voucher v : vouchers) {
                         try {
-                            // Lọc: Chỉ hiện voucher 'Còn hiệu lực'
-                            if (!"Còn hiệu lực".equalsIgnoreCase(v.getTrangThai())) {
-                                continue;
+                            if ("Còn hiệu lực".equalsIgnoreCase(v.getTrangThai())) {
+                                filteredList.add(v);
                             }
-
-                            // Tạo CardView
-                            androidx.cardview.widget.CardView card = new androidx.cardview.widget.CardView(
-                                    getContext());
-                            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                                    ViewGroup.LayoutParams.MATCH_PARENT,
-                                    ViewGroup.LayoutParams.WRAP_CONTENT);
-                            params.setMargins(0, 0, 0, 24);
-                            card.setLayoutParams(params);
-                            card.setRadius(32f);
-                            card.setCardElevation(8f);
-                            card.setContentPadding(32, 32, 32, 32);
-
-                            // Layout horizonal bên trong card
-                            LinearLayout innerLayout = new LinearLayout(getContext());
-                            innerLayout.setOrientation(LinearLayout.HORIZONTAL);
-                            innerLayout.setGravity(android.view.Gravity.CENTER_VERTICAL);
-
-                            // Icon
-                            ImageView icon = new ImageView(getContext());
-                            icon.setImageResource(R.drawable.car_voucher);
-                            icon.setColorFilter(android.graphics.Color.BLACK);
-                            LinearLayout.LayoutParams iconParams = new LinearLayout.LayoutParams(100, 100);
-                            innerLayout.addView(icon, iconParams);
-
-                            // Text Layout
-                            LinearLayout textLayout = new LinearLayout(getContext());
-                            textLayout.setOrientation(LinearLayout.VERTICAL);
-                            LinearLayout.LayoutParams textParams = new LinearLayout.LayoutParams(0,
-                                    ViewGroup.LayoutParams.WRAP_CONTENT, 1.0f);
-                            textParams.setMargins(32, 0, 0, 0);
-                            textLayout.setLayoutParams(textParams);
-
-                            // Voucher Name
-                            TextView tvName = new TextView(getContext());
-                            tvName.setText(v.getLoaiVoucher());
-                            tvName.setTextSize(16);
-                            tvName.setTypeface(null, android.graphics.Typeface.BOLD);
-                            tvName.setTextColor(android.graphics.Color.BLACK);
-                            textLayout.addView(tvName);
-
-                            // Expiry Date
-                            TextView tvDate = new TextView(getContext());
-                            tvDate.setText("HSD: " + v.getHanSuDung());
-                            tvDate.setTextSize(14);
-                            tvDate.setTextColor(android.graphics.Color.DKGRAY);
-                            textLayout.addView(tvDate);
-
-
-
-                            innerLayout.addView(textLayout);
-                            card.addView(innerLayout);
-
-                            // Thêm card vào container
-                            voucherContainer.addView(card);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
                     }
+                    adapter.setData(filteredList);
+
                 } else {
                     if (getContext() != null)
                         Toast.makeText(getContext(), "Không lấy được dữ liệu voucher", Toast.LENGTH_SHORT).show();

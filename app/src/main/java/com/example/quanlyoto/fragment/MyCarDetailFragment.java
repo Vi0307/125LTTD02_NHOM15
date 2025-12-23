@@ -221,26 +221,30 @@ public class MyCarDetailFragment extends Fragment {
     }
 
     /**
-     * Load danh sách nhắc nhở bảo dưỡng từ API
+     * Load danh sách nhắc nhở bảo dưỡng từ API Thông báo
+     */
+    /**
+     * Load danh sách nhắc nhở bảo dưỡng từ API Thông báo
      */
     private void loadNhacNhoBaoDuong() {
-        RetrofitClient.getApiService().getBaoDuongByNguoiDung(currentUserId)
-                .enqueue(new Callback<ApiResponse<List<BaoDuong>>>() {
+        RetrofitClient.getApiService().getThongBaoByMaND(currentUserId)
+                .enqueue(new Callback<ApiResponse<List<com.example.quanlyoto.model.ThongBao>>>() {
                     @Override
-                    public void onResponse(Call<ApiResponse<List<BaoDuong>>> call,
-                            Response<ApiResponse<List<BaoDuong>>> response) {
+                    public void onResponse(Call<ApiResponse<List<com.example.quanlyoto.model.ThongBao>>> call,
+                            Response<ApiResponse<List<com.example.quanlyoto.model.ThongBao>>> response) {
                         if (response.isSuccessful() && response.body() != null) {
-                            ApiResponse<List<BaoDuong>> apiResponse = response.body();
+                            ApiResponse<List<com.example.quanlyoto.model.ThongBao>> apiResponse = response.body();
                             if (apiResponse.isSuccess() && apiResponse.getData() != null) {
-                                List<BaoDuong> danhSachBaoDuong = apiResponse.getData();
+                                List<com.example.quanlyoto.model.ThongBao> thongBaos = apiResponse.getData();
 
-                                // Lọc những bản ghi có TrangThai = 'Nhắc nhở'
+                                // Clear cũ nếu cần (nhưng ở đây là add mới vào view trống)
+                                if (containerNhacNho != null)
+                                    containerNhacNho.removeAllViews();
+
                                 int count = 0;
-                                for (BaoDuong bd : danhSachBaoDuong) {
-                                    if ("Nhắc nhở".equals(bd.getTrangThai())) {
-                                        addNhacNhoItem(bd.getMoTa());
-                                        count++;
-                                    }
+                                for (com.example.quanlyoto.model.ThongBao tb : thongBaos) {
+                                    addNhacNhoItem(tb.getNoiDung());
+                                    count++;
                                 }
 
                                 if (count == 0) {
@@ -248,18 +252,23 @@ public class MyCarDetailFragment extends Fragment {
                                     if (tvKhongCoNhacNho != null) {
                                         tvKhongCoNhacNho.setVisibility(View.VISIBLE);
                                     }
+                                } else {
+                                    if (tvKhongCoNhacNho != null) {
+                                        tvKhongCoNhacNho.setVisibility(View.GONE);
+                                    }
                                 }
 
-                                Log.d(TAG, "Loaded " + count + " nhắc nhở bảo dưỡng");
+                                Log.d(TAG, "Loaded " + count + " thông báo nhắc nhở");
                             }
                         } else {
-                            Log.e(TAG, "Error loading bao duong: " + response.code());
+                            Log.e(TAG, "Error loading thong bao: " + response.code());
                         }
                     }
 
                     @Override
-                    public void onFailure(Call<ApiResponse<List<BaoDuong>>> call, Throwable t) {
-                        Log.e(TAG, "Error loading bao duong: " + t.getMessage());
+                    public void onFailure(Call<ApiResponse<List<com.example.quanlyoto.model.ThongBao>>> call,
+                            Throwable t) {
+                        Log.e(TAG, "Error loading thong bao: " + t.getMessage());
                     }
                 });
     }

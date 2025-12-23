@@ -122,7 +122,7 @@ public class PersonalActivity extends Fragment {
         // Đơn hàng
         itemOrder.setOnClickListener(v -> {
             getParentFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, new MyOrderDelivering())
+                    .replace(R.id.fragment_container, new MyOrderFragment())
                     .addToBackStack(null)
                     .commit();
         });

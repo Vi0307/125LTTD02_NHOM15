@@ -6,46 +6,46 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class DonHang implements Serializable {
-    @SerializedName("MaDH")
+    @SerializedName("maDH")
     private String maDH;
 
-    @SerializedName("NgayDat")
+    @SerializedName("ngayDat")
     private String ngayDat; // Using String to simplify json parsing, usually formatted date
 
-    @SerializedName("TenPhuTung")
+    @SerializedName("tenPhuTung")
     private String tenPhuTung;
 
-    @SerializedName("HinhAnh")
+    @SerializedName("hinhAnh")
     private String hinhAnh;
 
-    @SerializedName("TongTien")
+    @SerializedName("tongTien")
     private BigDecimal tongTien;
 
-    @SerializedName("PhiVanChuyen")
+    @SerializedName("phiVanChuyen")
     private BigDecimal phiVanChuyen;
 
-    @SerializedName("DiaChiGiao")
+    @SerializedName("diaChiGiao")
     private String diaChiGiao;
 
-    @SerializedName("GhiChu")
+    @SerializedName("ghiChu")
     private String ghiChu;
 
-    @SerializedName("MaND")
+    @SerializedName("maND")
     private Integer maND;
 
-    @SerializedName("MaVC")
+    @SerializedName("maVC")
     private Integer maVC;
 
-    @SerializedName("NgayNhanDuKien")
+    @SerializedName("ngayNhanDuKien")
     private String ngayNhanDuKien;
 
-    @SerializedName("MaPTVC")
+    @SerializedName("maPTVC")
     private Integer maPTVC;
 
-    @SerializedName("PhuongThucThanhToan")
+    @SerializedName("phuongThucThanhToan")
     private String phuongThucThanhToan;
 
-    @SerializedName("TrangThai")
+    @SerializedName("trangThai")
     private String trangThai;
 
     // Getters and Setters
