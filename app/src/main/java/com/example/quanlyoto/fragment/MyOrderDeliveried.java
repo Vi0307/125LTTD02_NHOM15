@@ -60,15 +60,17 @@ public class MyOrderDeliveried extends Fragment implements DonHangAdapter.OnOrde
     }
 
     private void loadDeliveredOrders() {
-        // Get user ID from SharedPreferences
-        SharedPreferences prefs = requireActivity().getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
-        int maND = prefs.getInt("maND", -1);
+        // Get user ID from SharedPreferences (must match Login.java key)
+        SharedPreferences prefs = requireActivity().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+        int maND = prefs.getInt("userId", -1);
 
         if (maND == -1) {
             Log.e(TAG, "User not logged in");
             showEmptyState();
             return;
         }
+
+        Log.d(TAG, "Loading orders for user: " + maND);
 
         showLoading();
 
