@@ -226,25 +226,31 @@ public class MyCarDetailFragment extends Fragment {
     /**
      * Load danh sách nhắc nhở bảo dưỡng từ API Thông báo
      */
+    /**
+     * Load danh sách nhắc nhở bảo dưỡng từ API Bảo Dưỡng
+     */
     private void loadNhacNhoBaoDuong() {
-        RetrofitClient.getApiService().getThongBaoByMaND(currentUserId)
-                .enqueue(new Callback<ApiResponse<List<com.example.quanlyoto.model.ThongBao>>>() {
+        RetrofitClient.getApiService().getBaoDuongByNguoiDung(currentUserId)
+                .enqueue(new Callback<ApiResponse<List<BaoDuong>>>() {
                     @Override
-                    public void onResponse(Call<ApiResponse<List<com.example.quanlyoto.model.ThongBao>>> call,
-                            Response<ApiResponse<List<com.example.quanlyoto.model.ThongBao>>> response) {
+                    public void onResponse(Call<ApiResponse<List<BaoDuong>>> call,
+                            Response<ApiResponse<List<BaoDuong>>> response) {
                         if (response.isSuccessful() && response.body() != null) {
-                            ApiResponse<List<com.example.quanlyoto.model.ThongBao>> apiResponse = response.body();
+                            ApiResponse<List<BaoDuong>> apiResponse = response.body();
                             if (apiResponse.isSuccess() && apiResponse.getData() != null) {
-                                List<com.example.quanlyoto.model.ThongBao> thongBaos = apiResponse.getData();
+                                List<BaoDuong> danhSachBaoDuong = apiResponse.getData();
 
-                                // Clear cũ nếu cần (nhưng ở đây là add mới vào view trống)
+                                // Clear cũ
                                 if (containerNhacNho != null)
                                     containerNhacNho.removeAllViews();
 
                                 int count = 0;
-                                for (com.example.quanlyoto.model.ThongBao tb : thongBaos) {
-                                    addNhacNhoItem(tb.getNoiDung());
-                                    count++;
+                                for (BaoDuong bd : danhSachBaoDuong) {
+                                    // Kiểm tra trạng thái "Nhắc nhở"
+                                    if ("Nhắc nhở".equals(bd.getTrangThai())) {
+                                        addNhacNhoItem(bd.getMoTa());
+                                        count++;
+                                    }
                                 }
 
                                 if (count == 0) {
@@ -258,17 +264,16 @@ public class MyCarDetailFragment extends Fragment {
                                     }
                                 }
 
-                                Log.d(TAG, "Loaded " + count + " thông báo nhắc nhở");
+                                Log.d(TAG, "Loaded " + count + " nhắc nhở bảo dưỡng");
                             }
                         } else {
-                            Log.e(TAG, "Error loading thong bao: " + response.code());
+                            Log.e(TAG, "Error loading bao duong: " + response.code());
                         }
                     }
 
                     @Override
-                    public void onFailure(Call<ApiResponse<List<com.example.quanlyoto.model.ThongBao>>> call,
-                            Throwable t) {
-                        Log.e(TAG, "Error loading thong bao: " + t.getMessage());
+                    public void onFailure(Call<ApiResponse<List<BaoDuong>>> call, Throwable t) {
+                        Log.e(TAG, "Error loading bao duong: " + t.getMessage());
                     }
                 });
     }
