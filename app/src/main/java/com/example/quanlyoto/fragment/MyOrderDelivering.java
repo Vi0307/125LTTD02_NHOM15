@@ -9,7 +9,6 @@ import android.widget.TextView;
 import android.widget.LinearLayout;
 import androidx.cardview.widget.CardView;
 
-
 import androidx.activity.OnBackPressedCallback;
 import androidx.fragment.app.Fragment;
 
@@ -22,7 +21,7 @@ public class MyOrderDelivering extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+            Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_myorder_delivering, container, false);
 
         tabDelivered = view.findViewById(R.id.tab_delivered);
@@ -38,14 +37,16 @@ public class MyOrderDelivering extends Fragment {
         CardView cardOngGio = view.findViewById(R.id.card_product_onggio);
         cardOngGio.setOnClickListener(v -> {
             // Chuyển sang fragment OrderDetailFragment
+            Order_Detail_Fragment fragment = new Order_Detail_Fragment();
+            Bundle args = new Bundle();
+            args.putString("orderId", "DH001"); // Sample ID
+            fragment.setArguments(args);
+
             getParentFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, new Order_Detail_Fragment())
+                    .replace(R.id.fragment_container, fragment)
                     .addToBackStack(null) // để quay lại fragment trước
                     .commit();
         });
-
-
-
 
         ImageView btnBack = view.findViewById(R.id.btn_back);
 

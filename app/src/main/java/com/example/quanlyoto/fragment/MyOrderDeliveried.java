@@ -21,7 +21,7 @@ public class MyOrderDeliveried extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+            Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_myorder_deliveried, container, false);
 
         tabDelivering = view.findViewById(R.id.tab_delivering);
@@ -35,7 +35,21 @@ public class MyOrderDeliveried extends Fragment {
                     .commit();
         });
 
+        androidx.cardview.widget.CardView cardDelivered = view.findViewById(R.id.card_product_delivered);
+        if (cardDelivered != null) {
+            cardDelivered.setOnClickListener(v -> {
+                // Chuyển sang fragment OrderDetailFragment
+                Order_Detail_Fragment fragment = new Order_Detail_Fragment();
+                Bundle args = new Bundle();
+                args.putString("orderId", "DH001"); // Sample ID
+                fragment.setArguments(args);
 
+                getParentFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, fragment)
+                        .addToBackStack(null)
+                        .commit();
+            });
+        }
 
         ImageView btnBack = view.findViewById(R.id.btn_back);
 
