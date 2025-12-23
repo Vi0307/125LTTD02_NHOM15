@@ -43,7 +43,7 @@
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_marginTop="8dp"
-        android:backgroundTint="#000000"
+        android:backgroundTint="#29B6F6"
         android:text="THÊM GIỎ HÀNG"
         android:textColor="#FFFFFF"
         android:textSize="10sp"

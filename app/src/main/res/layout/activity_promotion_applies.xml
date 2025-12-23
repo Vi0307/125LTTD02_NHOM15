@@ -5,7 +5,8 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Select_Shipping_Method">
+    tools:context=".Select_Shipping_Method"
+    android:background="@drawable/gradient_bg">
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -71,7 +72,7 @@
         android:layout_height="48dp"
         android:layout_marginBottom="36dp"
         android:text="Áp dụng"
-        android:backgroundTint="@color/black"
+        android:backgroundTint="#29B6F6"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
