@@ -123,12 +123,12 @@ public class Order_Detail_Fragment extends Fragment {
             @Override
             public void onResponse(Call<List<ChiTietDonHang>> call,
                     Response<List<ChiTietDonHang>> response) {
-                if (response.isSuccessful() && response.body() != null) {
+                if (response.isSuccessful() && response.body() != null && !response.body().isEmpty()) {
                     listChiTiet.clear();
                     listChiTiet.addAll(response.body());
                     adapter.notifyDataSetChanged();
                 } else {
-                    Log.e("OrderDetail", "Error fetching details: " + response.code());
+                    Log.d("OrderDetail", "No order details found, will use order info");
                 }
             }
 
@@ -139,26 +139,31 @@ public class Order_Detail_Fragment extends Fragment {
         });
     }
 
+    /**
+     * Tạo ChiTietDonHang từ thông tin DonHang khi không có chi tiết riêng
+     */
+    private void createChiTietFromDonHang(DonHang donHang) {
+        if (donHang.getTenPhuTung() != null && !donHang.getTenPhuTung().isEmpty()) {
+            ChiTietDonHang chiTiet = new ChiTietDonHang();
+            chiTiet.setMaDH(donHang.getMaDH());
+            chiTiet.setTenPhuTung(donHang.getTenPhuTung());
+            chiTiet.setHinhAnh(donHang.getHinhAnh());
+            chiTiet.setSoLuong(1);
+            chiTiet.setGiaTien(donHang.getTongTien());
+            
+            listChiTiet.clear();
+            listChiTiet.add(chiTiet);
+            adapter.notifyDataSetChanged();
+        }
+    }
+
     private void bindOrderData(DonHang donHang) {
         tvAddress.setText(donHang.getDiaChiGiao());
         tvPaymentMethod.setText(donHang.getPhuongThucThanhToan());
 
-        // Assuming shipping method name isn't directly in DonHang but we have ID,
-        // effectively we'd need another call or it matches the sample "Giao hàng nhanh"
-        // For now, simplify or check if DonHang has it via joins.
-        // The DonHang model I made has maPTVC.
-        // I will just set a placeholder or fetch if needed.
-        // Actually, the SQL DonHang has 'PhiVanChuyen', but method name is in
-        // PHUONG_THUC_VAN_CHUYEN.
-        // I'll leave default text in XML or update if I can guess.
-        // But price fields are available.
-
         DecimalFormat df = new DecimalFormat("###,###,### VND");
 
-        // Subtotal (TongTien seems to be total products price without shipping in
-        // common logic)
-        // But SQL says: TongThanhToan AS (TongTien + PhiVanChuyen)
-        // So TongTien is likely subtotal.
+        // Subtotal
         if (donHang.getTongTien() != null) {
             tvSubtotal.setText(df.format(donHang.getTongTien()));
         }
@@ -167,12 +172,7 @@ public class Order_Detail_Fragment extends Fragment {
             tvShipping.setText(df.format(donHang.getPhiVanChuyen()));
         }
 
-        // Discount - logic depending on API response or VOUCHER table.
-        // For now set to 0 or leave static if not provided in DonHang DTO directly.
-        // DonHang has MaVC. To get discount amount we'd need voucher info.
-        // I'll just set it to 0 for safety or leave as is if hardcoded is better
-        // visually?
-        // Let's set 0 for now to be "dynamic"
+        // Discount - set to 0 for now
         tvDiscount.setText("0 VND");
 
         // Total
@@ -186,6 +186,11 @@ public class Order_Detail_Fragment extends Fragment {
 
         if (donHang.getNgayNhanDuKien() != null) {
             tvDeliveryTime.setText("Est. Arrival: " + donHang.getNgayNhanDuKien());
+        }
+
+        // Hiển thị sản phẩm từ thông tin đơn hàng nếu chưa có chi tiết
+        if (listChiTiet.isEmpty()) {
+            createChiTietFromDonHang(donHang);
         }
     }
 
