@@ -103,18 +103,6 @@ public class Agency_Fragment extends Fragment {
                         .commit();
             });
         }
-
-        // CHATBOX → ChatFragment
-        View chatBtn = view.findViewById(R.id.fabChatbox);
-        if (chatBtn != null) {
-            chatBtn.setOnClickListener(v -> {
-                requireActivity().getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.fragment_container, new ChatBox())
-                        .addToBackStack(null)
-                        .commit();
-            });
-        }
     }
 
     private void setupRecyclerView(View view) {
