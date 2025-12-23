@@ -5,7 +5,8 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Select_Shipping_Method">
+    tools:context=".Select_Shipping_Method"
+    android:background="@drawable/gradient_bg">
 
     <LinearLayout
         android:id="@+id/linearLayout"

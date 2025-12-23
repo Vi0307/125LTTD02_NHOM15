@@ -6,7 +6,8 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.Payment_Method_Fragment">
+    tools:context=".fragment.Payment_Method_Fragment"
+    android:background="@drawable/gradient_bg">
 
     <!-- HEADER -->
     <LinearLayout
