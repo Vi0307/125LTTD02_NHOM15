@@ -10,4 +10,6 @@ import java.util.List;
 public interface DonHangRepository extends JpaRepository<DonHang, String> {
 
     List<DonHang> findByMaND(Integer maND);
+    
+    List<DonHang> findByMaNDAndTrangThai(Integer maND, String trangThai);
 }
