@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#FFFFFF">
+    android:background="@drawable/gradient_bg">
 
     <!-- ===== TOP BAR ===== -->
     <LinearLayout
@@ -327,7 +327,7 @@
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_margin="16dp"
-        android:backgroundTint="@color/black"
+        android:backgroundTint="#29B6F6"
         android:text="Tiếp tục thanh toán  →"
         android:textColor="#FFFFFF"
         android:textSize="16sp"/>

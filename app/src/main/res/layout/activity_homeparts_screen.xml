@@ -9,7 +9,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#E5E7EB">
+        android:background="@drawable/gradient_bg">
 
         <!-- Main Content -->
         <ScrollView
@@ -138,7 +138,7 @@
                                 android:text="Phụ tùng thân vỏ"
                                 android:textSize="11sp"
                                 android:textColor="#FFFFFF"
-                                android:backgroundTint="#000000"/>
+                                android:backgroundTint="#29B6F6"/>
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
 
@@ -170,7 +170,7 @@
                                 android:text="Phụ tùng động cơ"
                                 android:textSize="11sp"
                                 android:textColor="#FFFFFF"
-                                android:backgroundTint="#000000"/>
+                                android:backgroundTint="#29B6F6"/>
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
 
@@ -202,7 +202,7 @@
                                 android:text="Phụ tùng truyền động"
                                 android:textSize="9sp"
                                 android:textColor="#FFFFFF"
-                                android:backgroundTint="#000000"/>
+                                android:backgroundTint="#29B6F6"/>
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
 
@@ -234,7 +234,7 @@
                                 android:text="Phụ tùng điện"
                                 android:textSize="11sp"
                                 android:textColor="#FFFFFF"
-                                android:backgroundTint="#000000"/>
+                                android:backgroundTint="#29B6F6"/>
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
                 </GridLayout>

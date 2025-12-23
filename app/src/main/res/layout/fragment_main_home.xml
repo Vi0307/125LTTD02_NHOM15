@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="#E5E7EB">
+    android:background="@drawable/gradient_bg">
 
     <!-- ==================== NỘI DUNG CUỘN ==================== -->
     <ScrollView
@@ -161,8 +161,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:text="Xem chi tiết"
-                        android:backgroundTint="#000000"
+                        android:backgroundTint="#29B6F6"
                         android:textColor="#FFFFFF"
+                        android:textStyle="bold"
                         android:textSize="15sp"
                         android:layout_marginTop="16dp" />
                 </LinearLayout>
@@ -221,7 +222,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:text="Mua sắm ngay"
-                        android:backgroundTint="#000000"
+                        android:textStyle="bold"
+                        android:backgroundTint="#29B6F6"
                         android:textColor="#FFFFFF" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -287,7 +289,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:text="Xem tất cả các khuyến mãi"
-                        android:backgroundTint="#000000"
+                        android:textStyle="bold"
+                        android:backgroundTint="#29B6F6"
                         android:textColor="#FFFFFF"
                         android:layout_marginTop="12dp" />
                 </LinearLayout>
@@ -420,7 +423,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="48dp"
                             android:text="Chi tiết và Đặt hẹn dịch vụ"
-                            android:backgroundTint="#000000"
+                            android:textStyle="bold"
+                            android:backgroundTint="#29B6F6"
                             android:textColor="#FFFFFF"
                             android:layout_marginTop="16dp" />
                     </LinearLayout>
@@ -445,7 +449,7 @@
         android:layout_marginEnd="16dp"
         app:cardCornerRadius="24dp"
         app:cardElevation="10dp"
-        app:cardBackgroundColor="#ADD8E6">
+        app:cardBackgroundColor="#5ED7FF">
 
         <LinearLayout
             android:layout_width="wrap_content"

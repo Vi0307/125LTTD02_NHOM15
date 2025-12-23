@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="#F5F8FF">
+    android:background="@drawable/gradient_bg">
 
     <!-- CONTENT CHÍNH -->
     <LinearLayout
@@ -133,7 +133,7 @@
                             android:textSize="16sp"
                             android:textStyle="bold"
                             android:textColor="#FFFFFF"
-                            android:backgroundTint="#000000"
+                            android:backgroundTint="#29B6F6"
                             android:stateListAnimator="@null" />
 
                         <!-- Nút Xem chi tiết -->
@@ -145,7 +145,7 @@
                             android:textSize="16sp"
                             android:textStyle="bold"
                             android:textColor="#FFFFFF"
-                            android:backgroundTint="#000000"
+                            android:backgroundTint="#29B6F6"
                             android:stateListAnimator="@null"
                             android:layout_marginTop="12dp" />
 
