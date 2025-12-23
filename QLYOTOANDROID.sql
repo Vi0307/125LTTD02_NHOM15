@@ -498,9 +498,9 @@ GO
 -- ====================================================
 --                 DỮ LIỆU ĐƠN HÀNG
 -- ====================================================
-INSERT INTO DON_HANG (MaDH, TenPhuTung, HinhAnh, TongTien, PhiVanChuyen, DiaChiGiao, GhiChu, MaND, NgayNhanDuKien, MaPTVC, PhuongThucThanhToan, TrangThai)
+INSERT INTO DON_HANG (MaDH, TenPhuTung, HinhAnh, TongTien, PhiVanChuyen, DiaChiGiao, GhiChu, MaND, NgayNhanDuKien, MaPTVC, MaPTTT, TrangThai)
 VALUES 
-('DH001', N'Ống gió nạp hơi', 'onggionaphoi.png', 7450000, 450000, N'123 Nguyễn Văn Linh, Đà Nẵng', N'Giao giờ hành chính', 1, '2025-12-25', 2, N'Tiền mặt', N'Đang giao');
+('DH001', N'Ống gió nạp hơi', 'onggionaphoi.png', 7450000, 450000, N'123 Nguyễn Văn Linh, Đà Nẵng', N'Giao giờ hành chính', 1, '2025-12-25', 2, 1, N'Đang giao');
 
 INSERT INTO CHI_TIET_DON_HANG (MaDH, MaPhuTung, SoLuong, GiaTien)
 VALUES 
