@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F5F5">
+    android:background="@drawable/gradient_bg">
 
     <!-- Toolbar -->
     <androidx.appcompat.widget.Toolbar
@@ -338,7 +338,7 @@
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_margin="16dp"
-        android:backgroundTint="@color/black"
+        android:backgroundTint="#29B6F6"
         android:text="Hoàn tất thanh toán"
         android:textColor="@android:color/white"
         android:textSize="16sp"

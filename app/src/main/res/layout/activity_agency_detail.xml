@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF">
+    android:background="@drawable/gradient_bg">
 
     <LinearLayout
         android:id="@+id/header"
@@ -84,7 +84,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_marginBottom="15dp"
-                android:backgroundTint="@color/black"
+                android:backgroundTint="#29B6F6"
                 android:text="Đặt dịch vụ"
                 android:textColor="#FFFFFF"
                 android:textSize="16sp"

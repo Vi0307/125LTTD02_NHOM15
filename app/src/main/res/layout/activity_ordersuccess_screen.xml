@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    android:background="#A1FFFFFF">
+    android:background="@drawable/gradient_bg">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -102,7 +102,7 @@
                 android:id="@+id/btnGoHome"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                android:backgroundTint="@color/black"
+                android:backgroundTint="#29B6F6"
                 android:text="Trang chủ"
                 android:textColor="@android:color/white"
                 android:textSize="16sp"
