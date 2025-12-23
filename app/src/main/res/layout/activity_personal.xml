@@ -530,15 +530,4 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
     </FrameLayout>
-    <!-- FAB nổi lên -->
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btn_logout_confirm"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="40dp"
-        app:fabSize="normal"
-        app:backgroundTint="#FFFFFF"
-        app:tint="#C50E0E"
-        android:src="@drawable/ic_chat_box"/>
 </FrameLayout>

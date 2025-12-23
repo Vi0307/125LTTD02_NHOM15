@@ -440,18 +440,4 @@
         </LinearLayout>
 
     </LinearLayout>
-    <!-- FAB -->
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabChatbox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/bottomNav"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:src="@drawable/ic_chat_box"
-        app:backgroundTint="#FFF"
-        app:tint="#C50E0E"
-        tools:ignore="SpeakableTextPresentCheck" />
-
 </RelativeLayout>
