@@ -212,6 +212,20 @@ public class HomeFragment extends Fragment {
             });
         }
 
+        // ======================================================
+        // FLOATING LABEL "THAY THẾ PHỤ TÙNG"
+        // ======================================================
+        View btnSparePart = view.findViewById(R.id.btnSparePartReplacement);
+        if (btnSparePart != null) {
+            btnSparePart.setOnClickListener(v -> {
+                requireActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, new MyCarDetailFragment())
+                        .addToBackStack(null)
+                        .commit();
+            });
+        }
+
         return view;
     }
 

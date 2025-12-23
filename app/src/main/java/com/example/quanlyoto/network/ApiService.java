@@ -134,7 +134,6 @@ public interface ApiService {
         @GET("api/chi-tiet-gio-hang/nguoi-dung/{maND}/tong-tien")
         Call<ApiResponse<java.math.BigDecimal>> getTongTienGioHang(@Path("maND") Integer maND);
 
-
         // ==================== ĐƠN HÀNG ====================
         @GET("api/donhang/{maDH}")
         Call<ApiResponse<DonHang>> getDonHangById(@Path("maDH") String maDH);
@@ -154,6 +153,10 @@ public interface ApiService {
 
         // ==================== ĐƠN HÀNG ====================
         @retrofit2.http.POST("api/orders")
-        Call<com.example.quanlyoto.model.DonHangResponse> createOrder(@Body com.example.quanlyoto.model.DonHangRequest request);
+        Call<com.example.quanlyoto.model.DonHangResponse> createOrder(
+                        @Body com.example.quanlyoto.model.DonHangRequest request);
 
+        // ==================== THÔNG BÁO ====================
+        @GET("api/thong-bao/nguoi-dung/{maND}")
+        Call<ApiResponse<List<com.example.quanlyoto.model.ThongBao>>> getThongBaoByMaND(@Path("maND") Integer maND);
 }

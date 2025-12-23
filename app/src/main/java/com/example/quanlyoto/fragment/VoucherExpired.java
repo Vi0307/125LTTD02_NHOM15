@@ -57,7 +57,13 @@ public class VoucherExpired extends Fragment {
 
         // ================= XỬ LÝ HIỂN THỊ VOUCHER (ĐÃ SỬ DỤNG / HẾT HẠN)
         // =================
-        LinearLayout voucherContainer = view.findViewById(R.id.voucher_container);
+        // RecyclerView Setup
+        androidx.recyclerview.widget.RecyclerView rcvVoucher = view.findViewById(R.id.rcv_voucher);
+        rcvVoucher.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(getContext()));
+
+        com.example.quanlyoto.adapter.VoucherAdapter adapter = new com.example.quanlyoto.adapter.VoucherAdapter(
+                getContext(), new java.util.ArrayList<>(), true);
+        rcvVoucher.setAdapter(adapter);
 
         ApiService apiService = RetrofitClient.getApiService();
 
@@ -66,70 +72,24 @@ public class VoucherExpired extends Fragment {
             public void onResponse(Call<List<Voucher>> call, Response<List<Voucher>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     List<Voucher> vouchers = response.body();
-
-                    if (getContext() == null || voucherContainer == null)
-                        return;
-
-                    // Xóa các view cũ
-                    voucherContainer.removeAllViews();
+                    List<Voucher> filteredList = new java.util.ArrayList<>();
 
                     for (Voucher v : vouchers) {
                         try {
-                            // Lọc: KHÔNG PHẢI 'Còn hiệu lực' (tức là đã dùng hoặc hết hạn)
-                            if ("Còn hiệu lực".equalsIgnoreCase(v.getTrangThai())) {
-                                continue;
+                            // Filter: Not "Còn hiệu lực"
+                            if (!"Còn hiệu lực".equalsIgnoreCase(v.getTrangThai())) {
+                                filteredList.add(v);
                             }
-
-                            // --- CODE TẠO VIEW ---
-                            androidx.cardview.widget.CardView card = new androidx.cardview.widget.CardView(
-                                    getContext());
-                            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                                    ViewGroup.LayoutParams.MATCH_PARENT,
-                                    ViewGroup.LayoutParams.WRAP_CONTENT);
-                            params.setMargins(0, 0, 0, 24);
-                            card.setLayoutParams(params);
-                            card.setRadius(32f);
-                            card.setCardElevation(4f); // Thấp hơn chút
-                            card.setContentPadding(32, 32, 32, 32);
-
-                            LinearLayout innerLayout = new LinearLayout(getContext());
-                            innerLayout.setOrientation(LinearLayout.HORIZONTAL);
-                            innerLayout.setGravity(android.view.Gravity.CENTER_VERTICAL);
-
-                            ImageView icon = new ImageView(getContext());
-                            icon.setImageResource(R.drawable.car_voucher);
-                            icon.setColorFilter(android.graphics.Color.GRAY); // Icon xám
-                            LinearLayout.LayoutParams iconParams = new LinearLayout.LayoutParams(100, 100);
-                            innerLayout.addView(icon, iconParams);
-
-                            LinearLayout textLayout = new LinearLayout(getContext());
-                            textLayout.setOrientation(LinearLayout.VERTICAL);
-                            LinearLayout.LayoutParams textParams = new LinearLayout.LayoutParams(0,
-                                    ViewGroup.LayoutParams.WRAP_CONTENT, 1.0f);
-                            textParams.setMargins(32, 0, 0, 0);
-                            textLayout.setLayoutParams(textParams);
-
-                            TextView tvName = new TextView(getContext());
-                            tvName.setText(v.getLoaiVoucher());
-                            tvName.setTextSize(16);
-                            tvName.setTypeface(null, android.graphics.Typeface.BOLD);
-                            tvName.setTextColor(android.graphics.Color.GRAY); // Text xám
-                            textLayout.addView(tvName);
-
-                            TextView tvStatus = new TextView(getContext());
-                            tvStatus.setText(
-                                    "Trạng thái: " + (v.getTrangThai() != null ? v.getTrangThai() : "Không xác định"));
-                            tvStatus.setTextSize(14);
-                            tvStatus.setTextColor(android.graphics.Color.RED);
-                            textLayout.addView(tvStatus);
-
-                            innerLayout.addView(textLayout);
-                            card.addView(innerLayout);
-                            voucherContainer.addView(card);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
                     }
+                    adapter.setData(filteredList);
+
+                } else {
+                    if (getContext() != null)
+                        Toast.makeText(getContext(), "Không lấy được dữ liệu voucher: " + response.message(),
+                                Toast.LENGTH_SHORT).show();
                 }
             }
 
