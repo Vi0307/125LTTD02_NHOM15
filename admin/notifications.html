@@ -293,6 +293,80 @@
             color: #666;
             font-style: italic;
         }
+
+        /* Form tạo nhắc nhở */
+        .reminder-form {
+            padding: 20px;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 16px;
+        }
+
+        .reminder-form .form-group {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .reminder-form .form-group label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .reminder-form .form-group label i {
+            margin-right: 6px;
+            color: #007bff;
+        }
+
+        .form-select,
+        .form-input {
+            padding: 14px 18px;
+            border: 2px solid #e8e8e8;
+            border-radius: 12px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .form-select:focus,
+        .form-input:focus {
+            outline: none;
+            border-color: #4e9fff;
+            box-shadow: 0 0 0 4px rgba(78, 159, 255, 0.1);
+        }
+
+        .btn-create-reminder {
+            background: linear-gradient(135deg, #28a745, #218838);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 50px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+        }
+
+        .btn-create-reminder:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(40, 167, 69, 0.4);
+        }
+
+        .btn-create-reminder:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
     </style>
 </head>
 
@@ -330,14 +404,6 @@
 
         <main class="main-content">
 
-            <!-- Hướng dẫn chu kỳ -->
-            <div class="cycle-info">
-                <h4><i class="fas fa-info-circle"></i> Quy trình bảo dưỡng & thay phụ tùng</h4>
-                <p>• <strong>Chu kỳ bảo dưỡng:</strong> 2 tháng/lần, tổng cộng 6 lần trong 1 năm</p>
-                <p>• <strong>Sau 6 lần bảo dưỡng:</strong> Cần thay thế phụ tùng và reset chu kỳ mới</p>
-                <p>• <strong>Bảng BAO_DUONG:</strong> Lưu các nhắc nhở thay phụ tùng (TrangThai = 'Nhắc nhở')</p>
-            </div>
-
             <!-- Tab Navigation -->
             <div class="tab-nav">
                 <button class="tab-btn active" onclick="switchTab('maintenance')">
@@ -345,21 +411,13 @@
                     <span class="badge" id="maintenanceBadge">0</span>
                 </button>
                 <button class="tab-btn" onclick="switchTab('parts')">
-                    <i class="fas fa-cogs"></i> Nhắc thay phụ tùng (Bảng BAO_DUONG)
+                    <i class="fas fa-cogs"></i> Nhắc thay phụ tùng
                     <span class="badge" id="partsBadge">0</span>
                 </button>
             </div>
 
             <!-- Tab 1: Nhắc bảo dưỡng định kỳ (SoLanBaoDuong < 6) -->
             <div id="maintenance-tab" class="tab-content active">
-                <div class="info-box">
-                    <i class="fas fa-calendar-alt"></i>
-                    <div class="info-box-content">
-                        <h3>Nhắc bảo dưỡng định kỳ - Chu kỳ 2 tháng/lần</h3>
-                        <p>Danh sách khách hàng đang trong chu kỳ bảo dưỡng (chưa đủ 6 lần). Dữ liệu từ
-                            NGUOI_DUNG.SoLanBaoDuong</p>
-                    </div>
-                </div>
 
                 <div class="table-card">
                     <h2 class="table-title">Danh sách khách hàng cần nhắc bảo dưỡng</h2>
@@ -383,23 +441,63 @@
                 </div>
             </div>
 
-            <!-- Tab 2: Nhắc thay phụ tùng (từ bảng BAO_DUONG) -->
+            <!-- Tab 2: Tạo nhắc nhở thay phụ tùng -->
             <div id="parts-tab" class="tab-content">
                 <div class="info-box warning">
-                    <i class="fas fa-exclamation-triangle"></i>
+                    <i class="fas fa-bell"></i>
                     <div class="info-box-content">
-                        <h3>Nhắc thay phụ tùng - Bảng BAO_DUONG</h3>
-                        <p>Danh sách nhắc nhở thay thế phụ tùng từ bảng BAO_DUONG với TrangThai = 'Nhắc nhở' (giống
-                            Android app)</p>
+                        <h3>Tạo nhắc nhở thay thế phụ tùng</h3>
+                        <p>Chọn người dùng và loại công việc bảo dưỡng để gửi nhắc nhở đến khách hàng</p>
                     </div>
                 </div>
 
+                <!-- Form tạo nhắc nhở mới -->
+                <div class="table-card" style="margin-bottom: 24px;">
+                    <h2 class="table-title"><i class="fas fa-plus-circle"></i> Tạo nhắc nhở mới</h2>
+                    <div class="reminder-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label><i class="fas fa-user"></i> Chọn người dùng</label>
+                                <select id="selectUser" class="form-select">
+                                    <option value="">-- Chọn khách hàng --</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label><i class="fas fa-wrench"></i> Loại công việc bảo dưỡng</label>
+                                <select id="selectJob" class="form-select">
+                                    <option value="">-- Chọn công việc --</option>
+                                    <option value="Thay đầu lọc gió">🔧 Thay đầu lọc gió</option>
+                                    <option value="Thay nhớt động cơ">🛢️ Thay nhớt động cơ</option>
+                                    <option value="Thay lọc dầu">⚙️ Thay lọc dầu</option>
+                                    <option value="Thay má phanh">🚗 Thay má phanh</option>
+                                    <option value="Thay bộ lọc điều hòa">❄️ Thay bộ lọc điều hòa</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group" style="flex: 1;">
+                                <label><i class="fas fa-comment"></i> Ghi chú thêm (tuỳ chọn)</label>
+                                <input type="text" id="noteInput" class="form-input"
+                                    placeholder="Nhập ghi chú thêm nếu cần...">
+                            </div>
+                            <div class="form-group" style="flex: 0 0 auto;">
+                                <label>&nbsp;</label>
+                                <button class="btn-create-reminder" onclick="createReminder()">
+                                    <i class="fas fa-paper-plane"></i> Gửi nhắc nhở
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Danh sách nhắc nhở đã tạo -->
                 <div class="table-card">
-                    <h2 class="table-title">Danh sách nhắc nhở thay phụ tùng</h2>
+                    <h2 class="table-title"><i class="fas fa-list"></i> Danh sách nhắc nhở đã gửi</h2>
                     <div class="table-container">
                         <table class="notify-table">
                             <thead>
                                 <tr>
+                                    <th>STT</th>
                                     <th>Mã BD</th>
                                     <th>Khách hàng</th>
                                     <th>Loại xe</th>
@@ -548,14 +646,15 @@
             $('#partsBadge').textContent = reminders.length;
 
             if (reminders.length === 0) {
-                showEmptyState('partsTableBody', 'Không có nhắc nhở thay phụ tùng nào');
+                showEmptyState('partsTableBody', 'Chưa có nhắc nhở nào được tạo');
                 return;
             }
 
-            reminders.forEach(item => {
+            reminders.forEach((item, index) => {
                 const row = tbody.insertRow();
 
                 row.innerHTML = `
+            <td>${index + 1}</td>
             <td><strong>#${item.MaBD}</strong></td>
             <td>
                 <strong>${item.TenKhachHang || 'Chưa có tên'}</strong>
@@ -566,11 +665,75 @@
             <td><span class="status-warning">${item.TrangThai}</span></td>
             <td>
                 <button class="btn-send" onclick="markAsNotified(${item.MaBD}, '${item.TenKhachHang || ''}')">
-                    <i class="fas fa-bell"></i> Đã nhắc nhở
+                    <i class="fas fa-check"></i> Đã nhắc
                 </button>
             </td>
         `;
             });
+        }
+
+        // ==================== LOAD DANH SÁCH NGƯỜI DÙNG CHO DROPDOWN ====================
+        async function loadUsersForSelect() {
+            try {
+                const result = await UserAPI.getAll({ limit: 200 });
+                if (result.success) {
+                    const selectUser = $('#selectUser');
+                    selectUser.innerHTML = '<option value="">-- Chọn khách hàng --</option>';
+
+                    result.data.forEach(user => {
+                        const option = document.createElement('option');
+                        option.value = user.MaND;
+                        option.textContent = `${user.HoTen || user.TenDangNhap} - ${user.DienThoai || 'Chưa có SĐT'}`;
+                        selectUser.appendChild(option);
+                    });
+                }
+            } catch (error) {
+                console.error('Lỗi load danh sách người dùng:', error);
+            }
+        }
+
+        // ==================== TẠO NHẮC NHỞ MỚI ====================
+        async function createReminder() {
+            const maND = $('#selectUser').value;
+            const job = $('#selectJob').value;
+            const note = $('#noteInput').value.trim();
+
+            if (!maND) {
+                alert('⚠️ Vui lòng chọn khách hàng!');
+                return;
+            }
+
+            if (!job) {
+                alert('⚠️ Vui lòng chọn loại công việc bảo dưỡng!');
+                return;
+            }
+
+            // Nội dung nhắc nhở = loại công việc + ghi chú (nếu có)
+            const moTa = note ? `${job} - ${note}` : job;
+
+            // Lấy tên khách hàng từ dropdown
+            const selectUser = $('#selectUser');
+            const tenKH = selectUser.options[selectUser.selectedIndex].text.split(' - ')[0];
+
+            if (!confirm(`Xác nhận gửi nhắc nhở "${job}" cho khách hàng "${tenKH}"?`)) return;
+
+            try {
+                const result = await NotificationAPI.createBaoDuongReminder(maND, moTa);
+                if (result.success) {
+                    alert(`✅ Đã tạo nhắc nhở "${job}" cho ${tenKH}!`);
+                    // Reset form
+                    $('#selectUser').value = '';
+                    $('#selectJob').value = '';
+                    $('#noteInput').value = '';
+                    // Reload danh sách
+                    loadPartsReminders();
+                } else {
+                    alert('❌ Lỗi: ' + result.message);
+                }
+            } catch (error) {
+                console.error('Lỗi tạo nhắc nhở:', error);
+                alert('❌ Lỗi tạo nhắc nhở');
+            }
         }
 
         // ==================== GỬI THÔNG BÁO ====================
@@ -624,7 +787,7 @@
             const tbody = document.getElementById(tableId);
             tbody.innerHTML = `
         <tr>
-            <td colspan="6">
+            <td colspan="7">
                 <div class="empty-state">
                     <i class="fas fa-check-circle"></i>
                     <h3>Tuyệt vời!</h3>
@@ -643,6 +806,7 @@
         document.addEventListener('DOMContentLoaded', function () {
             loadMaintenanceReminders();
             loadPartsReminders();
+            loadUsersForSelect();
         });
     </script>
 
