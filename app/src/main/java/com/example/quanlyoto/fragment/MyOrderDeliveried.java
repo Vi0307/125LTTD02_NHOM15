@@ -54,8 +54,11 @@ public class MyOrderDeliveried extends Fragment {
         ImageView btnBack = view.findViewById(R.id.btn_back);
 
         // Quay lại Welcome
+        // Quay lại trang PersonalActivity
         btnBack.setOnClickListener(v -> {
-            requireActivity().getSupportFragmentManager().popBackStack();
+            getParentFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, new PersonalActivity())
+                    .commit();
         });
 
         return view;

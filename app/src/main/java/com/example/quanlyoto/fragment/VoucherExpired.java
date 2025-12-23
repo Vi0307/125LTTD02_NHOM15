@@ -48,9 +48,11 @@ public class VoucherExpired extends Fragment {
 
         ImageView btnBack = view.findViewById(R.id.btn_back);
 
-        // Quay lại Welcome
+        // Quay lại PersonalActivity (Fragment)
         btnBack.setOnClickListener(v -> {
-            requireActivity().getSupportFragmentManager().popBackStack();
+            getParentFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, new PersonalActivity())
+                    .commit();
         });
 
         // ================= XỬ LÝ HIỂN THỊ VOUCHER (ĐÃ SỬ DỤNG / HẾT HẠN)
@@ -120,8 +122,6 @@ public class VoucherExpired extends Fragment {
                             tvStatus.setTextSize(14);
                             tvStatus.setTextColor(android.graphics.Color.RED);
                             textLayout.addView(tvStatus);
-
-                            
 
                             innerLayout.addView(textLayout);
                             card.addView(innerLayout);

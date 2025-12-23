@@ -46,7 +46,10 @@ public class VoucherStillValid extends Fragment {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getParentFragmentManager().popBackStack();
+                // Quay lại trang PersonalActivity (Fragment)
+                getParentFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, new PersonalActivity())
+                        .commit();
             }
         });
 
@@ -142,8 +145,6 @@ public class VoucherStillValid extends Fragment {
                             tvDate.setTextSize(14);
                             tvDate.setTextColor(android.graphics.Color.DKGRAY);
                             textLayout.addView(tvDate);
-
-
 
                             innerLayout.addView(textLayout);
                             card.addView(innerLayout);
