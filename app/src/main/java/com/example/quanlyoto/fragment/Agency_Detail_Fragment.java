@@ -134,17 +134,6 @@ public class Agency_Detail_Fragment extends Fragment {
             });
         }
 
-        // CHATBOX → ChatFragment
-        View chatBtn = view.findViewById(R.id.fabChatbox);
-        if (chatBtn != null) {
-            chatBtn.setOnClickListener(v -> {
-                requireActivity().getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.fragment_container, new ChatBox())
-                        .addToBackStack(null)
-                        .commit();
-            });
-        }
     }
 
     private void setupButtonDatDichVu(View view) {

@@ -69,7 +69,6 @@ public class PersonalActivity extends Fragment {
         logoutOverlay = view.findViewById(R.id.logout_overlay);
         btnCancel = view.findViewById(R.id.btn_cancel);
         btnConfirmLogout = view.findViewById(R.id.btn_confirm_logout);
-        fabChat = view.findViewById(R.id.btn_logout_confirm);
         btnSave = view.findViewById(R.id.btnSave);
 
         // Ánh xạ views thông tin (TextView)
