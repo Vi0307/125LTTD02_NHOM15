@@ -21,6 +21,24 @@ public class DonHangController {
     }
 
     /**
+     * Lấy đơn hàng đang giao theo user
+     * GET /api/orders/{maND}/delivering
+     */
+    @GetMapping("/{maND}/delivering")
+    public List<DonHangDTO> getDeliveringOrders(@PathVariable Integer maND) {
+        return donHangService.getDonHangDangGiao(maND);
+    }
+
+    /**
+     * Lấy đơn hàng đã giao theo user
+     * GET /api/orders/{maND}/delivered
+     */
+    @GetMapping("/{maND}/delivered")
+    public List<DonHangDTO> getDeliveredOrders(@PathVariable Integer maND) {
+        return donHangService.getDonHangDaGiao(maND);
+    }
+
+    /**
      * Tạo đơn hàng mới
      * POST /api/orders
      */

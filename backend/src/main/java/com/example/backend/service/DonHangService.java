@@ -26,29 +26,56 @@ public class DonHangService {
 
         return donHangRepository.findByMaND(maND)
                 .stream()
-                .map(dh -> {
-                    DonHangDTO dto = new DonHangDTO();
-                    dto.setMaDH(dh.getMaDH());
-                    dto.setNgayDat(dh.getNgayDat());
-                    dto.setTenPhuTung(dh.getTenPhuTung());
-                    dto.setHinhAnh(dh.getHinhAnh());
-                    dto.setTongTien(dh.getTongTien());
-                    dto.setPhiVanChuyen(dh.getPhiVanChuyen());
-                    dto.setTongThanhToan(
-                            dh.getTongTien().add(dh.getPhiVanChuyen())
-                    );
-                    dto.setDiaChiGiao(dh.getDiaChiGiao());
-                    dto.setTrangThai(dh.getTrangThai());
-                    dto.setMaPTTT(dh.getMaPTTT());
-                    // Lấy tên phương thức thanh toán từ service
-                    if (dh.getMaPTTT() != null) {
-                        PhuongThucThanhToanDTO pttt = phuongThucThanhToanService.getPaymentMethodById(dh.getMaPTTT());
-                        dto.setPhuongThucThanhToan(pttt != null ? pttt.getTenPTTT() : "Tiền mặt");
-                    } else {
-                        dto.setPhuongThucThanhToan("Tiền mặt");
-                    }
-                    return dto;
-                }).collect(Collectors.toList());
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Lấy danh sách đơn hàng đang giao theo user
+     */
+    public List<DonHangDTO> getDonHangDangGiao(Integer maND) {
+        return donHangRepository.findByMaNDAndTrangThai(maND, "Đang giao")
+                .stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Lấy danh sách đơn hàng đã giao theo user
+     */
+    public List<DonHangDTO> getDonHangDaGiao(Integer maND) {
+        return donHangRepository.findByMaNDAndTrangThai(maND, "Đã giao")
+                .stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Convert entity to DTO
+     */
+    private DonHangDTO convertToDTO(DonHang dh) {
+        DonHangDTO dto = new DonHangDTO();
+        dto.setMaDH(dh.getMaDH());
+        dto.setNgayDat(dh.getNgayDat());
+        dto.setTenPhuTung(dh.getTenPhuTung());
+        dto.setHinhAnh(dh.getHinhAnh());
+        dto.setTongTien(dh.getTongTien());
+        dto.setPhiVanChuyen(dh.getPhiVanChuyen());
+        dto.setTongThanhToan(
+                dh.getTongTien().add(dh.getPhiVanChuyen())
+        );
+        dto.setDiaChiGiao(dh.getDiaChiGiao());
+        dto.setTrangThai(dh.getTrangThai());
+        dto.setMaPTTT(dh.getMaPTTT());
+        dto.setNgayNhanDuKien(dh.getNgayNhanDuKien());
+        // Lấy tên phương thức thanh toán từ service
+        if (dh.getMaPTTT() != null) {
+            PhuongThucThanhToanDTO pttt = phuongThucThanhToanService.getPaymentMethodById(dh.getMaPTTT());
+            dto.setPhuongThucThanhToan(pttt != null ? pttt.getTenPTTT() : "Tiền mặt");
+        } else {
+            dto.setPhuongThucThanhToan("Tiền mặt");
+        }
+        return dto;
     }
 
     /**
