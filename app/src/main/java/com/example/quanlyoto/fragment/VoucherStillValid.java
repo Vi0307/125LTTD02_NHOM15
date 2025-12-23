@@ -46,10 +46,8 @@ public class VoucherStillValid extends Fragment {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Quay lại trang PersonalActivity (Fragment)
-                getParentFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_container, new PersonalActivity())
-                        .commit();
+                // Quay lại trang trước (pop stack), tránh tạo vòng lặp
+                getParentFragmentManager().popBackStack();
             }
         });
 
@@ -59,7 +57,7 @@ public class VoucherStillValid extends Fragment {
             public void onClick(View v) {
                 getParentFragmentManager().beginTransaction()
                         .replace(R.id.fragment_container, new VoucherExpired())
-                        .addToBackStack(null)
+                        // .addToBackStack(null) // KHÔNG add vào stack khi chuyển tab để tránh loop
                         .commit();
             }
         });

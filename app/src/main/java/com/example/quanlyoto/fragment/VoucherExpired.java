@@ -38,7 +38,7 @@ public class VoucherExpired extends Fragment {
         tabActive.setOnClickListener(v -> {
             getParentFragmentManager().beginTransaction()
                     .replace(R.id.fragment_container, new VoucherStillValid())
-                    .addToBackStack(null) // nếu muốn back quay lại VoucherExpired
+                    // .addToBackStack(null) // KHÔNG add vào stack
                     .commit();
         });
 
@@ -48,11 +48,9 @@ public class VoucherExpired extends Fragment {
 
         ImageView btnBack = view.findViewById(R.id.btn_back);
 
-        // Quay lại PersonalActivity (Fragment)
+        // Quay lại trang trước (pop stack)
         btnBack.setOnClickListener(v -> {
-            getParentFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, new PersonalActivity())
-                    .commit();
+            getParentFragmentManager().popBackStack();
         });
 
         // ================= XỬ LÝ HIỂN THỊ VOUCHER (ĐÃ SỬ DỤNG / HẾT HẠN)
