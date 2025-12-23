@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#FFFFFF">
+    android:background="@drawable/gradient_bg">
 
     <!-- Top Bar -->
     <RelativeLayout
@@ -207,7 +207,7 @@
         android:layout_height="wrap_content"
         android:paddingVertical="20dp"
         android:textSize="20sp"
-        android:backgroundTint="#000000"
+        android:backgroundTint="#29B6F6"
         android:text="Tiếp" />
     <!-- Bottom Button -->
     <FrameLayout

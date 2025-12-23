@@ -251,7 +251,7 @@
         android:layout_height="wrap_content"
         android:paddingVertical="20dp"
         android:textSize="20sp"
-        android:backgroundTint="#000000"
+        android:backgroundTint="#29B6F6"
         android:text="Tiếp" />
 
     <FrameLayout

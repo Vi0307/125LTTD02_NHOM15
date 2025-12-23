@@ -71,7 +71,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
                 android:layout_marginTop="10dp"
-                android:backgroundTint="@color/black"
+                android:backgroundTint="#29B6F6"
                 android:text="Thêm địa chỉ" />
 
         </LinearLayout>
@@ -83,7 +83,7 @@
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_margin="16dp"
-        android:backgroundTint="@color/black"
+        android:backgroundTint="#29B6F6"
         android:text="Áp dụng"
         android:textColor="#FFFFFF"
         android:textSize="16sp" />

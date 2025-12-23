@@ -54,7 +54,7 @@
             android:textColor="#FFFFFF"
             android:textSize="16sp"
             android:textStyle="bold"
-            android:backgroundTint="#000000"
+            android:backgroundTint="#29B6F6"
             android:elevation="4dp"/>
 
     </LinearLayout>

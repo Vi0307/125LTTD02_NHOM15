@@ -71,7 +71,7 @@
         android:layout_height="48dp"
         android:layout_marginBottom="36dp"
         android:text="Áp dụng"
-        android:backgroundTint="@color/black"
+        android:backgroundTint="#29B6F6"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
