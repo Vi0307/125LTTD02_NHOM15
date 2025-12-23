@@ -51,6 +51,15 @@ public class DonHangService {
     }
 
     /**
+     * Lấy chi tiết đơn hàng theo mã đơn hàng
+     */
+    public DonHangDTO getDonHangById(String maDH) {
+        return donHangRepository.findById(maDH)
+                .map(this::convertToDTO)
+                .orElse(null);
+    }
+
+    /**
      * Convert entity to DTO
      */
     private DonHangDTO convertToDTO(DonHang dh) {

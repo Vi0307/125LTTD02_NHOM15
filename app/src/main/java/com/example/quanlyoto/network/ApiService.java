@@ -136,11 +136,11 @@ public interface ApiService {
 
 
         // ==================== ĐƠN HÀNG ====================
-        @GET("api/donhang/{maDH}")
-        Call<ApiResponse<DonHang>> getDonHangById(@Path("maDH") String maDH);
+        @GET("api/orders/detail/{maDH}")
+        Call<DonHang> getOrderById(@Path("maDH") String maDH);
 
-        @GET("api/donhang/{maDH}/chitiet")
-        Call<ApiResponse<List<ChiTietDonHang>>> getChiTietDonHangByMaDH(@Path("maDH") String maDH);
+        @GET("api/chi-tiet-don-hang/{maDH}")
+        Call<List<ChiTietDonHang>> getChiTietDonHangByMaDH(@Path("maDH") String maDH);
 
         // ==================== PHƯƠNG THỨC THANH TOÁN ====================
         @GET("api/payment-methods")
