@@ -39,6 +39,15 @@ public class DonHangController {
     }
 
     /**
+     * Lấy chi tiết đơn hàng theo mã đơn hàng
+     * GET /api/orders/info/{maDH}
+     */
+    @GetMapping("/info/{maDH}")
+    public DonHangDTO getOrderById(@PathVariable String maDH) {
+        return donHangService.getDonHangById(maDH);
+    }
+
+    /**
      * Tạo đơn hàng mới
      * POST /api/orders
      */

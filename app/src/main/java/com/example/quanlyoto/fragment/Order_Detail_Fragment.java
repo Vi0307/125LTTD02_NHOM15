@@ -99,11 +99,11 @@ public class Order_Detail_Fragment extends Fragment {
         ApiService apiService = RetrofitClient.getApiService();
 
         // 1. Fetch Order Info
-        apiService.getDonHangById(orderId).enqueue(new Callback<ApiResponse<DonHang>>() {
+        apiService.getDonHangById(orderId).enqueue(new Callback<DonHang>() {
             @Override
-            public void onResponse(Call<ApiResponse<DonHang>> call, Response<ApiResponse<DonHang>> response) {
-                if (response.isSuccessful() && response.body() != null && response.body().getData() != null) {
-                    DonHang donHang = response.body().getData();
+            public void onResponse(Call<DonHang> call, Response<DonHang> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    DonHang donHang = response.body();
                     bindOrderData(donHang);
                 } else {
                     Log.e("OrderDetail", "Error fetching order: " + response.code());
@@ -112,20 +112,20 @@ public class Order_Detail_Fragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<ApiResponse<DonHang>> call, Throwable t) {
+            public void onFailure(Call<DonHang> call, Throwable t) {
                 Log.e("OrderDetail", "Failure: " + t.getMessage());
                 Toast.makeText(getContext(), "Lỗi kết nối", Toast.LENGTH_SHORT).show();
             }
         });
 
         // 2. Fetch Order Details (Products)
-        apiService.getChiTietDonHangByMaDH(orderId).enqueue(new Callback<ApiResponse<List<ChiTietDonHang>>>() {
+        apiService.getChiTietDonHangByMaDH(orderId).enqueue(new Callback<List<ChiTietDonHang>>() {
             @Override
-            public void onResponse(Call<ApiResponse<List<ChiTietDonHang>>> call,
-                    Response<ApiResponse<List<ChiTietDonHang>>> response) {
-                if (response.isSuccessful() && response.body() != null && response.body().getData() != null) {
+            public void onResponse(Call<List<ChiTietDonHang>> call,
+                    Response<List<ChiTietDonHang>> response) {
+                if (response.isSuccessful() && response.body() != null) {
                     listChiTiet.clear();
-                    listChiTiet.addAll(response.body().getData());
+                    listChiTiet.addAll(response.body());
                     adapter.notifyDataSetChanged();
                 } else {
                     Log.e("OrderDetail", "Error fetching details: " + response.code());
@@ -133,7 +133,7 @@ public class Order_Detail_Fragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<ApiResponse<List<ChiTietDonHang>>> call, Throwable t) {
+            public void onFailure(Call<List<ChiTietDonHang>> call, Throwable t) {
                 Log.e("OrderDetail", "Detail Failure: " + t.getMessage());
             }
         });

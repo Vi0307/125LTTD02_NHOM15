@@ -5,26 +5,26 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 public class ChiTietDonHang implements Serializable {
-    @SerializedName("MaCTDH")
+    @SerializedName("maCTDH")
     private Integer maCTDH;
 
-    @SerializedName("MaDH")
+    @SerializedName("maDH")
     private String maDH;
 
-    @SerializedName("MaPhuTung")
+    @SerializedName("maPhuTung")
     private String maPhuTung;
 
-    @SerializedName("SoLuong")
+    @SerializedName("soLuong")
     private Integer soLuong;
 
-    @SerializedName("GiaTien")
+    @SerializedName("giaTien")
     private BigDecimal giaTien;
 
-    // Additional fields likely returned by a JOIN query on the backend
-    @SerializedName("TenPhuTung")
+    // Additional fields returned by backend
+    @SerializedName("tenPhuTung")
     private String tenPhuTung;
 
-    @SerializedName("HinhAnh")
+    @SerializedName("hinhAnh")
     private String hinhAnh;
 
     public Integer getMaCTDH() {
