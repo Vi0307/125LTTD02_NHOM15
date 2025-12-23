@@ -153,6 +153,15 @@ public interface ApiService {
         Call<com.example.quanlyoto.model.PhuongThucThanhToan> getDefaultPaymentMethod();
 
         // ==================== ĐƠN HÀNG ====================
+        @GET("api/orders/{maND}")
+        Call<List<DonHang>> getOrdersByUser(@Path("maND") Integer maND);
+
+        @GET("api/orders/{maND}/delivering")
+        Call<List<DonHang>> getDeliveringOrders(@Path("maND") Integer maND);
+
+        @GET("api/orders/{maND}/delivered")
+        Call<List<DonHang>> getDeliveredOrders(@Path("maND") Integer maND);
+
         @retrofit2.http.POST("api/orders")
         Call<com.example.quanlyoto.model.DonHangResponse> createOrder(@Body com.example.quanlyoto.model.DonHangRequest request);
 
