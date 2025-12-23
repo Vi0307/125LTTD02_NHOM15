@@ -80,17 +80,33 @@
                     android:textSize="15sp"
                     android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/tvHoTen"
+                <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:layout_marginTop="8dp"
-                    android:background="@drawable/bg_text_field"
-                    android:gravity="center_vertical"
-                    android:paddingStart="16dp"
-                    android:text="Đang tải..."
-                    android:textColor="#000000"
-                    android:textSize="15sp" />
+                    android:background="@drawable/bg_text_field">
+
+                    <TextView
+                        android:id="@+id/tvHoTen"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:paddingStart="16dp"
+                        android:text="Đang tải..."
+                        android:textColor="#000000"
+                        android:textSize="15sp" />
+
+                    <EditText
+                        android:id="@+id/etHoTen"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@android:color/transparent"
+                        android:paddingStart="16dp"
+                        android:textColor="#000000"
+                        android:textSize="15sp"
+                        android:inputType="textPersonName"
+                        android:visibility="gone" />
+                </FrameLayout>
 
                 <!-- Số điện thoại -->
                 <TextView
@@ -102,17 +118,33 @@
                     android:textSize="15sp"
                     android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/tvSoDienThoai"
+                <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:layout_marginTop="8dp"
-                    android:background="@drawable/bg_text_field"
-                    android:gravity="center_vertical"
-                    android:paddingStart="16dp"
-                    android:text="Đang tải..."
-                    android:textColor="#000000"
-                    android:textSize="15sp" />
+                    android:background="@drawable/bg_text_field">
+
+                    <TextView
+                        android:id="@+id/tvSoDienThoai"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:paddingStart="16dp"
+                        android:text="Đang tải..."
+                        android:textColor="#000000"
+                        android:textSize="15sp" />
+
+                    <EditText
+                        android:id="@+id/etSoDienThoai"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@android:color/transparent"
+                        android:paddingStart="16dp"
+                        android:textColor="#000000"
+                        android:textSize="15sp"
+                        android:inputType="phone"
+                        android:visibility="gone" />
+                </FrameLayout>
 
                 <!-- Ngày sinh -->
                 <TextView
@@ -161,17 +193,33 @@
                     android:textSize="15sp"
                     android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/tvEmail"
+                <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:layout_marginTop="8dp"
-                    android:background="@drawable/bg_text_field"
-                    android:gravity="center_vertical"
-                    android:paddingStart="16dp"
-                    android:text="Đang tải..."
-                    android:textColor="#000000"
-                    android:textSize="15sp" />
+                    android:background="@drawable/bg_text_field">
+
+                    <TextView
+                        android:id="@+id/tvEmail"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:paddingStart="16dp"
+                        android:text="Đang tải..."
+                        android:textColor="#000000"
+                        android:textSize="15sp" />
+
+                    <EditText
+                        android:id="@+id/etEmail"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@android:color/transparent"
+                        android:paddingStart="16dp"
+                        android:textColor="#000000"
+                        android:textSize="15sp"
+                        android:inputType="textEmailAddress"
+                        android:visibility="gone" />
+                </FrameLayout>
 
                 <!-- Tỉnh thành -->
                 <TextView
@@ -183,17 +231,57 @@
                     android:textSize="15sp"
                     android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/tvTinhThanh"
+                <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:layout_marginTop="8dp"
-                    android:background="@drawable/bg_text_field"
-                    android:gravity="center_vertical"
-                    android:paddingStart="16dp"
-                    android:text="Đang tải..."
-                    android:textColor="#000000"
-                    android:textSize="15sp" />
+                    android:background="@drawable/bg_text_field">
+
+                    <TextView
+                        android:id="@+id/tvTinhThanh"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:paddingStart="16dp"
+                        android:text="Đang tải..."
+                        android:textColor="#000000"
+                        android:textSize="15sp" />
+
+                    <EditText
+                        android:id="@+id/etTinhThanh"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@android:color/transparent"
+                        android:paddingStart="16dp"
+                        android:textColor="#000000"
+                        android:textSize="15sp"
+                        android:inputType="text"
+                        android:visibility="gone" />
+                </FrameLayout>
+
+                <!-- Nút Lưu (ẩn mặc định) -->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/btnSave"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:layout_marginTop="24dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:visibility="gone"
+                    app:cardCornerRadius="28dp"
+                    app:cardElevation="4dp"
+                    app:cardBackgroundColor="#000000">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="Lưu thay đổi"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+                </androidx.cardview.widget.CardView>
 
                 <!-- Voucher -->
                 <LinearLayout
