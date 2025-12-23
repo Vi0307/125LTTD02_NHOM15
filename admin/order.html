@@ -52,6 +52,7 @@
                         <table class="order-table">
                             <thead>
                                 <tr>
+                                    <th>STT</th>
                                     <th>Mã đơn hàng</th>
                                     <th>Mã khách hàng</th>
                                     <th>Trạng thái</th>
@@ -142,7 +143,7 @@
             const tbody = $('#orderTableBody');
             tbody.innerHTML = '';
 
-            orders.forEach(order => {
+            orders.forEach((order, index) => {
                 const row = tbody.insertRow();
                 row.onclick = () => fillOrderForm(row, order);
                 let statusClass = 'pending';
@@ -156,6 +157,7 @@
                 }
 
                 row.innerHTML = `
+            <td>${index + 1}</td>
             <td>${order.MaDH}</td>
             <td>${order.MaND}</td>
             <td><span class="status ${statusClass}">${statusText}</span></td>
