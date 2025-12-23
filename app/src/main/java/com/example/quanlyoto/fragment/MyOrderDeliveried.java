@@ -31,7 +31,7 @@ public class MyOrderDeliveried extends Fragment {
         tabDelivering.setOnClickListener(v -> {
             getParentFragmentManager().beginTransaction()
                     .replace(R.id.fragment_container, new MyOrderDelivering())
-                    .addToBackStack(null) // có thể quay lại tab đang giao
+                    // .addToBackStack(null) // KHÔNG add vào stack để tránh loop
                     .commit();
         });
 
@@ -53,12 +53,9 @@ public class MyOrderDeliveried extends Fragment {
 
         ImageView btnBack = view.findViewById(R.id.btn_back);
 
-        // Quay lại Welcome
-        // Quay lại trang PersonalActivity
+        // Quay lại trang trước (pop stack)
         btnBack.setOnClickListener(v -> {
-            getParentFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, new PersonalActivity())
-                    .commit();
+            getParentFragmentManager().popBackStack();
         });
 
         return view;

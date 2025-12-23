@@ -31,31 +31,30 @@ public class MyOrderDelivering extends Fragment {
         tabDelivered.setOnClickListener(v -> {
             getParentFragmentManager().beginTransaction()
                     .replace(R.id.fragment_container, new MyOrderDeliveried())
-                    .addToBackStack(null) // có thể quay lại tab đang giao
+                    // .addToBackStack(null) // KHÔNG add vào stack khi chuyển tab
                     .commit();
         });
         CardView cardOngGio = view.findViewById(R.id.card_product_onggio);
-        cardOngGio.setOnClickListener(v -> {
-            // Chuyển sang fragment OrderDetailFragment
-            Order_Detail_Fragment fragment = new Order_Detail_Fragment();
-            Bundle args = new Bundle();
-            args.putString("orderId", "DH001"); // Sample ID
-            fragment.setArguments(args);
+        if (cardOngGio != null) {
+            cardOngGio.setOnClickListener(v -> {
+                // Chuyển sang fragment OrderDetailFragment
+                Order_Detail_Fragment fragment = new Order_Detail_Fragment();
+                Bundle args = new Bundle();
+                args.putString("orderId", "DH001"); // Sample ID
+                fragment.setArguments(args);
 
-            getParentFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, fragment)
-                    .addToBackStack(null) // để quay lại fragment trước
-                    .commit();
-        });
+                getParentFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, fragment)
+                        .addToBackStack(null) // Cái này vẫn giữ stack vì là đi sâu vào detail
+                        .commit();
+            });
+        }
 
         ImageView btnBack = view.findViewById(R.id.btn_back);
 
-        // Quay lại Welcome
-        // Quay lại trang PersonalActivity
+        // Quay lại trang trước (pop stack)
         btnBack.setOnClickListener(v -> {
-            getParentFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, new PersonalActivity())
-                    .commit();
+            getParentFragmentManager().popBackStack();
         });
 
         return view;
