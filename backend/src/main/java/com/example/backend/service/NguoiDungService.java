@@ -67,4 +67,31 @@ public class NguoiDungService {
             throw new RuntimeException("Không tìm thấy người dùng với mã: " + maND);
         }
     }
+
+    // Cập nhật thông tin người dùng
+    public NguoiDungDTO updateNguoiDung(Integer maND, NguoiDungDTO dto) {
+        Optional<NguoiDung> userOpt = nguoiDungRepository.findById(maND);
+        if (userOpt.isPresent()) {
+            NguoiDung user = userOpt.get();
+            
+            // Cập nhật các trường nếu có giá trị mới
+            if (dto.getHoTen() != null && !dto.getHoTen().isEmpty()) {
+                user.setHoTen(dto.getHoTen());
+            }
+            if (dto.getEmail() != null && !dto.getEmail().isEmpty()) {
+                user.setEmail(dto.getEmail());
+            }
+            if (dto.getDienThoai() != null && !dto.getDienThoai().isEmpty()) {
+                user.setDienThoai(dto.getDienThoai());
+            }
+            if (dto.getNgaySinh() != null) {
+                user.setNgaySinh(dto.getNgaySinh());
+            }
+            
+            NguoiDung updatedUser = nguoiDungRepository.save(user);
+            return mapToDTO(updatedUser);
+        } else {
+            throw new RuntimeException("Không tìm thấy người dùng với mã: " + maND);
+        }
+    }
 }

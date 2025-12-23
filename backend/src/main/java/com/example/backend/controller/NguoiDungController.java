@@ -57,4 +57,15 @@ public class NguoiDungController {
             return ResponseEntity.status(404).body(e.getMessage());
         }
     }
+
+    // Cập nhật thông tin người dùng
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateNguoiDung(@PathVariable Integer id, @RequestBody NguoiDungDTO dto) {
+        try {
+            NguoiDungDTO user = nguoiDungService.updateNguoiDung(id, dto);
+            return ResponseEntity.ok(user);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(404).body(e.getMessage());
+        }
+    }
 }

@@ -24,6 +24,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 /**
@@ -48,6 +49,9 @@ public interface ApiService {
 
         @GET("api/nguoidung/{id}")
         Call<NguoiDung> getNguoiDungById(@Path("id") Integer id);
+
+        @PUT("api/nguoidung/{id}")
+        Call<NguoiDung> updateNguoiDung(@Path("id") Integer id, @Body NguoiDung nguoiDung);
 
         @retrofit2.http.PUT("api/nguoidung/{id}/update-maintenance-count")
         Call<NguoiDung> updateMaintenanceCount(@Path("id") Integer id, @retrofit2.http.Query("count") Integer count);
