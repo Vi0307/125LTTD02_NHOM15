@@ -51,7 +51,7 @@ public class Homeparts extends Fragment {
                     });
         } else {
             if (tvUserName != null) {
-                tvUserName.setText("Khách");
+                tvUserName.setText("Không tìm được người dùng");
             }
         }
         // ------------------------

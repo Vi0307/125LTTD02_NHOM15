@@ -495,3 +495,15 @@ INSERT INTO DIA_CHI (MaND, LoaiDiaChi, HoTenNguoiNhan, SoDienThoai, TinhThanhPho
 (4, N'Công ty', N'Hoàng', '0909001122', N'Đà Nẵng', N'Hải Châu', N'Hải Châu 1', N'Tòa nhà Indochina, Lầu 10', 0);
 GO
 
+-- ====================================================
+--                 DỮ LIỆU ĐƠN HÀNG
+-- ====================================================
+INSERT INTO DON_HANG (MaDH, TenPhuTung, HinhAnh, TongTien, PhiVanChuyen, DiaChiGiao, GhiChu, MaND, NgayNhanDuKien, MaPTVC, PhuongThucThanhToan, TrangThai)
+VALUES 
+('DH001', N'Ống gió nạp hơi', 'onggionaphoi.png', 7450000, 450000, N'123 Nguyễn Văn Linh, Đà Nẵng', N'Giao giờ hành chính', 1, '2025-12-25', 2, N'Tiền mặt', N'Đang giao');
+
+INSERT INTO CHI_TIET_DON_HANG (MaDH, MaPhuTung, SoLuong, GiaTien)
+VALUES 
+('DH001', 'PT01', 1, 7000000);
+GO
+
