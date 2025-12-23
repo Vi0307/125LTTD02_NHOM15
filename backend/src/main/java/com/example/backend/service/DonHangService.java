@@ -79,6 +79,15 @@ public class DonHangService {
     }
 
     /**
+     * Lấy chi tiết đơn hàng theo mã đơn hàng
+     */
+    public DonHangDTO getDonHangById(String maDH) {
+        return donHangRepository.findById(maDH)
+                .map(this::convertToDTO)
+                .orElse(null);
+    }
+
+    /**
      * Tạo đơn hàng mới
      */
     public DonHangDTO createOrder(DonHangDTO dto) {

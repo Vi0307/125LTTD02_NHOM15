@@ -99,11 +99,11 @@ public class Order_Detail_Fragment extends Fragment {
         ApiService apiService = RetrofitClient.getApiService();
 
         // 1. Fetch Order Info
-        apiService.getDonHangById(orderId).enqueue(new Callback<ApiResponse<DonHang>>() {
+        apiService.getDonHangById(orderId).enqueue(new Callback<DonHang>() {
             @Override
-            public void onResponse(Call<ApiResponse<DonHang>> call, Response<ApiResponse<DonHang>> response) {
-                if (response.isSuccessful() && response.body() != null && response.body().getData() != null) {
-                    DonHang donHang = response.body().getData();
+            public void onResponse(Call<DonHang> call, Response<DonHang> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    DonHang donHang = response.body();
                     bindOrderData(donHang);
                 } else {
                     Log.e("OrderDetail", "Error fetching order: " + response.code());
@@ -112,53 +112,58 @@ public class Order_Detail_Fragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<ApiResponse<DonHang>> call, Throwable t) {
+            public void onFailure(Call<DonHang> call, Throwable t) {
                 Log.e("OrderDetail", "Failure: " + t.getMessage());
                 Toast.makeText(getContext(), "Lỗi kết nối", Toast.LENGTH_SHORT).show();
             }
         });
 
         // 2. Fetch Order Details (Products)
-        apiService.getChiTietDonHangByMaDH(orderId).enqueue(new Callback<ApiResponse<List<ChiTietDonHang>>>() {
+        apiService.getChiTietDonHangByMaDH(orderId).enqueue(new Callback<List<ChiTietDonHang>>() {
             @Override
-            public void onResponse(Call<ApiResponse<List<ChiTietDonHang>>> call,
-                    Response<ApiResponse<List<ChiTietDonHang>>> response) {
-                if (response.isSuccessful() && response.body() != null && response.body().getData() != null) {
+            public void onResponse(Call<List<ChiTietDonHang>> call,
+                    Response<List<ChiTietDonHang>> response) {
+                if (response.isSuccessful() && response.body() != null && !response.body().isEmpty()) {
                     listChiTiet.clear();
-                    listChiTiet.addAll(response.body().getData());
+                    listChiTiet.addAll(response.body());
                     adapter.notifyDataSetChanged();
                 } else {
-                    Log.e("OrderDetail", "Error fetching details: " + response.code());
+                    Log.d("OrderDetail", "No order details found, will use order info");
                 }
             }
 
             @Override
-            public void onFailure(Call<ApiResponse<List<ChiTietDonHang>>> call, Throwable t) {
+            public void onFailure(Call<List<ChiTietDonHang>> call, Throwable t) {
                 Log.e("OrderDetail", "Detail Failure: " + t.getMessage());
             }
         });
+    }
+
+    /**
+     * Tạo ChiTietDonHang từ thông tin DonHang khi không có chi tiết riêng
+     */
+    private void createChiTietFromDonHang(DonHang donHang) {
+        if (donHang.getTenPhuTung() != null && !donHang.getTenPhuTung().isEmpty()) {
+            ChiTietDonHang chiTiet = new ChiTietDonHang();
+            chiTiet.setMaDH(donHang.getMaDH());
+            chiTiet.setTenPhuTung(donHang.getTenPhuTung());
+            chiTiet.setHinhAnh(donHang.getHinhAnh());
+            chiTiet.setSoLuong(1);
+            chiTiet.setGiaTien(donHang.getTongTien());
+            
+            listChiTiet.clear();
+            listChiTiet.add(chiTiet);
+            adapter.notifyDataSetChanged();
+        }
     }
 
     private void bindOrderData(DonHang donHang) {
         tvAddress.setText(donHang.getDiaChiGiao());
         tvPaymentMethod.setText(donHang.getPhuongThucThanhToan());
 
-        // Assuming shipping method name isn't directly in DonHang but we have ID,
-        // effectively we'd need another call or it matches the sample "Giao hàng nhanh"
-        // For now, simplify or check if DonHang has it via joins.
-        // The DonHang model I made has maPTVC.
-        // I will just set a placeholder or fetch if needed.
-        // Actually, the SQL DonHang has 'PhiVanChuyen', but method name is in
-        // PHUONG_THUC_VAN_CHUYEN.
-        // I'll leave default text in XML or update if I can guess.
-        // But price fields are available.
-
         DecimalFormat df = new DecimalFormat("###,###,### VND");
 
-        // Subtotal (TongTien seems to be total products price without shipping in
-        // common logic)
-        // But SQL says: TongThanhToan AS (TongTien + PhiVanChuyen)
-        // So TongTien is likely subtotal.
+        // Subtotal
         if (donHang.getTongTien() != null) {
             tvSubtotal.setText(df.format(donHang.getTongTien()));
         }
@@ -167,12 +172,7 @@ public class Order_Detail_Fragment extends Fragment {
             tvShipping.setText(df.format(donHang.getPhiVanChuyen()));
         }
 
-        // Discount - logic depending on API response or VOUCHER table.
-        // For now set to 0 or leave static if not provided in DonHang DTO directly.
-        // DonHang has MaVC. To get discount amount we'd need voucher info.
-        // I'll just set it to 0 for safety or leave as is if hardcoded is better
-        // visually?
-        // Let's set 0 for now to be "dynamic"
+        // Discount - set to 0 for now
         tvDiscount.setText("0 VND");
 
         // Total
@@ -186,6 +186,11 @@ public class Order_Detail_Fragment extends Fragment {
 
         if (donHang.getNgayNhanDuKien() != null) {
             tvDeliveryTime.setText("Est. Arrival: " + donHang.getNgayNhanDuKien());
+        }
+
+        // Hiển thị sản phẩm từ thông tin đơn hàng nếu chưa có chi tiết
+        if (listChiTiet.isEmpty()) {
+            createChiTietFromDonHang(donHang);
         }
     }
 

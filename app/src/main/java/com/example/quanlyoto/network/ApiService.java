@@ -138,12 +138,12 @@ public interface ApiService {
         @GET("api/chi-tiet-gio-hang/nguoi-dung/{maND}/tong-tien")
         Call<ApiResponse<java.math.BigDecimal>> getTongTienGioHang(@Path("maND") Integer maND);
 
-        // ==================== ĐƠN HÀNG ====================
-        @GET("api/donhang/{maDH}")
-        Call<ApiResponse<DonHang>> getDonHangById(@Path("maDH") String maDH);
+        // ==================== CHI TIẾT ĐƠN HÀNG ====================
+        @GET("api/orders/info/{maDH}")
+        Call<DonHang> getDonHangById(@Path("maDH") String maDH);
 
-        @GET("api/donhang/{maDH}/chitiet")
-        Call<ApiResponse<List<ChiTietDonHang>>> getChiTietDonHangByMaDH(@Path("maDH") String maDH);
+        @GET("api/orders/detail/{maDH}")
+        Call<List<ChiTietDonHang>> getChiTietDonHangByMaDH(@Path("maDH") String maDH);
 
         // ==================== PHƯƠNG THỨC THANH TOÁN ====================
         @GET("api/payment-methods")

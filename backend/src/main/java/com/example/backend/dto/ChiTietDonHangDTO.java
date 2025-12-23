@@ -7,6 +7,8 @@ public class ChiTietDonHangDTO {
     private String maPhuTung;
     private Integer soLuong;
     private BigDecimal giaTien;
+    private String tenPhuTung;
+    private String hinhAnh;
 
     // Getter và Setter cho maPhuTung
     public String getMaPhuTung() {
@@ -34,5 +36,22 @@ public class ChiTietDonHangDTO {
     public void setGiaTien(BigDecimal giaTien) {
         this.giaTien = giaTien;
     }
-}
 
+    // Getter và Setter cho tenPhuTung
+    public String getTenPhuTung() {
+        return tenPhuTung;
+    }
+
+    public void setTenPhuTung(String tenPhuTung) {
+        this.tenPhuTung = tenPhuTung;
+    }
+
+    // Getter và Setter cho hinhAnh
+    public String getHinhAnh() {
+        return hinhAnh;
+    }
+
+    public void setHinhAnh(String hinhAnh) {
+        this.hinhAnh = hinhAnh;
+    }
+}
