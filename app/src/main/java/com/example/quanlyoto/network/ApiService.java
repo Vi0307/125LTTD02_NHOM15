@@ -136,10 +136,10 @@ public interface ApiService {
 
 
         // ==================== ĐƠN HÀNG ====================
-        @GET("api/orders/detail/{maDH}")
+        @GET("api/orders/info/{maDH}")
         Call<DonHang> getOrderById(@Path("maDH") String maDH);
 
-        @GET("api/chi-tiet-don-hang/{maDH}")
+        @GET("api/orders/detail/{maDH}")
         Call<List<ChiTietDonHang>> getChiTietDonHangByMaDH(@Path("maDH") String maDH);
 
         // ==================== PHƯƠNG THỨC THANH TOÁN ====================
@@ -153,13 +153,13 @@ public interface ApiService {
         Call<com.example.quanlyoto.model.PhuongThucThanhToan> getDefaultPaymentMethod();
 
         // ==================== ĐƠN HÀNG ====================
-        @GET("api/orders/{maND}")
+        @GET("api/orders/user/{maND}")
         Call<List<DonHang>> getOrdersByUser(@Path("maND") Integer maND);
 
-        @GET("api/orders/{maND}/delivering")
+        @GET("api/orders/user/{maND}/delivering")
         Call<List<DonHang>> getDeliveringOrders(@Path("maND") Integer maND);
 
-        @GET("api/orders/{maND}/delivered")
+        @GET("api/orders/user/{maND}/delivered")
         Call<List<DonHang>> getDeliveredOrders(@Path("maND") Integer maND);
 
         @retrofit2.http.POST("api/orders")
