@@ -20,7 +20,6 @@ import com.example.quanlyoto.network.RetrofitClient;
 import androidx.activity.OnBackPressedCallback;
 import androidx.fragment.app.Fragment;
 import androidx.cardview.widget.CardView;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.Calendar;
 
@@ -36,7 +35,6 @@ public class PersonalActivity extends Fragment {
     private LinearLayout btnLogout, itemVoucher, itemOrder;
     private FrameLayout logoutOverlay;
     private CardView btnCancel, btnConfirmLogout, btnSave;
-    private FloatingActionButton fabChat;
 
     // Views hiển thị thông tin
     private TextView tvUserNameHeader, tvHoTen, tvSoDienThoai, tvNgaySinh, tvEmail, tvTinhThanh;
@@ -162,14 +160,6 @@ public class PersonalActivity extends Fragment {
 
         // Click vào overlay cũng đóng dialog
         logoutOverlay.setOnClickListener(v -> logoutOverlay.setVisibility(View.GONE));
-
-        // FAB Chat
-        fabChat.setOnClickListener(v -> {
-            getParentFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, new ChatBox())
-                    .addToBackStack(null)
-                    .commit();
-        });
 
         // Xử lý nút Back của hệ thống
         requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(),
