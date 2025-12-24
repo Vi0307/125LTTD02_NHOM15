@@ -99,14 +99,18 @@ public class PersonalActivity extends Fragment {
         btnEdit.setOnClickListener(v -> toggleEditMode(!isEditMode));
 
         // Nút Lưu
-        btnSave.setOnClickListener(v -> saveUserInfo());
+        if (btnSave != null) {
+            btnSave.setOnClickListener(v -> saveUserInfo());
+        }
 
         // Click vào ngày sinh để chọn ngày (khi Edit Mode)
-        tvNgaySinh.setOnClickListener(v -> {
-            if (isEditMode) {
-                showDatePicker();
-            }
-        });
+        if (tvNgaySinh != null) {
+            tvNgaySinh.setOnClickListener(v -> {
+                if (isEditMode) {
+                    showDatePicker();
+                }
+            });
+        }
 
         // Voucher
         itemVoucher.setOnClickListener(v -> {
@@ -189,25 +193,38 @@ public class PersonalActivity extends Fragment {
         int etVisibility = enable ? View.VISIBLE : View.GONE;
         int saveVisibility = enable ? View.VISIBLE : View.GONE;
 
-        // Toggle visibility của TextView và EditText
-        tvHoTen.setVisibility(tvVisibility);
-        tvSoDienThoai.setVisibility(tvVisibility);
-        tvEmail.setVisibility(tvVisibility);
-        tvTinhThanh.setVisibility(tvVisibility);
+        // Toggle visibility của TextView và EditText (với null check)
+        if (tvHoTen != null)
+            tvHoTen.setVisibility(tvVisibility);
+        if (tvSoDienThoai != null)
+            tvSoDienThoai.setVisibility(tvVisibility);
+        if (tvEmail != null)
+            tvEmail.setVisibility(tvVisibility);
+        if (tvTinhThanh != null)
+            tvTinhThanh.setVisibility(tvVisibility);
 
-        etHoTen.setVisibility(etVisibility);
-        etSoDienThoai.setVisibility(etVisibility);
-        etEmail.setVisibility(etVisibility);
-        etTinhThanh.setVisibility(etVisibility);
+        if (etHoTen != null)
+            etHoTen.setVisibility(etVisibility);
+        if (etSoDienThoai != null)
+            etSoDienThoai.setVisibility(etVisibility);
+        if (etEmail != null)
+            etEmail.setVisibility(etVisibility);
+        if (etTinhThanh != null)
+            etTinhThanh.setVisibility(etVisibility);
 
-        btnSave.setVisibility(saveVisibility);
+        if (btnSave != null)
+            btnSave.setVisibility(saveVisibility);
 
         if (enable) {
-            // Copy giá trị từ TextView sang EditText
-            etHoTen.setText(tvHoTen.getText());
-            etSoDienThoai.setText(tvSoDienThoai.getText());
-            etEmail.setText(tvEmail.getText());
-            etTinhThanh.setText(tvTinhThanh.getText());
+            // Copy giá trị từ TextView sang EditText (với null check)
+            if (etHoTen != null && tvHoTen != null)
+                etHoTen.setText(tvHoTen.getText());
+            if (etSoDienThoai != null && tvSoDienThoai != null)
+                etSoDienThoai.setText(tvSoDienThoai.getText());
+            if (etEmail != null && tvEmail != null)
+                etEmail.setText(tvEmail.getText());
+            if (etTinhThanh != null && tvTinhThanh != null)
+                etTinhThanh.setText(tvTinhThanh.getText());
 
             Toast.makeText(getActivity(), "Đang chỉnh sửa thông tin", Toast.LENGTH_SHORT).show();
         }
@@ -246,9 +263,12 @@ public class PersonalActivity extends Fragment {
 
         // Tạo object NguoiDung với thông tin mới
         NguoiDung updateRequest = new NguoiDung();
-        updateRequest.setHoTen(etHoTen.getText().toString().trim());
-        updateRequest.setDienThoai(etSoDienThoai.getText().toString().trim());
-        updateRequest.setEmail(etEmail.getText().toString().trim());
+        if (etHoTen != null)
+            updateRequest.setHoTen(etHoTen.getText().toString().trim());
+        if (etSoDienThoai != null)
+            updateRequest.setDienThoai(etSoDienThoai.getText().toString().trim());
+        if (etEmail != null)
+            updateRequest.setEmail(etEmail.getText().toString().trim());
 
         if (selectedNgaySinh != null) {
             updateRequest.setNgaySinh(selectedNgaySinh);
