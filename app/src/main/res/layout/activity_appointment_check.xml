@@ -355,14 +355,6 @@
                         android:textColor="#000000"
                         android:textSize="16sp"
                         android:textStyle="bold" />
-                    <ImageView
-                        android:id="@+id/btnEditService"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_alignParentEnd="true"
-                        android:src="@drawable/ic_fix_appointment"
-                        android:contentDescription="Edit"
-                        app:tint="#E53935" />
                 </RelativeLayout>
 
                 <androidx.cardview.widget.CardView
@@ -401,14 +393,6 @@
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
-                    <ImageView
-                        android:id="@+id/btnEditTime"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_alignParentEnd="true"
-                        android:src="@drawable/ic_fix_appointment"
-                        android:contentDescription="Edit"
-                        app:tint="#E53935" />
                 </RelativeLayout>
 
                 <androidx.cardview.widget.CardView
@@ -594,7 +578,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="32dp"
-                    android:backgroundTint="#000000"
+                    android:backgroundTint="#29B6F6"
                     android:paddingVertical="14dp"
                     android:text="Trang chủ"
                     android:textColor="#FFFFFF"
