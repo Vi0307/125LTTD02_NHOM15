@@ -29,6 +29,7 @@ public class VoucherStillValid extends Fragment {
     private View tabIndicator;
     private Button btnJoinGame;
     private ImageView btnBack;
+    private TextView tvCancel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -41,6 +42,8 @@ public class VoucherStillValid extends Fragment {
         tabIndicator = view.findViewById(R.id.tab_indicator);
         btnJoinGame = view.findViewById(R.id.btn_join_game);
         btnBack = view.findViewById(R.id.btn_back);
+        tvCancel = view.findViewById(R.id.tv_cancel);
+
 
         // Nút Back
         btnBack.setOnClickListener(new View.OnClickListener() {
@@ -48,6 +51,15 @@ public class VoucherStillValid extends Fragment {
             public void onClick(View v) {
                 // Quay lại trang trước (pop stack), tránh tạo vòng lặp
                 getParentFragmentManager().popBackStack();
+            }
+        });
+        tvCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getParentFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, new HomeFragment())
+                        .commit();
             }
         });
 
