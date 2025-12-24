@@ -10,7 +10,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:background="@drawable/gradient_bg"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingStart="16dp"
@@ -20,7 +19,6 @@
             android:id="@+id/btn_back"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:background="@drawable/gradient_bg"
             android:src="@drawable/ic_arrow_back_black"
             app:tint="#000000" />
 
@@ -39,7 +37,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:background="#FFFFFF"
         android:orientation="horizontal">
 
         <TextView

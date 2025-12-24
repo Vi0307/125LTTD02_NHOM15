@@ -14,7 +14,6 @@
         android:padding="16dp"
         android:gravity="center"
         android:layout_alignParentBottom="true"
-        android:background="#FFFFFF"
         android:elevation="8dp">
 
         <Button
@@ -54,19 +53,19 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/lnBottom"
-        android:background="#FFFFFF">
+        android:background="@drawable/gradient_bg">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            >
 
             <!-- Header -->
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:paddingHorizontal="16dp"
-                android:background="#FFFFFF"
                 android:elevation="2dp">
 
                 <ImageView
@@ -99,8 +98,7 @@
             <!-- Product Image -->
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:background="#FFFFFF">
+                android:layout_height="300dp">
 
                 <ImageView
                     android:id="@+id/imgProduct"
