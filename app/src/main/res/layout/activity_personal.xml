@@ -277,7 +277,7 @@
                         android:layout_height="match_parent"
                         android:gravity="center"
                         android:text="Lưu thay đổi"
-                        android:textColor="#FFFFFF"
+                        android:textColor="#29B6F6"
                         android:textSize="16sp"
                         android:textStyle="bold" />
                 </androidx.cardview.widget.CardView>
