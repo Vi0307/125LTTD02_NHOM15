@@ -216,15 +216,6 @@ public class AppointmentCheckActivity extends Fragment {
                         .commit();
             }
         });
-        ImageView btnEditService = view.findViewById(R.id.btnEditService);
-
-        btnEditService.setOnClickListener(v -> {
-            getParentFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.fragment_container, new AppointmentFixActivity())
-                    .addToBackStack(null)
-                    .commit();
-        });
 
         // 👉 CLICK VÀO "SỬA CHỮA" NHẢY ĐẾN AppointmentFixFragment
         View cardServiceTime = view.findViewById(R.id.cardServiceTime);

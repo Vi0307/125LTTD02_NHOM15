@@ -22,6 +22,9 @@ public class DonHangService {
     @Autowired
     private PhuongThucThanhToanService phuongThucThanhToanService;
 
+    @Autowired
+    private com.example.backend.repository.VoucherRepository voucherRepository;
+
     public List<DonHangDTO> getDonHangByUser(Integer maND) {
 
         return donHangRepository.findByMaND(maND)
@@ -138,6 +141,14 @@ public class DonHangService {
             result.setPhuongThucThanhToan("Tiền mặt");
         }
         result.setNgayNhanDuKien(saved.getNgayNhanDuKien());
+
+        // Cập nhật trạng thái voucher nếu có sử dụng
+        if (dto.getMaVC() != null) {
+            voucherRepository.findById(dto.getMaVC()).ifPresent(voucher -> {
+                voucher.setTrangThai("Đã sử dụng");
+                voucherRepository.save(voucher);
+            });
+        }
         
         return result;
     }
