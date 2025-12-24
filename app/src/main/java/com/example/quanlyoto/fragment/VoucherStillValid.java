@@ -80,10 +80,13 @@ public class VoucherStillValid extends Fragment {
                 getContext(), new java.util.ArrayList<>(), false);
         rcvVoucher.setAdapter(adapter);
 
-        // Gọi API lấy voucher của user 1
+        // Gọi API lấy voucher của user
         ApiService apiService = RetrofitClient.getApiService();
+        android.content.SharedPreferences prefs = requireActivity().getSharedPreferences("UserPrefs",
+                android.content.Context.MODE_PRIVATE);
+        int userId = prefs.getInt("userId", 1);
 
-        apiService.getVoucherByUser(1).enqueue(new Callback<List<Voucher>>() {
+        apiService.getVoucherByUser(userId).enqueue(new Callback<List<Voucher>>() {
             @Override
             public void onResponse(Call<List<Voucher>> call, Response<List<Voucher>> response) {
                 if (response.isSuccessful() && response.body() != null) {

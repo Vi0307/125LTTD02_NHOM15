@@ -44,7 +44,7 @@ const getAllOrders = async (req, res) => {
             params.search = { type: sql.NVarChar, value: `%${search}%` };
         }
 
-        query += ` ORDER BY DH.NgayDat DESC OFFSET @offset ROWS FETCH NEXT @limit ROWS ONLY`;
+        query += ` ORDER BY DH.NgayDat ASC OFFSET @offset ROWS FETCH NEXT @limit ROWS ONLY`;
 
         params.offset = { type: sql.Int, value: offset };
         params.limit = { type: sql.Int, value: parseInt(limit) };
