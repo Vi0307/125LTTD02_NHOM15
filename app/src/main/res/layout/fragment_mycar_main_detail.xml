@@ -370,7 +370,7 @@
                         android:id="@+id/btnDatDichVu"
                         android:layout_width="match_parent"
                         android:layout_height="52dp"
-                        android:backgroundTint="#000000"
+                        android:backgroundTint="#29B6F6"
                         android:text="Đặt dịch vụ"
                         android:textColor="#FFFFFF"
                         android:textSize="16sp"
@@ -500,7 +500,7 @@
                             android:textSize="16sp"
                             android:textColor="#FFFFFF"
                             android:layout_marginTop="8dp"
-                            android:backgroundTint="#000000"/>
+                            android:backgroundTint="#29B6F6"/>
                     </LinearLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>

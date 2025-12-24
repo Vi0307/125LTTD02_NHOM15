@@ -64,7 +64,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:backgroundTint="#F5F5F5"
+                android:backgroundTint="#FFFFFF"
                 android:elevation="1dp"
                 android:background="@drawable/btn_order_border">
 
@@ -142,7 +142,8 @@
             <LinearLayout
                 android:id="@+id/ic_shipping_method"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/btn_gray_rounded"                android:padding="16dp"
+                android:background="#FFFFFF"
+                android:padding="16dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical">
@@ -185,7 +186,8 @@
             <LinearLayout
                 android:id="@+id/ic_payment_method"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/btn_gray_rounded"                android:padding="16dp"
+                android:background="#FFFFFF"
+                android:padding="16dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical">

@@ -7,7 +7,7 @@
     android:layout_marginTop="10dp"
     android:layout_marginBottom="10dp"
     android:orientation="horizontal"
-    android:background="@drawable/btn_gray_rounded"
+    android:background="#FFFFFF"
     android:padding="16dp"
     android:gravity="center_vertical"
     android:elevation="1dp">
