@@ -186,15 +186,15 @@
                     android:id="@+id/et_description"
                     android:layout_width="match_parent"
                     android:layout_height="160dp"
-                    android:background="@android:color/transparent"
+                    android:background="#FFFFFF"
                     android:gravity="top|start"
                     android:hint="Thêm mô tả về lỗi của xe. Việc mô tả chi tiết giúp đại lý chuẩn bị tốt hơn để chăm sóc xe của bạn"
                     android:inputType="textMultiLine|textCapSentences"
                     android:maxLines="10"
                     android:padding="14dp"
                     android:scrollbars="vertical"
-                    android:textColor="#FFFFFF"
-                    android:textColorHint="#FFFFFF"
+                    android:textColor="#141414"
+                    android:textColorHint="#ADADAD"
                     android:textSize="14sp" />
             </FrameLayout>
         </LinearLayout>
