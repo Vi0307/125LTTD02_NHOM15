@@ -11,6 +11,8 @@ const orderRoutes = require('./routes/orderRoutes');
 const scheduleRoutes = require('./routes/scheduleRoutes');
 const notificationRoutes = require('./routes/notificationRoutes');
 const dealerRoutes = require('./routes/dealerRoutes');
+const vehicleTypeRoutes = require('./routes/vehicleTypeRoutes');
+
 
 // Database
 const { getPool, closePool } = require('./config/database');
@@ -51,6 +53,7 @@ app.use('/api/orders', orderRoutes);
 app.use('/api/schedules', scheduleRoutes);
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/dealers', dealerRoutes);
+app.use('/api/vehicle-types', vehicleTypeRoutes);
 
 /* =======================
    404 HANDLER

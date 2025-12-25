@@ -146,6 +146,11 @@
         let currentRow = null;
         let currentProductId = null;
         let currentCategoryId = null;
+        let currentProduct = null; // Lưu thông tin sản phẩm đang chọn
+
+        // Dữ liệu loại xe và danh mục
+        let vehicleTypes = [];
+        let categories = [];
 
         // Helper
         function $(s) { return document.querySelector(s); }
@@ -154,6 +159,104 @@
         function getCategoryIdFromURL() {
             const urlParams = new URLSearchParams(window.location.search);
             return urlParams.get('category') || urlParams.get('maDanhMuc') || null;
+        }
+
+        // Load danh sách loại xe từ API
+        async function loadVehicleTypes() {
+            try {
+                const result = await apiCall('/vehicle-types');
+                if (result.success && result.data && result.data.length > 0) {
+                    vehicleTypes = result.data;
+                    renderVehicleTypeOptions();
+                } else {
+                    // Fallback khi API không thành công
+                    console.log('API vehicle-types không thành công, dùng dữ liệu mặc định');
+                    vehicleTypes = [
+                        { MaLoaiXe: 'LX1', TenLoaiXe: 'BMW 5 SERIES' },
+                        { MaLoaiXe: 'LX2', TenLoaiXe: 'BMW Z4' },
+                        { MaLoaiXe: 'LX3', TenLoaiXe: 'BMW I5' },
+                        { MaLoaiXe: 'LX4', TenLoaiXe: 'BMW 3 SERIES' }
+                    ];
+                    renderVehicleTypeOptions();
+                }
+            } catch (error) {
+                console.error('Lỗi load loại xe:', error);
+                // Fallback với dữ liệu mặc định từ database
+                vehicleTypes = [
+                    { MaLoaiXe: 'LX1', TenLoaiXe: 'BMW 5 SERIES' },
+                    { MaLoaiXe: 'LX2', TenLoaiXe: 'BMW Z4' },
+                    { MaLoaiXe: 'LX3', TenLoaiXe: 'BMW I5' },
+                    { MaLoaiXe: 'LX4', TenLoaiXe: 'BMW 3 SERIES' }
+                ];
+                renderVehicleTypeOptions();
+            }
+        }
+
+        // Render options cho dropdown loại xe
+        function renderVehicleTypeOptions() {
+            const select = $('#loaiXe');
+            select.innerHTML = '';
+            vehicleTypes.forEach(type => {
+                const option = document.createElement('option');
+                option.value = type.MaLoaiXe;
+                option.textContent = type.TenLoaiXe;
+                select.appendChild(option);
+            });
+        }
+
+        // Load danh sách danh mục từ API
+        async function loadCategories() {
+            const categoryId = getCategoryIdFromURL();
+
+            try {
+                const result = await CategoryAPI.getAll();
+                if (result.success && result.data) {
+                    categories = result.data;
+                    renderCategoryOptions(categoryId);
+                }
+            } catch (error) {
+                console.error('Lỗi load danh mục:', error);
+                // Fallback với dữ liệu mặc định từ database
+                categories = [
+                    { MaDanhMuc: 'DM01', TenDanhMuc: 'Phụ tùng thân vỏ' },
+                    { MaDanhMuc: 'DM02', TenDanhMuc: 'Phụ tùng truyền động' },
+                    { MaDanhMuc: 'DM03', TenDanhMuc: 'Phụ tùng điện' },
+                    { MaDanhMuc: 'DM04', TenDanhMuc: 'Phụ tùng động cơ' }
+                ];
+                renderCategoryOptions(categoryId);
+            }
+        }
+
+        // Render options cho dropdown danh mục - chỉ hiển thị danh mục hiện tại
+        function renderCategoryOptions(categoryIdFromURL) {
+            const input = $('#maDanhMuc');
+            // Chuyển input thành select
+            const select = document.createElement('select');
+            select.id = 'maDanhMuc';
+
+            // Nếu có categoryId từ URL, chỉ hiển thị danh mục đó và disable
+            if (categoryIdFromURL) {
+                const currentCat = categories.find(cat => cat.MaDanhMuc === categoryIdFromURL);
+                if (currentCat) {
+                    const option = document.createElement('option');
+                    option.value = currentCat.MaDanhMuc;
+                    option.textContent = currentCat.TenDanhMuc;
+                    select.appendChild(option);
+                }
+                select.disabled = true; // Không cho thay đổi danh mục
+                select.style.backgroundColor = '#f0f0f0';
+                select.style.cursor = 'not-allowed';
+            } else {
+                // Nếu không có categoryId, hiển thị tất cả (cho trường hợp xem tất cả sản phẩm)
+                categories.forEach(cat => {
+                    const option = document.createElement('option');
+                    option.value = cat.MaDanhMuc;
+                    option.textContent = cat.TenDanhMuc;
+                    select.appendChild(option);
+                });
+            }
+
+            input.parentNode.replaceChild(select, input);
         }
 
         // Load thông tin danh mục
@@ -175,13 +278,13 @@
             }
         }
 
-        // Load danh sách sản phẩm từ API (chỉ 4 sản phẩm theo danh mục)
+        // Load danh sách sản phẩm từ API
         async function loadProducts() {
             try {
                 Utils.showLoading($('#productTableBody'));
                 const categoryId = getCategoryIdFromURL();
 
-                const params = { limit: 4 }; // Chỉ lấy 4 sản phẩm
+                const params = { limit: 50 }; // Hiển thị đến 50 sản phẩm
                 if (categoryId) {
                     params.maDanhMuc = categoryId;
                 }
@@ -226,11 +329,16 @@
         function fillForm(row, product) {
             currentRow = row;
             currentProductId = product.MaPhuTung;
+            currentProduct = product; // Lưu toàn bộ thông tin sản phẩm
+
             $('#maPhuTung').value = product.MaPhuTung;
             $('#tenPhuTung').value = product.TenPhuTung;
-            $('#loaiXe').value = product.TenLoaiXe || product.MaLoaiXe;
+            // Sử dụng MaLoaiXe thay vì TenLoaiXe
+            $('#loaiXe').value = product.MaLoaiXe;
             $('#gia').value = product.GiaBan;
+            // Sử dụng MaDanhMuc đúng format
             $('#maDanhMuc').value = product.MaDanhMuc;
+
             const preview = $('#imgPreview');
             if (product.HinhAnh) {
                 preview.src = `asset/${product.HinhAnh}`;
@@ -263,12 +371,16 @@
             $('#tenPhuTung').value = '';
             $('#loaiXe').selectedIndex = 0;
             $('#gia').value = '';
-            $('#maDanhMuc').value = '1';
+            const maDanhMucSelect = $('#maDanhMuc');
+            if (maDanhMucSelect) {
+                maDanhMucSelect.selectedIndex = 0;
+            }
             const preview = $('#imgPreview');
             preview.src = '';
             preview.style.display = 'none';
             currentRow = null;
             currentProductId = null;
+            currentProduct = null;
         }
 
         // Preview ảnh khi chọn file
@@ -281,14 +393,38 @@
             }
         }
 
+        // Lấy tên file hình ảnh
+        function getImageFileName() {
+            const preview = $('#imgPreview');
+            if (preview.src.includes('blob:')) {
+                // Nếu là file mới upload, dùng tên mặc định hoặc tên file
+                const fileInput = $('#fileInput');
+                if (fileInput.files.length > 0) {
+                    return fileInput.files[0].name;
+                }
+                return 'default.png';
+            }
+            // Lấy tên file từ URL
+            const parts = preview.src.split('/');
+            return parts[parts.length - 1] || 'default.png';
+        }
+
         // Nút Thêm
         $('.btn-add').onclick = async function () {
             const maPhuTung = $('#maPhuTung').value.trim();
             const tenPhuTung = $('#tenPhuTung').value.trim();
             const gia = $('#gia').value.trim();
+            const maLoaiXe = $('#loaiXe').value;
+            // Ưu tiên lấy maDanhMuc từ URL (vì dropdown có thể bị disabled)
+            const maDanhMuc = getCategoryIdFromURL() || $('#maDanhMuc').value;
 
             if (!maPhuTung || !tenPhuTung || !gia) {
                 alert('Vui lòng nhập đầy đủ thông tin bắt buộc!');
+                return;
+            }
+
+            if (!maLoaiXe || !maDanhMuc) {
+                alert('Vui lòng chọn loại xe và danh mục!');
                 return;
             }
 
@@ -296,15 +432,17 @@
                 const productData = {
                     MaPhuTung: maPhuTung,
                     MaHangXe: 'BMW', // Mặc định
-                    MaLoaiXe: $('#loaiXe').value,
+                    MaLoaiXe: maLoaiXe, // Sử dụng MaLoaiXe từ dropdown (VD: LX1, LX2...)
                     TenPhuTung: tenPhuTung,
-                    GiaBan: parseFloat(gia.replace(/[^\d]/g, '')),
+                    GiaBan: parseFloat(gia.toString().replace(/[^\d]/g, '')),
                     SoLuong: 1,
                     MoTa: '',
-                    HinhAnh: $('#imgPreview').src.includes('blob:') ? 'default.png' : $('#imgPreview').src.split('/').pop(),
-                    MaDanhMuc: $('#maDanhMuc').value,
+                    HinhAnh: getImageFileName(),
+                    MaDanhMuc: maDanhMuc, // Sử dụng MaDanhMuc từ URL hoặc dropdown (VD: DM01, DM02...)
                     NhaCC: 'Royal Auto'
                 };
+
+                console.log('Dữ liệu gửi lên:', productData); // Debug
 
                 const result = await ProductAPI.create(productData);
                 if (result.success) {
@@ -336,14 +474,19 @@
             }
 
             try {
+                // Lấy số lượng từ sản phẩm hiện tại hoặc mặc định là 1
+                const soLuong = currentProduct ? (currentProduct.SoLuong || 1) : 1;
+
                 const productData = {
                     TenPhuTung: tenPhuTung,
-                    GiaBan: parseFloat(gia.replace(/[^\d]/g, '')),
-                    SoLuong: 1,
-                    MoTa: '',
-                    HinhAnh: $('#imgPreview').src.includes('blob:') ? 'default.png' : $('#imgPreview').src.split('/').pop(),
-                    NhaCC: 'Royal Auto'
+                    GiaBan: parseFloat(gia.toString().replace(/[^\d]/g, '')),
+                    SoLuong: soLuong,
+                    MoTa: currentProduct ? (currentProduct.MoTa || '') : '',
+                    HinhAnh: getImageFileName(),
+                    NhaCC: currentProduct ? (currentProduct.NhaCC || 'Royal Auto') : 'Royal Auto'
                 };
+
+                console.log('Dữ liệu cập nhật:', productData); // Debug
 
                 const result = await ProductAPI.update(currentProductId, productData);
                 if (result.success) {
@@ -364,7 +507,11 @@
         }
 
         // Load dữ liệu khi trang được tải
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', async function () {
+            // Load dropdown data trước
+            await loadVehicleTypes();
+            await loadCategories();
+            // Sau đó load thông tin và sản phẩm
             loadCategoryInfo();
             loadProducts();
         });

@@ -167,13 +167,23 @@ const createProduct = async (req, res) => {
             NhaCC
         } = req.body;
 
+        // Log dữ liệu nhận được
+        console.log('📦 Dữ liệu nhận được:', req.body);
+
         // Validate
         if (!MaPhuTung || !TenPhuTung || !GiaBan || !MaHangXe || !MaLoaiXe || !MaDanhMuc) {
+            console.log('❌ Validation failed:', { MaPhuTung, TenPhuTung, GiaBan, MaHangXe, MaLoaiXe, MaDanhMuc });
             return res.status(400).json({
                 success: false,
                 message: 'Vui lòng điền đầy đủ thông tin bắt buộc'
             });
         }
+
+        // Parse giá trị
+        const giaNumber = parseFloat(GiaBan) || 0;
+        const soLuongNumber = parseInt(SoLuong) || 1;
+
+        console.log('📊 Giá trị sau parse:', { giaNumber, soLuongNumber });
 
         const query = `
             INSERT INTO PHU_TUNG 
@@ -183,27 +193,30 @@ const createProduct = async (req, res) => {
         `;
 
         await executeQuery(query, {
-            MaPhuTung: { type: sql.VarChar, value: MaPhuTung },
-            MaHangXe: { type: sql.VarChar, value: MaHangXe },
-            MaLoaiXe: { type: sql.VarChar, value: MaLoaiXe },
-            TenPhuTung: { type: sql.NVarChar, value: TenPhuTung },
-            GiaBan: { type: sql.Decimal(18, 0), value: parseFloat(GiaBan) },
-            SoLuong: { type: sql.Int, value: parseInt(SoLuong) || 1 },
-            MoTa: { type: sql.NVarChar, value: MoTa || null },
-            HinhAnh: { type: sql.VarChar, value: HinhAnh || '' },
-            MaDanhMuc: { type: sql.VarChar, value: MaDanhMuc },
-            NhaCC: { type: sql.NVarChar, value: NhaCC || 'Royal Auto' }
+            MaPhuTung: { type: sql.VarChar(10), value: MaPhuTung },
+            MaHangXe: { type: sql.VarChar(10), value: MaHangXe },
+            MaLoaiXe: { type: sql.VarChar(10), value: MaLoaiXe },
+            TenPhuTung: { type: sql.NVarChar(100), value: TenPhuTung },
+            GiaBan: { type: sql.Decimal(18, 0), value: giaNumber },
+            SoLuong: { type: sql.Int, value: soLuongNumber },
+            MoTa: { type: sql.NVarChar(sql.MAX), value: MoTa || null },
+            HinhAnh: { type: sql.VarChar(255), value: HinhAnh || '' },
+            MaDanhMuc: { type: sql.VarChar(10), value: MaDanhMuc },
+            NhaCC: { type: sql.NVarChar(100), value: NhaCC || 'Royal Auto' }
         });
+
+        console.log('✅ Thêm phụ tùng thành công:', MaPhuTung);
 
         res.json({
             success: true,
             message: 'Thêm phụ tùng thành công'
         });
     } catch (error) {
-        console.error('Lỗi thêm phụ tùng:', error);
+        console.error('❌ Lỗi thêm phụ tùng:', error);
+        console.error('❌ Chi tiết lỗi:', error.message);
         res.status(500).json({
             success: false,
-            message: 'Lỗi server',
+            message: 'Lỗi server: ' + error.message,
             error: error.message
         });
     }

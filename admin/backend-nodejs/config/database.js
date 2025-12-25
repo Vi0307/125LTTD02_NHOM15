@@ -2,13 +2,13 @@ const sql = require('mssql');
 
 
 const config = {
-    server: 'localhost',           
+    server: 'localhost',
     database: 'QLOTOANDROID',
     user: 'sa',
-    password: '123456789',
-    port: 1433,                     
+    password: 'Vi03072005@',
+    port: 1433,
     options: {
-        encrypt: false,             
+        encrypt: false,
         trustServerCertificate: true,
         enableArithAbort: true
     },
