@@ -226,7 +226,7 @@ const createProduct = async (req, res) => {
         console.error('❌ Chi tiết lỗi:', error.message);
         res.status(500).json({
             success: false,
-            message: 'Lỗi server: ' + error.message,
+            message: 'Lỗi server khi thêm phụ tùng',
             error: error.message
         });
     }
@@ -282,7 +282,7 @@ const updateProduct = async (req, res) => {
         console.error('Lỗi cập nhật phụ tùng:', error);
         res.status(500).json({
             success: false,
-            message: 'Lỗi server',
+            message: 'Lỗi server khi cập nhật phụ tùng',
             error: error.message
         });
     }
@@ -307,7 +307,7 @@ const deleteProduct = async (req, res) => {
         console.error('Lỗi xóa phụ tùng:', error);
         res.status(500).json({
             success: false,
-            message: 'Lỗi server',
+            message: 'Lỗi server khi xóa phụ tùng',
             error: error.message
         });
     }
