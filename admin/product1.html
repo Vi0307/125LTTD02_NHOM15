@@ -429,22 +429,30 @@
             }
 
             try {
-                const productData = {
-                    MaPhuTung: maPhuTung,
-                    MaHangXe: 'BMW', // Mặc định
-                    MaLoaiXe: maLoaiXe, // Sử dụng MaLoaiXe từ dropdown (VD: LX1, LX2...)
-                    TenPhuTung: tenPhuTung,
-                    GiaBan: parseFloat(gia.toString().replace(/[^\d]/g, '')),
-                    SoLuong: 1,
-                    MoTa: '',
-                    HinhAnh: getImageFileName(),
-                    MaDanhMuc: maDanhMuc, // Sử dụng MaDanhMuc từ URL hoặc dropdown (VD: DM01, DM02...)
-                    NhaCC: 'Royal Auto'
-                };
+                // Tạo FormData thay vì JSON
+                const formData = new FormData();
+                formData.append('MaPhuTung', maPhuTung);
+                formData.append('MaHangXe', 'BMW');
+                formData.append('MaLoaiXe', maLoaiXe);
+                formData.append('TenPhuTung', tenPhuTung);
+                formData.append('GiaBan', parseFloat(gia.toString().replace(/[^\d]/g, '')));
+                formData.append('SoLuong', 1);
+                formData.append('MoTa', '');
+                formData.append('MaDanhMuc', maDanhMuc);
+                formData.append('NhaCC', 'Royal Auto');
 
-                console.log('Dữ liệu gửi lên:', productData); // Debug
+                // Thêm file ảnh nếu có
+                const fileInput = $('#fileInput');
+                if (fileInput.files.length > 0) {
+                    formData.append('image', fileInput.files[0]);
+                } else {
+                    // Nếu không có file, gửi tên ảnh mặc định hoặc từ logic cũ
+                    formData.append('HinhAnh', getImageFileName());
+                }
 
-                const result = await ProductAPI.create(productData);
+                console.log('📦 Dữ liệu FormData gửi đi...');
+
+                const result = await ProductAPI.create(formData);
                 if (result.success) {
                     alert('Thêm sản phẩm thành công!');
                     loadProducts();
@@ -477,18 +485,25 @@
                 // Lấy số lượng từ sản phẩm hiện tại hoặc mặc định là 1
                 const soLuong = currentProduct ? (currentProduct.SoLuong || 1) : 1;
 
-                const productData = {
-                    TenPhuTung: tenPhuTung,
-                    GiaBan: parseFloat(gia.toString().replace(/[^\d]/g, '')),
-                    SoLuong: soLuong,
-                    MoTa: currentProduct ? (currentProduct.MoTa || '') : '',
-                    HinhAnh: getImageFileName(),
-                    NhaCC: currentProduct ? (currentProduct.NhaCC || 'Royal Auto') : 'Royal Auto'
-                };
+                const formData = new FormData();
+                formData.append('TenPhuTung', tenPhuTung);
+                formData.append('GiaBan', parseFloat(gia.toString().replace(/[^\d]/g, '')));
+                formData.append('SoLuong', soLuong);
+                formData.append('MoTa', currentProduct ? (currentProduct.MoTa || '') : '');
+                formData.append('NhaCC', currentProduct ? (currentProduct.NhaCC || 'Royal Auto') : 'Royal Auto');
 
-                console.log('Dữ liệu cập nhật:', productData); // Debug
+                // Thêm file ảnh nếu có
+                const fileInput = $('#fileInput');
+                if (fileInput.files.length > 0) {
+                    formData.append('image', fileInput.files[0]);
+                } else {
+                    // Giữ lại tên ảnh cũ nếu không upload mới
+                    formData.append('HinhAnh', getImageFileName());
+                }
 
-                const result = await ProductAPI.update(currentProductId, productData);
+                console.log('📦 Dữ liệu cập nhật (FormData)...');
+
+                const result = await ProductAPI.update(currentProductId, formData);
                 if (result.success) {
                     alert('Cập nhật thành công!');
                     loadProducts();

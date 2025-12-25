@@ -150,6 +150,11 @@ const apiCall = async (endpoint, options = {}) => {
         }
     };
 
+    // Nếu body là FormData, xoá Content-Type để browser tự động set boundary
+    if (options.body instanceof FormData) {
+        delete config.headers['Content-Type'];
+    }
+
     try {
         const response = await fetch(`${API_BASE_URL}${endpoint}`, config);
 
@@ -194,7 +199,7 @@ const ProductAPI = {
     async create(productData) {
         return await apiCall('/products', {
             method: 'POST',
-            body: JSON.stringify(productData)
+            body: productData instanceof FormData ? productData : JSON.stringify(productData)
         });
     },
 
@@ -202,7 +207,7 @@ const ProductAPI = {
     async update(id, productData) {
         return await apiCall(`/products/${id}`, {
             method: 'PUT',
-            body: JSON.stringify(productData)
+            body: productData instanceof FormData ? productData : JSON.stringify(productData)
         });
     },
 
