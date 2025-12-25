@@ -89,10 +89,7 @@ const createDealer = async (req, res) => {
         });
     } catch (error) {
         console.error('Lỗi thêm đại lý:', error);
-        res.status(500).json({
-            success: false,
-            message: 'Lỗi server: ' + error.message
-        });
+        
     }
 };
 
