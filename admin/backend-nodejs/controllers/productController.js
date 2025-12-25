@@ -162,10 +162,20 @@ const createProduct = async (req, res) => {
             GiaBan,
             SoLuong,
             MoTa,
-            HinhAnh,
+            // HinhAnh sẽ được lấy từ req.file nếu có upload
             MaDanhMuc,
             NhaCC
         } = req.body;
+
+        // Xử lý hình ảnh
+        let hinhAnhPath = '';
+        if (req.file) {
+            hinhAnhPath = req.file.filename;
+            console.log('🖼️ Đã upload ảnh mới:', hinhAnhPath);
+        } else if (req.body.HinhAnh) {
+            // Trường hợp gửi tên ảnh (khi không chọn file mới nhưng API cũ gửi text)
+            hinhAnhPath = req.body.HinhAnh;
+        }
 
         // Log dữ liệu nhận được
         console.log('📦 Dữ liệu nhận được:', req.body);
@@ -200,7 +210,7 @@ const createProduct = async (req, res) => {
             GiaBan: { type: sql.Decimal(18, 0), value: giaNumber },
             SoLuong: { type: sql.Int, value: soLuongNumber },
             MoTa: { type: sql.NVarChar(sql.MAX), value: MoTa || null },
-            HinhAnh: { type: sql.VarChar(255), value: HinhAnh || '' },
+            HinhAnh: { type: sql.VarChar(255), value: hinhAnhPath || '' },
             MaDanhMuc: { type: sql.VarChar(10), value: MaDanhMuc },
             NhaCC: { type: sql.NVarChar(100), value: NhaCC || 'Royal Auto' }
         });
@@ -231,9 +241,16 @@ const updateProduct = async (req, res) => {
             GiaBan,
             SoLuong,
             MoTa,
-            HinhAnh,
+            // HinhAnh, -> Xử lý riêng
             NhaCC
         } = req.body;
+
+        // Xử lý hình ảnh
+        let hinhAnhPath = req.body.HinhAnh; // Mặc định giữ ảnh cũ hoặc giá trị gửi lên
+        if (req.file) {
+            hinhAnhPath = req.file.filename;
+            console.log('🖼️ Cập nhật ảnh mới:', hinhAnhPath);
+        }
 
         const query = `
             UPDATE PHU_TUNG
@@ -253,7 +270,7 @@ const updateProduct = async (req, res) => {
             GiaBan: { type: sql.Decimal(18, 0), value: parseFloat(GiaBan) },
             SoLuong: { type: sql.Int, value: parseInt(SoLuong) },
             MoTa: { type: sql.NVarChar, value: MoTa || null },
-            HinhAnh: { type: sql.VarChar, value: HinhAnh || '' },
+            HinhAnh: { type: sql.VarChar, value: hinhAnhPath || '' },
             NhaCC: { type: sql.NVarChar, value: NhaCC || 'Royal Auto' }
         });
 

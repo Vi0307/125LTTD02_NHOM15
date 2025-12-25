@@ -5,7 +5,7 @@ const config = {
     server: 'localhost',
     database: 'QLOTOANDROID',
     user: 'sa',
-    password: 'Vi03072005@',
+    password: '123456789',
     port: 1433,
     options: {
         encrypt: false,
